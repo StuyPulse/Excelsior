@@ -29,7 +29,7 @@ public class RobotContainer {
 
     // Subsystems
     public final Climber climber = new Climber();
-    public final ColorSensor colorSensor = new ColorSensor();
+    public final Conveyor conveyor = new Conveyor();
     public final Drivetrain drivetrain = new Drivetrain();
     public final Intake intake = new Intake();
     public final Pump pump = new Pump();
