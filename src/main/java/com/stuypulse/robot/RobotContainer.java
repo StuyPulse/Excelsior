@@ -1,5 +1,5 @@
 /************************ PROJECT DORCAS ************************/
-/* Copyright (c) 2021 StuyPulse Robotics. All rights reserved.  */
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
@@ -65,7 +65,7 @@ public class RobotContainer {
     }
 
     public void configureAutons() {
-        autonChooser.addOption("Do Nothing", new DoNothingAutonCommand(ledController));
+        autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
         // TODO: ADD AUTONS
 
