@@ -1,3 +1,3 @@
-# Dorcas
+# Dorcus
 
-Dorcas is the name of our 2022 FRC Robot!
+Dorcus is the name of our 2022 FRC Robot!

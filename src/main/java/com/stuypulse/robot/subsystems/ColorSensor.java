@@ -1,4 +1,4 @@
-/************************ PROJECT DORCAS ************************/
+/************************ PROJECT DORCUS ************************/
 /* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
