@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Contains:
  *      - TBD
  *
- * @author [TBD]
+ * @author independence106(Jason Zhou), Ca7Ac1(Ayan Chowdhury), marcjiang7(Marc Jiang), ambers7(Amber Shen), Souloutz(Howard Kong), jiayuyan0501(Jiayu Yan), ijiang05(Ian Jiang), TraceyLin (Tracey Lin), annazheng14(Anna Zheng), lonelydot(Raymond Zhang)
  */
 public class Climber extends SubsystemBase {
 
