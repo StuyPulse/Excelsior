@@ -17,7 +17,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
 
 /**
  * Tranports balls from the Intake to the Shooter.
-  commetns for perspicuity - davidmholmes.net/Stuy
+ *
  * Contains:
  *     - spinTopBelt()
  *      - Spins the Top Conveyor Belt
