@@ -19,7 +19,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * Conveys balls to the Shooter
  * 
  * Contains:
- *     - 
+ *     - idk
  * 
  * @author Ivan Wei (ivanw8288@gmail.com)
  * @author Ivan Chen (ivanchen07@gmail.com)
@@ -33,7 +33,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * @author Eric Lin (ericlin071906@gmail.com)
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Jeff Chen (jeffc998866@gmail.com)
- * @author Sudipta Chakraborty (sudiptacch@gmail.com)
+ * @author Sudipta Chakraborty (sudiptacc)
  * @author Niki Chen (nikichen6769@gmail.com)
  * @author Vincent Wang (vinowang921@gmail.com)
  */
@@ -58,7 +58,7 @@ public class Conveyor extends SubsystemBase {
     }
     
     public void ejectBall(){
-        // If the ball is not of our alliance color, 
+        // If the ball is not of our alliance color, eject ball
         ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED);
     }
     
@@ -72,12 +72,7 @@ public class Conveyor extends SubsystemBase {
     }
     
     public boolean getMicroSwitch() {
-        return irSensor.get(); // returns if the switch is pressed
-    }
-
-    public void reset() {
-        stopTopBelt();
-        stopEject();
+        return irSensor.get(); // returns true if the switch is pressed
     }
     
    public void stopTopBelt() {
@@ -85,11 +80,15 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void stopEject() {
-        ejectMotor.set(0.0); // stops ejector motor (no way)
+        ejectMotor.set(0.0); // stops eject motor
     }
-    
+
+    public void reset() {
+        stopTopBelt();
+        stopEject();
+    }
+
     @Override
-    public void periodic() {
-        
+    public void periodic() {  
     }
 }
