@@ -29,9 +29,9 @@ import java.nio.file.Path;
  */
 public interface Constants {
 
-    Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
+    public static Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
+    public static SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
 
     public interface Ports {
 
@@ -173,8 +173,7 @@ public interface Constants {
         }
         
     public interface ConveyorSettings {
-        double TOP_MOTOR_SPEED = 0.6;
-        double EJECT_SPEED = 0.6;
-
+        SmartNumber TOP_MOTOR_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
+        SmartNumber EJECT_SPEED = new SmartNumber("Conveyor/Ejector Speed", 0.6);
     }
 }

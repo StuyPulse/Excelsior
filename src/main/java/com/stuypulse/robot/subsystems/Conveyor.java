@@ -9,21 +9,23 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
+import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.ConveyorSettings;
 
 /**
  * Tranports balls from the Intake to the Shooter.
- *
+ *`
  * Contains:
  *     - spinTopBelt()
  *      - Spins the Top Conveyor Belt
  *     - stopTopBelt()
  *      - Stops the Top Conveyor Belt
- *     - reset()
+ *     - reset(6
  *      - Stops both the Top Conveyor Belt and the Ejection Motor
  *     - ejectBall()
  *      - Eject ball if the ball is not of our alliance color
@@ -66,12 +68,12 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void spinTopBelt() {
-        topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED);
+        topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
     }
     
     public void ejectBall(){
         // If the ball is not of our alliance color, eject ball
-        ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED);
+        ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED.get());
     }
     
     public CurrentBall getCurrentBall() {
@@ -80,7 +82,7 @@ public class Conveyor extends SubsystemBase {
     
     public void acceptBall() {
         // Ball is alliance color, move ball up
-        ejectMotor.set(ConveyorSettings.EJECT_SPEED);
+        ejectMotor.set(ConveyorSettings.EJECT_SPEED.get());
     }
     
     public boolean getMicroSwitch() {
@@ -101,7 +103,13 @@ public class Conveyor extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {  
+    public void periodic() {
+        if (Constants.DEBUG_MODE.get()) {
+            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getMicroSwitch());
+            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", getCurrentBall() == ColorSensor.CurrentBall.RED_BALL); // TODO: Read from DriverStation 
+            SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
+            SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
+        }  
     }
 }
 
