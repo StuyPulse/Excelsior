@@ -49,8 +49,16 @@ public final class Constants {
 
         public interface Shooter {}
 
-        public interface Climber {}
+        public interface Climber {
+            int SOLENOID = -1;
+            int MOTOR = -1;
+
+        }
 
         public interface Intake {}
+    }
+    public interface ClimberSettings {
+        int CLIMBER_DEFAULT_SPEED = -1;
+        int CLIMBER_SLOW_SPEED = -1;
     }
 }
