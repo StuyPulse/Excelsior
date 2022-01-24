@@ -47,7 +47,24 @@ public final class Constants {
             int GEAR_SHIFT = 0;
         }
 
-        public interface Shooter {}
+        public interface Shooter {
+
+            public interface PID {
+                double SHOOTER_I = 0.0;
+                double SHOOTER_P = 0.0;
+                double SHOOTER_D = 0.0;
+                double SHOOTER_FF = 0.0;
+
+                double FEEDER_P = 0.0;
+                double FEEDER_I = 0.0;
+                double FEEDER_D = 0.0;
+                double FEEDER_FF = 0.0;
+
+                double RING_SETPOINT = 3900.0;
+                double FENDER_SETPOINT = 3000.0;
+            }
+            
+        }
 
         public interface Climber {}
 
