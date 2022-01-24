@@ -15,12 +15,24 @@ import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 import com.stuypulse.robot.Constants.ConveyorSettings;
 
-/*-
- * Conveys balls to the Shooter
- * 
+/**
+ * Tranports balls from the Intake to the Shooter.
+  commetns for perspicuity - davidmholmes.net/Stuy
  * Contains:
- *     - idk
- * 
+ *     - spinTopBelt()
+ *      - Spins the Top Conveyor Belt
+ *     - stopTopBelt()
+ *      - Stops the Top Conveyor Belt
+ *     - reset()
+ *      - Stops both the Top Conveyor Belt and the Ejection Motor
+ *     - ejectBall()
+ *      - Eject ball if the ball is not of our alliance color
+ *     - acceptBall()
+ *      - Moves ball up if the ball is alliance color
+ *     - getCurrentBall()
+ *      - Returns the color of the current ball
+ *     - getMicroSwitch()
+ *      - Returns true if the switch is pressed
  * @author Ivan Wei (ivanw8288@gmail.com)
  * @author Ivan Chen (ivanchen07@gmail.com)
  * @author Tony Chen (tchenpersonal50@gmail.com)
@@ -37,13 +49,13 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * @author Niki Chen (nikichen6769@gmail.com)
  * @author Vincent Wang (vinowang921@gmail.com)
  */
+ 
 public class Conveyor extends SubsystemBase {
     DigitalInput irSensor;
     ColorSensor colorSensor;
     
     CANSparkMax topMotor;
     CANSparkMax ejectMotor;    
-    // javadocs! https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.htmlboolean
 
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_MOTOR, MotorType.kBrushless);
@@ -92,3 +104,6 @@ public class Conveyor extends SubsystemBase {
     public void periodic() {  
     }
 }
+
+// comment for perspicuity
+// David Mister Holmes
