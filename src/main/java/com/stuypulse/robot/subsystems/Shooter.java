@@ -16,9 +16,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Shoots balls out of the robot
  *
  * Contains:
- *      - TBD
+ *      - Two shooter motors
+ *      - One feeder motor
  *
- * @author [TBD]
+ *      @author Vincent Lin
+ *      @author Aharanish Dev
+ *      @author Kevin Lio
+ *      @author John Jay Wang
+ *      @author Adeeb Khan
+ *      @author Vicente Xia
+ *      @author Julia Xue
+ *      @author William Vongphanith
+ *      @author Yuchen Pan
+ *      @author Shaurya Sen
+ *      @author Nicky Lin
  */
 public class Shooter extends SubsystemBase {
 
@@ -54,6 +65,7 @@ public class Shooter extends SubsystemBase {
         shooterPIDController = shooterMotor.getPIDController();
         feederPIDController = shooterMotor.getPIDController();
 
+        // set PID coefficients
         shooterPIDController.setP(PID.SHOOTER_P);
         shooterPIDController.setI(PID.SHOOTER_I);
         shooterPIDController.setD(PID.SHOOTER_D);
