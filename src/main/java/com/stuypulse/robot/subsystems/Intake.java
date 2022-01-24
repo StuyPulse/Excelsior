@@ -13,7 +13,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Contains:
  *      - TBD
  *
- * @author [TBD]
+ * @author Elaine Ye
+ * @author Ben Goldfisher
+ * @author Allison Choi
+ * @author Brandon Chao
+ * @author Crystal Yang
+ * @author Mandy Wang
+ * @author Vincent Zheng 
+ * @author Naf Murtaza
+ * @author Orion Xiang
+ * @author Ethan Liu
+ * @author Raymond Lian
+ * @author Reya Miller
  */
 public class Intake extends SubsystemBase {
 
