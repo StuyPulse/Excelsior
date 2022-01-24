@@ -69,6 +69,12 @@ public interface Constants {
             int SOLENOID_B = -1;
         }
 
+        public interface Conveyor {
+            int TOP_MOTOR = 69;
+            int EJECTOR_MOTOR = 420;
+            int IR_SENSOR = 69420;
+        }
+
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
     }
 
@@ -165,5 +171,10 @@ public interface Constants {
             double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 16.71);
             double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 4.55);
         }
+        
+    public interface ConveyorSettings {
+        double TOP_MOTOR_SPEED = 0.6;
+        double EJECT_SPEED = 0.6;
+
     }
 }
