@@ -73,6 +73,10 @@ public class Climber extends SubsystemBase {
         return motor.get();
     }
 
+    /**
+     * Sets the speed of the climber's motor.
+     * @param speed The speed to set. Value should be between -1.0 and 1.0.
+     */
     private void moveMotor(double speed) {
         motor.set(speed);
     }
