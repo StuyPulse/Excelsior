@@ -21,23 +21,15 @@ import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.ConveyorSettings;
 
 /**
- * Tranports balls from the Intake to the Shooter.
- *`
+ * The Conveyor subsystem is meant to transport team alliance balls from the intake to the shooter, while rejecting balls that are
+ * of the opposing alliance's color.
+ * 
  * Contains:
- *     - spinTopBelt()
- *      - Spins the Top Conveyor Belt
- *     - stopTopBelt()
- *      - Stops the Top Conveyor Belt
- *     - reset(6
- *      - Stops both the Top Conveyor Belt and the Ejection Motor
- *     - ejectBall()
- *      - Eject ball if the ball is not of our alliance color
- *     - acceptBall()
- *      - Moves ball up if the ball is alliance color
- *     - getCurrentBall()
- *      - Returns the color of the current ball
- *     - getMicroSwitch()
- *      - Returns true if the switch is pressed
+ * - An ejection motor above a gap that will spin a wheel either out the back of the robot or upwards to the upper conveyor
+ * - An upper conveyor (with a motor) that can hold a ball or transport balls to the shooter
+ * - A color sensor that detects the color of the ball held in the gap near the ejection motor
+ * - An IR Sensor that detects the presence of a ball in the upper conveyor
+ *`
  * @author Ivan Wei (ivanw8288@gmail.com)
  * @author Ivan Chen (ivanchen07@gmail.com)
  * @author Tony Chen (tchenpersonal50@gmail.com)
@@ -62,43 +54,70 @@ public class Conveyor extends SubsystemBase {
     private ColorSensor colorSensor;
     private DigitalInput irSensor;
 
+    /**
+     * Creates a Conveyor subsystem
+     */
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_MOTOR, MotorType.kBrushless);
         ejectMotor = new CANSparkMax(Ports.Conveyor.EJECTOR_MOTOR, MotorType.kBrushless);
         
         colorSensor = new ColorSensor();
         irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
-        // Initialize Motors, etc... here!
     }
 
+    /**
+     * Spins the Top Conveyor Belt, moving the ball up to the shooter
+     */
     public void spinTopBelt() {
         topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
     }
     
+    /**
+     * Accept ball - spin the ejection motor upwards to the top conveyor
+     * To be used when the ball is team alliance color
+     */
     public void acceptBall() {
-        // Ball is alliance color, move ball up
         ejectMotor.set(ConveyorSettings.EJECT_SPEED.get());
     }
     
+    /**
+     * Eject ball - spin the ejection motor outwards
+     * To be used when teh ball is opposing alliance color
+     */
     public void ejectBall(){
         // If the ball is not of our alliance color, eject ball
         ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED.get());
     }
     
-   public void stopTopBelt() {
-        topMotor.set(0.0); // stops top motor
+    /**
+     * Stops the Top Conveyor Belt
+     */
+    public void stopTopBelt() {
+        topMotor.set(0.0);
     }
 
+    /**
+     * Stops the Ejection Motor
+     */
     public void stopEject() {
-        ejectMotor.set(0.0); // stops eject motor
+        ejectMotor.set(0.0);
     }
 
+    /**
+     * Stops both the Top Conveyor Belt and the Ejection Motor
+     */
     public void reset() {
         stopTopBelt();
         stopEject();
     }
 
-    public boolean hasAllianceBall() {
+    /**
+     * Finds if there is a matching ball in the ejection gap
+     * @return true if the Color Sensor detects a ball AND its color matches the alliance color, false otherwise
+     * 
+     * TODO: Split this into three states
+     */
+    public boolean gapHasAllianceBall() {
         // Choose not to store the alliance in order to avoid FMS initially giving faulty color
         Alliance alliance = DriverStation.getAlliance();
         return (alliance == Alliance.Blue && getCurrentBall() == CurrentBall.BLUE_BALL) ||
@@ -106,12 +125,20 @@ public class Conveyor extends SubsystemBase {
 
     }
 
+    /**
+     * Gets the CurrentBall object from the color sensor
+     * @return CurrentBall detected by the color sensor
+     */
     private CurrentBall getCurrentBall() {
         return colorSensor.getCurrentBall();
     }
     
+    /**
+     * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor
+     * @return if the upper IR Sensor has been tripped
+     */
     public boolean getIRSensor() {
-        return irSensor.get(); // returns true if the switch is pressed
+        return irSensor.get();
     }
 
     @Override
@@ -120,11 +147,8 @@ public class Conveyor extends SubsystemBase {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
 
-            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", hasAllianceBall());
+            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", gapHasAllianceBall());
             SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getIRSensor());
         }  
     }
 }
-
-// comment for perspicuity
-// David Mister Holmes
