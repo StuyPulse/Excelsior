@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *         - Gets current ball seen by subsystem.
  *         - Returns CurrentBall enum
  *
- * @definatelyVincentWang (Vincent Wang)
+ * @author Vincent Wang
  */
 public class ColorSensor extends SubsystemBase {
     public enum CurrentBall {
