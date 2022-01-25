@@ -53,15 +53,16 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  */
  
 public class Conveyor extends SubsystemBase {
-    DigitalInput irSensor;
-    ColorSensor colorSensor;
-    
     CANSparkMax topMotor;
     CANSparkMax ejectMotor;    
+
+    ColorSensor colorSensor;
+    DigitalInput irSensor;
 
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_MOTOR, MotorType.kBrushless);
         ejectMotor = new CANSparkMax(Ports.Conveyor.EJECTOR_MOTOR, MotorType.kBrushless);
+        
         colorSensor = new ColorSensor();
         irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
         // Initialize Motors, etc... here!
@@ -71,22 +72,14 @@ public class Conveyor extends SubsystemBase {
         topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
     }
     
-    public void ejectBall(){
-        // If the ball is not of our alliance color, eject ball
-        ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED.get());
-    }
-    
-    public CurrentBall getCurrentBall() {
-        return colorSensor.getCurrentBall();
-    }
-    
     public void acceptBall() {
         // Ball is alliance color, move ball up
         ejectMotor.set(ConveyorSettings.EJECT_SPEED.get());
     }
     
-    public boolean getMicroSwitch() {
-        return irSensor.get(); // returns true if the switch is pressed
+    public void ejectBall(){
+        // If the ball is not of our alliance color, eject ball
+        ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED.get());
     }
     
    public void stopTopBelt() {
@@ -102,13 +95,22 @@ public class Conveyor extends SubsystemBase {
         stopEject();
     }
 
+    public CurrentBall getCurrentBall() {
+        return colorSensor.getCurrentBall();
+    }
+    
+    public boolean getIRSensor() {
+        return irSensor.get(); // returns true if the switch is pressed
+    }
+
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getMicroSwitch());
-            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", getCurrentBall() == ColorSensor.CurrentBall.RED_BALL); // TODO: Read from DriverStation 
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
+
+            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", getCurrentBall() == ColorSensor.CurrentBall.RED_BALL); // TODO: Read from DriverStation 
+            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getIRSensor());
         }  
     }
 }
