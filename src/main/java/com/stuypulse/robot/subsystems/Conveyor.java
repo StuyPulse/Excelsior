@@ -58,7 +58,7 @@ public class Conveyor extends SubsystemBase {
      * Creates a Conveyor subsystem
      */
     public Conveyor() {
-        topMotor = new CANSparkMax(Ports.Conveyor.TOP_MOTOR, MotorType.kBrushless);
+        topMotor = new CANSparkMax(Ports.Conveyor.TOP_CONVEYOR_MOTOR, MotorType.kBrushless);
         ejectMotor = new CANSparkMax(Ports.Conveyor.EJECTOR_MOTOR, MotorType.kBrushless);
         
         colorSensor = new ColorSensor();

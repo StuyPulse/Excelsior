@@ -70,9 +70,11 @@ public interface Constants {
         }
 
         public interface Conveyor {
-            int TOP_MOTOR = 69;
-            int EJECTOR_MOTOR = 420;
-            int IR_SENSOR = 69420;
+            int TOP_CONVEYOR_MOTOR = -1;
+            int EJECTOR_MOTOR = -1;
+            
+            int COLOR_SENSOR = -1;
+            int IR_SENSOR = -1;
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
