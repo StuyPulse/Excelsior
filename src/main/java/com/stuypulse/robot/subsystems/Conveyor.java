@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 import com.stuypulse.robot.Constants;
@@ -95,7 +98,15 @@ public class Conveyor extends SubsystemBase {
         stopEject();
     }
 
-    public CurrentBall getCurrentBall() {
+    public boolean hasAllianceBall() {
+        // Choose not to store the alliance in order to avoid FMS initially giving faulty color
+        Alliance alliance = DriverStation.getAlliance();
+        return (alliance == Alliance.Blue && getCurrentBall() == CurrentBall.BLUE_BALL) ||
+               (alliance == Alliance.Red && getCurrentBall() == CurrentBall.RED_BALL);
+
+    }
+
+    private CurrentBall getCurrentBall() {
         return colorSensor.getCurrentBall();
     }
     
@@ -109,7 +120,7 @@ public class Conveyor extends SubsystemBase {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
 
-            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", getCurrentBall() == ColorSensor.CurrentBall.RED_BALL); // TODO: Read from DriverStation 
+            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", hasAllianceBall());
             SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getIRSensor());
         }  
     }
