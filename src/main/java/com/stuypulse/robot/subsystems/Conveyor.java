@@ -53,11 +53,11 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  */
  
 public class Conveyor extends SubsystemBase {
-    CANSparkMax topMotor;
-    CANSparkMax ejectMotor;    
+    private CANSparkMax topMotor;
+    private CANSparkMax ejectMotor;    
 
-    ColorSensor colorSensor;
-    DigitalInput irSensor;
+    private ColorSensor colorSensor;
+    private DigitalInput irSensor;
 
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_MOTOR, MotorType.kBrushless);
