@@ -5,19 +5,20 @@
 
 package com.stuypulse.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
-import com.stuypulse.robot.Constants.Ports;
-import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 import com.stuypulse.robot.Constants;
+import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ConveyorSettings;
 
 /**
