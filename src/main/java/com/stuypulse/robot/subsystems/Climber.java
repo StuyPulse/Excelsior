@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * @author TraceyLin (Tracey Lin)
  * @author annazheng14(Anna Zheng)
  * @author lonelydot(Raymond Zhang)
+ * @author andylin2004 (Andy Lin)
  */
 public class Climber extends SubsystemBase {
 
