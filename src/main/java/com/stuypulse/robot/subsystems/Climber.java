@@ -108,7 +108,7 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Speed Of Climber Motor", this.getSpeed());
+            SmartDashboard.putNumber("Climber/Motor Speedg", this.getSpeed());
         }
     }
 }
