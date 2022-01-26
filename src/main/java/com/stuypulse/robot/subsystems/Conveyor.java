@@ -14,8 +14,6 @@ import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.Ports;
@@ -49,11 +47,11 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  */
  
 public class Conveyor extends SubsystemBase {
-    private CANSparkMax topMotor;
-    private CANSparkMax ejectMotor;    
+    private final CANSparkMax topMotor;
+    private final CANSparkMax ejectMotor;    
 
-    private ColorSensor colorSensor;
-    private DigitalInput irSensor;
+    private final ColorSensor colorSensor;
+    private final DigitalInput irSensor;
 
     /**
      * Creates a Conveyor subsystem
@@ -105,31 +103,11 @@ public class Conveyor extends SubsystemBase {
     }
 
     /**
-     * Stops both the Top Conveyor Belt and the Ejection Motor
+     * Stop both the Top Conveyor Belt and the Ejection Motor
      */
     public void reset() {
         stopTopBelt();
         stopEject();
-    }
-
-    /**
-     * Finds if there is a matching ball in the ejection gap
-     * @return true if the Color Sensor detects a ball AND its color matches the alliance color, false otherwise
-     */
-    public boolean gapHasAllianceBall() {
-        // Choose not to store the alliance in order to avoid FMS initially giving faulty color
-        Alliance alliance = DriverStation.getAlliance();
-        return (alliance == Alliance.Blue && getCurrentBall() == CurrentBall.BLUE_BALL) ||
-               (alliance == Alliance.Red && getCurrentBall() == CurrentBall.RED_BALL);
-
-    }
-
-    /**
-     * Finds if there is any ball in the ejection gap
-     * @return true if the color sensor detects a ball
-     */
-    public boolean gapHasAnyBall() {
-        return getCurrentBall() != CurrentBall.NO_BALL;
     }
 
     /**
@@ -144,7 +122,7 @@ public class Conveyor extends SubsystemBase {
      * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor
      * @return if the upper IR Sensor has been tripped
      */
-    public boolean getIRSensor() {
+    public boolean topConveyorContainsBall() {
         return irSensor.get();
     }
 
