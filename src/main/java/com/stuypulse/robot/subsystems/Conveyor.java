@@ -19,7 +19,7 @@ import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ConveyorSettings;
 
-/**
+/*-
  * The Conveyor subsystem is meant to transport team alliance balls from the intake to the shooter, while rejecting balls that are
  * of the opposing alliance's color.
  * 
@@ -76,7 +76,7 @@ public class Conveyor extends SubsystemBase {
      * To be used when the ball is team alliance color
      */
     public void acceptBall() {
-        ejectMotor.set(ConveyorSettings.EJECT_SPEED.get());
+        ejectMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
     }
     
     /**
@@ -85,7 +85,7 @@ public class Conveyor extends SubsystemBase {
      */
     public void ejectBall(){
         // If the ball is not of our alliance color, eject ball
-        ejectMotor.set(-1 * ConveyorSettings.EJECT_SPEED.get());
+        ejectMotor.set(ConveyorSettings.EJECT_SPEED.get());
     }
     
     /**
