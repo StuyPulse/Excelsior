@@ -38,15 +38,18 @@ public class Climber extends SubsystemBase {
     private Solenoid solenoidLong;
     private Solenoid solenoidShort;
 
-    private CANSparkMax motor;
+    private CANSparkMax climber;
+
+    private boolean longExtended;
+    private boolean shortExtended;
 
     public Climber() {
         //Ports not config
         solenoidLong = new Solenoid(Constants.Ports.Climber.SOLENOID_LONG);
         solenoidShort = new Solenoid(Constants.Ports.Climber.SOLENOID_SHORT);
-        motor = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
+        climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
 
-        motor.setInverted(true);
+        climber.setInverted(Constants.ClimberSettings.MOTOR_REVERTED);
 
     }
 
@@ -71,32 +74,37 @@ public class Climber extends SubsystemBase {
     }
 
     public double getSpeed() {
-        return motor.get();
+        return climber.get();
     }
 
     public void extendLong() {
         solenoidLong.set(true);
+        longExtended = true;
     }
     
     public void retractLong() {
         solenoidLong.set(false);
+        longExtended = false;
     }
     
     public void extendShort() {
         solenoidShort.set(true);
+        shortExtended = true;
     }
 
     public void retractShort() {
         solenoidShort.set(false);
+        shortExtended = false;
     }
 
     private void moveMotor(double speed) {
-        motor.set(speed);
+        climber.set(speed);
     }
 
     public void fullyRetract() {
         retractShort();
         retractLong();
+
     }
 
     public void fullyExtend() {
@@ -104,11 +112,21 @@ public class Climber extends SubsystemBase {
         extendShort();
     }
 
+    public boolean longExtended() {
+        return longExtended;
+    }
+
+    public boolean shortExtended() {
+        return shortExtended;
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Climber/Motor Speed", this.getSpeed());
+            SmartDashboard.putBoolean("Long/Solenoid Extended", longExtended());
+            SmartDashboard.putBoolean("Short/Solenoid Extended", shortExtended());
         }
+       
     }
 }

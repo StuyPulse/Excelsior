@@ -53,7 +53,6 @@ public final class Constants {
             int SOLENOID_LONG = -1;
             int SOLENOID_SHORT = -1;
             int MOTOR = -1;
-
         }
 
         public interface Intake {}
@@ -61,5 +60,8 @@ public final class Constants {
     public interface ClimberSettings {
         int CLIMBER_DEFAULT_SPEED = -1;
         int CLIMBER_SLOW_SPEED = -1;
+
+        boolean MOTOR_REVERTED = false;
+
     }
 }
