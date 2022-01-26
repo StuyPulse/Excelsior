@@ -49,9 +49,9 @@ public interface Constants {
         }
 
         public interface Shooter {
-            int SHOOTER = -1;
-            int SHOOTER_FOLLOWER = -1;
-            int FEEDER = -1;
+            int SHOOTER = 20;
+            int SHOOTER_FOLLOWER = 21;
+            int FEEDER = 22;
         }
 
         public interface Climber {}
