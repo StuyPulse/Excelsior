@@ -50,7 +50,8 @@ public final class Constants {
         public interface Shooter {}
 
         public interface Climber {
-            int SOLENOID = -1;
+            int SOLENOID_LONG = -1;
+            int SOLENOID_SHORT = -1;
             int MOTOR = -1;
 
         }

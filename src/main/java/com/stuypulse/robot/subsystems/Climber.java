@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Climbs at end of match
  *
  * Contains:
- *      - TBD
+ *      - Code for Climber
  *
  * @author independence106(Jason Zhou)
  * @author Ca7Ac1(Ayan Chowdhury)
@@ -34,14 +34,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Climber extends SubsystemBase {
 
-    private Solenoid solenoid;
-    private CANSparkMax motor;
+    private Solenoid solenoidLong;
+    private Solenoid solenoidShort;
 
-    // double solenoid
+    private CANSparkMax motor;
 
     public Climber() {
         //Ports not config
-        solenoid = new Solenoid(Constants.Ports.Climber.SOLENOID);
+        solenoidLong = new Solenoid(Constants.Ports.Climber.SOLENOID_LONG);
+        solenoidShort = new Solenoid(Constants.Ports.Climber.SOLENOID_SHORT);
         motor = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
 
         motor.setInverted(true);
@@ -72,13 +73,35 @@ public class Climber extends SubsystemBase {
         return motor.get();
     }
 
+    public void extendLong() {
+        solenoidLong.set(true);
+    }
+    
+    public void retractLong() {
+        solenoidLong.set(false);
+    }
+    
+    public void extendShort() {
+        solenoidShort.set(true);
+    }
+
+    public void retractShort() {
+        solenoidShort.set(false);
+    }
+
     private void moveMotor(double speed) {
         motor.set(speed);
     }
 
+    public void fullyRetract() {
+        retractShort();
+        retractLong();
+    }
 
-
-
+    public void fullyExtend() {
+        extendLong();
+        extendShort();
+    }
 
     @Override
     public void periodic() {
