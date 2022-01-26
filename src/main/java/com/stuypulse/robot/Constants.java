@@ -49,21 +49,35 @@ public final class Constants {
         }
 
         public interface Shooter {
-
-            public interface PID {
-               
-            }
-
-            public interface FIELD {
-                double RING_SETPOINT = 3900.0;
-                double FENDER_SETPOINT = 3000.0;
-            }
-            
-            
+            int SHOOTER = -1;
+            int SHOOTER_FOLLOWER = -1;
+            int FEEDER = -1;
         }
 
         public interface Climber {}
 
         public interface Intake {}
+    }
+
+    public interface ShooterSettings {
+
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Fender Multipler", 1.0);
+
+        public interface ShooterPID {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+            double kF = 0.0;
+        }
+
+        public interface FeederPID {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+            double kF = 0.0;
+        }
+       
     }
 }
