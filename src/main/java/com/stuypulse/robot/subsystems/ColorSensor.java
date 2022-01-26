@@ -13,6 +13,9 @@ import com.stuypulse.robot.Constants.ColorSensorSettings;
 import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
 import com.stuypulse.robot.Constants.Ports;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -55,6 +58,21 @@ public class ColorSensor extends SubsystemBase {
             }
         }
         return CurrentBall.NO_BALL;
+    }
+    
+    public boolean gapContainsAllianceBall() {
+    // Choose not to store the alliance in order to avoid FMS initially giving faulty color
+    Alliance alliance = DriverStation.getAlliance();
+    CurrentBall presentBall = getCurrentBall();
+    if (presentBall == CurrentBall.NO_Ball) {
+        return false;
+    }
+    return (alliance == Alliance.Blue && presentBall == CurrentBall.BLUE_BALL) ||
+           (alliance == Alliance.Red && presentBall == CurrentBall.RED_BALL);
+    }
+    
+    public boolean gapContainsBall() {
+        return getCurrentBall() != CurrentBall.NO_BALL;
     }
 
     private Color getColor() {
