@@ -9,10 +9,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ShooterSettings;
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
@@ -97,5 +99,10 @@ public class Shooter extends SubsystemBase {
         double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
         shooterPIDController.setReference(targetRPM.get(), MODE);
         feederPIDController.setReference(targetRPM.get() * feederMultipler, MODE);
+
+        if (Constants.DEBUG_MODE.get()) {
+            SmartDashboard.putNumber("Shooter/Shooter RPM", getShooterRPM());
+            SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
+        }
     }
 }
