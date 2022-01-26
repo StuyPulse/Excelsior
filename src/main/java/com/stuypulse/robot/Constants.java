@@ -176,6 +176,7 @@ public interface Constants {
         
     public interface ConveyorSettings {
         SmartNumber TOP_MOTOR_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
-        SmartNumber EJECT_SPEED = new SmartNumber("Conveyor/Ejector Speed", 0.6);
+        SmartNumber EJECT_SPEED = new SmartNumber("Conveyor/Eject Speed", -0.6);
+        SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
     }
 }
