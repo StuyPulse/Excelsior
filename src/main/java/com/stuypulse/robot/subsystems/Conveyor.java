@@ -115,8 +115,6 @@ public class Conveyor extends SubsystemBase {
     /**
      * Finds if there is a matching ball in the ejection gap
      * @return true if the Color Sensor detects a ball AND its color matches the alliance color, false otherwise
-     * 
-     * TODO: Split this into three states
      */
     public boolean gapHasAllianceBall() {
         // Choose not to store the alliance in order to avoid FMS initially giving faulty color
@@ -124,6 +122,14 @@ public class Conveyor extends SubsystemBase {
         return (alliance == Alliance.Blue && getCurrentBall() == CurrentBall.BLUE_BALL) ||
                (alliance == Alliance.Red && getCurrentBall() == CurrentBall.RED_BALL);
 
+    }
+
+    /**
+     * Finds if there is any ball in the ejection gap
+     * @return true if the color sensor detects a ball
+     */
+    public boolean gapHasAnyBall() {
+        return getCurrentBall() != CurrentBall.NO_BALL;
     }
 
     /**
@@ -149,6 +155,7 @@ public class Conveyor extends SubsystemBase {
             SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
 
             SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", gapHasAllianceBall());
+            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Any Ball", gapHasAnyBall());
             SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getIRSensor());
         }  
     }
