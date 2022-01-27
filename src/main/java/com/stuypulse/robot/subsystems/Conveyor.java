@@ -131,10 +131,7 @@ public class Conveyor extends SubsystemBase {
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
-
-            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Alliance Ball", gapHasAllianceBall());
-            SmartDashboard.putBoolean("Conveyor/Color Sensor Has Any Ball", gapHasAnyBall());
-            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getIRSensor());
+            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", topConveyorContainsBall());
         }  
     }
 }
