@@ -98,8 +98,15 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public boolean hasAllianceBall() {
-        // Checks if the ball belongs to your alliance. If no ball present, returns false
-        return DriverStation.getAlliance() == getCurrentBall().allianceColor;
+        // Choose not to store the alliance in order to avoid FMS initially giving
+        // faulty color
+        Alliance alliance = DriverStation.getAlliance();
+        CurrentBall presentBall = getCurrentBall();
+        if (presentBall == CurrentBall.NO_BALL) {
+            return false;
+        }
+        return (alliance == Alliance.Blue && presentBall == CurrentBall.BLUE_BALL) ||
+                (alliance == Alliance.Red && presentBall == CurrentBall.RED_BALL);
     }
 
     @Override
