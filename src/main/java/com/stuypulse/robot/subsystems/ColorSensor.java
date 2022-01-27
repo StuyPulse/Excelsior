@@ -10,6 +10,7 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import com.stuypulse.robot.Constants.ColorSensorSettings;
+import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -67,10 +68,10 @@ public class ColorSensor extends SubsystemBase {
     public CurrentBall getCurrentBall() {
         ColorMatchResult matched = getMatchedColor();
         if (hasBall()) {
-            if (matched.color.equals(CurrentBall.RED_BALL.ballColor)) {
+            if (matched.color.equals(BallColor.RED)) {
                 return CurrentBall.RED_BALL;
             }
-            if (matched.color.equals(CurrentBall.BLUE_BALL.ballColor)) {
+            if (matched.color.equals(BallColor.BLUE)) {
                 return CurrentBall.BLUE_BALL;
             }
         }
