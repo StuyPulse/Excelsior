@@ -60,6 +60,11 @@ public final class Constants {
     }
 
     public interface ColorSensorSettings {
+        public interface BallColor {
+            Color RED = new Color(0.5432, 0.3401, 0.1169);
+            Color BLUE = new Color(0.1826, 0.42505, 0.3982);
+        }
+        
         SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
     }
 }
