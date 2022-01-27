@@ -27,6 +27,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *      - getCurrentBall()
  *         - Gets current ball seen by subsystem.
  *         - Returns CurrentBall enum
+ *      - gapHasAllianceBall()
+ *         - Checks if there is a ball and the ball is the correct alliance color
+ *         - Returns false if no ball or wrong Alliance color
+ *      - isBallPresent()
+ *         - Checks if there is a ball present
  *
  * @author Vincent Wang
  */
@@ -67,10 +72,6 @@ public class ColorSensor extends SubsystemBase {
         return CurrentBall.NO_BALL;
     }
 
-    public boolean gapHasAllianceBall() {
-        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
-    }
-
     private Color getColor() {
         return colorSensor.getColor();
     }
@@ -79,8 +80,13 @@ public class ColorSensor extends SubsystemBase {
         return colorMatcher.matchClosestColor(getColor());
     }
 
-    private boolean isBallPresent() {
+    public boolean isBallPresent() {
         return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
+    }
+
+    public boolean gapHasAllianceBall() {
+        if (!isBallPresent()) return false;
+        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
     }
 
     @Override
