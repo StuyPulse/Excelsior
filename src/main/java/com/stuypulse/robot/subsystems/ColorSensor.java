@@ -10,7 +10,6 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import com.stuypulse.robot.Constants.ColorSensorSettings;
-import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -37,14 +36,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class ColorSensor extends SubsystemBase {
     public enum CurrentBall {
-        RED_BALL(Alliance.Red),
-        BLUE_BALL(Alliance.Blue),
-        NO_BALL(null);
+        RED_BALL(Alliance.Red, new Color(0.5432, 0.3401, 0.1169)),
+        BLUE_BALL(Alliance.Blue, new Color(0.1826, 0.42505, 0.3982)),
+        NO_BALL(null, null);
 
         public final Alliance allianceColor;
+        public final Color BallColor;
 
-        private CurrentBall(Alliance allianceColor) {
+        private CurrentBall(Alliance allianceColor, Color BallColor) {
             this.allianceColor = allianceColor;
+            this.BallColor = BallColor;
         }
     }
 
@@ -55,17 +56,17 @@ public class ColorSensor extends SubsystemBase {
     public ColorSensor() {
         colorMatcher = new ColorMatch();
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
-        colorMatcher.addColorMatch(BallColor.RED);
-        colorMatcher.addColorMatch(BallColor.BLUE);
+        colorMatcher.addColorMatch(CurrentBall.RED_BALL.BallColor);
+        colorMatcher.addColorMatch(CurrentBall.BLUE_BALL.BallColor);
     }
 
     public CurrentBall getCurrentBall() {
         ColorMatchResult matched = getMatchedColor();
         if (hasBall()) {
-            if (matched.color.equals(BallColor.RED)) {
+            if (matched.color.equals(CurrentBall.RED_BALL.BallColor)) {
                 return CurrentBall.RED_BALL;
             }
-            if (matched.color.equals(BallColor.BLUE)) {
+            if (matched.color.equals(CurrentBall.BLUE_BALL.BallColor)) {
                 return CurrentBall.BLUE_BALL;
             }
         }
