@@ -78,11 +78,9 @@ public class ColorSensor extends SubsystemBase {
         return CurrentBall.NO_BALL;
     }
 
-    public boolean gapHasAllianceBall() {
-        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
+    private Color getColor() {
+        return colorSensor.getColor();
     }
-
-    private CurrentBall getTargetBall() { 
 
         switch(DriverStation.getAlliance()) {
             case Blue:
@@ -95,10 +93,13 @@ public class ColorSensor extends SubsystemBase {
         
     }
 
-    public boolean hasAllianceBall() {
-        // Choose not to store the alliance in order to avoid FMS initially giving
-        // faulty color
-        return hasBall() && getCurrentBall() == getTargetBall();   
+    public boolean isBallPresent() {
+        return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
+    }
+
+    public boolean gapHasAllianceBall() {
+        if (!isBallPresent()) return false;
+        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
     }
 
     @Override
