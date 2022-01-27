@@ -39,7 +39,7 @@ public class ColorSensor extends SubsystemBase {
     public enum CurrentBall {
         RED_BALL(Alliance.Red),
         BLUE_BALL(Alliance.Blue),
-        NO_BALL(Alliance.Invalid);
+        NO_BALL(null);
 
         public final Alliance allianceColor;
 
@@ -61,7 +61,7 @@ public class ColorSensor extends SubsystemBase {
 
     public CurrentBall getCurrentBall() {
         ColorMatchResult matched = getMatchedColor();
-        if (isBallPresent()) {
+        if (hasBall()) {
             if (matched.color.equals(BallColor.RED)) {
                 return CurrentBall.RED_BALL;
             }
@@ -80,20 +80,21 @@ public class ColorSensor extends SubsystemBase {
         return colorMatcher.matchClosestColor(getColor());
     }
 
-    public boolean isBallPresent() {
+    public boolean hasBall() {
         return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
     }
 
-    public boolean gapHasAllianceBall() {
-        if (!isBallPresent()) return false;
-        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
+    public boolean hasAllianceBall() {
+        // Checks if the driver station the ball belongs to is the same as your driver station
+        // If no ball present, driver station is null
+        return DriverStation.getAlliance() == getCurrentBall().allianceColor;
     }
 
     @Override
     public void periodic() {
         colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
-        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Alliance Ball", gapHasAllianceBall());
-        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Any Ball", isBallPresent());
+        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Alliance Ball", hasAllianceBall());
+        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Any Ball", hasBall());
 
     }
 }
