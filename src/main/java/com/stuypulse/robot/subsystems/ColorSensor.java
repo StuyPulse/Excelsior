@@ -93,13 +93,14 @@ public class ColorSensor extends SubsystemBase {
         
     }
 
-    public boolean isBallPresent() {
+    public boolean hasBall() {
         return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
     }
 
-    public boolean gapHasAllianceBall() {
-        if (!isBallPresent()) return false;
-        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
+    public boolean hasAllianceBall() {
+        // Checks if the driver station the ball belongs to is the same as your driver station
+        // If no ball present, driver station is null
+        return DriverStation.getAlliance() == getCurrentBall().allianceColor;
     }
 
     @Override
