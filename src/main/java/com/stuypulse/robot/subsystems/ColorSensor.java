@@ -15,6 +15,7 @@ import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,9 +32,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class ColorSensor extends SubsystemBase {
     public enum CurrentBall {
-        RED_BALL,
-        BLUE_BALL,
-        NO_BALL
+        RED_BALL(Alliance.Red),
+        BLUE_BALL(Alliance.Blue),
+        NO_BALL(Alliance.Invalid);
+
+        public final Alliance allianceColor;
+
+        private CurrentBall(Alliance allianceColor) {
+            this.allianceColor = allianceColor;
+        }
     }
 
     private final ColorMatch colorMatcher;
@@ -59,20 +66,9 @@ public class ColorSensor extends SubsystemBase {
         }
         return CurrentBall.NO_BALL;
     }
-    
-    public boolean gapContainsAllianceBall() {
-    // Choose not to store the alliance in order to avoid FMS initially giving faulty color
-    Alliance alliance = DriverStation.getAlliance();
-    CurrentBall presentBall = getCurrentBall();
-    if (presentBall == CurrentBall.NO_Ball) {
-        return false;
-    }
-    return (alliance == Alliance.Blue && presentBall == CurrentBall.BLUE_BALL) ||
-           (alliance == Alliance.Red && presentBall == CurrentBall.RED_BALL);
-    }
-    
-    public boolean gapContainsBall() {
-        return getCurrentBall() != CurrentBall.NO_BALL;
+
+    public boolean gapHasAllianceBall() {
+        return getCurrentBall().allianceColor.equals(DriverStation.getAlliance());
     }
 
     private Color getColor() {
@@ -90,5 +86,8 @@ public class ColorSensor extends SubsystemBase {
     @Override
     public void periodic() {
         colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
+        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Alliance Ball", gapHasAllianceBall());
+        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Any Ball", isBallPresent());
+
     }
 }
