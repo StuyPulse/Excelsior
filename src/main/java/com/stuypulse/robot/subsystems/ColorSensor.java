@@ -41,11 +41,11 @@ public class ColorSensor extends SubsystemBase {
         NO_BALL(null, null);
 
         public final Alliance allianceColor;
-        public final Color BallColor;
+        public final Color ballColor;
 
-        private CurrentBall(Alliance allianceColor, Color BallColor) {
+        private CurrentBall(Alliance allianceColor, Color ballColor) {
             this.allianceColor = allianceColor;
-            this.BallColor = BallColor;
+            this.ballColor = ballColor;
         }
     }
 
@@ -56,17 +56,17 @@ public class ColorSensor extends SubsystemBase {
     public ColorSensor() {
         colorMatcher = new ColorMatch();
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
-        colorMatcher.addColorMatch(CurrentBall.RED_BALL.BallColor);
-        colorMatcher.addColorMatch(CurrentBall.BLUE_BALL.BallColor);
+        colorMatcher.addColorMatch(CurrentBall.RED_BALL.ballColor);
+        colorMatcher.addColorMatch(CurrentBall.BLUE_BALL.ballColor);
     }
 
     public CurrentBall getCurrentBall() {
         ColorMatchResult matched = getMatchedColor();
         if (hasBall()) {
-            if (matched.color.equals(CurrentBall.RED_BALL.BallColor)) {
+            if (matched.color.equals(CurrentBall.RED_BALL.ballColor)) {
                 return CurrentBall.RED_BALL;
             }
-            if (matched.color.equals(CurrentBall.BLUE_BALL.BallColor)) {
+            if (matched.color.equals(CurrentBall.BLUE_BALL.ballColor)) {
                 return CurrentBall.BLUE_BALL;
             }
         }
@@ -86,8 +86,7 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public boolean hasAllianceBall() {
-        // Checks if the driver station the ball belongs to is the same as your driver station
-        // If no ball present, driver station is null
+        // Checks if the ball belongs to your alliance. If no ball present, returns false
         return DriverStation.getAlliance() == getCurrentBall().allianceColor;
     }
 
