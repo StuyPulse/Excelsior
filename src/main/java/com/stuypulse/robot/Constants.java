@@ -9,6 +9,8 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import java.nio.file.Path;
 
 /**
@@ -63,6 +65,17 @@ public interface Constants {
             int SOLENOID_A = -1;
             int SOLENOID_B = -1;
         }
+
+        I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
+    }
+
+    public interface ColorSensorSettings {
+        public interface BallColor {
+            Color RED = new Color(0.5432, 0.3401, 0.1169);
+            Color BLUE = new Color(0.1826, 0.42505, 0.3982);
+        }
+        
+        SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
     }
 
     public interface IntakeSettings {
@@ -89,6 +102,5 @@ public interface Constants {
             double kD = 0.0;
             double kF = 0.0;
         }
-       
     }
 }
