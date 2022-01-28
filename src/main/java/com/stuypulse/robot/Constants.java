@@ -70,8 +70,8 @@ public interface Constants {
         }
 
         public interface Conveyor {
-            int TOP_CONVEYOR_MOTOR = -1;
-            int EJECTOR_MOTOR = -1;
+            int TOP_CONVEYOR_MOTOR = 31;
+            int EJECTOR_MOTOR = 30;
             
             int COLOR_SENSOR = -1;
             int IR_SENSOR = -1;
