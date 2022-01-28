@@ -8,9 +8,11 @@ package com.stuypulse.robot.subsystems;
 import java.io.Console;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.Constants;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,15 +40,21 @@ public class Climber extends SubsystemBase {
     private Solenoid solenoidLong;
     private Solenoid solenoidShort;
 
-    private CANSparkMax climber;
+    private Solenoid stopper;
 
-    private boolean longExtended;
-    private boolean shortExtended;
+    private RelativeEncoder encoder;
+
+    private CANSparkMax climber;
 
     public Climber() {
         //Ports not config
         solenoidLong = new Solenoid(Constants.Ports.Climber.SOLENOID_LONG);
         solenoidShort = new Solenoid(Constants.Ports.Climber.SOLENOID_SHORT);
+        stopper = new Solenoid(Constants.Ports.Climber.STOPPER);
+
+        encoder = climber.getEncoder();
+        encoder.setPositionConversionFactor(Constants.ClimberSettings.DIAMETER * Math.PI);
+
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
 
         climber.setInverted(Constants.ClimberSettings.MOTOR_REVERTED);
@@ -73,28 +81,20 @@ public class Climber extends SubsystemBase {
         moveMotor(-Constants.ClimberSettings.CLIMBER_SLOW_SPEED);
     }
 
-    public double getSpeed() {
-        return climber.get();
-    }
-
     public void extendLong() {
         solenoidLong.set(true);
-        longExtended = true;
     }
     
     public void retractLong() {
         solenoidLong.set(false);
-        longExtended = false;
     }
     
     public void extendShort() {
         solenoidShort.set(true);
-        shortExtended = true;
     }
 
     public void retractShort() {
         solenoidShort.set(false);
-        shortExtended = false;
     }
 
     private void moveMotor(double speed) {
@@ -112,20 +112,37 @@ public class Climber extends SubsystemBase {
         extendShort();
     }
 
-    public boolean longExtended() {
-        return longExtended;
+    public boolean getLongExtended() {
+        return solenoidLong.get();
     }
 
-    public boolean shortExtended() {
-        return shortExtended;
+    public boolean getShortExtended() {
+        return solenoidShort.get();
+    }
+
+    public double getEncoderDistance() {
+        return encoder.getPosition();
+    }
+
+    public void reset() {
+        encoder.setPosition(0.0);
+    }
+
+    public void lockClimber() {
+        stopper.set(true);
+    }
+
+    public void unlockClimber() {
+        stopper.set(false);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putBoolean("Long/Solenoid Extended", longExtended());
-            SmartDashboard.putBoolean("Short/Solenoid Extended", shortExtended());
+            SmartDashboard.putBoolean("Climber/LongSolenoid Extended", solenoidLong.get());
+            SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", solenoidLong.get());
+            SmartDashboard.putNumber("Climber/DistanceEncoder Traveled", getEncoderDistance());
         }
        
     }

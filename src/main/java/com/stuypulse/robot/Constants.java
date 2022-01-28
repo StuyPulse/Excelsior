@@ -8,6 +8,8 @@ package com.stuypulse.robot;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 import java.nio.file.Path;
 
 /**
@@ -52,16 +54,18 @@ public final class Constants {
         public interface Climber {
             int SOLENOID_LONG = -1;
             int SOLENOID_SHORT = -1;
-            int MOTOR = -1;
+            int MOTOR = 50;
+            int STOPPER = -1;
         }
 
         public interface Intake {}
     }
     public interface ClimberSettings {
-        int CLIMBER_DEFAULT_SPEED = -1;
-        int CLIMBER_SLOW_SPEED = -1;
+        int CLIMBER_DEFAULT_SPEED = -2;
+        int CLIMBER_SLOW_SPEED = -2;
 
         boolean MOTOR_REVERTED = false;
+        double DIAMETER = 2.0; //encoder to motor 
 
     }
 }
