@@ -40,13 +40,13 @@ public interface Constants {
         }
 
         public interface Drivetrain {
-            int LEFT_TOP = -1;
-            int LEFT_MIDDLE = -1;
-            int LEFT_BOTTOM = -1;
+            int LEFT_TOP = 10;
+            int LEFT_MIDDLE = 11;
+            int LEFT_BOTTOM = 12;
 
-            int RIGHT_TOP = -1;
-            int RIGHT_MIDDLE = -1;
-            int RIGHT_BOTTOM = -1;
+            int RIGHT_TOP = 13;
+            int RIGHT_MIDDLE = 14;
+            int RIGHT_BOTTOM = 15;
 
             int GEAR_SHIFT = -1;
         }
