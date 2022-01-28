@@ -46,7 +46,7 @@ public class Shooter extends SubsystemBase {
     }
 
     private final SmartNumber targetRPM;
-    private final HoodMode currentMode;
+    private HoodMode currentMode;
     private final static CANSparkMax.ControlType MODE = CANSparkMax.ControlType.kVelocity;
 
     // Motors
@@ -112,6 +112,10 @@ public class Shooter extends SubsystemBase {
 
     public HoodMode getHoodMode() {
         return this.currentMode;
+    }
+
+    public void setHoodMode(HoodMode mode) {
+        this.currentMode = mode;
     }
 
     public void extendHoodSolenoid() {
