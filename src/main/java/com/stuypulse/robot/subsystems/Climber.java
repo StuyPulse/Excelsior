@@ -21,7 +21,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Climbs at end of match
  *
  * Contains:
- *      - Code for Climber
+ *      - Change tilt of climber
+ *      - Move climber via motor
+ *      - Different tilt angles
+ *      - Encoder + Solenoid used for stopping
  *
  * @author independence106(Jason Zhou)
  * @author Ca7Ac1(Ayan Chowdhury)
@@ -56,10 +59,12 @@ public class Climber extends SubsystemBase {
         encoder = climber.getEncoder();
         encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE * Constants.ClimberSettings.GEAR_RATIO);
 
-        climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
-
         climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
 
+    }
+    
+    private void moveMotor(double speed) {
+        climber.set(speed);
     }
 
     public void liftUp() {
@@ -94,12 +99,8 @@ public class Climber extends SubsystemBase {
         solenoidShort.set(true);
     }
 
-    public void retractShort() {
+    private void retractShort() {
         solenoidShort.set(false);
-    }
-
-    private void moveMotor(double speed) {
-        climber.set(speed);
     }
 
     public void fullyRetract() {
