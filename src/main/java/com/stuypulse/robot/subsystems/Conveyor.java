@@ -81,7 +81,7 @@ public class Conveyor extends SubsystemBase {
     
     /**
      * Eject ball - spin the ejection motor outwards
-     * To be used when teh ball is opposing alliance color
+     * To be used when the ball is opposing alliance color
      */
     public void ejectBall(){
         // If the ball is not of our alliance color, eject ball
@@ -105,7 +105,7 @@ public class Conveyor extends SubsystemBase {
     /**
      * Stop both the Top Conveyor Belt and the Ejection Motor
      */
-    public void reset() {
+    public void stop() {
         stopTopBelt();
         stopEject();
     }
