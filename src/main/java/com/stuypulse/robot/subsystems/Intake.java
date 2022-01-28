@@ -46,8 +46,6 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        // TODO: ask engineering if this is the right control system
-        // https://docs.wpilib.org/en/stable/docs/software/hardware-apis/pneumatics/pneumatics.html
         solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.Intake.SOLENOID_A, Ports.Intake.SOLENOID_B);
         sensor = new DigitalInput(Ports.Intake.SENSOR);
 
