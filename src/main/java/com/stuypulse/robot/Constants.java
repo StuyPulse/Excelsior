@@ -79,7 +79,7 @@ public interface Constants {
         boolean IS_INVERTED = true;
 
         // Width of the robot
-        double TRACK_WIDTH = Units.inchesToMeters(-1); // TODO: do it
+        double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
 
         interface Motion {
 
