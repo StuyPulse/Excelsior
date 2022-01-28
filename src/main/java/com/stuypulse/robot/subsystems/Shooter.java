@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
         feederEncoder = feederMotor.getEncoder();
 
         shooterPIDController = shooterMotor.getPIDController();
-        feederPIDController = shooterMotor.getPIDController();
+        feederPIDController = feederMotor.getPIDController();
 
         shooterPIDController.setP(ShooterSettings.ShooterPID.kP);
         shooterPIDController.setI(ShooterSettings.ShooterPID.kI);
@@ -78,6 +78,9 @@ public class Shooter extends SubsystemBase {
         feederPIDController.setI(ShooterSettings.FeederPID.kI);
         feederPIDController.setD(ShooterSettings.FeederPID.kD);
         feederPIDController.setFF(ShooterSettings.FeederPID.kF);
+
+        shooterMotor.burnFlash();
+        feederMotor.burnFlash();
     }
 
     public void setShooterRPM(double speed) {
