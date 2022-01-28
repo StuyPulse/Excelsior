@@ -79,6 +79,7 @@ public class Intake extends SubsystemBase {
         setMotor(-IntakeSettings.MOTOR_SPEED);
     }
 
+    /*** Detect Ball ***/
     public boolean isBallDetected() {
         return !sensor.get();
     }
