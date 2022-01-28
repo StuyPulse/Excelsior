@@ -39,14 +39,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *      @author Nicky Lin
  */
 public class Shooter extends SubsystemBase {
-    public enum HoodMode {
-        DISABLED(),
-        RING(), 
-        FENDER()
-    }
-
+    
     private final SmartNumber targetRPM;
-    private HoodMode currentMode;
     private final static CANSparkMax.ControlType MODE = CANSparkMax.ControlType.kVelocity;
 
     // Motors
@@ -67,8 +61,6 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
-
-        currentMode = HoodMode.DISABLED;
 
         shooterMotor = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
         shooterFollower = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER, MotorType.kBrushless);
@@ -108,14 +100,6 @@ public class Shooter extends SubsystemBase {
 
     public double getFeederRPM() {
         return Math.abs(feederEncoder.getVelocity());
-    }
-
-    public HoodMode getHoodMode() {
-        return this.currentMode;
-    }
-
-    public void setHoodMode(HoodMode mode) {
-        this.currentMode = mode;
     }
 
     public void extendHoodSolenoid() {
