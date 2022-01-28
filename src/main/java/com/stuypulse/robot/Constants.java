@@ -29,7 +29,7 @@ import java.nio.file.Path;
  */
 public interface Constants {
 
-    public static Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
+    Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
 
@@ -81,21 +81,18 @@ public interface Constants {
     }
 
     public interface ColorSensorSettings {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 5af32e6 (Move colors back to Constants)
         public interface BallColor {
             Color RED = new Color(0.5432, 0.3401, 0.1169);
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
         
-<<<<<<< HEAD
-=======
->>>>>>> cb19a16 (Move Ball Colors to CurrentBall enum)
-=======
->>>>>>> 5af32e6 (Move colors back to Constants)
         SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
+    }
+
+    public interface ConveyorSettings {
+        SmartNumber TOP_MOTOR_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
+        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
+        SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
     }
 
     public interface IntakeSettings {
@@ -182,10 +179,5 @@ public interface Constants {
             double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 16.71);
             double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 4.55);
         }
-        
-    public interface ConveyorSettings {
-        SmartNumber TOP_MOTOR_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
-        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
-        SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
     }
 }

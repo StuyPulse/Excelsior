@@ -78,25 +78,6 @@ public class ColorSensor extends SubsystemBase {
         return CurrentBall.NO_BALL;
     }
 
-    private Color getColor() {
-        return colorSensor.getColor();
-    }
-
-        switch(DriverStation.getAlliance()) {
-            case Blue:
-                return CurrentBall.BLUE_BALL;
-            case Red:
-                return CurrentBall.RED_BALL;
-            default:
-                return CurrentBall.NO_BALL;
-        }
-        
-    }
-
-    public boolean hasBall() {
-        return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
-    }
-
     private CurrentBall getTargetBall() { 
 
         switch(DriverStation.getAlliance()) {
