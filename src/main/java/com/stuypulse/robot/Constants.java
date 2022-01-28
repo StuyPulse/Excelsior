@@ -55,7 +55,6 @@ public interface Constants {
             int MOTOR= -1;
             int SOLENOID_A = -1;
             int SOLENOID_B = -1;
-            int SENSOR= -1;
         }
     }
 
