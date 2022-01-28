@@ -18,7 +18,7 @@ import java.nio.file.Path;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public interface Constants {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
@@ -51,6 +51,15 @@ public final class Constants {
 
         public interface Climber {}
 
-        public interface Intake {}
+        public interface Intake {
+            int MOTOR= -1;
+            int SOLENOID_A = -1;
+            int SOLENOID_B = -1;
+        }
+    }
+
+    public interface IntakeSettings {
+        // TODO: test with intake
+        double MOTOR_SPEED = 0.8;
     }
 }
