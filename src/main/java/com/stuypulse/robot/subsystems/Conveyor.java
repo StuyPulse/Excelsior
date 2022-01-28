@@ -24,9 +24,9 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * of the opposing alliance's color.
  * 
  * Contains:
- * - An ejection motor above a gap that will spin a wheel either out the back of the robot or upwards to the upper conveyor
+ * - A gandalf motor above a gap that will spin a wheel either out the back of the robot or upwards to the upper conveyor
  * - An upper conveyor (with a motor) that can hold a ball or transport balls to the shooter
- * - A color sensor that detects the color of the ball held in the gap near the ejection motor
+ * - A color sensor that detects the color of the ball held in the gap near the gandalf motor
  * - An IR Sensor that detects the presence of a ball in the upper conveyor
  *`
  * @author Ivan Wei (ivanw8288@gmail.com)
@@ -48,7 +48,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  
 public class Conveyor extends SubsystemBase {
     private final CANSparkMax topMotor;
-    private final CANSparkMax ejectMotor;    
+    private final CANSparkMax gandalfMotor;    
 
     private final ColorSensor colorSensor;
     private final DigitalInput irSensor;
@@ -58,7 +58,7 @@ public class Conveyor extends SubsystemBase {
      */
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_CONVEYOR_MOTOR, MotorType.kBrushless);
-        ejectMotor = new CANSparkMax(Ports.Conveyor.EJECTOR_MOTOR, MotorType.kBrushless);
+        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
         
         colorSensor = new ColorSensor();
         irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
@@ -72,42 +72,42 @@ public class Conveyor extends SubsystemBase {
     }
     
     /**
-     * Accept ball - spin the ejection motor upwards to the top conveyor
+     * Accept ball - spin the gandalf motor upwards to the top conveyor
      * To be used when the ball is team alliance color
      */
     public void acceptBall() {
-        ejectMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
+        gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
     }
     
     /**
-     * Eject ball - spin the ejection motor outwards
+     * Eject ball - spin the gandalf motor outwards
      * To be used when the ball is opposing alliance color
      */
-    public void ejectBall(){
-        // If the ball is not of our alliance color, eject ball
-        ejectMotor.set(ConveyorSettings.EJECT_SPEED.get());
+    public void rejectBall(){
+        // If the ball is not of our alliance color, reject ball
+        gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
     }
     
     /**
      * Stops the Top Conveyor Belt
      */
     public void stopTopBelt() {
-        topMotor.set(0.0);
+        topMotor.stop();
     }
 
     /**
-     * Stops the Ejection Motor
+     * Stops the Gandalf Motor
      */
-    public void stopEject() {
-        ejectMotor.set(0.0);
+    public void stopGandalf() {
+        gandalfMotor.stop();
     }
 
     /**
-     * Stop both the Top Conveyor Belt and the Ejection Motor
+     * Stop both the Top Conveyor Belt and the Gandalf Motor
      */
     public void stop() {
         stopTopBelt();
-        stopEject();
+        stopGandalf();
     }
 
     /**
@@ -122,7 +122,7 @@ public class Conveyor extends SubsystemBase {
      * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor
      * @return if the upper IR Sensor has been tripped
      */
-    public boolean topConveyorContainsBall() {
+    public boolean getTopConveyorHasBall() {
         return irSensor.get();
     }
 
@@ -130,8 +130,8 @@ public class Conveyor extends SubsystemBase {
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
-            SmartDashboard.putNumber("Conveyor/Ejection Motor Speed", ejectMotor.get());
-            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", topConveyorContainsBall());
+            SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
+            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getTopConveyorHasBall());
         }  
     }
 }
