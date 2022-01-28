@@ -83,11 +83,11 @@ public class ColorSensor extends SubsystemBase {
         // faulty color
         Alliance alliance = DriverStation.getAlliance();
         CurrentBall presentBall = getCurrentBall();
-        if (presentBall == CurrentBall.NO_BALL) {
-            return false;
+        if (hasBall()) {
+            return (alliance == Alliance.Blue && presentBall == CurrentBall.BLUE_BALL) ||
+                (alliance == Alliance.Red && presentBall == CurrentBall.RED_BALL);   
         }
-        return (alliance == Alliance.Blue && presentBall == CurrentBall.BLUE_BALL) ||
-                (alliance == Alliance.Red && presentBall == CurrentBall.RED_BALL);
+        return false;
     }
 
     @Override
