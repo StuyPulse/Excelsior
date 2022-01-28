@@ -7,15 +7,12 @@ package com.stuypulse.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.IntakeSettings;
 import com.stuypulse.robot.Constants.Ports;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
@@ -42,15 +39,12 @@ public class Intake extends SubsystemBase {
 
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
-    private DigitalInput sensor;
 
     public Intake() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
         solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.Intake.SOLENOID_A, Ports.Intake.SOLENOID_B);
-        sensor = new DigitalInput(Ports.Intake.SENSOR);
 
         addChild("Double Solenoid", solenoid);
-        addChild("Sensor", sensor);
     }
 
     /*** Extend / Retract ***/
@@ -77,17 +71,5 @@ public class Intake extends SubsystemBase {
 
     public void deacquire() {
         setMotor(-IntakeSettings.MOTOR_SPEED);
-    }
-
-    /*** Detect Ball ***/
-    public boolean isBallDetected() {
-        return !sensor.get();
-    }
-
-    @Override
-    public void periodic() {
-        if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putBoolean("Intake/Ball Detected", isBallDetected());
-        }
     }
 }
