@@ -98,22 +98,22 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private CurrentBall getTargetBall() { 
-        Alliance alliance = DriverStation.getAlliance();
 
-        // A dilemma: we cannot default return NO_BALL, and would need an INVALID
-        if (alliance == Alliance.Blue) {
-            return CurrentBall.BLUE_BALL; 
-        } else {
-            return CurrentBall.RED_BALL;
+        switch(DriverStation.getAlliance()) {
+            case Alliance.Blue:
+                return CurrentBall.BLUE_BALL;
+            case Alliance.Red:
+                return CurrentBall.RED_BALL;
+            default:
+                return CurrentBall.NO_BALL;
         }
+        
     }
 
     public boolean hasAllianceBall() {
         // Choose not to store the alliance in order to avoid FMS initially giving
         // faulty color
-        CurrentBall presentBall = getCurrentBall();
-        CurrentBall targetBall = getTargetBall();
-        return hasBall() && presentBall == targetBall;   
+        return hasBall() && getCurrentBall() == getTargetBall();   
     }
 
     @Override
