@@ -52,6 +52,8 @@ public interface Constants {
             int SHOOTER = 20;
             int SHOOTER_FOLLOWER = 21;
             int FEEDER = 22;
+
+            int HOOD_SOLENOID = -1;
         }
 
         public interface Climber {}

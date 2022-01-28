@@ -14,6 +14,8 @@ import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ShooterSettings;
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -37,8 +39,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *      @author Nicky Lin
  */
 public class Shooter extends SubsystemBase {
+    public enum HoodMode {
+        DISABLED(),
+        RING(), 
+        FENDER()
+    }
 
     private final SmartNumber targetRPM;
+    private final HoodMode currentMode;
     private final static CANSparkMax.ControlType MODE = CANSparkMax.ControlType.kVelocity;
 
     // Motors
@@ -54,8 +62,13 @@ public class Shooter extends SubsystemBase {
     private final SparkMaxPIDController shooterPIDController;
     private final SparkMaxPIDController feederPIDController;
 
-    public Shooter () {
+    // Hood Solenoid
+    private final Solenoid hoodSolenoid;
+
+    public Shooter() {
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
+
+        currentMode = HoodMode.DISABLED;
 
         shooterMotor = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
         shooterFollower = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER, MotorType.kBrushless);
@@ -81,6 +94,8 @@ public class Shooter extends SubsystemBase {
 
         shooterMotor.burnFlash();
         feederMotor.burnFlash();
+
+        hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
 
     public void setShooterRPM(double speed) {
@@ -93,6 +108,22 @@ public class Shooter extends SubsystemBase {
 
     public double getFeederRPM() {
         return Math.abs(feederEncoder.getVelocity());
+    }
+
+    public HoodMode getHoodMode() {
+        return this.currentMode;
+    }
+
+    public void extendHoodSolenoid() {
+        hoodSolenoid.set(true);
+    }
+
+    public void retractHoodSolenoid() {
+        hoodSolenoid.set(false);
+    }
+
+    public void setDefaultSolenoidPosition() {
+        retractHoodSolenoid();
     }
 
     @Override
