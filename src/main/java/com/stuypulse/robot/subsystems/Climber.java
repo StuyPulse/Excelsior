@@ -47,26 +47,27 @@ public class Climber extends SubsystemBase {
     private CANSparkMax climber;
 
     public Climber() {
-        //Ports not config
+        climber = new CANSparkMax(Constants.Ports.Climber.MOTOR);
+
         solenoidLong = new Solenoid(Constants.Ports.Climber.SOLENOID_LONG);
         solenoidShort = new Solenoid(Constants.Ports.Climber.SOLENOID_SHORT);
         stopper = new Solenoid(Constants.Ports.Climber.STOPPER);
 
         encoder = climber.getEncoder();
-        encoder.setPositionConversionFactor(Constants.ClimberSettings.DIAMETER * Math.PI);
+        encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE);
 
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
 
-        climber.setInverted(Constants.ClimberSettings.MOTOR_REVERTED);
+        climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
 
     }
 
     public void liftUp() {
-        moveMotor(Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED);
+        moveMotor(Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED.get());
     }
 
     public void liftDown() {
-        moveMotor(-Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED);
+        moveMotor(-Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED.get());
     }
 
     public void stop() {
@@ -74,11 +75,11 @@ public class Climber extends SubsystemBase {
     }
     
     public void liftUpSlow() {
-        moveMotor(Constants.ClimberSettings.CLIMBER_SLOW_SPEED);
+        moveMotor(Constants.ClimberSettings.CLIMBER_SLOW_SPEED.get());
     }
 
     public void liftDownSlow() {
-        moveMotor(-Constants.ClimberSettings.CLIMBER_SLOW_SPEED);
+        moveMotor(-Constants.ClimberSettings.CLIMBER_SLOW_SPEED.get());
     }
 
     public void extendLong() {
@@ -143,7 +144,6 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Climber/LongSolenoid Extended", solenoidLong.get());
             SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", solenoidLong.get());
             SmartDashboard.putNumber("Climber/DistanceEncoder Traveled", getEncoderDistance());
-        }
-       
+        } 
     }
 }

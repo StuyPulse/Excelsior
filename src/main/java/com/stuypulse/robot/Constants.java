@@ -6,6 +6,7 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.network.SmartBoolean;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -54,18 +55,24 @@ public final class Constants {
         public interface Climber {
             int SOLENOID_LONG = -1;
             int SOLENOID_SHORT = -1;
+            int SOLENOID_STOPPER = -1;
+
             int MOTOR = 50;
-            int STOPPER = -1;
         }
 
         public interface Intake {}
     }
     public interface ClimberSettings {
-        int CLIMBER_DEFAULT_SPEED = -2;
-        int CLIMBER_SLOW_SPEED = -2;
+        SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", -2);
+        SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
 
-        boolean MOTOR_REVERTED = false;
+        boolean MOTOR_INVERTED = false;
+
+        double GEAR_RATIO = -1;
+
         double DIAMETER = 2.0; //encoder to motor 
+        double CIRCUMFERENCE = DIAMETER * Math.PI;
+
 
     }
 }
