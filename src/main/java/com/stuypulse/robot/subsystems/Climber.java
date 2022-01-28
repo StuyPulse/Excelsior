@@ -54,7 +54,7 @@ public class Climber extends SubsystemBase {
         stopper = new Solenoid(Constants.Ports.Climber.STOPPER);
 
         encoder = climber.getEncoder();
-        encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE);
+        encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE * Constants.ClimberSettings.GEAR_RATIO);
 
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
 
