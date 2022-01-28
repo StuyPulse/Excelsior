@@ -92,14 +92,14 @@ public class Conveyor extends SubsystemBase {
      * Stops the Top Conveyor Belt
      */
     public void stopTopBelt() {
-        topMotor.stop();
+        topMotor.stopMotor();
     }
 
     /**
      * Stops the Gandalf Motor
      */
     public void stopGandalf() {
-        gandalfMotor.stop();
+        gandalfMotor.stopMotor();
     }
 
     /**

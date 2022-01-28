@@ -31,7 +31,7 @@ public interface Constants {
 
     public static Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    public static SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
+    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
 
     public interface Ports {
 
