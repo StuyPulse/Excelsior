@@ -21,7 +21,7 @@ import java.nio.file.Path;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public interface Constants {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
@@ -50,11 +50,21 @@ public final class Constants {
             int GEAR_SHIFT = 0;
         }
 
-        public interface Shooter {}
+        public interface Shooter {
+            int SHOOTER = 20;
+            int SHOOTER_FOLLOWER = 21;
+            int FEEDER = 22;
+
+            int HOOD_SOLENOID = -1;
+        }
 
         public interface Climber {}
 
-        public interface Intake {}
+        public interface Intake {
+            int MOTOR= -1;
+            int SOLENOID_A = -1;
+            int SOLENOID_B = -1;
+        }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
     }
@@ -66,5 +76,31 @@ public final class Constants {
         }
         
         SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
+    }
+
+    public interface IntakeSettings {
+        // TODO: test with intake
+        double MOTOR_SPEED = 0.8;
+    }
+
+    public interface ShooterSettings {
+
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Fender Multipler", 1.0);
+
+        public interface ShooterPID {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+            double kF = 0.0;
+        }
+
+        public interface FeederPID {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+            double kF = 0.0;
+        }
     }
 }
