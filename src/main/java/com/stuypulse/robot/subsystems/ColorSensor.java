@@ -81,9 +81,9 @@ public class ColorSensor extends SubsystemBase {
     private CurrentBall getTargetBall() { 
 
         switch(DriverStation.getAlliance()) {
-            case Alliance.Blue:
+            case Blue:
                 return CurrentBall.BLUE_BALL;
-            case Alliance.Red:
+            case Red:
                 return CurrentBall.RED_BALL;
             default:
                 return CurrentBall.NO_BALL;
