@@ -73,6 +73,9 @@ public class Drivetrain extends SubsystemBase {
     private CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
+
+    // NOTE: the types are different than just SLEncoder just 
+    // if something goes only in NEO/WPIEncoder
     private SLNEOEncoder leftNEO;
     private SLNEOEncoder rightNEO;
 
@@ -119,7 +122,6 @@ public class Drivetrain extends SubsystemBase {
             DrivetrainSettings.IS_INVERTED,
             DrivetrainSettings.Encoders.GRAYHILL_ENCODING
         ));
-        leftGrayhill.setVelocitySamples(4);
 
         rightGrayhill = new SLWPIEncoder(new Encoder(
             Ports.Drivetrain.Encoders.RIGHT_A,
@@ -127,6 +129,11 @@ public class Drivetrain extends SubsystemBase {
             !DrivetrainSettings.IS_INVERTED,
             DrivetrainSettings.Encoders.GRAYHILL_ENCODING
         ));
+
+        // TODO: this might not mean what I think it means (based on my understanading 
+        // of the docs, it is used for velocity, and not position) and 4 might not
+        // be  enough/ too little  
+        leftGrayhill.setVelocitySamples(4);
         rightGrayhill.setVelocitySamples(4);
 
         useGrayhills = new SmartBoolean("Drivetrain/Using Grayhills?", true);
