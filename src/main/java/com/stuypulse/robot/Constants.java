@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
@@ -51,6 +52,14 @@ public interface Constants {
             int RIGHT_BOTTOM = 15;
 
             int GEAR_SHIFT = -1;
+
+            interface Encoders {
+                int LEFT_A = -1;
+                int LEFT_B = -1;
+
+                int RIGHT_A = -1;
+                int RIGHT_B = -1;
+            }
         }
 
         public interface Shooter {
@@ -178,6 +187,8 @@ public interface Constants {
 
             double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 16.71);
             double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 4.55);
+    
+            CounterBase.EncodingType GRAYHILL_ENCODING = CounterBase.EncodingType.k4X;
         }
     }
 }

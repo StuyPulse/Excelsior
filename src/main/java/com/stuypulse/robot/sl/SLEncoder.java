@@ -30,6 +30,12 @@ public interface SLEncoder {
 
     // TODO: implementing interfaces could have more constructors
 
+    // NOTE: the interface doesn't require providing a reference to the underlying encoder,
+    // there are workarounds with generics but one can just store the implementing type instead
+    // of the interface to workaround this
+
+    // TODO: MAYBE add methods to guess if encoders are working
+
     double getPosition();
     double getVelocity();
 

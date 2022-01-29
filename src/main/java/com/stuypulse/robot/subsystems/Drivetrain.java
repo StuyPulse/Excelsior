@@ -7,21 +7,24 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
-
+import com.stuypulse.stuylib.network.SmartBoolean;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
 import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.sl.SLEncoder;
+import com.stuypulse.robot.sl.SLNEOEncoder;
+import com.stuypulse.robot.sl.SLWPIEncoder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -70,8 +73,13 @@ public class Drivetrain extends SubsystemBase {
     private CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
-    private RelativeEncoder leftNEO;
-    private RelativeEncoder rightNEO;
+    private SLNEOEncoder leftNEO;
+    private SLNEOEncoder rightNEO;
+
+    private SLWPIEncoder leftGrayhill;
+    private SLWPIEncoder rightGrayhill;
+
+    private SmartBoolean useGrayhills;
 
     // DifferentialDrive and Gear Information
     private Gear gear;
@@ -102,11 +110,24 @@ public class Drivetrain extends SubsystemBase {
                 };
 
         // Create list of encoders based on motors
-        leftNEO = leftMotors[0].getEncoder();
-        rightNEO = rightMotors[0].getEncoder();
+        leftNEO = new SLNEOEncoder(leftMotors[0].getEncoder());
+        rightNEO = new SLNEOEncoder(rightMotors[0].getEncoder());
+        
+        leftGrayhill = new SLWPIEncoder(new Encoder(
+            Ports.Drivetrain.Encoders.LEFT_A,
+            Ports.Drivetrain.Encoders.LEFT_B,
+            DrivetrainSettings.IS_INVERTED,
+            DrivetrainSettings.Encoders.GRAYHILL_ENCODING
+        ));
 
-        leftNEO.setPosition(0);
-        rightNEO.setPosition(0);
+        rightGrayhill = new SLWPIEncoder(new Encoder(
+            Ports.Drivetrain.Encoders.RIGHT_A,
+            Ports.Drivetrain.Encoders.RIGHT_B,
+            !DrivetrainSettings.IS_INVERTED,
+            DrivetrainSettings.Encoders.GRAYHILL_ENCODING
+        ));
+
+        useGrayhills = new SmartBoolean("Drivetrain/Using Grayhills?", true);
 
         // Make differential drive object
         drivetrain =
@@ -145,9 +166,9 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     // Set the distance traveled in one rotation of the motor
-    public void setNEODistancePerRotation(double distance) {
-        leftNEO.setPositionConversionFactor(distance);
-        rightNEO.setPositionConversionFactor(distance);
+    private void setNEODistancePerRotation(double distance) {
+        leftNEO.setConversionFactor(distance);
+        rightNEO.setConversionFactor(distance);
     }
 
     // Set the smart current limit of all the motors
@@ -174,12 +195,12 @@ public class Drivetrain extends SubsystemBase {
 
     // Set isInverted of all the motors
     public void setInverted(boolean leftSide, boolean rightSide) {
-        leftNEO.setInverted(leftSide);
+        getLeftEncoder().setReversed(leftSide);
         for (CANSparkMax motor : leftMotors) {
             motor.setInverted(leftSide);
         }
 
-        rightNEO.setInverted(rightSide);
+        getRightEncoder().setReversed(rightSide);
         for (CANSparkMax motor : rightMotors) {
             motor.setInverted(rightSide);
         }
@@ -196,18 +217,20 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
+        // TODO: just note here, reset is the biggest change
+
         if (this.gear != gear) {
             this.gear = gear;
             if (this.gear == Gear.HIGH) {
                 gearShift.set(true);
                 setNEODistancePerRotation(
                         DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
-                reset();
+                // reset();
             } else {
                 gearShift.set(false);
                 setNEODistancePerRotation(
                         DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
-                reset();
+                // reset();
             }
         }
     }
@@ -244,13 +267,25 @@ public class Drivetrain extends SubsystemBase {
      * ENCODER FUNCTIONS *
      *********************/
 
+    private boolean getUsingGrayhills() {
+        return useGrayhills.get();
+    }
+
+    private SLEncoder getLeftEncoder() {
+        return getUsingGrayhills() ? leftGrayhill : leftNEO;
+    }
+
+    private SLEncoder getRightEncoder() {
+        return getUsingGrayhills() ? rightGrayhill : rightNEO;
+    }
+
     // Distance
     public double getLeftDistance() {
-        return leftNEO.getPosition();
+        return getLeftEncoder().getPosition();
     }
 
     public double getRightDistance() {
-        return rightNEO.getPosition();
+        return getRightEncoder().getPosition();
     }
 
     public double getDistance() {
@@ -259,11 +294,11 @@ public class Drivetrain extends SubsystemBase {
 
     // Velocity
     public double getLeftVelocity() {
-        return leftNEO.getVelocity();
+        return getLeftEncoder().getVelocity();
     }
 
     public double getRightVelocity() {
-        return rightNEO.getVelocity();
+        return getRightEncoder().getVelocity();
     }
 
     public double getVelocity() {
