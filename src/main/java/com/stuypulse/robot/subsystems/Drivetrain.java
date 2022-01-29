@@ -119,6 +119,7 @@ public class Drivetrain extends SubsystemBase {
             DrivetrainSettings.IS_INVERTED,
             DrivetrainSettings.Encoders.GRAYHILL_ENCODING
         ));
+        leftGrayhill.setVelocitySamples(4);
 
         rightGrayhill = new SLWPIEncoder(new Encoder(
             Ports.Drivetrain.Encoders.RIGHT_A,
@@ -126,6 +127,7 @@ public class Drivetrain extends SubsystemBase {
             !DrivetrainSettings.IS_INVERTED,
             DrivetrainSettings.Encoders.GRAYHILL_ENCODING
         ));
+        rightGrayhill.setVelocitySamples(4);
 
         useGrayhills = new SmartBoolean("Drivetrain/Using Grayhills?", true);
 

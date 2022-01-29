@@ -3,7 +3,7 @@ package com.stuypulse.robot.sl;
 import com.revrobotics.RelativeEncoder;
 
 /**
- * Wrapper for ann encoder built into a NEO motor or, in code, 
+ * Wrapper for an encoder built into a NEO motor or, in code, 
  * a RelativeEncoder. 
  * 
  * Handles position from shifting gears (e.g. changing position factor
@@ -45,7 +45,7 @@ public class SLNEOEncoder implements SLEncoder {
         return encoder.getPositionConversionFactor();
     }
 
-    @Override
+    // @Override
     public boolean isReversed() {
         return encoder.getInverted();
     }
