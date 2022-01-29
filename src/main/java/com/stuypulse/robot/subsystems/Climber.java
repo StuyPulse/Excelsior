@@ -55,7 +55,7 @@ public class Climber extends SubsystemBase {
     public Climber() {
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR);
         climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
-
+  
         encoder = climber.getEncoder();
         encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE * Constants.ClimberSettings.GEAR_RATIO);
 
