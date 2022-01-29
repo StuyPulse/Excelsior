@@ -69,6 +69,14 @@ public interface Constants {
             int SOLENOID_B = -1;
         }
 
+        public interface Conveyor {
+            int TOP_CONVEYOR_MOTOR = 31;
+            int GANDALF_MOTOR = 30;
+            
+            int COLOR_SENSOR = -1;
+            int IR_SENSOR = -1;
+        }
+
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
     }
 
@@ -79,6 +87,12 @@ public interface Constants {
         }
         
         SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
+    }
+
+    public interface ConveyorSettings {
+        SmartNumber TOP_MOTOR_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
+        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
+        SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
     }
 
     public interface IntakeSettings {
