@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.Constants;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,6 +44,8 @@ public class Climber extends SubsystemBase {
     private Solenoid solenoidLong;
     private Solenoid solenoidShort;
 
+    private DigitalInput limitSwitch;
+
     private Solenoid stopper;
 
     private RelativeEncoder encoder;
@@ -55,6 +58,8 @@ public class Climber extends SubsystemBase {
         solenoidLong = new Solenoid(Constants.Ports.Climber.SOLENOID_LONG);
         solenoidShort = new Solenoid(Constants.Ports.Climber.SOLENOID_SHORT);
         stopper = new Solenoid(Constants.Ports.Climber.STOPPER);
+
+        limitSwitch = new DigitalInput(Constants.Ports.Climber.LIMIT_SWITCH);
 
         encoder = climber.getEncoder();
         encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE * Constants.ClimberSettings.GEAR_RATIO);
@@ -106,7 +111,6 @@ public class Climber extends SubsystemBase {
     public void fullyRetract() {
         retractShort();
         retractLong();
-
     }
 
     public void fullyExtend() {
@@ -128,6 +132,13 @@ public class Climber extends SubsystemBase {
 
     public void reset() {
         encoder.setPosition(0.0);
+    }
+
+    public void getLimitSwitch() {
+        if (limitSwitch.get()) {
+            encoder.setPosition(0.0);
+            stop();
+        }
     }
 
     public void lockClimber() {

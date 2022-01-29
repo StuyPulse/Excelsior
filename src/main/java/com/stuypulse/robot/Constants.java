@@ -58,6 +58,8 @@ public final class Constants {
             int SOLENOID_STOPPER = -1;
 
             int MOTOR = 50;
+            
+            int LIMIT_SWITCH = -1;
         }
 
         public interface Intake {}
@@ -68,7 +70,10 @@ public final class Constants {
 
         boolean MOTOR_INVERTED = false;
 
-        double GEAR_RATIO = -1;
+        //36 : 1
+
+        double GEAR_RATIO = 1.0 / 36.0;
+
 
         double DIAMETER = 2.0; //encoder to motor 
         double CIRCUMFERENCE = DIAMETER * Math.PI;
