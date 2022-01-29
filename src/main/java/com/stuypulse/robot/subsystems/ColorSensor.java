@@ -13,7 +13,6 @@ import com.stuypulse.robot.Constants.ColorSensorSettings;
 import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
 import com.stuypulse.robot.Constants.Ports;
 
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
