@@ -54,18 +54,16 @@ public class Climber extends SubsystemBase {
 
     public Climber() {
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR);
-
-        solenoidLong = new Solenoid(Constants.Ports.Climber.SOLENOID_LONG);
-        solenoidShort = new Solenoid(Constants.Ports.Climber.SOLENOID_SHORT);
-        stopper = new Solenoid(Constants.Ports.Climber.STOPPER);
-
-        limitSwitch = new DigitalInput(Constants.Ports.Climber.LIMIT_SWITCH);
+        climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
 
         encoder = climber.getEncoder();
         encoder.setPositionConversionFactor(Constants.ClimberSettings.CIRCUMFERENCE * Constants.ClimberSettings.GEAR_RATIO);
 
-        climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
+        solenoidLong = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_LONG);
+        solenoidShort = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_SHORT);
+        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.STOPPER);
 
+        limitSwitch = new DigitalInput(Constants.Ports.Climber.LIMIT_SWITCH);
     }
     
     private void moveMotor(double speed) {
