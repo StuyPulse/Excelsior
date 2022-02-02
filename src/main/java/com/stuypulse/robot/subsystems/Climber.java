@@ -59,8 +59,8 @@ public class Climber extends SubsystemBase {
         }  
     }
 
-    private Solenoid long;
-    private Solenoid short;
+    private Solenoid longSolenoid;
+    private Solenoid shortSolenoid;
 
     private DigitalInput bottomLimitSwitch;
     private DigitalInput topLimitSwitch;
@@ -73,64 +73,40 @@ public class Climber extends SubsystemBase {
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
         climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
 
-        long = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_LONG);
-        short = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_SHORT);
+        longSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_LONG);
+        shortSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_SHORT);
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_STOPPER);
 
         bottomLimitSwitch = new DigitalInput(Constants.Ports.Climber.BOTTOM_LIMIT_SWITCH);
         topLimitSwitch = new DigitalInput(Constants.Ports.Climber.TOP_LIMIT_SWITCH);
     }
     
-    private void moveMotor(double speed) {
+    public void setClimberMotor(double speed) {
         climber.set(speed);
     }
 
-    public void liftUp() {
-        moveMotor(Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED.get());
-    }
-
-    public void liftDown() {
-        moveMotor(-Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED.get());
-    }
-
-    public void stop() {
-        moveMotor(0.0);
+    public void setMotorStop() {
+        setClimberMotor(0.0);
     }
     
-    public void liftUpSlow() {
-        moveMotor(Constants.ClimberSettings.CLIMBER_SLOW_SPEED.get());
-    }
-
-    public void liftDownSlow() {
-        moveMotor(-Constants.ClimberSettings.CLIMBER_SLOW_SPEED.get());
-    }
-
-    public boolean getLongExtended() {
-        return long.get();
-    }
-
-    public boolean getShortExtended() {
-        return short.get();
-    }
-
-    public boolean topReached() {
+    public boolean getTopReached() {
         return topLimitSwitch.get(); 
     }
 
-    public boolean bottomReached() {
+    public boolean getBottomReached() {
         return bottomLimitSwitch.get();
     }
 
     public void setTilt(Tilt tilt) {
-        short.set(tilt.shorterExtended);
-        long.set(tilt.longerExtended);
+        shortSolenoid.set(tilt.shorterExtended);
+        longSolenoid.set(tilt.longerExtended);
     }
 
-    public void lockClimber() {
+    public void setClimberLocked() {
         stopper.set(true);
     }
 
-    public void unlockClimber() {
+    public void setClimberUnlocked() {
         stopper.set(false);
     }
 
@@ -138,8 +114,8 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putBoolean("Climber/LongSolenoid Extended", long.get());
-            SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", long.get());
+            SmartDashboard.putBoolean("Climber/LongSolenoid Extended", longSolenoid.get());
+            SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", longSolenoid.get());
             SmartDashboard.putBoolean("Climber/StopperSolenoid Active", stopper.get());
         } 
     }
