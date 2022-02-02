@@ -14,6 +14,7 @@ import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.Ports;
@@ -45,6 +46,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * @author Andrew Che (andrewtheemerald@gmail.com)
  * @author Niki Chen (nikichen6769@gmail.com)
  * @author Vincent Wang (vinowang921@gmail.com)
+ * @author Edmund Chin (edmundc421@gmail.com)
  */
  
 public class Conveyor extends SubsystemBase {
@@ -115,24 +117,27 @@ public class Conveyor extends SubsystemBase {
     }
 
     /**
-     * Gets the CurrentBall object from the color sensor
-     * @return CurrentBall detected by the color sensor
+     * Gets the color sensor that belongs to this conveyor
+     * @return this conveyor's color sensor
      */
-    private CurrentBall getCurrentBall() {
-        return colorSensor.getCurrentBall();
-
+    public ColorSensor getColorSensor() {
+        return colorSensor;
     }
     
     /**
      * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor
      * @return if the upper IR Sensor has been tripped
      */
-    public boolean getTopConveyorHasBall() {
+    public boolean getTopConveyorUpperHasBall() {
         return topIRSensor.get();
     }
 
-    public boolean getGandalfHasBall() {
-        return gandalfIRSensor.get();
+     /**
+     * Finds if the lower IR Sensor has been tripped
+     * @return if the lower IR Sensor has been tripped
+     */
+    public boolean getTopConveyorLowerHasBall() {
+        return gandalfIRSensor.get();   
     }
     
     @Override
@@ -140,8 +145,8 @@ public class Conveyor extends SubsystemBase {
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
-            SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getTopConveyorHasBall());
-            SmartDashboard.putBoolean("Conveyor/Gandalf Has Ball", getGandalfHasBall());
+            SmartDashboard.putBoolean("Conveyor/Top Conveyor Upper IR Has Ball", getTopConveyorUpperHasBall());
+            SmartDashboard.putBoolean("Conveyor/Top Conveyor Lower IR Ball", getTopConveyorLowerHasBall());
         }  
     }
 }
