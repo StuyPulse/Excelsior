@@ -59,7 +59,8 @@ public final class Constants {
 
             int MOTOR = 50;
             
-            int LIMIT_SWITCH = -1;
+            int BOTTOM_LIMIT_SWITCH = -1;
+            int TOP_LIMIT_SWITCH = -1;
         }
 
         public interface Intake {}
@@ -69,14 +70,16 @@ public final class Constants {
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
 
         boolean MOTOR_INVERTED = false;
-
+        /*
         //36 : 1
 
-        double GEAR_RATIO = 1.0 / 36.0;
+        double GEAR_RATIO = 1.0 / 20.0;
 
 
-        double DIAMETER = 2.0; //encoder to motor 
+        double DIAMETER = 1.0; //encoder to motor 
         double CIRCUMFERENCE = DIAMETER * Math.PI;
+        double CONVERSION_FACTOR = GEAR_RATIO * CIRCUMFERENCE;
+        */
 
 
     }
