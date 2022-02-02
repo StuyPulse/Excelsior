@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.Constants.*;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -61,7 +62,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        // TODO: ADD BUTTON BINDINGS
+        operator.getRightTriggerButton()
+            .whileHeld(new IntakeAcquireCommand(intake));
     }
 
     public void configureAutons() {
