@@ -7,22 +7,28 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.network.SmartBoolean;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
  * Pumps the robot full of air
  *
  * Contains:
- *      - TBD
+ *      - network boolean for controlling state of compressor
+ *      - compressor pneumatics module
  *
- * @author Sam Belliveau
+ * @author Myles Pasetsky
+ * @author SE
  */
 public class Pump extends SubsystemBase {
 
     private final SmartBoolean enabled;
+    private final Compressor compressor;
 
     public Pump() {
         enabled = new SmartBoolean("Pump/Compressor Enabled", false);
+        compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     }
 
     // Start Compressing the Robot
@@ -36,10 +42,16 @@ public class Pump extends SubsystemBase {
     }
 
     // Set the compressor to on or off
-    public void set(boolean compressing) {}
+    public void set(boolean compressing) {
+        if (compressing) {
+            compressor.enableDigital();
+        } else {
+            compressor.disable();
+        }
+    }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        set(enabled.get());
     }
 }

@@ -5,24 +5,102 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
+
+import com.stuypulse.robot.Constants.ColorSensorSettings;
+import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
+import com.stuypulse.robot.Constants.Ports;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
- * Detects what color ball is in the [IDK]
+ * Detects what color ball is in the Conveyor.
  *
  * Contains:
- *      - TBD
+ *      - getCurrentBall()
+ *         - Gets current ball seen by subsystem.
+ *         - Returns CurrentBall enum
+ *      - gapHasAllianceBall()
+ *         - Checks if there is a ball and the ball is the correct alliance color
+ *         - Returns false if no ball or wrong Alliance color
+ *      - isBallPresent()
+ *         - Checks if there is a ball present
  *
- * @author [TBD]
+ * @author Vincent Wang
  */
 public class ColorSensor extends SubsystemBase {
+    public enum CurrentBall {
+        RED_BALL,
+        BLUE_BALL,
+        NO_BALL;
+    }
+
+    private final ColorMatch colorMatcher;
+
+    private final ColorSensorV3 colorSensor;
 
     public ColorSensor() {
-        // Initialize Motors, etc... here!
+        colorMatcher = new ColorMatch();
+        colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+        colorMatcher.addColorMatch(BallColor.BLUE);
+        colorMatcher.addColorMatch(BallColor.RED);
+    }
+
+    private Color getColor() {
+        return colorSensor.getColor();
+    }
+
+    private ColorMatchResult getMatchedColor() {
+        return colorMatcher.matchClosestColor(getColor());
+    }
+
+    public boolean hasBall() {
+        return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
+    }
+
+    public CurrentBall getCurrentBall() {
+        ColorMatchResult matched = getMatchedColor();
+        if (hasBall()) {
+            if (matched.color.equals(BallColor.RED)) {
+                return CurrentBall.RED_BALL;
+            }
+            if (matched.color.equals(BallColor.BLUE)) {
+                return CurrentBall.BLUE_BALL;
+            }
+        }
+        return CurrentBall.NO_BALL;
+    }
+
+    private CurrentBall getTargetBall() { 
+
+        switch(DriverStation.getAlliance()) {
+            case Blue:
+                return CurrentBall.BLUE_BALL;
+            case Red:
+                return CurrentBall.RED_BALL;
+            default:
+                return CurrentBall.NO_BALL;
+        }
+        
+    }
+
+    public boolean hasAllianceBall() {
+        // Choose not to store the alliance in order to avoid FMS initially giving
+        // faulty color
+        return hasBall() && getCurrentBall() == getTargetBall();   
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
+        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Alliance Ball", hasAllianceBall());
+        SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Any Ball", hasBall());
+
     }
 }
