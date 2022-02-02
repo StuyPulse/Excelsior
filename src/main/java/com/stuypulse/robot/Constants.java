@@ -70,17 +70,5 @@ public final class Constants {
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
 
         boolean MOTOR_INVERTED = false;
-        /*
-        //36 : 1
-
-        double GEAR_RATIO = 1.0 / 20.0;
-
-
-        double DIAMETER = 1.0; //encoder to motor 
-        double CIRCUMFERENCE = DIAMETER * Math.PI;
-        double CONVERSION_FACTOR = GEAR_RATIO * CIRCUMFERENCE;
-        */
-
-
     }
 }

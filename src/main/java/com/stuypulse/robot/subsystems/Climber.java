@@ -81,12 +81,12 @@ public class Climber extends SubsystemBase {
         topLimitSwitch = new DigitalInput(Constants.Ports.Climber.TOP_LIMIT_SWITCH);
     }
     
-    public void setClimberMotor(double speed) {
+    public void setMotor(double speed) {
         climber.set(speed);
     }
 
     public void setMotorStop() {
-        setClimberMotor(0.0);
+        setMotor(0.0);
     }
     
     public boolean getTopReached() {
@@ -115,7 +115,7 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Climber/LongSolenoid Extended", longSolenoid.get());
-            SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", longSolenoid.get());
+            SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", shortSolenoid.get());
             SmartDashboard.putBoolean("Climber/StopperSolenoid Active", stopper.get());
         } 
     }
