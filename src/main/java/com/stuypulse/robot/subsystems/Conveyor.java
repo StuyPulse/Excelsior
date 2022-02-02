@@ -32,7 +32,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * @author Ivan Wei (ivanw8288@gmail.com)
  * @author Ivan Chen (ivanchen07@gmail.com)
  * @author Tony Chen (tchenpersonal50@gmail.com)
- * @author Gus Watkins
+ * @author Gus Watkins (gus@guswatkins.net)
  * @author Kelvin Zhao (kzhao31@github)
  * @author Richie Xue (keobkeig/GlitchRich)
  * @author Rui Dong (ruidong0629@gmail.com)
@@ -51,7 +51,8 @@ public class Conveyor extends SubsystemBase {
     private final CANSparkMax gandalfMotor;    
 
     private final ColorSensor colorSensor;
-    private final DigitalInput irSensor;
+    private final DigitalInput gandalfIRSensor;
+    private final DigitalInput topIRSensor;
 
     /**
      * Creates a Conveyor subsystem
@@ -61,7 +62,8 @@ public class Conveyor extends SubsystemBase {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
         
         colorSensor = new ColorSensor();
-        irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
+        gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
+        topIRSensor = new DigitalInput(Ports.Conveyor.TOP_CONVEYOR_IR_SENSOR);
     }
 
     /**
@@ -94,7 +96,8 @@ public class Conveyor extends SubsystemBase {
     public void stopTopBelt() {
         topMotor.stopMotor();
     }
-
+    
+    // stub for perspicuity
     /**
      * Stops the Gandalf Motor
      */
@@ -123,15 +126,20 @@ public class Conveyor extends SubsystemBase {
      * @return if the upper IR Sensor has been tripped
      */
     public boolean getTopConveyorHasBall() {
-        return irSensor.get();
+        return topIRSensor.get();
     }
 
+    public boolean getGandalfHasBall() {
+        return gandalfIRSensor.get();
+    }
+    
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
             SmartDashboard.putBoolean("Conveyor/Top Conveyor Has Ball", getTopConveyorHasBall());
+            SmartDashboard.putBoolean("Conveyor/Gandalf Has Ball", getGandalfHasBall());
         }  
     }
 }
