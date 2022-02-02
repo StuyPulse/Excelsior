@@ -42,6 +42,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Jeff Chen (jeffc998866@gmail.com)
  * @author Sudipta Chakraborty (sudiptacc)
+ * @author Andrew Che (andrewtheemerald@gmail.com)
  * @author Niki Chen (nikichen6769@gmail.com)
  * @author Vincent Wang (vinowang921@gmail.com)
  */
@@ -119,6 +120,7 @@ public class Conveyor extends SubsystemBase {
      */
     private CurrentBall getCurrentBall() {
         return colorSensor.getCurrentBall();
+
     }
     
     /**
