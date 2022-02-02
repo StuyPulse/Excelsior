@@ -153,6 +153,8 @@ public interface Constants {
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
 
+        boolean USING_GRAYHILLS = true;
+
         interface Motion {
 
             DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
@@ -187,8 +189,10 @@ public interface Constants {
 
             double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 16.71);
             double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 4.55);
-    
-            CounterBase.EncodingType GRAYHILL_ENCODING = CounterBase.EncodingType.k4X;
+            
+            double GRAYHILL_GEAR_RATIO = Double.longBitsToDouble("Andrew".hashCode());
+            double GRAYHILL_PULSES_PER_REVOLUTION = 256;
+            double GRAYHILL_DISTANCE_PER_PULSE = GRAYHILL_GEAR_RATIO * WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION;
         }
     }
 }
