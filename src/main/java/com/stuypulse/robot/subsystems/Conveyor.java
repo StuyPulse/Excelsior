@@ -55,9 +55,6 @@ public class Conveyor extends SubsystemBase {
 
     private boolean shooting;
 
-    private boolean ejecting;
-    private boolean running;
-
     /** Creates a Conveyor subsystem */
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_CONVEYOR_MOTOR, MotorType.kBrushless);
@@ -67,9 +64,6 @@ public class Conveyor extends SubsystemBase {
         gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_CONVEYOR_IR_SENSOR);
         shooting = false;
-
-        ejecting = false;
-        running = false;
     }
 
     public boolean isShooting() {
@@ -107,47 +101,44 @@ public class Conveyor extends SubsystemBase {
         topMotor.stopMotor();
     }
 
-    // stub for perspicuity
     /** Stops the Gandalf Motor */
     private void stopGandalf() {
         gandalfMotor.stopMotor();
     }
 
-    /**
-     * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor
-     *
-     * @return if the upper IR Sensor has been tripped
-     */
+    /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     private boolean getTopConveyorUpperHasBall() {
         return topIRSensor.get();
     }
 
-    /**
-     * Finds if the lower IR Sensor has been tripped
-     *
-     * @return if the lower IR Sensor has been tripped
-     */
+    /** Finds if the lower IR Sensor has been tripped */
     private boolean getTopConveyorLowerHasBall() {
         return gandalfIRSensor.get();
     }
 
+    private boolean getEjecting() {
+        return colorSensor.hasOpponentBall();
+    }
+
+    private boolean getRunning() {
+        if (isShooting()) { // same as 3rd?
+            return true;
+        } else if (getTopConveyorUpperHasBall()) { // top IR
+            return false; // all motors are stopped according to logic tabl
+        } else if (colorSensor.hasAllianceBall()) { // good gap
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void periodic() {
+        // boolean bottomIRHasBall = getTopConveyorLowerHasBall();
+        // boolean topIRHasBall = getTopConveyorUpperHasBall();
 
-        //boolean bottomIRHasBall = getTopConveyorLowerHasBall();
-        //boolean topIRHasBall = getTopConveyorUpperHasBall();
-
-        ejecting = colorSensor.hasBall() && !colorSensor.hasAllianceBall();
-
-        if (isShooting()) { // same as 3rd?
-            running = true;
-        } else if (getTopConveyorUpperHasBall()) { // top IR
-            running = false; // all motors are stopped according to logic tabl
-        } else if (colorSensor.hasAllianceBall()) { // good gap
-            running = true;
-        } else { // default
-            running = false;
-        }
+        boolean ejecting = getEjecting();
+        boolean running = getRunning();
 
         // Gandalf
         if (ejecting) {

@@ -15,7 +15,6 @@ import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -77,9 +76,9 @@ public class ColorSensor extends SubsystemBase {
         return CurrentBall.NO_BALL;
     }
 
-    private CurrentBall getTargetBall() { 
+    private CurrentBall getTargetBall() {
 
-        switch(DriverStation.getAlliance()) {
+        switch (DriverStation.getAlliance()) {
             case Blue:
                 return CurrentBall.BLUE_BALL;
             case Red:
@@ -87,13 +86,16 @@ public class ColorSensor extends SubsystemBase {
             default:
                 return CurrentBall.NO_BALL;
         }
-        
     }
 
     public boolean hasAllianceBall() {
         // Choose not to store the alliance in order to avoid FMS initially giving
         // faulty color
-        return hasBall() && getCurrentBall() == getTargetBall();   
+        return hasBall() && getCurrentBall() == getTargetBall();
+    }
+
+    public boolean hasOpponentBall() {
+        return hasBall() && !hasAllianceBall();
     }
 
     @Override
@@ -101,6 +103,5 @@ public class ColorSensor extends SubsystemBase {
         colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
         SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Alliance Ball", hasAllianceBall());
         SmartDashboard.putBoolean("ColorSensor/Color Sensor Has Any Ball", hasBall());
-
     }
 }

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ConveyorStopShootCommand extends InstantCommand {
 
-    Conveyor conveyor;
+    private final Conveyor conveyor;
 
     public ConveyorStopShootCommand(Conveyor conveyor) {
         this.conveyor = conveyor;

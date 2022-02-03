@@ -10,7 +10,7 @@ import com.stuypulse.robot.subsystems.Conveyor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorShootCommand extends CommandBase {
-    Conveyor conveyor;
+    private final Conveyor conveyor;
 
     /** Creates a new ConveyorShootCommand. */
     public ConveyorShootCommand(Conveyor conveyor) {
