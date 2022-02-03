@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.Constants.*;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveCommand;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -58,6 +59,7 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
+        drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
     }
 
     private void configureButtonBindings() {
