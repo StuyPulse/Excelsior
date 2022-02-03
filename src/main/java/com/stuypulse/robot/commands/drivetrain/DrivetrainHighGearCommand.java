@@ -7,6 +7,8 @@ public class DrivetrainHighGearCommand extends InstantCommand{
 
     public DrivetrainHighGearCommand(Drivetrain drivetrain){
         this.drivetrain = drivetrain;
+
+        addRequirements(this.drivetrain);
     }
 
     @Override
