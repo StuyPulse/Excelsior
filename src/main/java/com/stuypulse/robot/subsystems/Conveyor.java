@@ -5,25 +5,21 @@
 
 package com.stuypulse.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
-import edu.wpi.first.wpilibj.DigitalInput;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-
 import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ConveyorSettings;
+import com.stuypulse.robot.Constants.Ports;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
  * The Conveyor subsystem is meant to transport team alliance balls from the intake to the shooter, while rejecting balls that are
  * of the opposing alliance's color.
- * 
+ *
  * Contains:
  * - A gandalf motor above a gap that will spin a wheel either out the back of the robot or upwards to the upper conveyor
  * - An upper conveyor (with a motor) that can hold a ball or transport balls to the shooter
@@ -48,105 +44,134 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
  * @author Vincent Wang (vinowang921@gmail.com)
  * @author Edmund Chin (edmundc421@gmail.com)
  */
- 
+
 public class Conveyor extends SubsystemBase {
     private final CANSparkMax topMotor;
-    private final CANSparkMax gandalfMotor;    
+    private final CANSparkMax gandalfMotor;
 
     private final ColorSensor colorSensor;
     private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
-    /**
-     * Creates a Conveyor subsystem
-     */
+    private boolean shooting;
+
+    private boolean ejecting;
+    private boolean running;
+
+    /** Creates a Conveyor subsystem */
     public Conveyor() {
         topMotor = new CANSparkMax(Ports.Conveyor.TOP_CONVEYOR_MOTOR, MotorType.kBrushless);
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
-        
+
         colorSensor = new ColorSensor();
         gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_CONVEYOR_IR_SENSOR);
+        shooting = false;
+
+        ejecting = false;
+        running = false;
+    }
+
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    public void setShoot(boolean shooting) {
+        this.shooting = shooting;
+    }
+
+    /** Spins the Top Conveyor Belt, moving the ball up to the shooter */
+    private void spinTopBelt() {
+        topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
     }
 
     /**
-     * Spins the Top Conveyor Belt, moving the ball up to the shooter
+     * Accept ball - spin the gandalf motor upwards to the top conveyor To be used when the ball is
+     * team alliance color
      */
-    public void spinTopBelt() {
-        topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
-    }
-    
-    /**
-     * Accept ball - spin the gandalf motor upwards to the top conveyor
-     * To be used when the ball is team alliance color
-     */
-    public void acceptBall() {
+    private void acceptBall() {
         gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
     }
-    
+
     /**
-     * Eject ball - spin the gandalf motor outwards
-     * To be used when the ball is opposing alliance color
+     * Eject ball - spin the gandalf motor outwards To be used when the ball is opposing alliance
+     * color
      */
-    public void rejectBall(){
+    private void rejectBall() {
         // If the ball is not of our alliance color, reject ball
         gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
     }
-    
-    /**
-     * Stops the Top Conveyor Belt
-     */
-    public void stopTopBelt() {
+
+    /** Stops the Top Conveyor Belt */
+    private void stopTopBelt() {
         topMotor.stopMotor();
     }
-    
+
     // stub for perspicuity
-    /**
-     * Stops the Gandalf Motor
-     */
-    public void stopGandalf() {
+    /** Stops the Gandalf Motor */
+    private void stopGandalf() {
         gandalfMotor.stopMotor();
     }
 
     /**
-     * Stop both the Top Conveyor Belt and the Gandalf Motor
-     */
-    public void stop() {
-        stopTopBelt();
-        stopGandalf();
-    }
-
-    /**
-     * Gets the color sensor that belongs to this conveyor
-     * @return this conveyor's color sensor
-     */
-    public ColorSensor getColorSensor() {
-        return colorSensor;
-    }
-    
-    /**
      * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor
+     *
      * @return if the upper IR Sensor has been tripped
      */
-    public boolean getTopConveyorUpperHasBall() {
+    private boolean getTopConveyorUpperHasBall() {
         return topIRSensor.get();
     }
 
-     /**
+    /**
      * Finds if the lower IR Sensor has been tripped
+     *
      * @return if the lower IR Sensor has been tripped
      */
-    public boolean getTopConveyorLowerHasBall() {
-        return gandalfIRSensor.get();   
+    private boolean getTopConveyorLowerHasBall() {
+        return gandalfIRSensor.get();
     }
-    
+
     @Override
     public void periodic() {
+
+        //boolean bottomIRHasBall = getTopConveyorLowerHasBall();
+        //boolean topIRHasBall = getTopConveyorUpperHasBall();
+
+        ejecting = colorSensor.hasBall() && !colorSensor.hasAllianceBall();
+
+        if (isShooting()) { // same as 3rd?
+            running = true;
+        } else if (getTopConveyorUpperHasBall()) { // top IR
+            running = false; // all motors are stopped according to logic tabl
+        } else if (colorSensor.hasAllianceBall()) { // good gap
+            running = true;
+        } else { // default
+            running = false;
+        }
+
+        // Gandalf
+        if (ejecting) {
+            rejectBall();
+        } else if (running) {
+            acceptBall();
+        } else {
+            stopGandalf();
+        }
+
+        // Top Conveyor Motor
+        if (running) {
+            spinTopBelt();
+        } else {
+            stopTopBelt();
+        }
+
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
-            SmartDashboard.putBoolean("Conveyor/Top Conveyor Upper IR Has Ball", getTopConveyorUpperHasBall());
-            SmartDashboard.putBoolean("Conveyor/Top Conveyor Lower IR Ball", getTopConveyorLowerHasBall());
-        }  
+            SmartDashboard.putBoolean(
+                    "Conveyor/Top Conveyor Upper IR Has Ball", getTopConveyorUpperHasBall());
+            SmartDashboard.putBoolean(
+                    "Conveyor/Top Conveyor Lower IR Ball", getTopConveyorLowerHasBall());
+        }
     }
 }
