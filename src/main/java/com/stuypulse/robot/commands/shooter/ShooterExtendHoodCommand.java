@@ -4,11 +4,11 @@ import com.stuypulse.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ExtendHoodCommand extends InstantCommand {
+public class ShooterExtendHoodCommand extends InstantCommand {
 
     private final Shooter shooter;
 
-    public ExtendHoodCommand (Shooter shooter) {
+    public ShooterExtendHoodCommand(Shooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }
