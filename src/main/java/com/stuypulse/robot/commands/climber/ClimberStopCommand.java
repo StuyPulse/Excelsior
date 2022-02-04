@@ -5,10 +5,11 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 import com.stuypulse.robot.subsystems.Climber;
 
-public class ClimberStopCommand extends CommandBase {
+public class ClimberStopCommand extends InstantCommand {
 
     private final Climber climber;
 
@@ -20,10 +21,6 @@ public class ClimberStopCommand extends CommandBase {
     @Override
     public void initialize() {
         climber.setMotorStop();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        climber.setMotorStop();    
+        climber.setClimberLocked();
     }
 }
