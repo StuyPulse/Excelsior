@@ -5,18 +5,12 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import com.stuypulse.robot.subsystems.Climber;
-import com.stuypulse.stuylib.util.StopWatch;
 import com.stuypulse.robot.Constants;
+import com.stuypulse.robot.subsystems.Climber;
 
 public class ClimberMoveDownCommand extends ClimberMoveCommand {
 
     public ClimberMoveDownCommand(Climber climber) {
         super(climber, Constants.ClimberSettings.CLIMBER_DEFAULT_SPEED, false);
     }
-    
 }

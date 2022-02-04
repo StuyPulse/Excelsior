@@ -1,3 +1,8 @@
+/************************ PROJECT DORCAS ************************/
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
+/* This work is licensed under the terms of the MIT license.    */
+/****************************************************************/
+
 package com.stuypulse.robot.commands.shooter;
 
 import com.stuypulse.robot.subsystems.Shooter;
@@ -8,7 +13,7 @@ public class ShooterSetRPMCommand extends InstantCommand {
 
     private final Shooter shooter;
     private Number targetRPM;
-    
+
     public ShooterSetRPMCommand(Shooter shooter, Number targetRPM) {
         this.shooter = shooter;
         this.targetRPM = targetRPM;
@@ -16,8 +21,7 @@ public class ShooterSetRPMCommand extends InstantCommand {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         shooter.setShooterRPM(targetRPM);
     }
-
 }

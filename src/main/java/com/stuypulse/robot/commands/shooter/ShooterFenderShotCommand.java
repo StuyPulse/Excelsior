@@ -1,3 +1,8 @@
+/************************ PROJECT DORCAS ************************/
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
+/* This work is licensed under the terms of the MIT license.    */
+/****************************************************************/
+
 package com.stuypulse.robot.commands.shooter;
 
 import com.stuypulse.robot.Constants.ShooterSettings;
@@ -11,5 +16,4 @@ public class ShooterFenderShotCommand extends ParallelCommandGroup {
         addCommands(new ShooterExtendHoodCommand(shooter));
         addCommands(new ShooterSetRPMCommand(shooter, ShooterSettings.FENDER_RPM));
     }
-    
 }

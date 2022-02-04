@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-
 public class ConveyorStopShootCommand extends InstantCommand {
 
     private final Conveyor conveyor;

@@ -7,11 +7,12 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
@@ -108,25 +109,22 @@ public class Drivetrain extends SubsystemBase {
         // Create list of encoders based on motors
         leftNEO = leftMotors[0].getEncoder();
         rightNEO = rightMotors[0].getEncoder();
-        setNEODistancePerRotation(Constants.DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
+        setNEODistancePerRotation(
+                Constants.DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
 
-        leftGrayhill = new Encoder(
-            Ports.Drivetrain.Encoders.LEFT_A, 
-            Ports.Drivetrain.Encoders.LEFT_B
-        );
+        leftGrayhill =
+                new Encoder(Ports.Drivetrain.Encoders.LEFT_A, Ports.Drivetrain.Encoders.LEFT_B);
 
-        rightGrayhill = new Encoder(
-            Ports.Drivetrain.Encoders.RIGHT_A,
-            Ports.Drivetrain.Encoders.RIGHT_B
-        );
-        setGrayhillDistancePerPulse(Constants.DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
+        rightGrayhill =
+                new Encoder(Ports.Drivetrain.Encoders.RIGHT_A, Ports.Drivetrain.Encoders.RIGHT_B);
+        setGrayhillDistancePerPulse(
+                Constants.DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
 
-        // TODO: this might not mean what I think it means (based on my understanading 
+        // TODO: this might not mean what I think it means (based on my understanading
         // of the docs, it is used for velocity, and not position) and 4 might not
-        // be  enough/ too little  
+        // be  enough/ too little
         // leftGrayhill.setVelocitySamples(4);
         // rightGrayhill.setVelocitySamples(4);
-
 
         // Make differential drive object
         drivetrain =

@@ -5,11 +5,12 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.stuypulse.robot.subsystems.Climber;
 import com.stuypulse.stuylib.util.StopWatch;
+
 import com.stuypulse.robot.Constants;
+import com.stuypulse.robot.subsystems.Climber;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimberMoveCommand extends CommandBase {
 
@@ -23,11 +24,11 @@ public class ClimberMoveCommand extends CommandBase {
         this.timer = new StopWatch();
         this.number = speed;
         this.movingUp = movingUp;
-        
+
         addRequirements(climber);
     }
-    
-    @Override 
+
+    @Override
     public void initialize() {
         timer.reset();
     }
@@ -35,9 +36,9 @@ public class ClimberMoveCommand extends CommandBase {
     @Override
     public void execute() {
         climber.setClimberUnlocked();
-        
+
         if (timer.getTime() > Constants.ClimberSettings.CLIMBER_DELAY.get()) {
-            if(movingUp) {
+            if (movingUp) {
                 climber.setMotor(+this.number.doubleValue());
             } else {
                 climber.setMotor(-this.number.doubleValue());

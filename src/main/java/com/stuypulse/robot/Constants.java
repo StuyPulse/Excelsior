@@ -15,7 +15,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import java.nio.file.Path;
@@ -41,7 +40,6 @@ public interface Constants {
             int OPERATOR = 1;
             int DEBUGGER = 2;
         }
-
 
         public interface Drivetrain {
             int LEFT_TOP = 10;
@@ -77,7 +75,7 @@ public interface Constants {
             int SOLENOID_STOPPER = -1;
 
             int MOTOR = 50;
-            
+
             int BOTTOM_LIMIT_SWITCH = -1;
             int TOP_LIMIT_SWITCH = -1;
         }
@@ -91,11 +89,10 @@ public interface Constants {
         public interface Conveyor {
             int TOP_CONVEYOR_MOTOR = 31;
             int GANDALF_MOTOR = 30;
-            
+
             int COLOR_SENSOR = -1;
             int GANDALF_IR_SENSOR = -1;
             int TOP_CONVEYOR_IR_SENSOR = -1;
-            
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -106,7 +103,7 @@ public interface Constants {
             Color RED = new Color(0.5432, 0.3401, 0.1169);
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
-        
+
         SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
     }
 
@@ -201,7 +198,7 @@ public interface Constants {
 
                 public interface Stages {
                     double INITIAL_STAGE = (11.0 / 50.0);
-                    
+
                     double HIGH_GEAR_STAGE = (50.0 / 34.0);
                     double LOW_GEAR_STAGE = (24.0 / 60.0);
 
@@ -212,34 +209,36 @@ public interface Constants {
                     double GRAYHILL_STAGE = (12.0 / 36.0);
                 }
 
-                double LOW_GEAR_NEO_TO_WHEEL = 
-                                    Stages.INITIAL_STAGE * 
-                                    Stages.LOW_GEAR_STAGE *
-                                    Stages.THIRD_STAGE *
-                                    Stages.EXTERNAL_STAGE;
+                double LOW_GEAR_NEO_TO_WHEEL =
+                        Stages.INITIAL_STAGE
+                                * Stages.LOW_GEAR_STAGE
+                                * Stages.THIRD_STAGE
+                                * Stages.EXTERNAL_STAGE;
 
-                double HIGH_GEAR_NEO_TO_WHEEL = 
-                                    Stages.INITIAL_STAGE * 
-                                    Stages.HIGH_GEAR_STAGE *
-                                    Stages.THIRD_STAGE *
-                                    Stages.EXTERNAL_STAGE;
+                double HIGH_GEAR_NEO_TO_WHEEL =
+                        Stages.INITIAL_STAGE
+                                * Stages.HIGH_GEAR_STAGE
+                                * Stages.THIRD_STAGE
+                                * Stages.EXTERNAL_STAGE;
 
-                double GRAYHILL_TO_WHEEL = 
-                                    Stages.GRAYHILL_STAGE *
-                                    Stages.EXTERNAL_STAGE;
+                double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.EXTERNAL_STAGE;
             }
 
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
-            double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * GearRatio.LOW_GEAR_NEO_TO_WHEEL;
-            double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * GearRatio.HIGH_GEAR_NEO_TO_WHEEL;
-            
+            double LOW_GEAR_DISTANCE_PER_ROTATION =
+                    WHEEL_CIRCUMFERENCE * GearRatio.LOW_GEAR_NEO_TO_WHEEL;
+            double HIGH_GEAR_DISTANCE_PER_ROTATION =
+                    WHEEL_CIRCUMFERENCE * GearRatio.HIGH_GEAR_NEO_TO_WHEEL;
+
             double GRAYHILL_PULSES_PER_REVOLUTION = 256;
-            double GRAYHILL_DISTANCE_PER_PULSE = (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION) * GearRatio.GRAYHILL_TO_WHEEL;
+            double GRAYHILL_DISTANCE_PER_PULSE =
+                    (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
+                            * GearRatio.GRAYHILL_TO_WHEEL;
         }
     }
-  
+
     public interface ClimberSettings {
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", -2);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
@@ -247,7 +246,5 @@ public interface Constants {
         SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
 
         boolean MOTOR_INVERTED = false;
-
-
     }
 }

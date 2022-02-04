@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-
 public class ConveyorShootCommand extends CommandBase {
     private final Conveyor conveyor;
 

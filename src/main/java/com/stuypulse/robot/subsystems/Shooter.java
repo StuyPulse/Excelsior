@@ -5,14 +5,16 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.stuylib.network.SmartNumber;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ShooterSettings;
-import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -39,9 +41,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *      @author Nicky Lin
  */
 public class Shooter extends SubsystemBase {
-    
+
     private final SmartNumber targetRPM;
-    private final static CANSparkMax.ControlType MODE = CANSparkMax.ControlType.kVelocity;
+    private static final CANSparkMax.ControlType MODE = CANSparkMax.ControlType.kVelocity;
 
     // Motors
     private final CANSparkMax shooterMotor;
@@ -95,7 +97,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getShooterRPM() {
-        return Math.abs(shooterEncoder.getVelocity());    
+        return Math.abs(shooterEncoder.getVelocity());
     }
 
     public double getFeederRPM() {

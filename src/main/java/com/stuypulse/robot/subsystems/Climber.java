@@ -5,16 +5,12 @@
 
 package com.stuypulse.robot.subsystems;
 
-import java.io.Console;
-
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import com.stuypulse.robot.Constants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,7 +41,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Climber extends SubsystemBase {
 
     public enum Tilt {
-        // first param is shorter, second is longer 
+        // first param is shorter, second is longer
         MAX_TILT(true, true),
         NO_TILT(false, false),
         PARTIAL_TILT(true, false);
@@ -56,7 +52,7 @@ public class Climber extends SubsystemBase {
         private Tilt(boolean shorterExtended, boolean longerExtended) {
             this.shorterExtended = shorterExtended;
             this.longerExtended = longerExtended;
-        }  
+        }
     }
 
     private Solenoid longSolenoid;
@@ -73,14 +69,18 @@ public class Climber extends SubsystemBase {
         climber = new CANSparkMax(Constants.Ports.Climber.MOTOR, MotorType.kBrushless);
         climber.setInverted(Constants.ClimberSettings.MOTOR_INVERTED);
 
-        longSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_LONG);
-        shortSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_SHORT);
-        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_STOPPER);
+        longSolenoid =
+                new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_LONG);
+        shortSolenoid =
+                new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_SHORT);
+        stopper =
+                new Solenoid(
+                        PneumaticsModuleType.CTREPCM, Constants.Ports.Climber.SOLENOID_STOPPER);
 
         bottomLimitSwitch = new DigitalInput(Constants.Ports.Climber.BOTTOM_LIMIT_SWITCH);
         topLimitSwitch = new DigitalInput(Constants.Ports.Climber.TOP_LIMIT_SWITCH);
     }
-    
+
     public void setMotor(double speed) {
         climber.set(speed);
     }
@@ -88,9 +88,9 @@ public class Climber extends SubsystemBase {
     public void setMotorStop() {
         setMotor(0.0);
     }
-    
+
     public boolean getTopReached() {
-        return topLimitSwitch.get(); 
+        return topLimitSwitch.get();
     }
 
     public boolean getBottomReached() {
@@ -117,6 +117,6 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Climber/LongSolenoid Extended", longSolenoid.get());
             SmartDashboard.putBoolean("Climber/ShortSolenoid Extended", shortSolenoid.get());
             SmartDashboard.putBoolean("Climber/StopperSolenoid Active", stopper.get());
-        } 
+        }
     }
 }

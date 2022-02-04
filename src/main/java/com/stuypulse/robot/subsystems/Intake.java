@@ -7,12 +7,13 @@ package com.stuypulse.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import com.stuypulse.robot.Constants.IntakeSettings;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
@@ -28,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * @author Brandon Chao
  * @author Crystal Yang
  * @author Mandy Wang
- * @author Vincent Zheng 
+ * @author Vincent Zheng
  * @author Naf Murtaza
  * @author Orion Xiang
  * @author Ethan Liu
@@ -42,7 +43,11 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.Intake.SOLENOID_A, Ports.Intake.SOLENOID_B);
+        solenoid =
+                new DoubleSolenoid(
+                        PneumaticsModuleType.CTREPCM,
+                        Ports.Intake.SOLENOID_A,
+                        Ports.Intake.SOLENOID_B);
 
         addChild("Double Solenoid", solenoid);
     }
