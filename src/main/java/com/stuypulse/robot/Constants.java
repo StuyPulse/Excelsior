@@ -42,6 +42,7 @@ public interface Constants {
             int DEBUGGER = 2;
         }
 
+
         public interface Drivetrain {
             int LEFT_TOP = 10;
             int LEFT_MIDDLE = 11;
@@ -74,7 +75,7 @@ public interface Constants {
         }
 
         public interface Intake {
-            int MOTOR= -1;
+            int MOTOR = -1;
             int SOLENOID_A = -1;
             int SOLENOID_B = -1;
         }
@@ -84,7 +85,9 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             
             int COLOR_SENSOR = -1;
-            int IR_SENSOR = -1;
+            int GANDALF_IR_SENSOR = -1;
+            int TOP_CONVEYOR_IR_SENSOR = -1;
+            
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
