@@ -7,12 +7,11 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
@@ -22,6 +21,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -70,8 +70,12 @@ public class Drivetrain extends SubsystemBase {
     private CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
+
     private RelativeEncoder leftNEO;
     private RelativeEncoder rightNEO;
+
+    private Encoder leftGrayhill;
+    private Encoder rightGrayhill;
 
     // DifferentialDrive and Gear Information
     private Gear gear;
@@ -104,9 +108,25 @@ public class Drivetrain extends SubsystemBase {
         // Create list of encoders based on motors
         leftNEO = leftMotors[0].getEncoder();
         rightNEO = rightMotors[0].getEncoder();
+        setNEODistancePerRotation(Constants.DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
 
-        leftNEO.setPosition(0);
-        rightNEO.setPosition(0);
+        leftGrayhill = new Encoder(
+            Ports.Drivetrain.Encoders.LEFT_A, 
+            Ports.Drivetrain.Encoders.LEFT_B
+        );
+
+        rightGrayhill = new Encoder(
+            Ports.Drivetrain.Encoders.RIGHT_A,
+            Ports.Drivetrain.Encoders.RIGHT_B
+        );
+        setGrayhillDistancePerPulse(Constants.DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
+
+        // TODO: this might not mean what I think it means (based on my understanading 
+        // of the docs, it is used for velocity, and not position) and 4 might not
+        // be  enough/ too little  
+        // leftGrayhill.setVelocitySamples(4);
+        // rightGrayhill.setVelocitySamples(4);
+
 
         // Make differential drive object
         drivetrain =
@@ -145,9 +165,20 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     // Set the distance traveled in one rotation of the motor
-    public void setNEODistancePerRotation(double distance) {
+    private void setNEODistancePerRotation(double distance) {
         leftNEO.setPositionConversionFactor(distance);
+        leftNEO.setPosition(0);
+
         rightNEO.setPositionConversionFactor(distance);
+        rightNEO.setPosition(0);
+    }
+
+    private void setGrayhillDistancePerPulse(double distance) {
+        rightGrayhill.setDistancePerPulse(distance);
+        rightGrayhill.reset();
+
+        leftGrayhill.setDistancePerPulse(distance);
+        leftGrayhill.reset();
     }
 
     // Set the smart current limit of all the motors
@@ -175,11 +206,13 @@ public class Drivetrain extends SubsystemBase {
     // Set isInverted of all the motors
     public void setInverted(boolean leftSide, boolean rightSide) {
         leftNEO.setInverted(leftSide);
+        leftGrayhill.setReverseDirection(leftSide);
         for (CANSparkMax motor : leftMotors) {
             motor.setInverted(leftSide);
         }
 
         rightNEO.setInverted(rightSide);
+        rightGrayhill.setReverseDirection(rightSide);
         for (CANSparkMax motor : rightMotors) {
             motor.setInverted(rightSide);
         }
@@ -196,6 +229,8 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
+        // TODO: just note here, reset is the biggest change
+
         if (this.gear != gear) {
             this.gear = gear;
             if (this.gear == Gear.HIGH) {
@@ -244,13 +279,17 @@ public class Drivetrain extends SubsystemBase {
      * ENCODER FUNCTIONS *
      *********************/
 
+    private boolean getUsingGrayhills() {
+        return Constants.DrivetrainSettings.USING_GRAYHILLS;
+    }
+
     // Distance
     public double getLeftDistance() {
-        return leftNEO.getPosition();
+        return getUsingGrayhills() ? leftGrayhill.getDistance() : leftNEO.getPosition();
     }
 
     public double getRightDistance() {
-        return rightNEO.getPosition();
+        return getUsingGrayhills() ? rightGrayhill.getDistance() : rightNEO.getPosition();
     }
 
     public double getDistance() {
@@ -259,11 +298,11 @@ public class Drivetrain extends SubsystemBase {
 
     // Velocity
     public double getLeftVelocity() {
-        return leftNEO.getVelocity();
+        return getUsingGrayhills() ? leftGrayhill.getRate() : leftNEO.getVelocity();
     }
 
     public double getRightVelocity() {
-        return rightNEO.getVelocity();
+        return getUsingGrayhills() ? rightGrayhill.getRate() : rightNEO.getVelocity();
     }
 
     public double getVelocity() {
@@ -315,8 +354,12 @@ public class Drivetrain extends SubsystemBase {
 
     public void reset(Pose2d location) {
         resetNavX();
+
+        leftGrayhill.reset();
+        rightGrayhill.reset();
         leftNEO.setPosition(0);
         rightNEO.setPosition(0);
+
         odometry.resetPosition(location, getAngle().getRotation2d());
     }
 

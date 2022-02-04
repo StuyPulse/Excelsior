@@ -11,6 +11,9 @@ import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.Constants.*;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainHighGearCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainLowGearCommand;
 import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
 import com.stuypulse.robot.subsystems.*;
 
@@ -46,7 +49,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Disable telementry to reduce lag
         LiveWindow.disableAllTelemetry();
-        DriverStation.getInstance().silenceJoystickConnectionWarning(true);
+        DriverStation.silenceJoystickConnectionWarning(true);
 
         // Set pump to false to avoid warning
         pump.set(false);
@@ -59,10 +62,13 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
+        drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
     }
 
     private void configureButtonBindings() {
         // TODO: ADD BUTTON BINDINGS
+        driver.getRightButton().whenPressed(new DrivetrainLowGearCommand(drivetrain));
+        driver.getRightButton().whenReleased(new DrivetrainHighGearCommand(drivetrain));
     }
 
     public void configureAutons() {

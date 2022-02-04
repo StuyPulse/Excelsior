@@ -53,6 +53,14 @@ public interface Constants {
             int RIGHT_BOTTOM = 15;
 
             int GEAR_SHIFT = -1;
+
+            interface Encoders {
+                int LEFT_A = -1;
+                int LEFT_B = -1;
+
+                int RIGHT_A = -1;
+                int RIGHT_B = -1;
+            }
         }
 
         public interface Shooter {
@@ -149,13 +157,15 @@ public interface Constants {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Current Limit for the motors
-        int CURRENT_LIMIT = 30; // TODO: figure out SMART current limit
+        int CURRENT_LIMIT = 30;
 
         // If the motors are inverted
         boolean IS_INVERTED = true;
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
+
+        boolean USING_GRAYHILLS = true;
 
         interface Motion {
 
@@ -186,11 +196,47 @@ public interface Constants {
 
         // Encoder Constants
         public interface Encoders {
+
+            public interface GearRatio {
+
+                public interface Stages {
+                    double INITIAL_STAGE = (11.0 / 50.0);
+                    
+                    double HIGH_GEAR_STAGE = (50.0 / 34.0);
+                    double LOW_GEAR_STAGE = (24.0 / 60.0);
+
+                    double THIRD_STAGE = (34.0 / 50.0);
+
+                    double EXTERNAL_STAGE = (1.0 / 1.0);
+
+                    double GRAYHILL_STAGE = (12.0 / 36.0);
+                }
+
+                double LOW_GEAR_NEO_TO_WHEEL = 
+                                    Stages.INITIAL_STAGE * 
+                                    Stages.LOW_GEAR_STAGE *
+                                    Stages.THIRD_STAGE *
+                                    Stages.EXTERNAL_STAGE;
+
+                double HIGH_GEAR_NEO_TO_WHEEL = 
+                                    Stages.INITIAL_STAGE * 
+                                    Stages.HIGH_GEAR_STAGE *
+                                    Stages.THIRD_STAGE *
+                                    Stages.EXTERNAL_STAGE;
+
+                double GRAYHILL_TO_WHEEL = 
+                                    Stages.GRAYHILL_STAGE *
+                                    Stages.EXTERNAL_STAGE;
+            }
+
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
-            double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 16.71);
-            double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * (1.0 / 4.55);
+            double LOW_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * GearRatio.LOW_GEAR_NEO_TO_WHEEL;
+            double HIGH_GEAR_DISTANCE_PER_ROTATION = WHEEL_CIRCUMFERENCE * GearRatio.HIGH_GEAR_NEO_TO_WHEEL;
+            
+            double GRAYHILL_PULSES_PER_REVOLUTION = 256;
+            double GRAYHILL_DISTANCE_PER_PULSE = (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION) * GearRatio.GRAYHILL_TO_WHEEL;
         }
     }
   
