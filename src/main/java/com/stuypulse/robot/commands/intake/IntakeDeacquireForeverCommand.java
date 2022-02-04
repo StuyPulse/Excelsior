@@ -14,7 +14,7 @@ public class IntakeDeacquireForeverCommand extends InstantCommand {
 	}
 
 	@Override
-	public void execute() {
+	public void initialize() {
 		intake.deacquire();
 	}
 }

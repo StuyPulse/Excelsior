@@ -14,7 +14,7 @@ public class IntakeExtendCommand extends InstantCommand {
 	}
 
 	@Override
-	public void execute() {
+	public void initialize() {
 		intake.extend();
 	}
 }
