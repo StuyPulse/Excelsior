@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import java.nio.file.Path;
@@ -40,6 +41,7 @@ public interface Constants {
             int OPERATOR = 1;
             int DEBUGGER = 2;
         }
+
 
         public interface Drivetrain {
             int LEFT_TOP = 10;
@@ -69,10 +71,19 @@ public interface Constants {
             int HOOD_SOLENOID = -1;
         }
 
-        public interface Climber {}
+        public interface Climber {
+            int SOLENOID_LONG = -1;
+            int SOLENOID_SHORT = -1;
+            int SOLENOID_STOPPER = -1;
+
+            int MOTOR = 50;
+            
+            int BOTTOM_LIMIT_SWITCH = -1;
+            int TOP_LIMIT_SWITCH = -1;
+        }
 
         public interface Intake {
-            int MOTOR= -1;
+            int MOTOR = -1;
             int SOLENOID_A = -1;
             int SOLENOID_B = -1;
         }
@@ -82,7 +93,9 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             
             int COLOR_SENSOR = -1;
-            int IR_SENSOR = -1;
+            int GANDALF_IR_SENSOR = -1;
+            int TOP_CONVEYOR_IR_SENSOR = -1;
+            
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -225,5 +238,16 @@ public interface Constants {
             double GRAYHILL_PULSES_PER_REVOLUTION = 256;
             double GRAYHILL_DISTANCE_PER_PULSE = (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION) * GearRatio.GRAYHILL_TO_WHEEL;
         }
+    }
+  
+    public interface ClimberSettings {
+        SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", -2);
+        SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
+
+        SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
+
+        boolean MOTOR_INVERTED = false;
+
+
     }
 }

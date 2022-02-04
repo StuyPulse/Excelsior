@@ -14,6 +14,7 @@ import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainHighGearCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainLowGearCommand;
+import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
