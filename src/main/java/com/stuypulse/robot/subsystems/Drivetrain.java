@@ -71,8 +71,6 @@ public class Drivetrain extends SubsystemBase {
 
     // An encoder for each side of the drive train
 
-    // NOTE: the types are different than just SLEncoder just 
-    // if something goes only in NEO/WPIEncoder
     private RelativeEncoder leftNEO;
     private RelativeEncoder rightNEO;
 
@@ -169,12 +167,18 @@ public class Drivetrain extends SubsystemBase {
     // Set the distance traveled in one rotation of the motor
     private void setNEODistancePerRotation(double distance) {
         leftNEO.setPositionConversionFactor(distance);
+        leftNEO.setPosition(0);
+
         rightNEO.setPositionConversionFactor(distance);
+        rightNEO.setPosition(0);
     }
 
     private void setGrayhillDistancePerPulse(double distance) {
         rightGrayhill.setDistancePerPulse(distance);
+        rightGrayhill.reset();
+
         leftGrayhill.setDistancePerPulse(distance);
+        leftGrayhill.reset();
     }
 
     // Set the smart current limit of all the motors
