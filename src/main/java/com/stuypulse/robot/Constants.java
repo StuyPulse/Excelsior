@@ -195,6 +195,10 @@ public interface Constants {
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", -2);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
 
+        SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
+
         boolean MOTOR_INVERTED = false;
+
+
     }
 }
