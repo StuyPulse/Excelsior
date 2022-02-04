@@ -36,7 +36,6 @@ public class ConveyorStopShootCommand extends InstantCommand {
 
     public ConveyorStopShootCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
-        addRequirements(conveyor);
     }
 
     @Override

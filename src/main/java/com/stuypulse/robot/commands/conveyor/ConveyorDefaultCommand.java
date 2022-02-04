@@ -34,7 +34,6 @@ public class ConveyorDefaultCommand extends CommandBase {
   /** Creates a new ConveyorDefaultCommand. */
   public ConveyorDefaultCommand(Conveyor conveyor) {
     this.conveyor = conveyor;
-
     addRequirements(conveyor);
   }
 

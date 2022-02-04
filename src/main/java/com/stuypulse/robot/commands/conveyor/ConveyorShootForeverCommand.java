@@ -36,7 +36,6 @@ public class ConveyorShootForeverCommand extends InstantCommand {
 
     public ConveyorShootForeverCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
-        addRequirements(conveyor);
     }
 
     @Override

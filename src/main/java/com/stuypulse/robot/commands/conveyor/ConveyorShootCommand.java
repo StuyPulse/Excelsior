@@ -36,7 +36,6 @@ public class ConveyorShootCommand extends CommandBase {
     /** Creates a new ConveyorShootCommand. */
     public ConveyorShootCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
-        addRequirements(conveyor);
     }
 
     @Override
