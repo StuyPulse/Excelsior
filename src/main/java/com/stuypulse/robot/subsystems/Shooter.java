@@ -90,11 +90,7 @@ public class Shooter extends SubsystemBase {
         hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
 
-    public void setShooterRPM(SmartNumber speed) {
-        targetRPM.set(speed);
-    }
-
-    public void setShooterRPM(double speed) {
+    public void setShooterRPM(Number speed) {
         targetRPM.set(speed);
     }
 
