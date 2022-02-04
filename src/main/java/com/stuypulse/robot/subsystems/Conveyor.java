@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * - An upper conveyor (with a motor) that can hold a ball or transport balls to the shooter
  * - A color sensor that detects the color of the ball held in the gap near the gandalf motor
  * - An IR Sensor that detects the presence of a ball in the upper conveyor
- *`
+ *
  * @author Ivan Wei (ivanw8288@gmail.com)
  * @author Ivan Chen (ivanchen07@gmail.com)
  * @author Tony Chen (tchenpersonal50@gmail.com)
@@ -53,7 +53,7 @@ public class Conveyor extends SubsystemBase {
     private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
-    private boolean shooting;
+    public boolean shooting;
 
     /** Creates a Conveyor subsystem */
     public Conveyor() {
@@ -75,7 +75,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter */
-    private void spinTopBelt() {
+    public void spinTopBelt() {
         topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
     }
 
@@ -83,7 +83,7 @@ public class Conveyor extends SubsystemBase {
      * Accept ball - spin the gandalf motor upwards to the top conveyor To be used when the ball is
      * team alliance color
      */
-    private void acceptBall() {
+    public void acceptBall() {
         gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
     }
 
@@ -91,36 +91,36 @@ public class Conveyor extends SubsystemBase {
      * Eject ball - spin the gandalf motor outwards To be used when the ball is opposing alliance
      * color
      */
-    private void rejectBall() {
+    public void rejectBall() {
         // If the ball is not of our alliance color, reject ball
         gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
     }
 
     /** Stops the Top Conveyor Belt */
-    private void stopTopBelt() {
+    public void stopTopBelt() {
         topMotor.stopMotor();
     }
 
     /** Stops the Gandalf Motor */
-    private void stopGandalf() {
+    public void stopGandalf() {
         gandalfMotor.stopMotor();
     }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
-    private boolean getTopConveyorUpperHasBall() {
+    public boolean getTopConveyorUpperHasBall() {
         return topIRSensor.get();
     }
 
     /** Finds if the lower IR Sensor has been tripped */
-    private boolean getTopConveyorLowerHasBall() {
+    public boolean getTopConveyorLowerHasBall() {
         return gandalfIRSensor.get();
     }
 
-    private boolean getEjecting() {
+    public boolean getGandalfShouldEject() {
         return colorSensor.hasOpponentBall();
     }
 
-    private boolean getRunning() {
+    public boolean getBothShouldRun() {
         if (isShooting()) { // same as 3rd?
             return true;
         } else if (getTopConveyorUpperHasBall()) { // top IR
@@ -134,28 +134,6 @@ public class Conveyor extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // boolean bottomIRHasBall = getTopConveyorLowerHasBall();
-        // boolean topIRHasBall = getTopConveyorUpperHasBall();
-
-        boolean ejecting = getEjecting();
-        boolean running = getRunning();
-
-        // Gandalf
-        if (ejecting) {
-            rejectBall();
-        } else if (running) {
-            acceptBall();
-        } else {
-            stopGandalf();
-        }
-
-        // Top Conveyor Motor
-        if (running) {
-            spinTopBelt();
-        } else {
-            stopTopBelt();
-        }
-
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
             SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());

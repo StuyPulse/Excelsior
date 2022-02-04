@@ -9,20 +9,36 @@ import com.stuypulse.robot.subsystems.Conveyor;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+/*
+ * @author Ivan Wei (ivanw8288@gmail.com)
+ * @author Ivan Chen (ivanchen07@gmail.com)
+ * @author Tony Chen (tchenpersonal50@gmail.com)
+ * @author Gus Watkins (gus@guswatkins.net)
+ * @author Kelvin Zhao (kzhao31@github)
+ * @author Richie Xue (keobkeig/GlitchRich)
+ * @author Rui Dong (ruidong0629@gmail.com)
+ * @author Anthony Chen (achen318)
+ * @author Joseph Mei (Gliese667Cc/SaggyTroy)
+ * @author Eric Lin (ericlin071906@gmail.com)
+ * @author Carmin Vuong (carminvuong@gmail.com)
+ * @author Jeff Chen (jeffc998866@gmail.com)
+ * @author Sudipta Chakraborty (sudiptacc)
+ * @author Andrew Che (andrewtheemerald@gmail.com)
+ * @author Niki Chen (nikichen6769@gmail.com)
+ * @author Vincent Wang (vinowang921@gmail.com)
+ * @author Edmund Chin (edmundc421@gmail.com)
+ */
+
+
 public class ConveyorStopShootCommand extends InstantCommand {
 
     private final Conveyor conveyor;
 
     public ConveyorStopShootCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
-        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(conveyor);
     }
 
-    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         conveyor.setShoot(false);
