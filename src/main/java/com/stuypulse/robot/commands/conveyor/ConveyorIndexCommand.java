@@ -40,9 +40,6 @@ public class ConveyorIndexCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
     public void execute() {
         boolean ejecting = conveyor.getGandalfShouldEject();
         boolean running = conveyor.getBothShouldRun();
