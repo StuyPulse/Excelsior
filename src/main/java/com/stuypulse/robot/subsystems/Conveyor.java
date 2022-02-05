@@ -5,9 +5,6 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.ConveyorSettings;
 import com.stuypulse.robot.Constants.Ports;
@@ -15,6 +12,9 @@ import com.stuypulse.robot.Constants.Ports;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*-
  * The Conveyor subsystem is meant to transport team alliance balls from the intake to the shooter, while rejecting balls that are
@@ -109,7 +109,9 @@ public class Conveyor extends SubsystemBase {
         return gandalfIRSensor.get();
     }
 
-    /** Marks the conveyor as in a shooting state, forcing both motors to run except when rejecting */
+    /**
+     * Marks the conveyor as in a shooting state, forcing both motors to run except when rejecting
+     */
     public void setShoot(boolean shooting) {
         this.shooting = shooting;
     }
@@ -119,12 +121,18 @@ public class Conveyor extends SubsystemBase {
         return shooting;
     }
 
-    /** Returns if an opponent ball is in the ejection gap, meaning that the gandalf motor should always be spinning out */
+    /**
+     * Returns if an opponent ball is in the ejection gap, meaning that the gandalf motor should
+     * always be spinning out
+     */
     public boolean getGandalfShouldEject() {
         return colorSensor.hasOpponentBall();
     }
 
-    /** Returns, based on the flow chart attached to the repo, if both motors should be running or not; overriden by getGandalfShouldEject() for gandalf motor */
+    /**
+     * Returns, based on the flow chart attached to the repo, if both motors should be running or
+     * not; overriden by getGandalfShouldEject() for gandalf motor
+     */
     public boolean getBothShouldRun() {
         if (isShooting()) {
             return true;
@@ -142,10 +150,8 @@ public class Conveyor extends SubsystemBase {
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Conveyor/Top Belt Speed", topBeltMotor.get());
             SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
-            SmartDashboard.putBoolean(
-                    "Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
-            SmartDashboard.putBoolean(
-                    "Conveyor/Top Belt Lower IR Ball", getGandalfHasBall());
+            SmartDashboard.putBoolean("Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
+            SmartDashboard.putBoolean("Conveyor/Top Belt Lower IR Ball", getGandalfHasBall());
         }
     }
 }

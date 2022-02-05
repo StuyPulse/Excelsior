@@ -5,9 +5,6 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
-import com.revrobotics.ColorSensorV3;
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.ColorSensorSettings;
 import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
@@ -17,6 +14,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
 
 /*-
  * Detects what color ball is in the Conveyor.
@@ -73,7 +74,7 @@ public class ColorSensor extends SubsystemBase {
         }
         if (matched.color.equals(BallColor.RED)) {
             return CurrentBall.RED_BALL;
-        }    
+        }
         return CurrentBall.BLUE_BALL;
     }
 

@@ -5,13 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.stuylib.network.SmartNumber;
-
-import com.revrobotics.CANSparkMax;
 import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.Ports;
@@ -21,6 +17,11 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 
 /*-
  * Shoots balls out of the robot

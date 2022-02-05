@@ -38,7 +38,7 @@ public class ClimberMoveCommand extends CommandBase {
         climber.setClimberUnlocked();
         if (timer.getTime() < Constants.ClimberSettings.CLIMBER_DELAY.get()) {
             climber.setMotorStop();
-        } else if(movingUp) {
+        } else if (movingUp) {
             climber.setMotor(+this.number.doubleValue());
         } else {
             climber.setMotor(-this.number.doubleValue());

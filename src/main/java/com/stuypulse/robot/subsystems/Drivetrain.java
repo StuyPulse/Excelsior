@@ -8,12 +8,6 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
 
-import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
 import com.stuypulse.robot.Constants.Ports;
@@ -23,17 +17,24 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.kauailabs.navx.frc.AHRS;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 /*-
  * Moves the robot around
@@ -136,11 +137,11 @@ public class Drivetrain extends SubsystemBase {
                         new MotorControllerGroup(rightMotors));
 
         // Add Gear Shifter
-        gearShift = new DoubleSolenoid(
-            PneumaticsModuleType.CTREPCM, 
-            Ports.Drivetrain.GEAR_SHIFT_A, 
-            Ports.Drivetrain.GEAR_SHIFT_B
-        );
+        gearShift =
+                new DoubleSolenoid(
+                        PneumaticsModuleType.CTREPCM,
+                        Ports.Drivetrain.GEAR_SHIFT_A,
+                        Ports.Drivetrain.GEAR_SHIFT_B);
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
@@ -166,11 +167,13 @@ public class Drivetrain extends SubsystemBase {
     // Set the distance traveled in one rotation of the motor
     private void setNEODistancePerRotation(double distancePerRotation) {
         leftNEO.setPositionConversionFactor(distancePerRotation);
-        leftNEO.setVelocityConversionFactor((1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
+        leftNEO.setVelocityConversionFactor(
+                (1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
         leftNEO.setPosition(0);
 
         rightNEO.setPositionConversionFactor(distancePerRotation);
-        rightNEO.setVelocityConversionFactor((1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
+        rightNEO.setVelocityConversionFactor(
+                (1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
         rightNEO.setPosition(0);
     }
 
@@ -256,7 +259,6 @@ public class Drivetrain extends SubsystemBase {
         setGear(Gear.HIGH);
     }
 
-
     /*********************
      * ENCODER FUNCTIONS *
      *********************/
@@ -304,7 +306,7 @@ public class Drivetrain extends SubsystemBase {
         return navx.getAngle();
     }
 
-    // Gets current Angle of the Robot 
+    // Gets current Angle of the Robot
     public Angle getGyroAngle() {
         return Angle.fromDegrees(getRawGyroAngle());
     }
@@ -479,8 +481,10 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber("Drivetrain/NEO Distance Left (m)", leftNEO.getPosition());
             SmartDashboard.putNumber("Drivetrain/NEO Distance Right (m)", rightNEO.getPosition());
 
-            SmartDashboard.putNumber("Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
-            SmartDashboard.putNumber("Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
+            SmartDashboard.putNumber(
+                    "Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
+            SmartDashboard.putNumber(
+                    "Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
 
             SmartDashboard.putNumber("Drivetrain/Distance Traveled (m)", getDistance());
             SmartDashboard.putNumber("Drivetrain/Distance Traveled Left (m)", getLeftDistance());

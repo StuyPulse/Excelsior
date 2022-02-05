@@ -5,18 +5,18 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ClimberSettings;
+import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*-
  * Climbs at end of match
@@ -71,13 +71,9 @@ public class Climber extends SubsystemBase {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
         climber.setInverted(ClimberSettings.MOTOR_INVERTED);
 
-        longSolenoid =
-                new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_LONG);
-        shortSolenoid =
-                new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_SHORT);
-        stopper =
-                new Solenoid(
-                        PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_STOPPER);
+        longSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_LONG);
+        shortSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_SHORT);
+        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_STOPPER);
 
         bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
         topLimitSwitch = new DigitalInput(Ports.Climber.TOP_LIMIT_SWITCH);
