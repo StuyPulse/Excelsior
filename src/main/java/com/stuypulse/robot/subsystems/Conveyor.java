@@ -46,6 +46,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 
 public class Conveyor extends SubsystemBase {
+    
+    public enum Direction { FORWARD, STOPPED, REVERSE }
+
     private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;
 
@@ -64,30 +67,32 @@ public class Conveyor extends SubsystemBase {
     }
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
-    public void spinTopBelt(boolean forward) {
-        if (forward) {
-            topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
-        } else {
-            topBeltMotor.set(-ConveyorSettings.TOP_BELT_SPEED.get());
+    public void setTopBelt(Direction direction) {
+        switch (direction) {
+            case FORWARD:
+                topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
+                break;
+            case STOPPED:
+                topBeltMotor.stopMotor();
+                break;
+            case REVERSE:
+                topBeltMotor.set(-ConveyorSettings.TOP_BELT_SPEED.get());
+                break;
         }
     }
 
-    public void spinGandalf(boolean accept) {
-        if (accept) {
-            gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
-        } else {
-            gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
+    public void setGandalf(Direction direction) {
+        switch (direction) {
+            case FORWARD:
+                gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
+                break;
+            case STOPPED:
+                gandalfMotor.stopMotor();;
+                break;
+            case REVERSE:
+                gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
+                break;
         }
-    }
-
-    /** Stops the Top Conveyor Belt */
-    public void stopTopBelt() {
-        topBeltMotor.stopMotor();
-    }
-
-    /** Stops the Gandalf Motor */
-    public void stopGandalf() {
-        gandalfMotor.stopMotor();
     }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
@@ -106,10 +111,6 @@ public class Conveyor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         return colorSensor.hasAllianceBall();
-    }
-
-    public boolean hasBall() {
-        return colorSensor.hasBall();
     }
 
     @Override

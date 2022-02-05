@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.subsystems.Conveyor;
+import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -39,48 +40,37 @@ public class ConveyorIndexCommand extends CommandBase {
 
     private final Conveyor conveyor;
     private final boolean ejectionless;
-    private boolean previouslyRunning;
+    private boolean ejecting;
 
     /** Creates a new ConveyorDefaultCommand. */
     private ConveyorIndexCommand(Conveyor conveyor, boolean ejectionless) {
         this.conveyor = conveyor;
         this.ejectionless = ejectionless;
+        this.ejecting = false;
 
-        previouslyRunning = false;
         addRequirements(conveyor);
     }
 
     @Override
     public void execute() {
         // Gandalf logic
-        if (!ejectionless && conveyor.hasOpponentBall()) {
-            conveyor.spinGandalf(false);
+        if (!ejectionless && conveyor.hasOpponentBall()) { // Start eject
+            conveyor.setGandalf(Direction.REVERSE);
+            ejecting = true;
         } else if (conveyor.getTopBeltHasBall()) {
-            conveyor.stopGandalf();
+            conveyor.setGandalf(Direction.STOPPED);
         } else if (conveyor.hasAllianceBall()) {
-            conveyor.spinGandalf(true);
-        } else if (previouslyRunning) {
-            conveyor.spinGandalf(true);
-        } else {
-            conveyor.stopGandalf();
+            conveyor.setGandalf(Direction.FORWARD);
+        } else if (ejecting) { // End eject (we know the opponent ball is no longer there, and nothing else important is happening)
+            conveyor.setGandalf(Direction.STOPPED);
+            ejecting = false;
         }
 
         // Top belt logic
         if (conveyor.getTopBeltHasBall()) {
-            conveyor.stopTopBelt();
+            conveyor.setTopBelt(Direction.STOPPED);
         } else if (conveyor.hasAllianceBall()) {
-            conveyor.spinTopBelt(true);
-        } else if (previouslyRunning) {
-            conveyor.spinTopBelt(true);
-        } else {
-            conveyor.stopTopBelt();
-        }
-
-        // Logic to maintain state
-        if (conveyor.getTopBeltHasBall()) {
-            previouslyRunning = false;
-        } else if (conveyor.hasAllianceBall()) {
-            previouslyRunning = true;
+            conveyor.setTopBelt(Direction.FORWARD);
         }
     }
 }

@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.subsystems.Conveyor;
+import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -40,14 +41,14 @@ public class ConveyorShootCommand extends CommandBase {
 
     @Override
     public void execute() {
-        conveyor.spinTopBelt(true);
-        conveyor.spinGandalf(!conveyor.hasOpponentBall());
+        conveyor.setTopBelt(Direction.FORWARD);
+        conveyor.setGandalf(conveyor.hasOpponentBall() ? Direction.REVERSE : Direction.FORWARD);
     }
 
     @Override
     public void end(boolean interrupted) {
-        conveyor.stopGandalf();
-        conveyor.stopTopBelt();
+        conveyor.setGandalf(Direction.STOPPED);
+        conveyor.setTopBelt(Direction.STOPPED);
     }
 
     @Override
