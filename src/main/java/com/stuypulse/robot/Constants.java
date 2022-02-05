@@ -146,6 +146,7 @@ public interface Constants {
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
 
         boolean USING_GRAYHILLS = true;
+        boolean USING_GYRO = true;
 
         public interface Motion {
 

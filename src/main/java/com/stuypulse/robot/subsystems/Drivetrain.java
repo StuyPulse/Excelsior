@@ -149,11 +149,13 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     // Set the distance traveled in one rotation of the motor
-    private void setNEODistancePerRotation(double distance) {
-        leftNEO.setPositionConversionFactor(distance);
+    private void setNEODistancePerRotation(double distancePerRotation) {
+        leftNEO.setPositionConversionFactor(distancePerRotation);
+        leftNEO.setVelocityConversionFactor((1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
         leftNEO.setPosition(0);
 
-        rightNEO.setPositionConversionFactor(distance);
+        rightNEO.setPositionConversionFactor(distancePerRotation);
+        rightNEO.setVelocityConversionFactor((1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
         rightNEO.setPosition(0);
     }
 
@@ -239,23 +241,6 @@ public class Drivetrain extends SubsystemBase {
         setGear(Gear.HIGH);
     }
 
-    /********
-     * NAVX *
-     ********/
-
-    // Gets current Angle of the Robot as a double (contiuous / not +-180)
-    public double getRawAngle() {
-        return navx.getAngle();
-    }
-
-    // Gets current Angle of the Robot
-    public Angle getAngle() {
-        return Angle.fromDegrees(getRawAngle());
-    }
-
-    private void resetNavX() {
-        navx.reset();
-    }
 
     /*********************
      * ENCODER FUNCTIONS *
@@ -291,6 +276,28 @@ public class Drivetrain extends SubsystemBase {
         return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
 
+    /***************
+     * ROBOT ANGLE *
+     ***************/
+
+    private boolean usingGyro() {
+        return DrivetrainSettings.USING_GYRO;
+    }
+
+    // Gets current Angle of the Robot as a double (contiuous / not +-180)
+    public double getRawGyroAngle() {
+        return navx.getAngle();
+    }
+
+    // Gets current Angle of the Robot 
+    public Angle getGyroAngle() {
+        return Angle.fromDegrees(getRawGyroAngle());
+    }
+
+    private void resetNavX() {
+        navx.reset();
+    }
+
     // Angle
     private double getEncoderRadians() {
         double distance = getLeftDistance() - getRightDistance();
@@ -299,6 +306,10 @@ public class Drivetrain extends SubsystemBase {
 
     public Angle getEncoderAngle() {
         return Angle.fromRadians(getEncoderRadians());
+    }
+
+    public Angle getAngle() {
+        return usingGyro() ? getGyroAngle() : getEncoderAngle();
     }
 
     /**********************
@@ -449,6 +460,12 @@ public class Drivetrain extends SubsystemBase {
 
             SmartDashboard.putNumber("Drivetrain/Motor Voltage Left (V)", getLeftVoltage());
             SmartDashboard.putNumber("Drivetrain/Motor Voltage Right (V)", getRightVoltage());
+
+            SmartDashboard.putNumber("Drivetrain/NEO Distance Left (m)", leftNEO.getPosition());
+            SmartDashboard.putNumber("Drivetrain/NEO Distance Right (m)", rightNEO.getPosition());
+
+            SmartDashboard.putNumber("Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
+            SmartDashboard.putNumber("Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
 
             SmartDashboard.putNumber("Drivetrain/Distance Traveled (m)", getDistance());
             SmartDashboard.putNumber("Drivetrain/Distance Traveled Left (m)", getLeftDistance());
