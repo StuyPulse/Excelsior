@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -249,5 +250,12 @@ public interface Constants {
             double kD = 0.0;
             double kF = 0.0;
         }
+    }
+
+    public interface LimelightSettings {
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38);
+        double HUB_HEIGHT = Units.inchesToMeters(104);
+
+        Angle LIMELIGHT_ANGLE = Angle.fromDegrees(29.0863484992);
     }
 }
