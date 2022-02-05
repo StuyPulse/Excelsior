@@ -109,18 +109,22 @@ public class Conveyor extends SubsystemBase {
         return gandalfIRSensor.get();
     }
 
+    /** Marks the conveyor as in a shooting state, forcing both motors to run except when rejecting */
     public void setShoot(boolean shooting) {
         this.shooting = shooting;
     }
-    
+
+    /** Returns if the conveyor is in its shooting state */
     public boolean isShooting() {
         return shooting;
     }
 
+    /** Returns if an opponent ball is in the ejection gap, meaning that the gandalf motor should always be spinning out */
     public boolean getGandalfShouldEject() {
         return colorSensor.hasOpponentBall();
     }
 
+    /** Returns, based on the flow chart attached to the repo, if both motors should be running or not; overriden by getGandalfShouldEject() for gandalf motor */
     public boolean getBothShouldRun() {
         if (isShooting()) {
             return true;
