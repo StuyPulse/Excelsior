@@ -46,6 +46,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 
 public class Conveyor extends SubsystemBase {
+    
+    public enum Direction { FORWARD, STOPPED, REVERSE }
+
     private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;
 
@@ -53,7 +56,8 @@ public class Conveyor extends SubsystemBase {
     private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
-    private boolean shooting;
+    private Direction topBeltDirection;
+    private Direction gandalfDirection;
 
     /** Creates a Conveyor subsystem */
     public Conveyor() {
@@ -64,39 +68,47 @@ public class Conveyor extends SubsystemBase {
         gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
 
-        shooting = false;
+        setTopBelt(Direction.STOPPED);
+        setGandalf(Direction.STOPPED);
     }
 
-    /** Spins the Top Conveyor Belt, moving the ball up to the shooter */
-    public void spinTopBelt() {
-        topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
+    /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
+    public void setTopBelt(Direction direction) {
+        topBeltDirection = direction;
+        switch (direction) {
+            case FORWARD:
+                topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
+                break;
+            case STOPPED:
+                topBeltMotor.stopMotor();
+                break;
+            case REVERSE:
+                topBeltMotor.set(-ConveyorSettings.TOP_BELT_SPEED.get());
+                break;
+        }
     }
 
-    /**
-     * Accept ball - spin the gandalf motor upwards to the top conveyor To be used when the ball is
-     * team alliance color
-     */
-    public void acceptBall() {
-        gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
+    public void setGandalf(Direction direction) {
+        gandalfDirection = direction;
+        switch (direction) {
+            case FORWARD:
+                gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
+                break;
+            case STOPPED:
+                gandalfMotor.stopMotor();
+                break;
+            case REVERSE:
+                gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
+                break;
+        }
     }
 
-    /**
-     * Eject ball - spin the gandalf motor outwards To be used when the ball is opposing alliance
-     * color
-     */
-    public void rejectBall() {
-        // If the ball is not of our alliance color, reject ball
-        gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
+    public Direction getTopBeltDirection() {
+        return topBeltDirection;
     }
 
-    /** Stops the Top Conveyor Belt */
-    public void stopTopBelt() {
-        topBeltMotor.stopMotor();
-    }
-
-    /** Stops the Gandalf Motor */
-    public void stopGandalf() {
-        gandalfMotor.stopMotor();
+    public Direction getGandalfDirection() {
+        return gandalfDirection;
     }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
@@ -109,40 +121,12 @@ public class Conveyor extends SubsystemBase {
         return gandalfIRSensor.get();
     }
 
-    /**
-     * Marks the conveyor as in a shooting state, forcing both motors to run except when rejecting
-     */
-    public void setShoot(boolean shooting) {
-        this.shooting = shooting;
-    }
-
-    /** Returns if the conveyor is in its shooting state */
-    public boolean isShooting() {
-        return shooting;
-    }
-
-    /**
-     * Returns if an opponent ball is in the ejection gap, meaning that the gandalf motor should
-     * always be spinning out
-     */
-    public boolean getGandalfShouldEject() {
+    public boolean hasOpponentBall() {
         return colorSensor.hasOpponentBall();
     }
 
-    /**
-     * Returns, based on the flow chart attached to the repo, if both motors should be running or
-     * not; overriden by getGandalfShouldEject() for gandalf motor
-     */
-    public boolean getBothShouldRun() {
-        if (isShooting()) {
-            return true;
-        } else if (getTopBeltHasBall()) {
-            return false;
-        } else if (colorSensor.hasAllianceBall()) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean hasAllianceBall() {
+        return colorSensor.hasAllianceBall();
     }
 
     @Override

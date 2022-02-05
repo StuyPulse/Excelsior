@@ -6,8 +6,9 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.subsystems.Conveyor;
+import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /*
  * @author Ivan Wei (ivanw8288@gmail.com)
@@ -29,16 +30,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-public class ConveyorStopShootCommand extends InstantCommand {
+public class ConveyorStopCommand extends CommandBase {
 
     private final Conveyor conveyor;
 
-    public ConveyorStopShootCommand(Conveyor conveyor) {
+    public ConveyorStopCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
+        addRequirements(conveyor);
     }
 
     @Override
-    public void initialize() {
-        conveyor.setShoot(false);
+    public void execute() {
+        conveyor.setGandalf(Direction.STOPPED);
+        conveyor.setTopBelt(Direction.STOPPED);
     }
 }
