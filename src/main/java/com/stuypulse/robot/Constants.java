@@ -41,6 +41,27 @@ public interface Constants {
             int DEBUGGER = 2;
         }
 
+        public interface Climber {
+            int MOTOR = 50;
+
+            int SOLENOID_LONG = -1;
+            int SOLENOID_SHORT = -1;
+            int SOLENOID_STOPPER = -1;
+
+            int BOTTOM_LIMIT_SWITCH = -1;
+            int TOP_LIMIT_SWITCH = -1;
+        }
+
+        I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
+
+        public interface Conveyor {
+            int GANDALF_MOTOR = 30;
+            int TOP_CONVEYOR_MOTOR = 31;
+
+            int GANDALF_IR_SENSOR = -1;
+            int TOP_CONVEYOR_IR_SENSOR = -1;
+        }
+
         public interface Drivetrain {
             int LEFT_TOP = 10;
             int LEFT_MIDDLE = 11;
@@ -61,6 +82,13 @@ public interface Constants {
             }
         }
 
+        public interface Intake {
+            int MOTOR = 40;
+
+            int SOLENOID_A = -1;
+            int SOLENOID_B = -1;
+        }
+
         public interface Shooter {
             int SHOOTER = 20;
             int SHOOTER_FOLLOWER = 21;
@@ -68,34 +96,15 @@ public interface Constants {
 
             int HOOD_SOLENOID = -1;
         }
+    }
 
-        public interface Climber {
-            int SOLENOID_LONG = -1;
-            int SOLENOID_SHORT = -1;
-            int SOLENOID_STOPPER = -1;
+    public interface ClimberSettings {
+        SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
+        SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
-            int MOTOR = 50;
+        SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
 
-            int BOTTOM_LIMIT_SWITCH = -1;
-            int TOP_LIMIT_SWITCH = -1;
-        }
-
-        public interface Intake {
-            int MOTOR = -1;
-            int SOLENOID_A = -1;
-            int SOLENOID_B = -1;
-        }
-
-        public interface Conveyor {
-            int TOP_CONVEYOR_MOTOR = 31;
-            int GANDALF_MOTOR = 30;
-
-            int COLOR_SENSOR = -1;
-            int GANDALF_IR_SENSOR = -1;
-            int TOP_CONVEYOR_IR_SENSOR = -1;
-        }
-
-        I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
+        boolean MOTOR_INVERTED = false;
     }
 
     public interface ColorSensorSettings {
@@ -113,39 +122,13 @@ public interface Constants {
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
     }
 
-    public interface IntakeSettings {
-        // TODO: test with intake
-        double MOTOR_SPEED = 0.8;
-    }
-
-    public interface ShooterSettings {
-
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Fender Multipler", 1.0);
-
-        public interface ShooterPID {
-            double kP = 0.0;
-            double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0;
-        }
-
-        public interface FeederPID {
-            double kP = 0.0;
-            double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0;
-        }
-    }
-
     public interface DrivetrainSettings {
         // If speed is below this, use quick turn
         SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.4);
 
         // Low Pass Filter and deadband for Driver Controls
-        SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.0);
-        SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.0);
+        SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.05);
+        SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.05);
 
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 1.0);
         SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
@@ -154,7 +137,7 @@ public interface Constants {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Current Limit for the motors
-        int CURRENT_LIMIT = 30;
+        int CURRENT_LIMIT_AMPS = 30;
 
         // If the motors are inverted
         boolean IS_INVERTED = true;
@@ -164,23 +147,23 @@ public interface Constants {
 
         boolean USING_GRAYHILLS = true;
 
-        interface Motion {
+        public interface Motion {
 
             DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
 
             SimpleMotorFeedforward MOTOR_FEED_FORWARD =
-                    new SimpleMotorFeedforward(FeedForward.S, FeedForward.V, FeedForward.A);
+                    new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
 
-            interface FeedForward {
-                double S = -1; // TODO: characterize
-                double V = -1; // TODO: characterize
-                double A = -1; // TODO: characterize
+            public interface FeedForward {
+                double kS = -1; // TODO: characterize
+                double kV = -1; // TODO: characterize
+                double kA = -1; // TODO: characterize
             }
 
-            interface PID {
-                double P = -1; // TODO: characterize
-                double I = -1; // TODO: characterize
-                double D = -1; // TODO: characterize
+            public interface PID {
+                double kP = -1; // TODO: characterize
+                double kI = -1; // TODO: characterize
+                double kD = -1; // TODO: characterize
             }
         }
 
@@ -239,12 +222,29 @@ public interface Constants {
         }
     }
 
-    public interface ClimberSettings {
-        SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", -2);
-        SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", -2);
+    public interface IntakeSettings {
+        // TODO: test with intake
+        double MOTOR_SPEED = 0.8;
+    }
 
-        SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
+    public interface ShooterSettings {
 
-        boolean MOTOR_INVERTED = false;
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
+
+        public interface ShooterPID {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+            double kF = 0.0;
+        }
+
+        public interface FeederPID {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+            double kF = 0.0;
+        }
     }
 }

@@ -147,7 +147,7 @@ public class Drivetrain extends SubsystemBase {
 
         // Configure Motors and Other Things
         setInverted(DrivetrainSettings.IS_INVERTED, !DrivetrainSettings.IS_INVERTED);
-        setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT);
+        setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT_AMPS);
         setIdleMode(IdleMode.kBrake);
         setHighGear();
 
