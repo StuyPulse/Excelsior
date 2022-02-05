@@ -50,9 +50,6 @@ public class RobotContainer {
         LiveWindow.disableAllTelemetry();
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        // Set pump to false to avoid warning
-        pump.set(false);
-
         // Configure the button bindings
         configureDefaultCommands();
         configureButtonBindings();
