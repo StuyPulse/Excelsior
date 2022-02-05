@@ -56,10 +56,10 @@ public interface Constants {
 
         public interface Conveyor {
             int GANDALF_MOTOR = 30;
-            int TOP_CONVEYOR_MOTOR = 31;
+            int TOP_BELT_MOTOR = 31;
 
             int GANDALF_IR_SENSOR = -1;
-            int TOP_CONVEYOR_IR_SENSOR = -1;
+            int TOP_BELT_IR_SENSOR = -1;
         }
 
         public interface Drivetrain {
@@ -117,9 +117,9 @@ public interface Constants {
     }
 
     public interface ConveyorSettings {
-        SmartNumber TOP_MOTOR_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
-        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
+        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
+        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
     }
 
     public interface DrivetrainSettings {
