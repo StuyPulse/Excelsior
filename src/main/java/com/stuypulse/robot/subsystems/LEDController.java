@@ -94,11 +94,10 @@ public class LEDController extends SubsystemBase {
 
     public LEDController(RobotContainer container) {
         this.controller = new PWMSparkMax(Ports.LEDController.PWM_PORT);
-
         this.lastUpdate = new StopWatch();
-        this.manualColor = LEDColor.OFF;
-
         this.robotContainer = container;
+
+        setColor(LEDColor.OFF);
     }
 
     public void setColor(LEDColor color) {
