@@ -91,6 +91,10 @@ public interface Constants {
             int SOLENOID_B = -1;
         }
 
+        public interface LEDController {
+            int PWM_PORT = 0;
+        }
+
         public interface Shooter {
             int SHOOTER = 20;
             int SHOOTER_FOLLOWER = 21;
@@ -231,6 +235,12 @@ public interface Constants {
     public interface IntakeSettings {
         // TODO: test with intake
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
+    }
+
+    public interface LEDSettings {
+        double MANUAL_UPDATE_TIME = 0.65;
+
+        double BLINK_TIME = 0.5;
     }
 
     public interface ShooterSettings {
