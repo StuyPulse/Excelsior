@@ -71,7 +71,8 @@ public interface Constants {
             int RIGHT_MIDDLE = 14;
             int RIGHT_BOTTOM = 15;
 
-            int GEAR_SHIFT = -1;
+            int GEAR_SHIFT_A = -1;
+            int GEAR_SHIFT_B = -1;
 
             interface Encoders {
                 int LEFT_A = -1;
@@ -146,6 +147,7 @@ public interface Constants {
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
 
         boolean USING_GRAYHILLS = true;
+        boolean USING_GYRO = true;
 
         public interface Motion {
 

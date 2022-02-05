@@ -15,6 +15,7 @@ public class DrivetrainLowGearCommand extends InstantCommand {
 
     public DrivetrainLowGearCommand(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
+        addRequirements(drivetrain);
     }
 
     @Override

@@ -22,11 +22,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -35,8 +36,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
- * Javadoc Comments must start with /*-
- *
  * Moves the robot around
  *
  * Contains:
@@ -62,33 +61,43 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH,
-        LOW
-    };
+        HIGH(Value.kForward),
+        LOW(Value.kReverse);
+
+        private final Value value;
+
+        private Gear(Value value) {
+            this.value = value;
+        }
+
+        public Value getValue() {
+            return value;
+        }
+    }
 
     // An array of motors on the left and right side of the drive train
-    private CANSparkMax[] leftMotors;
-    private CANSparkMax[] rightMotors;
+    private final CANSparkMax[] leftMotors;
+    private final CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
 
-    private RelativeEncoder leftNEO;
-    private RelativeEncoder rightNEO;
+    private final RelativeEncoder leftNEO;
+    private final RelativeEncoder rightNEO;
 
-    private Encoder leftGrayhill;
-    private Encoder rightGrayhill;
+    private final Encoder leftGrayhill;
+    private final Encoder rightGrayhill;
 
     // DifferentialDrive and Gear Information
     private Gear gear;
-    private Solenoid gearShift;
-    private DifferentialDrive drivetrain;
+    private final DoubleSolenoid gearShift;
+    private final DifferentialDrive drivetrain;
 
     // NAVX for Gyro
-    private AHRS navx;
+    private final AHRS navx;
 
     // Odometry
-    private DifferentialDriveOdometry odometry;
-    private Field2d field;
+    private final DifferentialDriveOdometry odometry;
+    private final Field2d field;
 
     public Drivetrain() {
         // Add Motors to list
@@ -120,12 +129,6 @@ public class Drivetrain extends SubsystemBase {
         setGrayhillDistancePerPulse(
                 Constants.DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
 
-        // TODO: this might not mean what I think it means (based on my understanading
-        // of the docs, it is used for velocity, and not position) and 4 might not
-        // be  enough/ too little
-        // leftGrayhill.setVelocitySamples(4);
-        // rightGrayhill.setVelocitySamples(4);
-
         // Make differential drive object
         drivetrain =
                 new DifferentialDrive(
@@ -133,7 +136,11 @@ public class Drivetrain extends SubsystemBase {
                         new MotorControllerGroup(rightMotors));
 
         // Add Gear Shifter
-        gearShift = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Drivetrain.GEAR_SHIFT);
+        gearShift = new DoubleSolenoid(
+            PneumaticsModuleType.CTREPCM, 
+            Ports.Drivetrain.GEAR_SHIFT_A, 
+            Ports.Drivetrain.GEAR_SHIFT_B
+        );
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
@@ -150,12 +157,6 @@ public class Drivetrain extends SubsystemBase {
         setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT_AMPS);
         setIdleMode(IdleMode.kBrake);
         setHighGear();
-
-        // Add Children to Subsystem
-        addChild("Gear Shift", gearShift);
-        addChild("Differential Drive", drivetrain);
-        addChild("NavX", navx);
-        addChild("Field Map", field);
     }
 
     /***********************
@@ -163,11 +164,13 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     // Set the distance traveled in one rotation of the motor
-    private void setNEODistancePerRotation(double distance) {
-        leftNEO.setPositionConversionFactor(distance);
+    private void setNEODistancePerRotation(double distancePerRotation) {
+        leftNEO.setPositionConversionFactor(distancePerRotation);
+        leftNEO.setVelocityConversionFactor((1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
         leftNEO.setPosition(0);
 
-        rightNEO.setPositionConversionFactor(distance);
+        rightNEO.setPositionConversionFactor(distancePerRotation);
+        rightNEO.setVelocityConversionFactor((1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
         rightNEO.setPosition(0);
     }
 
@@ -227,17 +230,15 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
-        // TODO: just note here, reset is the biggest change
-
         if (this.gear != gear) {
             this.gear = gear;
             if (this.gear == Gear.HIGH) {
-                gearShift.set(true);
+                gearShift.set(this.gear.getValue());
                 setNEODistancePerRotation(
                         DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
                 reset();
             } else {
-                gearShift.set(false);
+                gearShift.set(this.gear.getValue());
                 setNEODistancePerRotation(
                         DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
                 reset();
@@ -255,23 +256,6 @@ public class Drivetrain extends SubsystemBase {
         setGear(Gear.HIGH);
     }
 
-    /********
-     * NAVX *
-     ********/
-
-    // Gets current Angle of the Robot as a double (contiuous / not +-180)
-    public double getRawAngle() {
-        return navx.getAngle();
-    }
-
-    // Gets current Angle of the Robot
-    public Angle getAngle() {
-        return Angle.fromDegrees(getRawAngle());
-    }
-
-    private void resetNavX() {
-        navx.reset();
-    }
 
     /*********************
      * ENCODER FUNCTIONS *
@@ -307,17 +291,40 @@ public class Drivetrain extends SubsystemBase {
         return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
 
-    // Angle
-    private double getEncoderRotations() {
-        // this distance is in meters (converted from rotations by the encoder)
-        double distance = getLeftDistance() - getRightDistance();
+    /***************
+     * ROBOT ANGLE *
+     ***************/
 
-        // undo the conversion done by the encoder to get rotations
-        return distance / DrivetrainSettings.TRACK_WIDTH;
+    private boolean usingGyro() {
+        return DrivetrainSettings.USING_GYRO;
+    }
+
+    // Gets current Angle of the Robot as a double (contiuous / not +-180)
+    public double getRawGyroAngle() {
+        return navx.getAngle();
+    }
+
+    // Gets current Angle of the Robot 
+    public Angle getGyroAngle() {
+        return Angle.fromDegrees(getRawGyroAngle());
+    }
+
+    private void resetNavX() {
+        navx.reset();
+    }
+
+    // Angle
+    private double getEncoderRadians() {
+        double distance = getLeftDistance() - getRightDistance();
+        return distance / (0.5 * DrivetrainSettings.TRACK_WIDTH);
     }
 
     public Angle getEncoderAngle() {
-        return Angle.fromRotations(getEncoderRotations());
+        return Angle.fromRadians(getEncoderRadians());
+    }
+
+    public Angle getAngle() {
+        return usingGyro() ? getGyroAngle() : getEncoderAngle();
     }
 
     /**********************
@@ -468,6 +475,12 @@ public class Drivetrain extends SubsystemBase {
 
             SmartDashboard.putNumber("Drivetrain/Motor Voltage Left (V)", getLeftVoltage());
             SmartDashboard.putNumber("Drivetrain/Motor Voltage Right (V)", getRightVoltage());
+
+            SmartDashboard.putNumber("Drivetrain/NEO Distance Left (m)", leftNEO.getPosition());
+            SmartDashboard.putNumber("Drivetrain/NEO Distance Right (m)", rightNEO.getPosition());
+
+            SmartDashboard.putNumber("Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
+            SmartDashboard.putNumber("Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
 
             SmartDashboard.putNumber("Drivetrain/Distance Traveled (m)", getDistance());
             SmartDashboard.putNumber("Drivetrain/Distance Traveled Left (m)", getLeftDistance());
