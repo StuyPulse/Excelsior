@@ -9,11 +9,11 @@ import com.stuypulse.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ClimberFullTiltCommand extends InstantCommand {
+public class ClimberMaxTiltCommand extends InstantCommand {
 
     private final Climber climber;
 
-    public ClimberFullTiltCommand(Climber climber) {
+    public ClimberMaxTiltCommand(Climber climber) {
         this.climber = climber;
         addRequirements(climber);
     }
