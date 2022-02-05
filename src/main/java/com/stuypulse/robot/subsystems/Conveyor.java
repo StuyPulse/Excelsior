@@ -53,7 +53,7 @@ public class Conveyor extends SubsystemBase {
     private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
-    public boolean shooting;
+    private boolean shooting;
 
     /** Creates a Conveyor subsystem */
     public Conveyor() {
