@@ -9,11 +9,12 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 
 import com.stuypulse.robot.Constants.*;
-import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.auton.*;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainHighGearCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainLowGearCommand;
+import com.stuypulse.robot.commands.climber.*;
+import com.stuypulse.robot.commands.conveyor.*;
+import com.stuypulse.robot.commands.drivetrain.*;
+import com.stuypulse.robot.commands.intake.*;
+import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -46,7 +47,7 @@ public class RobotContainer {
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 
     public RobotContainer() {
-        // Disable telementry to reduce lag
+        // Disable telemetry to reduce lag
         LiveWindow.disableAllTelemetry();
         DriverStation.silenceJoystickConnectionWarning(true);
 
