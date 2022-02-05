@@ -256,6 +256,14 @@ public interface Constants {
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(38);
         double HUB_HEIGHT = Units.inchesToMeters(104);
 
-        Angle LIMELIGHT_ANGLE = Angle.fromDegrees(29.0863484992);
+        double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
+
+        // TODO: Measure with ???
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 30.0);
+        SmartNumber LIMELIGHT_YAW   = new SmartNumber("Limelight/Yaw", 0);
+
+        // Bounds for Distance
+        double MIN_VALID_DISTANCE = Units.feetToMeters(2);
+        double MAX_VALID_DISTANCE = Units.feetToMeters(24);
     }
 }
