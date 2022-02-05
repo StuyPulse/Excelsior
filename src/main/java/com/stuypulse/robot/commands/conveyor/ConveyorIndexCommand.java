@@ -29,18 +29,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-public class ConveyorDefaultCommand extends CommandBase {
+public class ConveyorIndexCommand extends CommandBase {
 
     private final Conveyor conveyor;
 
     /** Creates a new ConveyorDefaultCommand. */
-    public ConveyorDefaultCommand(Conveyor conveyor) {
+    public ConveyorIndexCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
         addRequirements(conveyor);
     }
-
-    @Override
-    public void initialize() {}
 
     @Override
     public void execute() {

@@ -46,37 +46,30 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 
 public class Conveyor extends SubsystemBase {
-    private final CANSparkMax topMotor;
+    private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;
 
     private final ColorSensor colorSensor;
     private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
-    public boolean shooting;
+    private boolean shooting;
 
     /** Creates a Conveyor subsystem */
     public Conveyor() {
-        topMotor = new CANSparkMax(Ports.Conveyor.TOP_CONVEYOR_MOTOR, MotorType.kBrushless);
+        topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
 
         colorSensor = new ColorSensor();
         gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
-        topIRSensor = new DigitalInput(Ports.Conveyor.TOP_CONVEYOR_IR_SENSOR);
+        topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
+
         shooting = false;
-    }
-
-    public boolean isShooting() {
-        return shooting;
-    }
-
-    public void setShoot(boolean shooting) {
-        this.shooting = shooting;
     }
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter */
     public void spinTopBelt() {
-        topMotor.set(ConveyorSettings.TOP_MOTOR_SPEED.get());
+        topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
     }
 
     /**
@@ -98,7 +91,7 @@ public class Conveyor extends SubsystemBase {
 
     /** Stops the Top Conveyor Belt */
     public void stopTopBelt() {
-        topMotor.stopMotor();
+        topBeltMotor.stopMotor();
     }
 
     /** Stops the Gandalf Motor */
@@ -107,25 +100,37 @@ public class Conveyor extends SubsystemBase {
     }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
-    public boolean getTopConveyorUpperHasBall() {
+    public boolean getTopBeltHasBall() {
         return topIRSensor.get();
     }
 
     /** Finds if the lower IR Sensor has been tripped */
-    public boolean getTopConveyorLowerHasBall() {
+    public boolean getGandalfHasBall() {
         return gandalfIRSensor.get();
     }
 
+    /** Marks the conveyor as in a shooting state, forcing both motors to run except when rejecting */
+    public void setShoot(boolean shooting) {
+        this.shooting = shooting;
+    }
+
+    /** Returns if the conveyor is in its shooting state */
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    /** Returns if an opponent ball is in the ejection gap, meaning that the gandalf motor should always be spinning out */
     public boolean getGandalfShouldEject() {
         return colorSensor.hasOpponentBall();
     }
 
+    /** Returns, based on the flow chart attached to the repo, if both motors should be running or not; overriden by getGandalfShouldEject() for gandalf motor */
     public boolean getBothShouldRun() {
-        if (isShooting()) { // same as 3rd?
+        if (isShooting()) {
             return true;
-        } else if (getTopConveyorUpperHasBall()) { // top IR
-            return false; // all motors are stopped according to logic tabl
-        } else if (colorSensor.hasAllianceBall()) { // good gap
+        } else if (getTopBeltHasBall()) {
+            return false;
+        } else if (colorSensor.hasAllianceBall()) {
             return true;
         } else {
             return false;
@@ -135,12 +140,12 @@ public class Conveyor extends SubsystemBase {
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Conveyor/Top Motor Speed", topMotor.get());
+            SmartDashboard.putNumber("Conveyor/Top Belt Speed", topBeltMotor.get());
             SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
             SmartDashboard.putBoolean(
-                    "Conveyor/Top Conveyor Upper IR Has Ball", getTopConveyorUpperHasBall());
+                    "Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
             SmartDashboard.putBoolean(
-                    "Conveyor/Top Conveyor Lower IR Ball", getTopConveyorLowerHasBall());
+                    "Conveyor/Top Belt Lower IR Ball", getGandalfHasBall());
         }
     }
 }
