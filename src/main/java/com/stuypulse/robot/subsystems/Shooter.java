@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.revrobotics.CANSparkMax;
+import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *
  * Contains:
  *      - Two shooter motors
+ *          - One is a follower motor
  *      - One feeder motor
  *
  *      @author Vincent Lin
@@ -121,8 +123,8 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
-        shooterPIDController.setReference(targetRPM.get(), MODE);
-        feederPIDController.setReference(targetRPM.get() * feederMultipler, MODE);
+        shooterPIDController.setReference(targetRPM.get(), kVelocity);
+        feederPIDController.setReference(targetRPM.get() * feederMultipler, kVelocity);
 
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Shooter/Shooter RPM", getShooterRPM());
