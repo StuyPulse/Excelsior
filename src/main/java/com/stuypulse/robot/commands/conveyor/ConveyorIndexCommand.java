@@ -31,33 +31,56 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorIndexCommand extends CommandBase {
 
+    public static class Ejectionless extends ConveyorIndexCommand {
+        public Ejectionless(Conveyor conveyor) {
+            super(conveyor, true);
+        }
+    }
+
     private final Conveyor conveyor;
+    private final boolean ejectionless;
+    private boolean previouslyRunning;
 
     /** Creates a new ConveyorDefaultCommand. */
-    public ConveyorIndexCommand(Conveyor conveyor) {
+    private ConveyorIndexCommand(Conveyor conveyor, boolean ejectionless) {
         this.conveyor = conveyor;
+        this.ejectionless = ejectionless;
+
+        previouslyRunning = false;
         addRequirements(conveyor);
     }
 
     @Override
     public void execute() {
-        boolean ejecting = conveyor.getGandalfShouldEject();
-        boolean running = conveyor.getBothShouldRun();
-
-        // Gandalf
-        if (ejecting) {
-            conveyor.rejectBall();
-        } else if (running) {
-            conveyor.acceptBall();
+        // Gandalf logic
+        if (!ejectionless && conveyor.hasOpponentBall()) {
+            conveyor.spinGandalf(false);
+        } else if (conveyor.getTopBeltHasBall()) {
+            conveyor.stopGandalf();
+        } else if (conveyor.hasAllianceBall()) {
+            conveyor.spinGandalf(true);
+        } else if (previouslyRunning) {
+            conveyor.spinGandalf(true);
         } else {
             conveyor.stopGandalf();
         }
 
-        // Top Conveyor Motor
-        if (running) {
-            conveyor.spinTopBelt();
+        // Top belt logic
+        if (conveyor.getTopBeltHasBall()) {
+            conveyor.stopTopBelt();
+        } else if (conveyor.hasAllianceBall()) {
+            conveyor.spinTopBelt(true);
+        } else if (previouslyRunning) {
+            conveyor.spinTopBelt(true);
         } else {
             conveyor.stopTopBelt();
+        }
+
+        // Logic to maintain state
+        if (conveyor.getTopBeltHasBall()) {
+            previouslyRunning = false;
+        } else if (conveyor.hasAllianceBall()) {
+            previouslyRunning = true;
         }
     }
 }

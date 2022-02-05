@@ -30,20 +30,28 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 
 public class ConveyorShootCommand extends CommandBase {
+
     private final Conveyor conveyor;
 
-    /** Creates a new ConveyorShootCommand. */
     public ConveyorShootCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
+        addRequirements(conveyor);
     }
 
     @Override
     public void execute() {
-        conveyor.setShoot(true);
+        conveyor.spinTopBelt(true);
+        conveyor.spinGandalf(!conveyor.hasOpponentBall());
     }
 
     @Override
     public void end(boolean interrupted) {
-        conveyor.setShoot(false);
+        conveyor.stopGandalf();
+        conveyor.stopTopBelt();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
