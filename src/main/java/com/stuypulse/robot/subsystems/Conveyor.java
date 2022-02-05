@@ -67,14 +67,6 @@ public class Conveyor extends SubsystemBase {
         shooting = false;
     }
 
-    public boolean isShooting() {
-        return shooting;
-    }
-
-    public void setShoot(boolean shooting) {
-        this.shooting = shooting;
-    }
-
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter */
     public void spinTopBelt() {
         topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
@@ -115,6 +107,14 @@ public class Conveyor extends SubsystemBase {
     /** Finds if the lower IR Sensor has been tripped */
     public boolean getGandalfHasBall() {
         return gandalfIRSensor.get();
+    }
+
+    public void setShoot(boolean shooting) {
+        this.shooting = shooting;
+    }
+    
+    public boolean isShooting() {
+        return shooting;
     }
 
     public boolean getGandalfShouldEject() {
