@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.nio.file.StandardCopyOption;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -97,7 +95,7 @@ public class Conveyor extends SubsystemBase {
                 gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
                 break;
             case STOPPED:
-                gandalfMotor.stopMotor();;
+                gandalfMotor.stopMotor();
                 break;
             case REVERSE:
                 gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
