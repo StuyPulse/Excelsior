@@ -36,15 +36,12 @@ public class ClimberMoveCommand extends CommandBase {
     @Override
     public void execute() {
         climber.setClimberUnlocked();
-
-        if (timer.getTime() > Constants.ClimberSettings.CLIMBER_DELAY.get()) {
-            if (movingUp) {
-                climber.setMotor(+this.number.doubleValue());
-            } else {
-                climber.setMotor(-this.number.doubleValue());
-            }
-        } else {
+        if (timer.getTime() < Constants.ClimberSettings.CLIMBER_DELAY.get()) {
             climber.setMotorStop();
+        } else if(movingUp) {
+            climber.setMotor(+this.number.doubleValue());
+        } else {
+            climber.setMotor(-this.number.doubleValue());
         }
     }
 
