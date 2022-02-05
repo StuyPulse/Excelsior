@@ -40,36 +40,49 @@ public class ConveyorIndexCommand extends CommandBase {
 
     private final Conveyor conveyor;
     private final boolean ejectionless;
-    private boolean ejecting;
 
     /** Creates a new ConveyorDefaultCommand. */
     private ConveyorIndexCommand(Conveyor conveyor, boolean ejectionless) {
         this.conveyor = conveyor;
         this.ejectionless = ejectionless;
-        this.ejecting = false;
 
         addRequirements(conveyor);
     }
 
     @Override
     public void execute() {
-        // Gandalf logic
+        /*** Gandalf logic ***/
+
+        // Eject if you have wrong ball
         if (!ejectionless && conveyor.hasOpponentBall()) { // Start eject
             conveyor.setGandalf(Direction.REVERSE);
-            ejecting = true;
-        } else if (conveyor.getTopBeltHasBall()) {
+        } 
+        
+        // Stop if you already have ball
+        else if (conveyor.getTopBeltHasBall()) {
             conveyor.setGandalf(Direction.STOPPED);
-        } else if (conveyor.hasAllianceBall()) {
+        } 
+        
+        // Accept Alliance Ball if no ball on top
+        else if (conveyor.hasAllianceBall()) {
             conveyor.setGandalf(Direction.FORWARD);
-        } else if (ejecting) { // End eject (we know the opponent ball is no longer there, and nothing else important is happening)
+        } 
+        
+        // If you were ejecting and there is no longer a ball, stop
+        else if (conveyor.getGandalfDirection() == Direction.REVERSE) { // End eject (we know the opponent ball is no longer there, and nothing else important is happening)
             conveyor.setGandalf(Direction.STOPPED);
-            ejecting = false;
         }
 
-        // Top belt logic
+
+        /*** Top belt logic ***/
+
+        // Stop if you already have ball
         if (conveyor.getTopBeltHasBall()) {
             conveyor.setTopBelt(Direction.STOPPED);
-        } else if (conveyor.hasAllianceBall()) {
+        } 
+        
+        // Accept Alliance Ball if no ball on top
+        else if (conveyor.hasAllianceBall()) {
             conveyor.setTopBelt(Direction.FORWARD);
         }
     }

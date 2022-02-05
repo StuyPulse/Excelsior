@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.nio.file.StandardCopyOption;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -56,6 +58,9 @@ public class Conveyor extends SubsystemBase {
     private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
+    private Direction topBeltDirection;
+    private Direction gandalfDirection;
+
     /** Creates a Conveyor subsystem */
     public Conveyor() {
         topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
@@ -64,10 +69,14 @@ public class Conveyor extends SubsystemBase {
         colorSensor = new ColorSensor();
         gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
+
+        setTopBelt(Direction.STOPPED);
+        setGandalf(Direction.STOPPED);
     }
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
     public void setTopBelt(Direction direction) {
+        topBeltDirection = direction;
         switch (direction) {
             case FORWARD:
                 topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
@@ -82,6 +91,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void setGandalf(Direction direction) {
+        gandalfDirection = direction;
         switch (direction) {
             case FORWARD:
                 gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
@@ -93,6 +103,14 @@ public class Conveyor extends SubsystemBase {
                 gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
                 break;
         }
+    }
+
+    public Direction getTopBeltDirection() {
+        return topBeltDirection;
+    }
+
+    public Direction getGandalfDirection() {
+        return gandalfDirection;
     }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
