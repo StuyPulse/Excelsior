@@ -63,19 +63,15 @@ public class LEDController extends SubsystemBase {
         }
 
         double get() {
-            if (pulse) {
-                // // Variables for detecting if we should be blinking or not
-                double cT = Timer.getFPGATimestamp() % (LEDSettings.BLINK_TIME);
-                double oT = (0.5 * LEDSettings.BLINK_TIME);
+            // Variables for detecting if we should be blinking or not
+            double cT = Timer.getFPGATimestamp() % (LEDSettings.BLINK_TIME);
+            double oT = (0.5 * LEDSettings.BLINK_TIME);
 
-                // Detect if the color should be on or off
-                if (cT >= oT) {
-                    return LEDColor.OFF.color;
-                } else {
-                    return this.color;
-                }
+            // Detect if the color should be on or off
+            if (pulse && cT >= oT) {
+                return LEDColor.OFF.color;
             } else {
-                return color;
+                return this.color;
             }
         }
     }
