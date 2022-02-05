@@ -88,7 +88,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void setMotorStop() {
-        setMotor(0.0);
+        climber.stopMotor();
     }
 
     public boolean getTopReached() {
