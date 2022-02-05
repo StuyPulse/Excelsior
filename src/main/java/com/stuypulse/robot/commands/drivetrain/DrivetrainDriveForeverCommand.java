@@ -1,9 +1,6 @@
 package com.stuypulse.robot.commands.drivetrain;
 
-
-
 import com.stuypulse.robot.subsystems.Drivetrain;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDriveForeverCommand extends CommandBase {
@@ -17,6 +14,6 @@ public class DrivetrainDriveForeverCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        drivetrain.curvatureDrive(-speed, 0);
+        drivetrain.curvatureDrive(speed, 0);
     }
 }
