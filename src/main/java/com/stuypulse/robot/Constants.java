@@ -157,6 +157,9 @@ public interface Constants {
             SimpleMotorFeedforward MOTOR_FEED_FORWARD =
                     new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
 
+            double MAX_VELOCITY = 0.1;
+            double MAX_ACCELERATION = 0.1;
+
             public interface FeedForward {
                 double kS = -1; // TODO: characterize
                 double kV = -1; // TODO: characterize
