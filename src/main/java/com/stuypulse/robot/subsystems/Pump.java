@@ -29,6 +29,8 @@ public class Pump extends SubsystemBase {
     public Pump() {
         enabled = new SmartBoolean("Pump/Compressor Enabled", false);
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+
+        stop();
     }
 
     // Start Compressing the Robot
@@ -43,15 +45,15 @@ public class Pump extends SubsystemBase {
 
     // Set the compressor to on or off
     public void set(boolean compressing) {
-        if (compressing) {
-            compressor.enableDigital();
-        } else {
-            compressor.disable();
-        }
+        enabled.set(compressing);
     }
 
     @Override
     public void periodic() {
-        set(enabled.get());
+        if (enabled.get()) {
+            compressor.enableDigital();
+        } else {
+            compressor.disable();
+        }
     }
 }
