@@ -22,11 +22,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -60,8 +61,18 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH,
-        LOW
+        HIGH(Value.kForward),
+        LOW(Value.kReverse);
+
+        private final Value value;
+
+        private Gear(Value value) {
+            this.value = value;
+        }
+
+        public Value getValue() {
+            return value;
+        }
     }
 
     // An array of motors on the left and right side of the drive train
@@ -78,7 +89,7 @@ public class Drivetrain extends SubsystemBase {
 
     // DifferentialDrive and Gear Information
     private Gear gear;
-    private final Solenoid gearShift;
+    private final DoubleSolenoid gearShift;
     private final DifferentialDrive drivetrain;
 
     // NAVX for Gyro
@@ -125,7 +136,11 @@ public class Drivetrain extends SubsystemBase {
                         new MotorControllerGroup(rightMotors));
 
         // Add Gear Shifter
-        gearShift = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Drivetrain.GEAR_SHIFT);
+        gearShift = new DoubleSolenoid(
+            PneumaticsModuleType.CTREPCM, 
+            Ports.Drivetrain.GEAR_SHIFT_A, 
+            Ports.Drivetrain.GEAR_SHIFT_B
+        );
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
@@ -218,12 +233,12 @@ public class Drivetrain extends SubsystemBase {
         if (this.gear != gear) {
             this.gear = gear;
             if (this.gear == Gear.HIGH) {
-                gearShift.set(true);
+                gearShift.set(this.gear.getValue());
                 setNEODistancePerRotation(
                         DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
                 reset();
             } else {
-                gearShift.set(false);
+                gearShift.set(this.gear.getValue());
                 setNEODistancePerRotation(
                         DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
                 reset();
