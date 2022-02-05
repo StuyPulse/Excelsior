@@ -63,6 +63,7 @@ public class Conveyor extends SubsystemBase {
         colorSensor = new ColorSensor();
         gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
+
         shooting = false;
     }
 
