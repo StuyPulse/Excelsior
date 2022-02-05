@@ -121,11 +121,11 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean getBothShouldRun() {
-        if (isShooting()) { // same as 3rd?
+        if (isShooting()) {
             return true;
-        } else if (getTopBeltHasBall()) { // top IR
-            return false; // all motors are stopped according to logic tabl
-        } else if (colorSensor.hasAllianceBall()) { // good gap
+        } else if (getTopBeltHasBall()) {
+            return false;
+        } else if (colorSensor.hasAllianceBall()) {
             return true;
         } else {
             return false;
