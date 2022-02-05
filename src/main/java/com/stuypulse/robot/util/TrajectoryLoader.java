@@ -19,6 +19,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public final class TrajectoryLoader {
 
@@ -39,6 +40,8 @@ public final class TrajectoryLoader {
         try {
             return TrajectoryUtil.fromPathweaverJson(Constants.DEPLOY_DIRECTORY.resolve(path));
         } catch (IOException e) {
+            DriverStation.reportError("Error Opening \"" + path + "\"!", e.getStackTrace());
+            
             System.err.println("Error Opening \"" + path + "\"!");
             System.out.println(e.getStackTrace());
 
@@ -58,14 +61,9 @@ public final class TrajectoryLoader {
     }
 
     public static Trajectory getLine(Pose2d start, double distance) {
-        Translation2d endPosition = new Translation2d(distance, start.getRotation());
-        Pose2d end = new Pose2d(endPosition, start.getRotation());
+        Translation2d direction = new Translation2d(distance, start.getRotation());
+        Pose2d end = new Pose2d(start.getTranslation().plus(direction), start.getRotation());
         
-        return TrajectoryGenerator.generateTrajectory(
-            start, 
-            List.of(), 
-            end, 
-            TOP_SPEED_TRAJECTORY
-        );
+        return TrajectoryGenerator.generateTrajectory(start, List.of(), end, TOP_SPEED_TRAJECTORY);
     }
 }
