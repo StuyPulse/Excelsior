@@ -224,7 +224,7 @@ public interface Constants {
 
     public interface IntakeSettings {
         // TODO: test with intake
-        double MOTOR_SPEED = 0.8;
+        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
     }
 
     public interface ShooterSettings {
