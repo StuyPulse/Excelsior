@@ -46,8 +46,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 
 public class Conveyor extends SubsystemBase {
-    
-    public enum Direction { FORWARD, STOPPED, REVERSE }
+
+    public enum Direction {
+        FORWARD,
+        STOPPED,
+        REVERSE
+    }
 
     private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;

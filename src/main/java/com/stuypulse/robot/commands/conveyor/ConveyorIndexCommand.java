@@ -56,31 +56,30 @@ public class ConveyorIndexCommand extends CommandBase {
         // Eject if you have wrong ball
         if (!ejectionless && conveyor.hasOpponentBall()) { // Start eject
             conveyor.setGandalf(Direction.REVERSE);
-        } 
-        
+        }
+
         // Stop if you already have ball
         else if (conveyor.getTopBeltHasBall()) {
             conveyor.setGandalf(Direction.STOPPED);
-        } 
-        
+        }
+
         // Accept Alliance Ball if no ball on top
         else if (conveyor.hasAllianceBall()) {
             conveyor.setGandalf(Direction.FORWARD);
-        } 
-        
-        // If you were ejecting and there is no longer a ball, stop
-        else if (conveyor.getGandalfDirection() == Direction.REVERSE) { // End eject (we know the opponent ball is no longer there, and nothing else important is happening)
-            conveyor.setGandalf(Direction.STOPPED);
         }
 
+        // If you were ejecting and there is no longer a ball, stop
+        else if (conveyor.getGandalfDirection() == Direction.REVERSE) {
+            conveyor.setGandalf(Direction.STOPPED);
+        }
 
         /*** Top belt logic ***/
 
         // Stop if you already have ball
         if (conveyor.getTopBeltHasBall()) {
             conveyor.setTopBelt(Direction.STOPPED);
-        } 
-        
+        }
+
         // Accept Alliance Ball if no ball on top
         else if (conveyor.hasAllianceBall()) {
             conveyor.setTopBelt(Direction.FORWARD);
