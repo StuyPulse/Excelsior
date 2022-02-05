@@ -35,8 +35,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*-
- * Javadoc Comments must start with /*-
- *
  * Moves the robot around
  *
  * Contains:
@@ -64,31 +62,31 @@ public class Drivetrain extends SubsystemBase {
     public static enum Gear {
         HIGH,
         LOW
-    };
+    }
 
     // An array of motors on the left and right side of the drive train
-    private CANSparkMax[] leftMotors;
-    private CANSparkMax[] rightMotors;
+    private final CANSparkMax[] leftMotors;
+    private final CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
 
-    private RelativeEncoder leftNEO;
-    private RelativeEncoder rightNEO;
+    private final RelativeEncoder leftNEO;
+    private final RelativeEncoder rightNEO;
 
-    private Encoder leftGrayhill;
-    private Encoder rightGrayhill;
+    private final Encoder leftGrayhill;
+    private final Encoder rightGrayhill;
 
     // DifferentialDrive and Gear Information
     private Gear gear;
-    private Solenoid gearShift;
-    private DifferentialDrive drivetrain;
+    private final Solenoid gearShift;
+    private final DifferentialDrive drivetrain;
 
     // NAVX for Gyro
-    private AHRS navx;
+    private final AHRS navx;
 
     // Odometry
-    private DifferentialDriveOdometry odometry;
-    private Field2d field;
+    private final DifferentialDriveOdometry odometry;
+    private final Field2d field;
 
     public Drivetrain() {
         // Add Motors to list
@@ -120,12 +118,6 @@ public class Drivetrain extends SubsystemBase {
         setGrayhillDistancePerPulse(
                 Constants.DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
 
-        // TODO: this might not mean what I think it means (based on my understanading
-        // of the docs, it is used for velocity, and not position) and 4 might not
-        // be  enough/ too little
-        // leftGrayhill.setVelocitySamples(4);
-        // rightGrayhill.setVelocitySamples(4);
-
         // Make differential drive object
         drivetrain =
                 new DifferentialDrive(
@@ -150,12 +142,6 @@ public class Drivetrain extends SubsystemBase {
         setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT_AMPS);
         setIdleMode(IdleMode.kBrake);
         setHighGear();
-
-        // Add Children to Subsystem
-        addChild("Gear Shift", gearShift);
-        addChild("Differential Drive", drivetrain);
-        addChild("NavX", navx);
-        addChild("Field Map", field);
     }
 
     /***********************
@@ -227,8 +213,6 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
-        // TODO: just note here, reset is the biggest change
-
         if (this.gear != gear) {
             this.gear = gear;
             if (this.gear == Gear.HIGH) {
@@ -308,16 +292,13 @@ public class Drivetrain extends SubsystemBase {
     }
 
     // Angle
-    private double getEncoderRotations() {
-        // this distance is in meters (converted from rotations by the encoder)
+    private double getEncoderRadians() {
         double distance = getLeftDistance() - getRightDistance();
-
-        // undo the conversion done by the encoder to get rotations
-        return distance / DrivetrainSettings.TRACK_WIDTH;
+        return distance / (0.5 * DrivetrainSettings.TRACK_WIDTH);
     }
 
     public Angle getEncoderAngle() {
-        return Angle.fromRotations(getEncoderRotations());
+        return Angle.fromRadians(getEncoderRadians());
     }
 
     /**********************
