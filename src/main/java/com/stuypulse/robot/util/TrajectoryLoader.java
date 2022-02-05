@@ -5,20 +5,26 @@
 
 package com.stuypulse.robot.util;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
+import com.stuypulse.robot.Constants.DrivetrainSettings.Motion;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-
-import java.io.IOException;
-import java.util.List;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public final class TrajectoryLoader {
+
+    private static final TrajectoryConfig TOP_SPEED_TRAJECTORY =
+            new TrajectoryConfig(Motion.MAX_VELOCITY, Motion.MAX_ACCELERATION);
 
     private static final Trajectory DEFAULT_TRAJECTORY =
             TrajectoryGenerator.generateTrajectory(
@@ -34,6 +40,8 @@ public final class TrajectoryLoader {
         try {
             return TrajectoryUtil.fromPathweaverJson(Constants.DEPLOY_DIRECTORY.resolve(path));
         } catch (IOException e) {
+            DriverStation.reportError("Error Opening \"" + path + "\"!", e.getStackTrace());
+            
             System.err.println("Error Opening \"" + path + "\"!");
             System.out.println(e.getStackTrace());
 
@@ -50,5 +58,12 @@ public final class TrajectoryLoader {
         }
 
         return trajectory;
+    }
+
+    public static Trajectory getLine(Pose2d start, double distance) {
+        Translation2d direction = new Translation2d(distance, start.getRotation());
+        Pose2d end = new Pose2d(start.getTranslation().plus(direction), start.getRotation());
+        
+        return TrajectoryGenerator.generateTrajectory(start, List.of(), end, TOP_SPEED_TRAJECTORY);
     }
 }
