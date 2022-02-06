@@ -5,6 +5,19 @@
 
 package com.stuypulse.robot.util;
 
+/*-
+ * Contains:
+ *      - Way to easily generate unique port numbers for
+ *        simulation while making it clear that the port
+ *        is only temporary.
+ *
+ *      - getFakeSolenoid()
+ *          - returns fake port number for a solenoid
+ *      - getFakeSensor()
+ *          - returns fake port number for a sensor
+ *
+ * @author Sam Belliveau
+ */
 public class UnknownPorts {
 
     private static int solenoid = 0;
