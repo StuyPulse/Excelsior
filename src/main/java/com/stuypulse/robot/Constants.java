@@ -34,6 +34,8 @@ public interface Constants {
 
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
 
+    double INTERVAL_SECONDS = 0.020;
+    
     public interface Ports {
 
         public interface Gamepad {
@@ -180,7 +182,12 @@ public interface Constants {
                 double kR_LINEAR = -1;
                 double kR_ANGULAR = -1;
 
-                double kSTATE_
+                double kMODEL_LINEAR_STDDEV = -1;
+                double kMODEL_ANGULAR_STDDEV = -1;
+                double kMEASURE_LINEAR_STDDEV = -1;
+                double kMEASURE_ANGULAR_STDDEV = -1;
+
+                double MAX_VOLTS = 12.0;
             }
         }
 

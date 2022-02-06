@@ -10,7 +10,7 @@ import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
-
+import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
@@ -20,6 +20,7 @@ import edu.wpi.first.math.controller.LinearQuadraticRegulator;
 import edu.wpi.first.math.estimator.KalmanFilter;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.LinearSystemLoop;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -45,14 +46,26 @@ public class DrivetrainDriveCommand extends CommandBase {
             VecBuilder.fill(
                 DrivetrainSettings.Motion.LinearSystemId.kR_LINEAR, 
                 DrivetrainSettings.Motion.LinearSystemId.kR_ANGULAR),
-            0.020);
+            Constants.INTERVAL_SECONDS);
 
     private final KalmanFilter<N2, N2, N2> observer =
         new KalmanFilter<>(
             Nat.N2(),
             Nat.N2(),
-            
+            drivetrainPlant,
+            VecBuilder.fill(
+                DrivetrainSettings.Motion.LinearSystemId.kMODEL_LINEAR_STDDEV,
+                DrivetrainSettings.Motion.LinearSystemId.kMODEL_ANGULAR_STDDEV
+            ),
+            VecBuilder.fill(
+                DrivetrainSettings.Motion.LinearSystemId.kMEASURE_LINEAR_STDDEV,
+                DrivetrainSettings.Motion.LinearSystemId.kMEASURE_ANGULAR_STDDEV
+            ),
+            Constants.INTERVAL_SECONDS
         );
+
+    private final LinearSystemLoop<N2, N2, N2> loop =
+        new LinearSystemLoop<>(drivetrainPlant, controller, observer, DrivetrainSettings.Motion.LinearSystemId.MAX_VOLTS, Constants.INTERVAL_SECONDS);
 
     private IFilter speedFilter =
             new IFilterGroup(
@@ -76,6 +89,13 @@ public class DrivetrainDriveCommand extends CommandBase {
     public void execute() {
         double speed = driver.getRightTrigger() - driver.getLeftTrigger();
         double angle = driver.getLeftX();
+
+        loop.setNextR(VecBuilder.fill(speed, angle)); // Set next reference point
+        loop.correct(VecBuilder.fill(drivetrain.getVelocity(), drivetrain.getRawGyroAngle())); // 
+        loop.predict(Constants.INTERVAL_SECONDS);
+
+        speed = loop.getU(0);
+        angle = loop.getU(1);
 
         drivetrain.curvatureDrive(speedFilter.get(speed), angleFilter.get(angle));
     }
