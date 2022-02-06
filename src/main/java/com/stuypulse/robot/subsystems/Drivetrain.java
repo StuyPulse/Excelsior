@@ -316,7 +316,7 @@ public class Drivetrain extends SubsystemBase {
     // Angle
     private double getEncoderRadians() {
         double distance = getLeftDistance() - getRightDistance();
-        return distance / (0.5 * DrivetrainSettings.TRACK_WIDTH);
+        return distance / DrivetrainSettings.TRACK_WIDTH;
     }
 
     public Angle getEncoderAngle() {
