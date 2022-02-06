@@ -168,6 +168,20 @@ public interface Constants {
                 double kI = -1; // TODO: characterize
                 double kD = -1; // TODO: characterize
             }
+
+            public interface LinearSystemId {
+                double kV_LINEAR = -1;
+                double kA_LINEAR = -1;
+                double kV_ANGULAR = -1;
+                double kA_ANGULAR = -1;
+
+                double kQ_LINEAR = -1;
+                double kQ_ANGULAR = -1;
+                double kR_LINEAR = -1;
+                double kR_ANGULAR = -1;
+
+                double kSTATE_
+            }
         }
 
         public interface Odometry {
