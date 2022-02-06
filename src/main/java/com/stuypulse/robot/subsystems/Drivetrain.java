@@ -209,13 +209,11 @@ public class Drivetrain extends SubsystemBase {
 
     // Set isInverted of all the motors
     public void setInverted(boolean leftSide, boolean rightSide) {
-        leftNEO.setInverted(leftSide);
         leftGrayhill.setReverseDirection(leftSide);
         for (CANSparkMax motor : leftMotors) {
             motor.setInverted(leftSide);
         }
 
-        rightNEO.setInverted(rightSide);
         rightGrayhill.setReverseDirection(rightSide);
         for (CANSparkMax motor : rightMotors) {
             motor.setInverted(rightSide);
@@ -466,37 +464,43 @@ public class Drivetrain extends SubsystemBase {
 
         if (Constants.DEBUG_MODE.get()) {
 
-            SmartDashboard.putData("Drivetrain/Field", field);
+            SmartDashboard.putData("Debug/Drivetrain/Field", field);
             SmartDashboard.putString(
-                    "Drivetrain/Current Gear",
+                    "Debug/Drivetrain/Current Gear",
                     getGear().equals(Gear.HIGH) ? "High Gear" : "Low Gear");
-            SmartDashboard.putNumber("Drivetrain/Odometer X Position (m)", getPose().getX());
-            SmartDashboard.putNumber("Drivetrain/Odometer Y Position (m)", getPose().getY());
+            SmartDashboard.putNumber("Debug/Drivetrain/Odometer X Position (m)", getPose().getX());
+            SmartDashboard.putNumber("Debug/Drivetrain/Odometer Y Position (m)", getPose().getY());
             SmartDashboard.putNumber(
-                    "Drivetrain/Odometer Rotation (deg)", getPose().getRotation().getDegrees());
+                    "Debug/Drivetrain/Odometer Rotation (deg)",
+                    getPose().getRotation().getDegrees());
 
-            SmartDashboard.putNumber("Drivetrain/Motor Voltage Left (V)", getLeftVoltage());
-            SmartDashboard.putNumber("Drivetrain/Motor Voltage Right (V)", getRightVoltage());
-
-            SmartDashboard.putNumber("Drivetrain/NEO Distance Left (m)", leftNEO.getPosition());
-            SmartDashboard.putNumber("Drivetrain/NEO Distance Right (m)", rightNEO.getPosition());
+            SmartDashboard.putNumber("Debug/Drivetrain/Motor Voltage Left (V)", getLeftVoltage());
+            SmartDashboard.putNumber("Debug/Drivetrain/Motor Voltage Right (V)", getRightVoltage());
 
             SmartDashboard.putNumber(
-                    "Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
+                    "Debug/Drivetrain/NEO Distance Left (m)", leftNEO.getPosition());
             SmartDashboard.putNumber(
-                    "Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
+                    "Debug/Drivetrain/NEO Distance Right (m)", rightNEO.getPosition());
 
-            SmartDashboard.putNumber("Drivetrain/Distance Traveled (m)", getDistance());
-            SmartDashboard.putNumber("Drivetrain/Distance Traveled Left (m)", getLeftDistance());
-            SmartDashboard.putNumber("Drivetrain/Distance Traveled Right (m)", getRightDistance());
-
-            SmartDashboard.putNumber("Drivetrain/Velocity (m per s)", getVelocity());
-            SmartDashboard.putNumber("Drivetrain/Velocity Left (m per s)", getLeftVelocity());
-            SmartDashboard.putNumber("Drivetrain/Velocity Right (m per s)", getRightVelocity());
-
-            SmartDashboard.putNumber("Drivetrain/Angle NavX (deg)", getAngle().toDegrees());
             SmartDashboard.putNumber(
-                    "Drivetrain/Encoder Angle (deg)", getEncoderAngle().toDegrees());
+                    "Debug/Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
+
+            SmartDashboard.putNumber("Debug/Drivetrain/Distance Traveled (m)", getDistance());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Distance Traveled Left (m)", getLeftDistance());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Distance Traveled Right (m)", getRightDistance());
+
+            SmartDashboard.putNumber("Debug/Drivetrain/Velocity (m per s)", getVelocity());
+            SmartDashboard.putNumber("Debug/Drivetrain/Velocity Left (m per s)", getLeftVelocity());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Velocity Right (m per s)", getRightVelocity());
+
+            SmartDashboard.putNumber("Debug/Drivetrain/Angle NavX (deg)", getAngle().toDegrees());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Encoder Angle (deg)", getEncoderAngle().toDegrees());
         }
     }
 }

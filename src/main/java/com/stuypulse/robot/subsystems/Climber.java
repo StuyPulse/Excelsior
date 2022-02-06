@@ -117,9 +117,9 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putBoolean("Climber/Long Extended", longSolenoid.get());
-            SmartDashboard.putBoolean("Climber/Short Extended", shortSolenoid.get());
-            SmartDashboard.putBoolean("Climber/Stopper Active", stopper.get());
+            SmartDashboard.putBoolean("Debug/Climber/Long Extended", longSolenoid.get());
+            SmartDashboard.putBoolean("Debug/Climber/Short Extended", shortSolenoid.get());
+            SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
         }
     }
 }

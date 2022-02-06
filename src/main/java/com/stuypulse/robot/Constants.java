@@ -8,6 +8,8 @@ package com.stuypulse.robot;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import com.stuypulse.robot.util.UnknownPorts;
+
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,7 +34,7 @@ public interface Constants {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
+    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     public interface Ports {
 
@@ -45,12 +47,12 @@ public interface Constants {
         public interface Climber {
             int MOTOR = 50;
 
-            int SOLENOID_LONG = -1;
-            int SOLENOID_SHORT = -1;
-            int SOLENOID_STOPPER = -1;
+            int SOLENOID_LONG = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_SHORT = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_STOPPER = UnknownPorts.getFakeSolenoid();
 
-            int BOTTOM_LIMIT_SWITCH = -1;
-            int TOP_LIMIT_SWITCH = -1;
+            int BOTTOM_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
+            int TOP_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -59,8 +61,8 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             int TOP_BELT_MOTOR = 31;
 
-            int GANDALF_IR_SENSOR = -1;
-            int TOP_BELT_IR_SENSOR = -1;
+            int GANDALF_IR_SENSOR = UnknownPorts.getFakeSensor();
+            int TOP_BELT_IR_SENSOR = UnknownPorts.getFakeSensor();
         }
 
         public interface Drivetrain {
@@ -72,23 +74,23 @@ public interface Constants {
             int RIGHT_MIDDLE = 14;
             int RIGHT_BOTTOM = 15;
 
-            int GEAR_SHIFT_A = -1;
-            int GEAR_SHIFT_B = -1;
+            int GEAR_SHIFT_A = UnknownPorts.getFakeSolenoid();
+            int GEAR_SHIFT_B = UnknownPorts.getFakeSolenoid();
 
             interface Encoders {
-                int LEFT_A = -1;
-                int LEFT_B = -1;
+                int LEFT_A = UnknownPorts.getFakeSensor();
+                int LEFT_B = UnknownPorts.getFakeSensor();
 
-                int RIGHT_A = -1;
-                int RIGHT_B = -1;
+                int RIGHT_A = UnknownPorts.getFakeSensor();
+                int RIGHT_B = UnknownPorts.getFakeSensor();
             }
         }
 
         public interface Intake {
             int MOTOR = 40;
 
-            int SOLENOID_A = -1;
-            int SOLENOID_B = -1;
+            int SOLENOID_A = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_B = UnknownPorts.getFakeSolenoid();
         }
 
         public interface LEDController {
@@ -100,7 +102,7 @@ public interface Constants {
             int SHOOTER_FOLLOWER = 21;
             int FEEDER = 22;
 
-            int HOOD_SOLENOID = -1;
+            int HOOD_SOLENOID = UnknownPorts.getFakeSolenoid();
         }
     }
 
@@ -165,15 +167,15 @@ public interface Constants {
             double MAX_ACCELERATION = Units.feetToMeters(8.0);
 
             public interface FeedForward {
-                double kS = -1; // TODO: characterize
-                double kV = -1; // TODO: characterize
-                double kA = -1; // TODO: characterize
+                double kS = 0; // TODO: characterize
+                double kV = 0; // TODO: characterize
+                double kA = 0; // TODO: characterize
             }
 
             public interface PID {
-                double kP = -1; // TODO: characterize
-                double kI = -1; // TODO: characterize
-                double kD = -1; // TODO: characterize
+                double kP = 0; // TODO: characterize
+                double kI = 0; // TODO: characterize
+                double kD = 0; // TODO: characterize
             }
         }
 
