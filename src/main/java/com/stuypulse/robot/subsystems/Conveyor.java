@@ -136,10 +136,11 @@ public class Conveyor extends SubsystemBase {
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Conveyor/Top Belt Speed", topBeltMotor.get());
-            SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
-            SmartDashboard.putBoolean("Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
-            SmartDashboard.putBoolean("Conveyor/Top Belt Lower IR Ball", getGandalfHasBall());
+            SmartDashboard.putNumber("Debug/Conveyor/Top Belt Speed", topBeltMotor.get());
+            SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor Speed", gandalfMotor.get());
+            SmartDashboard.putBoolean(
+                    "Debug/Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
+            SmartDashboard.putBoolean("Debug/Conveyor/Top Belt Lower IR Ball", getGandalfHasBall());
         }
     }
 }

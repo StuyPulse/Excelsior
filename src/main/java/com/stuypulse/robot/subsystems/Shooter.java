@@ -46,7 +46,6 @@ import com.revrobotics.SparkMaxPIDController;
 public class Shooter extends SubsystemBase {
 
     private final SmartNumber targetRPM;
-    private static final CANSparkMax.ControlType MODE = CANSparkMax.ControlType.kVelocity;
 
     // Motors
     private final CANSparkMax shooterMotor;
@@ -128,8 +127,8 @@ public class Shooter extends SubsystemBase {
         feederPIDController.setReference(targetRPM.get() * feederMultipler, kVelocity);
 
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Shooter/Shooter RPM", getShooterRPM());
-            SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
+            SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
+            SmartDashboard.putNumber("Debug/Shooter/Feeder RPM", getFeederRPM());
         }
     }
 }
