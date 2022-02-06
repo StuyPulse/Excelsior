@@ -44,8 +44,8 @@ public class DrivetrainDriveCommand extends CommandBase {
                 DrivetrainSettings.Motion.LinearSystemId.kQ_LINEAR, 
                 DrivetrainSettings.Motion.LinearSystemId.kQ_ANGULAR),
             VecBuilder.fill(
-                DrivetrainSettings.Motion.LinearSystemId.kR_LINEAR, 
-                DrivetrainSettings.Motion.LinearSystemId.kR_ANGULAR),
+                DrivetrainSettings.Motion.LinearSystemId.MAX_VOLTS, 
+                DrivetrainSettings.Motion.LinearSystemId.MAX_VOLTS),
             Constants.INTERVAL_SECONDS);
 
     private final KalmanFilter<N2, N2, N2> observer =
