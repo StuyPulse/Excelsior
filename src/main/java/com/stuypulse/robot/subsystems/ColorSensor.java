@@ -64,6 +64,7 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public boolean hasBall() {
+        // TODO: Replace with proximity sensor on the color sensor
         return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
     }
 
@@ -99,10 +100,11 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
+        colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
+
         if (Constants.DEBUG_MODE.get()) {
-            colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
-            SmartDashboard.putBoolean("Color Sensor/Has Alliance Ball", hasAllianceBall());
-            SmartDashboard.putBoolean("Color Sensor/Has Any Ball", hasBall());
+            SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
+            SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
         }
     }
 }
