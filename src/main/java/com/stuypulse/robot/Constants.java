@@ -128,7 +128,7 @@ public interface Constants {
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
-        
+
         SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
     }
 
