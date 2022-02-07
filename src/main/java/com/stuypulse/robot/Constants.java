@@ -274,11 +274,11 @@ public interface Constants {
         public interface Alignment {
 
             SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
-                
+            
             public interface Speed {
-                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.984252);
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
                 SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.0656168);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
             
                 SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
                 SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
