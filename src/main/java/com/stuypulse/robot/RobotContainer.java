@@ -67,6 +67,7 @@ public class RobotContainer {
         // TODO: ADD BUTTON BINDINGS
         driver.getRightButton().whenPressed(new DrivetrainLowGearCommand(drivetrain));
         driver.getRightButton().whenReleased(new DrivetrainHighGearCommand(drivetrain));
+ 
     }
 
     public void configureAutons() {
