@@ -57,7 +57,6 @@ public class Conveyor extends SubsystemBase {
     private final CANSparkMax gandalfMotor;
 
     private final ColorSensor colorSensor;
-    private final DigitalInput gandalfIRSensor;
     private final DigitalInput topIRSensor;
 
     private Direction topBeltDirection;
@@ -69,7 +68,6 @@ public class Conveyor extends SubsystemBase {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
 
         colorSensor = new ColorSensor();
-        gandalfIRSensor = new DigitalInput(Ports.Conveyor.GANDALF_IR_SENSOR);
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
 
         setTopBelt(Direction.STOPPED);
@@ -117,14 +115,8 @@ public class Conveyor extends SubsystemBase {
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
-        return topIRSensor.get();
+        return topIRSensor.get() || ConveyorSettings.DISABLE_IR_SENSOR.get();
     }
-
-    /** Finds if the lower IR Sensor has been tripped */
-    public boolean getGandalfHasBall() {
-        return gandalfIRSensor.get();
-    }
-
     public boolean hasOpponentBall() {
         return colorSensor.hasOpponentBall();
     }
@@ -140,7 +132,6 @@ public class Conveyor extends SubsystemBase {
             SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor Speed", gandalfMotor.get());
             SmartDashboard.putBoolean(
                     "Debug/Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
-            SmartDashboard.putBoolean("Debug/Conveyor/Top Belt Lower IR Ball", getGandalfHasBall());
         }
     }
 }

@@ -121,13 +121,15 @@ public interface Constants {
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
 
-        SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
+        SmartNumber MAX_PROXIMITY = new SmartNumber("Color Sensor/Max Proximity", 100);
     }
 
     public interface ConveyorSettings {
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
+        
+        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
     }
 
     public interface DrivetrainSettings {
