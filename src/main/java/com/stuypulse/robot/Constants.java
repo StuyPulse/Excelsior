@@ -5,8 +5,6 @@
 
 package com.stuypulse.robot;
 
-import java.nio.file.Path;
-
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -22,6 +20,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
+
+import java.nio.file.Path;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -262,7 +262,7 @@ public interface Constants {
 
         // TODO: Measure with ???
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 30.0);
-        SmartNumber LIMELIGHT_YAW   = new SmartNumber("Limelight/Yaw", 0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
 
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
@@ -274,19 +274,21 @@ public interface Constants {
         public interface Alignment {
 
             SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
-            
+
             public interface Speed {
                 SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
                 SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
                 SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
-            
-                SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
-                SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+
+                SmartNumber ERROR_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
+                SmartNumber OUT_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
 
                 public static Controller getController() {
                     return new PIDController(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
                 }
             }
 
@@ -294,14 +296,16 @@ public interface Constants {
                 SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
                 SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
                 SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
-            
-                SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
-                SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
+
+                SmartNumber ERROR_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
+                SmartNumber OUT_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
 
                 public static Controller getController() {
                     return new PIDController(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
                 }
             }
         }

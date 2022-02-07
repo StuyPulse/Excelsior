@@ -1,11 +1,17 @@
+/************************ PROJECT DORCAS ************************/
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
+/* This work is licensed under the terms of the MIT license.    */
+/****************************************************************/
+
 package com.stuypulse.robot.commands.drivetrain;
+
+import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.math.SLMath;
 
 import com.stuypulse.robot.Constants.LimelightSettings;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.util.IFuser;
 import com.stuypulse.robot.util.Target;
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.math.SLMath;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -22,17 +28,17 @@ public class DrivetrainAlignCommand extends CommandBase {
     public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
         this.drivetrain = drivetrain;
 
-        angleError = new IFuser(
-            LimelightSettings.Alignment.FUSION_FILTER,
-            () -> Target.getXAngle().toDegrees(),
-            () -> drivetrain.getAngle().toDegrees()
-        );
+        angleError =
+                new IFuser(
+                        LimelightSettings.Alignment.FUSION_FILTER,
+                        () -> Target.getXAngle().toDegrees(),
+                        () -> drivetrain.getAngle().toDegrees());
 
-        distanceError = new IFuser(
-            LimelightSettings.Alignment.FUSION_FILTER,
-            () -> Target.getDistance() - targetDistance.doubleValue(),
-            () -> drivetrain.getDistance()
-        );
+        distanceError =
+                new IFuser(
+                        LimelightSettings.Alignment.FUSION_FILTER,
+                        () -> Target.getDistance() - targetDistance.doubleValue(),
+                        () -> drivetrain.getDistance());
 
         angleController = LimelightSettings.Alignment.Angle.getController();
         distanceController = LimelightSettings.Alignment.Speed.getController();
@@ -49,7 +55,6 @@ public class DrivetrainAlignCommand extends CommandBase {
         angleError.initialize();
         distanceError.initialize();
     }
-
 
     public double getSpeed() {
         double speed = distanceController.update(distanceError.get());
@@ -74,8 +79,7 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return angleController.isDone(LimelightSettings.MAX_ANGLE_ERROR.get()) && 
-            distanceController.isDone(LimelightSettings.MAX_DISTANCE_ERROR.get());
+        return angleController.isDone(LimelightSettings.MAX_ANGLE_ERROR.get())
+                && distanceController.isDone(LimelightSettings.MAX_DISTANCE_ERROR.get());
     }
-    
 }
