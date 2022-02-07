@@ -26,6 +26,9 @@ import com.revrobotics.ColorSensorV3;
  *      - getCurrentBall()
  *         - Gets current ball seen by subsystem.
  *         - Returns CurrentBall enum
+ *      - isConnected()
+ *         - Checks if the Color Sensor is connected
+ *         - Returns false if not, true if yes.
  *      - hasAllianceBall()
  *         - Checks if there is a ball and the ball is the correct alliance color
  *         - Returns false if no ball or wrong Alliance color
@@ -63,12 +66,19 @@ public class ColorSensor extends SubsystemBase {
         return colorMatcher.matchClosestColor(getRawColor());
     }
 
-    public boolean hasBall() {
-        // TODO: Replace with proximity sensor on the color sensor
-        return getMatchedColor().confidence > ColorSensorSettings.MIN_CONFIDENCE.get();
+    private int getProximity() {
+        return colorSensor.getProximity();
     }
 
-    public CurrentBall getCurrentBall() {
+    private boolean hasBall() {
+        return getProximity() > ColorSensorSettings.MAX_PROXIMITY.get();
+    }
+
+    private boolean isConnected() {
+        return colorSensor.isConnected();
+    }
+
+    private CurrentBall getCurrentBall() {
         ColorMatchResult matched = getMatchedColor();
         if (!hasBall()) {
             return CurrentBall.NO_BALL;
@@ -91,20 +101,29 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public boolean hasAllianceBall() {
+        if (!isConnected()) {
+            DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            return true;
+        }
         return hasBall() && getCurrentBall() == getTargetBall();
     }
 
     public boolean hasOpponentBall() {
+        if (!isConnected()) {
+            DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            return false;
+        }
         return hasBall() && !hasAllianceBall();
     }
 
     @Override
     public void periodic() {
-        colorMatcher.setConfidenceThreshold(ColorSensorSettings.MIN_CONFIDENCE.get());
-
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
+            SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
+
+            SmartDashboard.putNumber("Debug/Color Sensor/Proximity", getProximity());
         }
     }
 }

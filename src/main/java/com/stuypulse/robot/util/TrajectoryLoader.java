@@ -24,7 +24,7 @@ public final class TrajectoryLoader {
 
     private static final TrajectoryConfig MAX_SPEED_TRAJECTORY =
             new TrajectoryConfig(Motion.MAX_VELOCITY, Motion.MAX_ACCELERATION)
-                .setKinematics(DrivetrainSettings.Motion.KINEMATICS);
+                    .setKinematics(DrivetrainSettings.Motion.KINEMATICS);
 
     private static final Trajectory DEFAULT_TRAJECTORY =
             TrajectoryGenerator.generateTrajectory(
@@ -65,12 +65,9 @@ public final class TrajectoryLoader {
     // which can be done by setting robot odometry or by doing trajectory.relativeTo
     public static Trajectory getLine(double distance) {
         return TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, new Rotation2d()),
-            List.of(),
-            new Pose2d(distance, 0, new Rotation2d()),
-            MAX_SPEED_TRAJECTORY.setReversed(distance < 0)
-        );
+                new Pose2d(0, 0, new Rotation2d()),
+                List.of(),
+                new Pose2d(distance, 0, new Rotation2d()),
+                MAX_SPEED_TRAJECTORY.setReversed(distance < 0));
     }
-
-
 }
