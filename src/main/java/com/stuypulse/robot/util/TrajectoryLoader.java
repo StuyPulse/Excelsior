@@ -11,7 +11,6 @@ import com.stuypulse.robot.Constants.DrivetrainSettings.Motion;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -23,8 +22,9 @@ import java.util.List;
 
 public final class TrajectoryLoader {
 
-    private static final TrajectoryConfig TOP_SPEED_TRAJECTORY =
-            new TrajectoryConfig(Motion.MAX_VELOCITY, Motion.MAX_ACCELERATION);
+    private static final TrajectoryConfig MAX_SPEED_TRAJECTORY =
+            new TrajectoryConfig(Motion.MAX_VELOCITY, Motion.MAX_ACCELERATION)
+                .setKinematics(DrivetrainSettings.Motion.KINEMATICS);
 
     private static final Trajectory DEFAULT_TRAJECTORY =
             TrajectoryGenerator.generateTrajectory(
@@ -60,10 +60,17 @@ public final class TrajectoryLoader {
         return trajectory;
     }
 
-    public static Trajectory getLine(Pose2d start, double distance) {
-        Translation2d direction = new Translation2d(distance, start.getRotation());
-        Pose2d end = new Pose2d(start.getTranslation().plus(direction), start.getRotation());
-
-        return TrajectoryGenerator.generateTrajectory(start, List.of(), end, TOP_SPEED_TRAJECTORY);
+    // Generates a straight line trajectory, handles moving backwards.
+    // Is centered at (0,0), so relativity must be handled by calling command,
+    // which can be done by setting robot odometry or by doing trajectory.relativeTo
+    public static Trajectory getLine(double distance) {
+        return TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, new Rotation2d()),
+            List.of(),
+            new Pose2d(distance, 0, new Rotation2d()),
+            MAX_SPEED_TRAJECTORY.setReversed(distance < 0)
+        );
     }
+
+
 }

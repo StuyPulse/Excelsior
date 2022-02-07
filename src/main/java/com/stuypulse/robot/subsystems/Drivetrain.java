@@ -62,17 +62,15 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH(Value.kForward),
-        LOW(Value.kReverse);
+        HIGH(Value.kForward, DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION),
+        LOW(Value.kReverse, DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
 
         private final Value value;
+        private final double ratio;
 
-        private Gear(Value value) {
+        private Gear(Value value, double ratio) {
             this.value = value;
-        }
-
-        public Value getValue() {
-            return value;
+            this.ratio = ratio;
         }
     }
 
@@ -233,17 +231,9 @@ public class Drivetrain extends SubsystemBase {
     public void setGear(Gear gear) {
         if (this.gear != gear) {
             this.gear = gear;
-            if (this.gear == Gear.HIGH) {
-                gearShift.set(this.gear.getValue());
-                setNEODistancePerRotation(
-                        DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
-                reset();
-            } else {
-                gearShift.set(this.gear.getValue());
-                setNEODistancePerRotation(
-                        DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
-                reset();
-            }
+            gearShift.set(this.gear.value);
+            setNEODistancePerRotation(this.gear.ratio);
+            reset();
         }
     }
 
@@ -316,7 +306,7 @@ public class Drivetrain extends SubsystemBase {
     // Angle
     private double getEncoderRadians() {
         double distance = getLeftDistance() - getRightDistance();
-        return distance / (0.5 * DrivetrainSettings.TRACK_WIDTH);
+        return distance / DrivetrainSettings.TRACK_WIDTH;
     }
 
     public Angle getEncoderAngle() {
