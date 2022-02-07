@@ -5,8 +5,11 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.util.UnknownPorts;
 
@@ -265,6 +268,63 @@ public interface Constants {
             double kI = 0.0;
             double kD = 0.0;
             double kF = 0.0;
+        }
+    }
+
+    public interface LimelightSettings {
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38);
+        double HUB_HEIGHT = Units.inchesToMeters(104);
+
+        double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
+
+        // TODO: Measure with ???
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 30.0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
+
+        // Bounds for Distance
+        double MIN_VALID_DISTANCE = Units.feetToMeters(2);
+        double MAX_VALID_DISTANCE = Units.feetToMeters(24);
+
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.1);
+
+        public interface Alignment {
+
+            SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+
+            public interface Speed {
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
+                SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
+
+                SmartNumber ERROR_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
+                SmartNumber OUT_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+
+                public static Controller getController() {
+                    return new PIDController(kP, kI, kD)
+                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                }
+            }
+
+            public interface Angle {
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
+                SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
+
+                SmartNumber ERROR_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
+                SmartNumber OUT_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
+
+                public static Controller getController() {
+                    return new PIDController(kP, kI, kD)
+                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                }
+            }
         }
     }
 }
