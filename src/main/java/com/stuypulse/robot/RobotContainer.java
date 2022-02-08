@@ -69,19 +69,18 @@ public class RobotContainer {
         /*** Climber Control ***/
         /***********************/
 
-        new Button(() -> operator.getRightY() >= 0.75)
-            .whileHeld(new ClimberMoveUpCommand(climber));
+        new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
 
-        new Button(() -> operator.getRightY() <=-0.75)
-            .whenPressed(new IntakeRetractCommand(intake))
-            .whileHeld(new ClimberMoveDownCommand(climber));
+        new Button(() -> operator.getRightY() <= -0.75)
+                .whenPressed(new IntakeRetractCommand(intake))
+                .whileHeld(new ClimberMoveDownCommand(climber));
 
         /*************************/
         /*** Conveyor Control ***/
         /*************************/
 
-        operator.getTopButton().whenPressed(new ConveyorStopCommand(conveyor));
-        operator.getLeftButton().whenPressed(new ConveyorForceEjectCommand(conveyor));
+        operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
+        operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /**************************/
         /*** Drivetrain Control ***/
@@ -95,9 +94,9 @@ public class RobotContainer {
         /**********************/
 
         operator.getRightTriggerButton()
-            .whenPressed(new IntakeExtendCommand(intake))
-            .whileHeld(new IntakeAcquireCommand(intake));
-        
+                .whenPressed(new IntakeExtendCommand(intake))
+                .whileHeld(new IntakeAcquireCommand(intake));
+
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
         operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));

@@ -122,6 +122,7 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Climber/Long Extended", longSolenoid.get());
             SmartDashboard.putBoolean("Debug/Climber/Short Extended", shortSolenoid.get());
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
+            SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
         }
     }
 }
