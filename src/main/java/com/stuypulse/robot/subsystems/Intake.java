@@ -81,7 +81,7 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Intake/Motor Speed", IntakeSettings.MOTOR_SPEED.get());
+            SmartDashboard.putNumber("Debug/Intake/Motor Speed", motor.get());
         }
     }
 }

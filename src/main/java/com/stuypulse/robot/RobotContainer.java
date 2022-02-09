@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -64,10 +65,52 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        // TODO: ADD BUTTON BINDINGS
+        /***********************/
+        /*** Climber Control ***/
+        /***********************/
+
+        new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
+
+        new Button(() -> operator.getRightY() <= -0.75)
+                .whenPressed(new IntakeRetractCommand(intake))
+                .whileHeld(new ClimberMoveDownCommand(climber));
+
+        /*************************/
+        /*** Conveyor Control ***/
+        /*************************/
+
+        operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
+        operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
+
+        /**************************/
+        /*** Drivetrain Control ***/
+        /**************************/
+
         driver.getRightButton().whenPressed(new DrivetrainLowGearCommand(drivetrain));
         driver.getRightButton().whenReleased(new DrivetrainHighGearCommand(drivetrain));
- 
+
+        /**********************/
+        /*** Intake Control ***/
+        /**********************/
+
+        operator.getRightTriggerButton()
+                .whenPressed(new IntakeExtendCommand(intake))
+                .whileHeld(new IntakeAcquireCommand(intake));
+
+        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
+
+        operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
+
+        /***********************/
+        /*** Shooter Control ***/
+        /***********************/
+
+        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
+        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
+
+        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
+
+        operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }
 
     public void configureAutons() {

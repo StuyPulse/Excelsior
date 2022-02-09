@@ -10,6 +10,7 @@ import com.stuypulse.robot.Constants.ClimberSettings;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -81,6 +82,7 @@ public class Climber extends SubsystemBase {
 
     public void setMotor(double speed) {
         if (stopper.get()) {
+            DriverStation.reportWarning("Climber attempted to run while lock was enabled!", true);
             setMotorStop();
         } else {
             climber.set(speed);
@@ -120,6 +122,7 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Climber/Long Extended", longSolenoid.get());
             SmartDashboard.putBoolean("Debug/Climber/Short Extended", shortSolenoid.get());
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
+            SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
         }
     }
 }

@@ -66,8 +66,12 @@ public class ColorSensor extends SubsystemBase {
         return colorMatcher.matchClosestColor(getRawColor());
     }
 
+    private int getProximity() {
+        return colorSensor.getProximity();
+    }
+
     private boolean hasBall() {
-        return colorSensor.getProximity() > ColorSensorSettings.MAX_PROXIMITY.get();
+        return getProximity() > ColorSensorSettings.MAX_PROXIMITY.get();
     }
 
     private boolean isConnected() {
@@ -118,6 +122,8 @@ public class ColorSensor extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
+
+            SmartDashboard.putNumber("Debug/Color Sensor/Proximity", getProximity());
         }
     }
 }
