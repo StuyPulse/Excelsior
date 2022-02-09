@@ -248,9 +248,6 @@ public interface Constants {
     }
 
     public interface ShooterSettings {
-        // smart number so we can tweak it
-        SmartNumber STARTUP_DELAY = new SmartNumber("Shooter/Startup Delay", 1);
-
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
