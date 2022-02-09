@@ -1,12 +1,12 @@
 {
   "HALProvider": {
+    "DIO": {
+      "window": {
+        "visible": true
+      }
+    },
     "Encoders": {
       "0": {
-        "header": {
-          "open": true
-        }
-      },
-      "1": {
         "header": {
           "open": true
         }
@@ -19,12 +19,61 @@
       "REV Color Sensor V3[0,82]": {
         "header": {
           "open": true
-        }
+        },
+        "name": "color sensor"
+      },
+      "SPARK MAX [10]": {
+        "name": "drivetrain top left"
+      },
+      "SPARK MAX [11]": {
+        "name": "drivetrain middle left"
+      },
+      "SPARK MAX [12]": {
+        "name": "drivetrain bottom left"
+      },
+      "SPARK MAX [13]": {
+        "name": "drivetrain top right"
+      },
+      "SPARK MAX [14]": {
+        "name": "drivetrain middle right"
+      },
+      "SPARK MAX [15]": {
+        "name": "drivetrain bottom right"
+      },
+      "SPARK MAX [20]": {
+        "name": "shooter"
+      },
+      "SPARK MAX [21]": {
+        "name": "shooter follower"
+      },
+      "SPARK MAX [22]": {
+        "name": "feeder"
+      },
+      "SPARK MAX [30]": {
+        "name": "gandalf conveyor"
+      },
+      "SPARK MAX [31]": {
+        "name": "top belt conveyor"
+      },
+      "SPARK MAX [40]": {
+        "header": {
+          "open": true
+        },
+        "name": "intake motor"
+      },
+      "SPARK MAX [50]": {
+        "name": "climber"
       },
       "navX-Sensor[0]": {
         "header": {
           "open": true
-        }
+        },
+        "name": "navX"
+      }
+    },
+    "Solenoids": {
+      "window": {
+        "visible": true
       }
     }
   },
