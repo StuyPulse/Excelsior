@@ -9,6 +9,7 @@ import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.subsystems.Intake;
 import com.stuypulse.robot.subsystems.Shooter;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
@@ -23,24 +24,24 @@ public class ThreeBallAuton extends SequentialCommandGroup {
   private static final String SECOND_SHOT_PATH = "ThreeBallAuto/output/ThreeBallAutonGetThirdBall.wpilib.json";
 
 /** Creates a new ThreeBallAuton. */
-  public ThreeBallAuton(Drivetrain drivetrain, Intake intake, Shooter shooter, Conveyor conveyor) {
+  public ThreeBallAuton(Drivetrain drivetrain, Intake intake, Shooter shooter, Conveyor conveyor, double ringShot) {
     addCommands(
       new IntakeExtendCommand(intake),
       new IntakeAcquireForeverCommand(intake),
-      new ShooterRingShotCommand(shooter)
-      // TODO: Test if requires wait command
+      new ShooterRingShotCommand(shooter),
+      new WaitCommand(1)
     );
     addCommands(
       new DrivetrainRamseteCommand(drivetrain, ACQUIRE_FIRST_BALL)
         .robotRelative(),
-      // TODO: Add Alignment
+      new DrivetrainAlignCommand(drivetrain, ringShot),
       new ConveyorShootCommand(conveyor).withTimeout(1)
     );
 
     addCommands(
       new DrivetrainRamseteCommand(drivetrain, SECOND_SHOT_PATH)
-        .robotRelative(),
-      // TODO: Add Alignment
+        .fieldRelative(),
+      new DrivetrainAlignCommand(drivetrain, ringShot),
       new ConveyorShootCommand(conveyor).withTimeout(1)
     );
   }
