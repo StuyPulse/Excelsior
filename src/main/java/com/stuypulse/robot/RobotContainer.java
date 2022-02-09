@@ -33,10 +33,10 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class RobotContainer {
 
     // Subsystems
-    public final Climber climber = new Climber();
-    public final Conveyor conveyor = new Conveyor();
+    public final Climber climber = null; // new Climber();
+    public final Conveyor conveyor = null; // new Conveyor();
     public final Drivetrain drivetrain = new Drivetrain();
-    public final Intake intake = new Intake();
+    public final Intake intake = null; // new Intake();
     public final LEDController leds = new LEDController(this);
     public final Pump pump = new Pump();
     public final Shooter shooter = new Shooter();
@@ -69,18 +69,18 @@ public class RobotContainer {
         /*** Climber Control ***/
         /***********************/
 
-        new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
+        // new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
 
-        new Button(() -> operator.getRightY() <= -0.75)
-                .whenPressed(new IntakeRetractCommand(intake))
-                .whileHeld(new ClimberMoveDownCommand(climber));
+        // new Button(() -> operator.getRightY() <= -0.75)
+        //         .whenPressed(new IntakeRetractCommand(intake))
+        //         .whileHeld(new ClimberMoveDownCommand(climber));
 
         /*************************/
         /*** Conveyor Control ***/
         /*************************/
 
-        operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
-        operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
+        // operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
+        // operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /**************************/
         /*** Drivetrain Control ***/
@@ -93,24 +93,24 @@ public class RobotContainer {
         /*** Intake Control ***/
         /**********************/
 
-        operator.getRightTriggerButton()
-                .whenPressed(new IntakeExtendCommand(intake))
-                .whileHeld(new IntakeAcquireCommand(intake));
+        // operator.getRightTriggerButton()
+        //         .whenPressed(new IntakeExtendCommand(intake))
+        //         .whileHeld(new IntakeAcquireCommand(intake));
 
-        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
+        // operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
-        operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
+        // operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
 
         /***********************/
         /*** Shooter Control ***/
         /***********************/
 
-        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
-        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
+        // operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
+        // operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
 
-        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
+        // operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
 
-        operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
+        // operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }
 
     public void configureAutons() {

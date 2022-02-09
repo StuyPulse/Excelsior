@@ -48,8 +48,9 @@ public class Shooter extends SubsystemBase {
     private final SmartNumber targetRPM;
 
     // Motors
-    private final CANSparkMax shooterMotor;
-    private final CANSparkMax shooterFollower;
+    private final CANSparkMax shooterLeader;
+    private final CANSparkMax shooterFollowerA;
+    private final CANSparkMax shooterFollowerB;
     private final CANSparkMax feederMotor;
 
     // Encoders
@@ -66,16 +67,18 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
 
-        shooterMotor = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
-        shooterFollower = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER, MotorType.kBrushless);
+        shooterLeader = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
+        shooterFollowerA = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_A, MotorType.kBrushless);
+        shooterFollowerB = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_B, MotorType.kBrushless);        
         feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
 
-        shooterFollower.follow(shooterMotor, true);
-
-        shooterEncoder = shooterMotor.getEncoder();
+        shooterFollowerA.follow(shooterLeader, false);
+        shooterFollowerB.follow(shooterLeader, true);
+        
+        shooterEncoder = shooterLeader.getEncoder();
         feederEncoder = feederMotor.getEncoder();
 
-        shooterPIDController = shooterMotor.getPIDController();
+        shooterPIDController = shooterLeader.getPIDController();
         feederPIDController = feederMotor.getPIDController();
 
         shooterPIDController.setP(ShooterSettings.ShooterPID.kP);
@@ -88,7 +91,7 @@ public class Shooter extends SubsystemBase {
         feederPIDController.setD(ShooterSettings.FeederPID.kD);
         feederPIDController.setFF(ShooterSettings.FeederPID.kF);
 
-        shooterMotor.burnFlash();
+        shooterLeader.burnFlash();
         feederMotor.burnFlash();
 
         hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);

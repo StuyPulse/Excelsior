@@ -5,12 +5,16 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.math.SLMath;
-
+import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
 import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.math.SLMath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,19 +26,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.kauailabs.navx.frc.AHRS;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 /*-
  * Moves the robot around
@@ -62,13 +60,22 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH(Value.kForward, DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION),
-        LOW(Value.kReverse, DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
+        HIGH(
+            // Value.kForward, 
+            true,
+            DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION
+        ),
+        
+        LOW(
+            // Value.kReverse, 
+            false,
+            DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION
+        );
 
-        private final Value value;
+        private final boolean value;
         private final double ratio;
 
-        private Gear(Value value, double ratio) {
+        private Gear(boolean value, double ratio) {
             this.value = value;
             this.ratio = ratio;
         }
@@ -88,7 +95,8 @@ public class Drivetrain extends SubsystemBase {
 
     // DifferentialDrive and Gear Information
     private Gear gear;
-    private final DoubleSolenoid gearShift;
+    // private final DoubleSolenoid gearShift;
+    private final Solenoid gearShift;
     private final DifferentialDrive drivetrain;
 
     // NAVX for Gyro
@@ -103,14 +111,14 @@ public class Drivetrain extends SubsystemBase {
         leftMotors =
                 new CANSparkMax[] {
                     new CANSparkMax(Ports.Drivetrain.LEFT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
+                    // new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
                     new CANSparkMax(Ports.Drivetrain.LEFT_BOTTOM, MotorType.kBrushless)
                 };
 
         rightMotors =
                 new CANSparkMax[] {
                     new CANSparkMax(Ports.Drivetrain.RIGHT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
+                    // new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
                     new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
                 };
 
@@ -136,10 +144,15 @@ public class Drivetrain extends SubsystemBase {
 
         // Add Gear Shifter
         gearShift =
-                new DoubleSolenoid(
-                        PneumaticsModuleType.CTREPCM,
-                        Ports.Drivetrain.GEAR_SHIFT_A,
-                        Ports.Drivetrain.GEAR_SHIFT_B);
+                new Solenoid(
+                        PneumaticsModuleType.CTREPCM, 
+                        Ports.Drivetrain.GEAR_SHIFT_A);
+        
+        // gearShift = 
+        //     new DoubleSolenoid(
+        //                 PneumaticsModuleType.CTREPCM,
+        //                 Ports.Drivetrain.GEAR_SHIFT_A,
+        //                 Ports.Drivetrain.GEAR_SHIFT_B);
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);

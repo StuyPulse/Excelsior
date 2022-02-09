@@ -69,31 +69,31 @@ public interface Constants {
         }
 
         public interface Drivetrain {
-            int LEFT_TOP = 10;
+            int LEFT_TOP = 7;
             int LEFT_MIDDLE = 11;
-            int LEFT_BOTTOM = 12;
+            int LEFT_BOTTOM = 6;
 
-            int RIGHT_TOP = 13;
+            int RIGHT_TOP = 4;
             int RIGHT_MIDDLE = 14;
-            int RIGHT_BOTTOM = 15;
+            int RIGHT_BOTTOM = 3;
 
-            int GEAR_SHIFT_A = UnknownPorts.getFakeSolenoid();
+            int GEAR_SHIFT_A = 0;
             int GEAR_SHIFT_B = UnknownPorts.getFakeSolenoid();
 
             interface Encoders {
-                int LEFT_A = UnknownPorts.getFakeSensor();
-                int LEFT_B = UnknownPorts.getFakeSensor();
+                int LEFT_A = 0;
+                int LEFT_B = 1;
 
-                int RIGHT_A = UnknownPorts.getFakeSensor();
-                int RIGHT_B = UnknownPorts.getFakeSensor();
+                int RIGHT_A = 2;
+                int RIGHT_B = 3;
             }
         }
 
         public interface Intake {
-            int MOTOR = 40;
+            int MOTOR = 18;
 
-            int SOLENOID_A = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_B = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_A = 4;
+            int SOLENOID_B = 5;
         }
 
         public interface LEDController {
@@ -101,11 +101,12 @@ public interface Constants {
         }
 
         public interface Shooter {
-            int SHOOTER = 20;
-            int SHOOTER_FOLLOWER = 21;
-            int FEEDER = 22;
+            int SHOOTER = 12;
+            int SHOOTER_FOLLOWER_A = 13;
+            int SHOOTER_FOLLOWER_B = 14;
+            int FEEDER = 11;
 
-            int HOOD_SOLENOID = UnknownPorts.getFakeSolenoid();
+            int HOOD_SOLENOID = 1;
         }
     }
 
