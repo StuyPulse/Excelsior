@@ -253,6 +253,8 @@ public interface Constants {
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
 
+        SmartNumber STARTUP_DELAY = new SmartNumber("Shooter/Startup Delay", 1.0);
+
         public interface ShooterPID {
             double kP = 0.0;
             double kI = 0.0;
