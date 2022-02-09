@@ -70,4 +70,14 @@ public final class TrajectoryLoader {
                 new Pose2d(distance, 0, new Rotation2d()),
                 MAX_SPEED_TRAJECTORY.setReversed(distance < 0));
     }
+
+    // Generates a straight line trajectory that is relative to a prior trajectory
+    // for the purpose of taking advantage of ramsete controllers. For example,
+    // running the "before" trajectory, doing something else, and then running this 
+    // trajectory. 
+    public static Trajectory getLine(double distance, Trajectory before) {
+        Trajectory nextLine = getLine(distance);
+        Pose2d lastPose = before.sample(nextLine.getTotalTimeSeconds()).poseMeters;
+        return nextLine.relativeTo(lastPose);
+    }
 }
