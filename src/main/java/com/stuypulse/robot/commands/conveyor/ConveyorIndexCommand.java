@@ -49,6 +49,10 @@ public class ConveyorIndexCommand extends CommandBase {
         addRequirements(conveyor);
     }
 
+    public ConveyorIndexCommand(Conveyor conveyor) {
+        this(conveyor,false);
+    }
+
     @Override
     public void execute() {
         /*** Gandalf logic ***/
