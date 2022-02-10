@@ -88,5 +88,11 @@
       "buttonCount": 0,
       "povCount": 0
     }
+  ],
+  "robotJoysticks": [
+    {},
+    {
+      "guid": "030000006d04000016c2000000000000"
+    }
   ]
 }

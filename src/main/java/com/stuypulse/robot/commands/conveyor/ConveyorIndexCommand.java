@@ -41,7 +41,7 @@ public class ConveyorIndexCommand extends CommandBase {
     private final Conveyor conveyor;
     private final boolean ejectionless;
 
-    /** Creates a new ConveyorDefaultCommand. */
+    /** Creates a new ConveyorIndexCommand. */
     private ConveyorIndexCommand(Conveyor conveyor, boolean ejectionless) {
         this.conveyor = conveyor;
         this.ejectionless = ejectionless;
@@ -50,7 +50,7 @@ public class ConveyorIndexCommand extends CommandBase {
     }
 
     public ConveyorIndexCommand(Conveyor conveyor) {
-        this(conveyor,false);
+        this(conveyor, false);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ConveyorIndexCommand extends CommandBase {
         }
 
         // Accept Alliance Ball if no ball on top
-        else if (conveyor.hasAllianceBall()) {
+        else if (ejectionless || conveyor.hasAllianceBall()) {
             conveyor.setGandalf(Direction.FORWARD);
         }
 
@@ -85,7 +85,7 @@ public class ConveyorIndexCommand extends CommandBase {
         }
 
         // Accept Alliance Ball if no ball on top
-        else if (conveyor.hasAllianceBall()) {
+        else if (ejectionless || conveyor.hasAllianceBall()) {
             conveyor.setTopBelt(Direction.FORWARD);
         }
     }

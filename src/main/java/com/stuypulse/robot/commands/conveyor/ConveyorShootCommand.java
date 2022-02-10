@@ -32,17 +32,34 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorShootCommand extends CommandBase {
 
+    public static class Ejectionless extends ConveyorShootCommand {
+        public Ejectionless(Conveyor conveyor) {
+            super(conveyor, true);
+        }
+    }
+
     private final Conveyor conveyor;
+    private final boolean ejectionless;
+
+    /** Creates a new ConveyorShootCommand. */
+    private ConveyorShootCommand(Conveyor conveyor, boolean ejectionless) {
+        this.conveyor = conveyor;
+        this.ejectionless = ejectionless;
+
+        addRequirements(conveyor);
+    }
 
     public ConveyorShootCommand(Conveyor conveyor) {
-        this.conveyor = conveyor;
-        addRequirements(conveyor);
+        this(conveyor, false);
     }
 
     @Override
     public void execute() {
         conveyor.setTopBelt(Direction.FORWARD);
-        conveyor.setGandalf(conveyor.hasOpponentBall() ? Direction.REVERSE : Direction.FORWARD);
+        conveyor.setGandalf(
+                !ejectionless && conveyor.hasOpponentBall()
+                        ? Direction.REVERSE
+                        : Direction.FORWARD);
     }
 
     @Override
