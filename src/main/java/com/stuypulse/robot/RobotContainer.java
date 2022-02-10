@@ -105,8 +105,8 @@ public class RobotContainer {
         /*** Shooter Control ***/
         /***********************/
 
-        // operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
-        // operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
+        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
+        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
 
         // operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
 

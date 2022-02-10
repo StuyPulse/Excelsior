@@ -69,12 +69,12 @@ public class Shooter extends SubsystemBase {
 
         shooterLeader = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
         shooterFollowerA = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_A, MotorType.kBrushless);
-        shooterFollowerB = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_B, MotorType.kBrushless);        
+        shooterFollowerB = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_B, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
 
         shooterFollowerA.follow(shooterLeader, false);
         shooterFollowerB.follow(shooterLeader, true);
-        
+
         shooterEncoder = shooterLeader.getEncoder();
         feederEncoder = feederMotor.getEncoder();
 
@@ -130,8 +130,13 @@ public class Shooter extends SubsystemBase {
         feederPIDController.setReference(targetRPM.get() * feederMultipler, kVelocity);
 
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
+            SmartDashboard.putNumber("Debug/Shooter/Shooter Leader RPM", getShooterRPM());
             SmartDashboard.putNumber("Debug/Shooter/Feeder RPM", getFeederRPM());
+            SmartDashboard.putNumber("Debug/Shooter/Shooter Follower A RPM",
+                    shooterFollowerA.getEncoder().getVelocity());
+            SmartDashboard.putNumber("Debug/Shooter/Shooter Follower B RPM",
+                    shooterFollowerB.getEncoder().getVelocity());
+
         }
     }
 }
