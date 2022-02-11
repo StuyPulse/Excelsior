@@ -23,26 +23,30 @@ public class ThreeBallAuton extends SequentialCommandGroup {
   private static final String ACQUIRE_FIRST_BALL = "ThreeBallAuto/output/3BallAutonStartPath.wpilib.json";
   private static final String SECOND_SHOT_PATH = "ThreeBallAuto/output/ThreeBallAutonGetThirdBall.wpilib.json";
 
+  private static final int SHOOTER_START_TIME = 1;
+  private static final int SHOOTER_SHOOT_TIME = 2;
+  private static final int LIMELIGHT_ALIGN_TIME = 3;
+
 /** Creates a new ThreeBallAuton. */
   public ThreeBallAuton(Drivetrain drivetrain, Intake intake, Shooter shooter, Conveyor conveyor, double ringShot) {
     addCommands(
       new IntakeExtendCommand(intake),
       new IntakeAcquireForeverCommand(intake),
       new ShooterRingShotCommand(shooter),
-      new WaitCommand(1)
+      new WaitCommand(SHOOTER_START_TIME)
     );
     addCommands(
       new DrivetrainRamseteCommand(drivetrain, ACQUIRE_FIRST_BALL)
         .robotRelative(),
-      new DrivetrainAlignCommand(drivetrain, ringShot),
-      new ConveyorShootCommand(conveyor).withTimeout(1)
+      new DrivetrainAlignCommand(drivetrain, ringShot).withTimeout(LIMELIGHT_ALIGN_TIME),
+      new ConveyorShootCommand(conveyor).withTimeout(SHOOTER_SHOOT_TIME)
     );
 
     addCommands(
       new DrivetrainRamseteCommand(drivetrain, SECOND_SHOT_PATH)
         .fieldRelative(),
-      new DrivetrainAlignCommand(drivetrain, ringShot),
-      new ConveyorShootCommand(conveyor).withTimeout(1)
+      new DrivetrainAlignCommand(drivetrain, ringShot).withTimeout(LIMELIGHT_ALIGN_TIME),
+      new ConveyorShootCommand(conveyor).withTimeout(SHOOTER_SHOOT_TIME)
     );
   }
 }
