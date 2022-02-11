@@ -47,12 +47,12 @@ public interface Constants {
         public interface Climber {
             int MOTOR = 50;
 
-            int SOLENOID_LONG = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_SHORT = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_STOPPER = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_LONG = 6;
+            int SOLENOID_SHORT = 7;
+            int SOLENOID_STOPPER = 5;
 
-            int BOTTOM_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
-            int TOP_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
+            int BOTTOM_LIMIT_SWITCH = 8;
+            int TOP_LIMIT_SWITCH = 7;
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -61,8 +61,7 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             int TOP_BELT_MOTOR = 31;
 
-            int GANDALF_IR_SENSOR = UnknownPorts.getFakeSensor();
-            int TOP_BELT_IR_SENSOR = UnknownPorts.getFakeSensor();
+            int TOP_BELT_IR_SENSOR = 5;
         }
 
         public interface Drivetrain {
@@ -74,23 +73,23 @@ public interface Constants {
             int RIGHT_MIDDLE = 14;
             int RIGHT_BOTTOM = 15;
 
-            int GEAR_SHIFT_A = UnknownPorts.getFakeSolenoid();
-            int GEAR_SHIFT_B = UnknownPorts.getFakeSolenoid();
+            int GEAR_SHIFT_A = 0;
+            int GEAR_SHIFT_B = 1;
 
             interface Encoders {
-                int LEFT_A = UnknownPorts.getFakeSensor();
-                int LEFT_B = UnknownPorts.getFakeSensor();
+                int LEFT_A = 0;
+                int LEFT_B = 1;
 
-                int RIGHT_A = UnknownPorts.getFakeSensor();
-                int RIGHT_B = UnknownPorts.getFakeSensor();
+                int RIGHT_A = 2;
+                int RIGHT_B = 3;
             }
         }
 
         public interface Intake {
             int MOTOR = 40;
 
-            int SOLENOID_A = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_B = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_A = 2;
+            int SOLENOID_B = 3;
         }
 
         public interface LEDController {
@@ -102,7 +101,7 @@ public interface Constants {
             int SHOOTER_FOLLOWER = 21;
             int FEEDER = 22;
 
-            int HOOD_SOLENOID = UnknownPorts.getFakeSolenoid();
+            int HOOD_SOLENOID = 8;
         }
     }
 
