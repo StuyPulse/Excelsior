@@ -38,19 +38,17 @@ public class TwoBallAuton extends SequentialCommandGroup {
     public TwoBallAuton(RobotContainer robot, double ringShot) {
         // Starting up subsystems
         addCommands(
-            new ShooterRingShotCommand(robot.shooter),
-            new IntakeExtendCommand(robot.intake),
-            new IntakeAcquireCommand(robot.intake),
-            new WaitCommand(SHOOTER_INITIALIZE_DELAY),
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE)
-        );
+                new ShooterRingShotCommand(robot.shooter),
+                new IntakeExtendCommand(robot.intake),
+                new IntakeAcquireCommand(robot.intake),
+                new WaitCommand(SHOOTER_INITIALIZE_DELAY),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE));
 
         addCommands(
-            new DrivetrainDriveDistanceCommand(
-                robot.drivetrain, Constants.DrivetrainSettings.TRACK_WIDTH * 4),
-            new DrivetrainAlignCommand(robot.drivetrain, ringShot),
-            new ConveyorShootCommand(robot.conveyor),
-            new LEDSetCommand(robot.leds, LEDColor.CONFETTI)
-        );
+                new DrivetrainDriveDistanceCommand(
+                        robot.drivetrain, Constants.DrivetrainSettings.TRACK_WIDTH * 4),
+                new DrivetrainAlignCommand(robot.drivetrain, ringShot),
+                new ConveyorShootCommand(robot.conveyor),
+                new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
     }
 }

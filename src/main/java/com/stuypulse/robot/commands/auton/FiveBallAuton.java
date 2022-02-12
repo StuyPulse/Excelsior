@@ -58,10 +58,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
             "FiveBallAuton/output/FiveBallGetLastBallPath.wpilib.json";
 
     /** Creates a new FiveBallAuton. */
-    public FiveBallAuton(
-            RobotContainer robot,
-            double ringShot
-        ) {
+    public FiveBallAuton(RobotContainer robot, double ringShot) {
 
         // Starting up subsystems
         addCommands(
@@ -69,45 +66,44 @@ public class FiveBallAuton extends SequentialCommandGroup {
                 new IntakeExtendCommand(robot.intake),
                 new IntakeAcquireCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY),
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE)
-        );
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE));
 
         // Tarmac to first ball
         addCommands(
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_START_PATH)
                         .withTimeout(FIVE_BALL_START_PATH_TIMEOUT),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot).withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new DrivetrainAlignCommand(robot.drivetrain, ringShot)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE)
-        );
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE));
 
         // First ball to terminal to RingShot
         addCommands(
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_TERMINAL)
                         .withTimeout(FIVE_BALL_TO_TERIMAL_TIMEOUT),
                 new WaitCommand(HUMAN_WAIT_TIME),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot).withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new DrivetrainAlignCommand(robot.drivetrain, ringShot)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
-                new LEDSetCommand(robot.leds, LEDColor.RED_PULSE)
-        );
+                new LEDSetCommand(robot.leds, LEDColor.RED_PULSE));
 
         // Return to Ring to shoot
         //
         addCommands(
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT)
                         .withTimeout(FIVE_BALL_TERMINAL_TO_SHOOT_TIMEOUT),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot).withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new DrivetrainAlignCommand(robot.drivetrain, ringShot)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
-                new LEDSetCommand(robot.leds, LEDColor.BLUE_PULSE)
-        );
+                new LEDSetCommand(robot.leds, LEDColor.BLUE_PULSE));
 
         // Pick up and shoot fifth ball
         addCommands(
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_GET_LAST_BALL)
                         .withTimeout(FIVE_BALL_GET_LAST_BALL_TIMEOUT),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot).withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new DrivetrainAlignCommand(robot.drivetrain, ringShot)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI)
-        );
+                new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
     }
 }

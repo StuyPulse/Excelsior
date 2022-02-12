@@ -11,9 +11,9 @@ import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
 import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
+import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
 import com.stuypulse.robot.subsystems.LEDController.LEDColor;
-import com.stuypulse.robot.commands.leds.LEDSetCommand; 
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -48,7 +48,6 @@ public class FourBallAuton extends SequentialCommandGroup {
     // we need to set these after testing
     private static final int FOUR_BALL_START_TIMEOUT = 5;
     private static final int FOUR_BALL_TO_TERMINAL_TIMEOUT = 5;
-    
 
     private static final String FOUR_BALL_START =
             "FourBallAuton/output/FourBallStartPath.wpilib.json";
@@ -56,18 +55,14 @@ public class FourBallAuton extends SequentialCommandGroup {
             "FourBallAuton/output/FourBallTerminalPath.wpilib.json";
 
     /** Creates a new FourBallAuton. */
-    public FourBallAuton(
-            RobotContainer robot,
-            double ringShot
-        ) {
+    public FourBallAuton(RobotContainer robot, double ringShot) {
         // Starting up subsystems
         addCommands(
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
                 new IntakeAcquireCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY), // 1 seconds
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE)
-                );
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE));
 
         // Tarmac to first ball
         addCommands(
@@ -75,9 +70,9 @@ public class FourBallAuton extends SequentialCommandGroup {
                         .withTimeout(FOUR_BALL_START_TIMEOUT),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER), // 2 seconds
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE)
-                );
+                new ConveyorShootCommand(robot.conveyor)
+                        .withTimeout(CONVEYOR_TO_SHOOTER), // 2 seconds
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE));
         // First ball to terminal to RingShot
         addCommands(
                 new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL)
@@ -85,8 +80,8 @@ public class FourBallAuton extends SequentialCommandGroup {
                 new WaitCommand(HUMAN_WAIT_TIME),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER), // 2 seconds
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI)
-                );
+                new ConveyorShootCommand(robot.conveyor)
+                        .withTimeout(CONVEYOR_TO_SHOOTER), // 2 seconds
+                new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
     }
 }
