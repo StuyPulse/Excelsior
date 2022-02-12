@@ -258,10 +258,10 @@ public interface Constants {
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
 
         public interface ShooterPID {
-            double kP = 0.0;
+            double kP = 0.0028;
             double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0;
+            double kD = 0.006;
+            double kF = 0.00019;
         }
 
         public interface FeederPID {
