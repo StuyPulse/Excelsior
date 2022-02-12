@@ -1,4 +1,3 @@
-
 /************************ PROJECT DORCAS ************************/
 /* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
 /* This work is licensed under the terms of the MIT license.    */
@@ -13,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DrivetrainDriveForeverCommand extends CommandBase {
     private final Drivetrain drivetrain;
     private final double speed;
-  
+
     public DrivetrainDriveForeverCommand(Drivetrain drivetrain, double speed) {
         this.drivetrain = drivetrain;
         this.speed = speed;
@@ -25,3 +24,4 @@ public class DrivetrainDriveForeverCommand extends CommandBase {
     public void execute() {
         drivetrain.curvatureDrive(speed, 0);
     }
+}
