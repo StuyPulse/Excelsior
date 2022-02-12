@@ -138,8 +138,8 @@ public class Drivetrain extends SubsystemBase {
         gearShift =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
-                        Ports.Drivetrain.GEAR_SHIFT_A,
-                        Ports.Drivetrain.GEAR_SHIFT_B);
+                        Ports.Drivetrain.GEAR_SHIFT_FORWARD,
+                        Ports.Drivetrain.GEAR_SHIFT_REVERSE);
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
