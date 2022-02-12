@@ -5,10 +5,11 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
-
-import com.stuypulse.robot.util.UnknownPorts;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -47,12 +48,16 @@ public interface Constants {
         public interface Climber {
             int MOTOR = 50;
 
-            int SOLENOID_LONG = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_SHORT = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_STOPPER = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_STOPPER = 4;
 
-            int BOTTOM_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
-            int TOP_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
+            int SOLENOID_LONG_FORWARD = 6;
+            int SOLENOID_LONG_REVERSE = 7;
+
+            int SOLENOID_SHORT_FORWARD = 8;
+            int SOLENOID_SHORT_REVERSE = 9;
+
+            int BOTTOM_LIMIT_SWITCH = 8;
+            int TOP_LIMIT_SWITCH = 7;
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -61,8 +66,7 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             int TOP_BELT_MOTOR = 31;
 
-            int GANDALF_IR_SENSOR = UnknownPorts.getFakeSensor();
-            int TOP_BELT_IR_SENSOR = UnknownPorts.getFakeSensor();
+            int TOP_BELT_IR_SENSOR = 5;
         }
 
         public interface Drivetrain {
@@ -74,23 +78,23 @@ public interface Constants {
             int RIGHT_MIDDLE = 14;
             int RIGHT_BOTTOM = 15;
 
-            int GEAR_SHIFT_A = UnknownPorts.getFakeSolenoid();
-            int GEAR_SHIFT_B = UnknownPorts.getFakeSolenoid();
+            int GEAR_SHIFT_FORWARD = 0;
+            int GEAR_SHIFT_REVERSE = 1;
 
             interface Encoders {
-                int LEFT_A = UnknownPorts.getFakeSensor();
-                int LEFT_B = UnknownPorts.getFakeSensor();
+                int LEFT_A = 0;
+                int LEFT_B = 1;
 
-                int RIGHT_A = UnknownPorts.getFakeSensor();
-                int RIGHT_B = UnknownPorts.getFakeSensor();
+                int RIGHT_A = 2;
+                int RIGHT_B = 3;
             }
         }
 
         public interface Intake {
             int MOTOR = 40;
 
-            int SOLENOID_A = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_B = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_FORWARD = 2;
+            int SOLENOID_REVERSE = 3;
         }
 
         public interface LEDController {
@@ -102,11 +106,13 @@ public interface Constants {
             int SHOOTER_FOLLOWER = 21;
             int FEEDER = 22;
 
-            int HOOD_SOLENOID = UnknownPorts.getFakeSolenoid();
+            int HOOD_SOLENOID = 5;
         }
     }
 
     public interface ClimberSettings {
+        boolean ENABLE_TILT = false;
+
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
@@ -121,13 +127,15 @@ public interface Constants {
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
 
-        SmartNumber MIN_CONFIDENCE = new SmartNumber("Color Sensor/Confidence", 0.8);
+        SmartNumber MAX_PROXIMITY = new SmartNumber("Color Sensor/Max Proximity", 100);
     }
 
     public interface ConveyorSettings {
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
+
+        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
     }
 
     public interface DrivetrainSettings {
@@ -263,6 +271,63 @@ public interface Constants {
             double kI = 0.0;
             double kD = 0.0;
             double kF = 0.0;
+        }
+    }
+
+    public interface LimelightSettings {
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38);
+        double HUB_HEIGHT = Units.inchesToMeters(104);
+
+        double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
+
+        // TODO: Measure with ???
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 30.0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
+
+        // Bounds for Distance
+        double MIN_VALID_DISTANCE = Units.feetToMeters(2);
+        double MAX_VALID_DISTANCE = Units.feetToMeters(24);
+
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.1);
+
+        public interface Alignment {
+
+            SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+
+            public interface Speed {
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
+                SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
+
+                SmartNumber ERROR_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
+                SmartNumber OUT_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+
+                public static Controller getController() {
+                    return new PIDController(kP, kI, kD)
+                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                }
+            }
+
+            public interface Angle {
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
+                SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
+
+                SmartNumber ERROR_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
+                SmartNumber OUT_FILTER =
+                        new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
+
+                public static Controller getController() {
+                    return new PIDController(kP, kI, kD)
+                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                }
+            }
         }
     }
 }

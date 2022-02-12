@@ -1,3 +1,8 @@
+/************************ PROJECT DORCAS ************************/
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
+/* This work is licensed under the terms of the MIT license.    */
+/****************************************************************/
+
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.Constants;
@@ -18,6 +23,7 @@ public class MobilityAuton {
             );
         }
     }
+  
     public static class WithEncoders extends SequentialCommandGroup{
         public WithEncoders(RobotContainer robot){
             addCommands(

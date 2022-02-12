@@ -48,8 +48,8 @@ public class Intake extends SubsystemBase {
         solenoid =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
-                        Ports.Intake.SOLENOID_A,
-                        Ports.Intake.SOLENOID_B);
+                        Ports.Intake.SOLENOID_FORWARD,
+                        Ports.Intake.SOLENOID_REVERSE);
     }
 
     /*** Extend / Retract ***/
@@ -81,7 +81,7 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Intake/Motor Speed", IntakeSettings.MOTOR_SPEED.get());
+            SmartDashboard.putNumber("Debug/Intake/Motor Speed", motor.get());
         }
     }
 }
