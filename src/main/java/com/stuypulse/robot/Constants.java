@@ -127,7 +127,7 @@ public interface Constants {
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
 
-        SmartNumber MAX_PROXIMITY = new SmartNumber("Color Sensor/Max Proximity", 100);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 100);
     }
 
     public interface ConveyorSettings {
