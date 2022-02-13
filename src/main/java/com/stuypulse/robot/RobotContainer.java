@@ -87,9 +87,10 @@ public class RobotContainer {
         /*** Drivetrain Control ***/
         /**************************/
 
-        driver.getRightButton()
-                .whenPressed(new DrivetrainLowGearCommand(drivetrain))
-                .whenReleased(new DrivetrainHighGearCommand(drivetrain));
+        driver.getBottomButton()
+                .whileHeld(
+                        new DrivetrainAlignCommand(
+                                drivetrain, LimelightSettings.RING_SHOT_DISTANCE));
 
         /**********************/
         /*** Intake Control ***/

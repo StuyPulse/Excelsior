@@ -5,8 +5,8 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.Constants.LimelightSettings;
+import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
@@ -43,15 +43,17 @@ public class ThreeBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
 
-    private static final String THREE_BALL_START = "ThreeBallAuton/output/ThreeBallAutonGetSecondBall.wpilib.json";
-    private static final String THREE_BALL_TO_TERMINAL = "ThreeBallAuton/output/ThreeBallAutonGetTerminalBalls.wpilib.json";
-    private static final String THREE_BALL_SHOOT_TERMINAL_BALLS = "ThreeBallAuton/output/ThreeBallAutonShootTerminalBalls.wpilib.json";
+    private static final String THREE_BALL_START =
+            "ThreeBallAuton/output/ThreeBallAutonGetSecondBall.wpilib.json";
+    private static final String THREE_BALL_TO_TERMINAL =
+            "ThreeBallAuton/output/ThreeBallAutonGetTerminalBalls.wpilib.json";
+    private static final String THREE_BALL_SHOOT_TERMINAL_BALLS =
+            "ThreeBallAuton/output/ThreeBallAutonShootTerminalBalls.wpilib.json";
 
     /** Creates a new ThreeBallAuton. */
     public ThreeBallAuton(RobotContainer robot) {
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
-                new WaitCommand(START_DELAY));
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
@@ -70,14 +72,15 @@ public class ThreeBallAuton extends SequentialCommandGroup {
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL).fieldRelative());
+                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL)
+                        .fieldRelative());
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS).fieldRelative(),
+                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS)
+                        .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
-
     }
 }

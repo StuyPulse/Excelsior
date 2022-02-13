@@ -5,8 +5,8 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.Constants.LimelightSettings;
+import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
@@ -48,9 +48,7 @@ public class OneBallAuton extends SequentialCommandGroup {
     public OneBallAuton(RobotContainer robot) {
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
-            new WaitCommand(START_DELAY)
-        );
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
@@ -65,7 +63,6 @@ public class OneBallAuton extends SequentialCommandGroup {
                 new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor)
-                        .withTimeout(CONVEYOR_TO_SHOOTER));
+                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
     }
 }

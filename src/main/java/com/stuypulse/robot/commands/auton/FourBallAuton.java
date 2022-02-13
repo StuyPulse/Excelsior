@@ -5,8 +5,8 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.Constants.LimelightSettings;
+import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
@@ -46,7 +46,7 @@ public class FourBallAuton extends SequentialCommandGroup {
             "FourBallAuton/output/FourBallAutonGetSecondBall.wpilib.json";
     private static final String FOUR_BALL_TO_TERMINAL =
             "FourBallAuton/output/FourBallAutonGetTerminalBalls.wpilib.json";
-    private static final String FOUR_BALL_SHOOT_TERMINAL_BALLS = 
+    private static final String FOUR_BALL_SHOOT_TERMINAL_BALLS =
             "FourBallAuton/output/FourBallAutonShootTerminalBalls.wpilib.json";
 
     /** Creates a new FourBallAuton. */
@@ -66,13 +66,13 @@ public class FourBallAuton extends SequentialCommandGroup {
                 new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
-                new ConveyorShootCommand(robot.conveyor)
-                        .withTimeout(CONVEYOR_TO_SHOOTER));
+                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         // First ball to terminal to RingShot
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL).fieldRelative());
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL)
+                        .fieldRelative());
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
@@ -80,11 +80,10 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS).fieldRelative(),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
+                        .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor)
-                        .withTimeout(CONVEYOR_TO_SHOOTER));
-
+                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
     }
 }

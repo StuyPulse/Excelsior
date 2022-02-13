@@ -41,6 +41,12 @@ public class DrivetrainDriveCommand extends CommandBase {
     }
 
     public void execute() {
+        if (driver.getRawRightButton()) {
+            drivetrain.setLowGear();
+        } else {
+            drivetrain.setHighGear();
+        }
+
         double speed = driver.getRightTrigger() - driver.getLeftTrigger();
         double angle = driver.getLeftX();
 
