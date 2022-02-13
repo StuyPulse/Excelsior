@@ -27,6 +27,8 @@ public class MobilityAuton {
             addCommands(
                     new DrivetrainDriveDistanceCommand(
                             robot.drivetrain, Constants.DrivetrainSettings.TRACK_WIDTH * 3),
+
+                    // robot light show
                     new LEDSetCommand(robot.leds, LEDColor.BEAT),
                     new WaitCommand(0.5),
                     new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
@@ -37,7 +39,15 @@ public class MobilityAuton {
                     new WaitCommand(0.5),
                     new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE),
                     new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.RED_PULSE));
+                    new LEDSetCommand(robot.leds, LEDColor.RED_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.RAINBOW));
         }
     }
 }

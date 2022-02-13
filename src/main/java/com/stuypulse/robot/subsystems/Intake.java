@@ -48,8 +48,8 @@ public class Intake extends SubsystemBase {
         solenoid =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
-                        Ports.Intake.SOLENOID_A,
-                        Ports.Intake.SOLENOID_B);
+                        Ports.Intake.SOLENOID_FORWARD,
+                        Ports.Intake.SOLENOID_REVERSE);
     }
 
     /*** Extend / Retract ***/
