@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForeverCommand;
@@ -16,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class MobilityAuton {
+    // Distance from start point to Ring (in meters)
+    private static final int DISTANCE_TO_RING = 12;
+
     public static class NoEncoders extends SequentialCommandGroup {
         public NoEncoders(RobotContainer robot) {
             addCommands(new DrivetrainDriveForeverCommand(robot.drivetrain, 1.0).withTimeout(5));
@@ -26,7 +28,7 @@ public class MobilityAuton {
         public WithEncoders(RobotContainer robot) {
             addCommands(
                     new DrivetrainDriveDistanceCommand(
-                            robot.drivetrain, Constants.DrivetrainSettings.TRACK_WIDTH * 3),
+                            robot.drivetrain, DISTANCE_TO_RING),
                     new LEDSetCommand(robot.leds, LEDColor.BEAT),
                     new WaitCommand(0.5),
                     new LEDSetCommand(robot.leds, LEDColor.CONFETTI),

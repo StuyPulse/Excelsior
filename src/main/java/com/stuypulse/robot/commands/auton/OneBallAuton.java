@@ -5,8 +5,8 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.Constants.LimelightSettings;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
@@ -31,23 +31,33 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  */
 
 public class OneBallAuton extends SequentialCommandGroup {
+    /// Time it takes for the intake to go down
+    private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
     private static final int SHOOTER_INITIALIZE_DELAY = 1;
+    // Time it takes for the conveyor to give the shooter the ball
+    private static final int CONVEYOR_TO_SHOOTER = 1;
+    // Time we want to give the drivetrain to align
+    private static final int DRIVETRAIN_ALIGN_TIME = 2;
+    // Distance from start point to Ring (in meters)
+    private static final int DISTANCE_TO_RING = 12;
 
-    public OneBallAuton(RobotContainer robot, double ringShot) {
+    public OneBallAuton(RobotContainer robot) {
         // Starting up subsystems
         addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
+                new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeAcquireCommand(robot.intake),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY),
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE));
+                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
 
         addCommands(
-                new DrivetrainDriveDistanceCommand(
-                        robot.drivetrain, Constants.DrivetrainSettings.TRACK_WIDTH * 4),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot),
-                new ConveyorShootCommand(robot.conveyor),
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
+                new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
+                new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
+                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new ConveyorShootCommand(robot.conveyor)
+                        .withTimeout(CONVEYOR_TO_SHOOTER));
     }
 }

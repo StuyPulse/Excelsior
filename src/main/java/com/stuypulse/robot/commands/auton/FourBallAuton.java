@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.Constants.LimelightSettings;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
@@ -30,6 +31,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  */
 
 public class FourBallAuton extends SequentialCommandGroup {
+    // Time it takes for the intake to go down
+    private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
     private static final int SHOOTER_INITIALIZE_DELAY = 1;
     // Time it takes for the conveyor to give the shooter the ball
@@ -39,49 +42,43 @@ public class FourBallAuton extends SequentialCommandGroup {
     // Time it takes for human player to roll ball to intake
     private static final int HUMAN_WAIT_TIME = 2;
 
-    // Timeouts for Pathweaver paths
-    private static final int FOUR_BALL_START_TIMEOUT = 10;
-    private static final int FOUR_BALL_TO_TERMINAL_TIMEOUT = 10;
-    private static final int FOUR_BALL_SHOOT_TERMINAL_BALLS_TIMEOUT = 10;
-
     private static final String FOUR_BALL_START =
             "FourBallAuton/output/FourBallAutonGetSecondBall.wpilib.json";
     private static final String FOUR_BALL_TO_TERMINAL =
             "FourBallAuton/output/FourBallAutonGetTerminalBalls.wpilib.json";
     private static final String FOUR_BALL_SHOOT_TERMINAL_BALLS = 
-            "FourBallAuton/output/FourBalAutonShootTerminalBalls.wpilib.json";
+            "FourBallAuton/output/FourBallAutonShootTerminalBalls.wpilib.json";
 
     /** Creates a new FourBallAuton. */
-    public FourBallAuton(RobotContainer robot, double ringShot) {
+    public FourBallAuton(RobotContainer robot) {
         // Starting up subsystems
         addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
+                new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeAcquireCommand(robot.intake),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY), // 1 seconds
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE));
+                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
 
         // Tarmac to first ball
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative()
-                        .withTimeout(FOUR_BALL_START_TIMEOUT),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot)
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative(),
+                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
                 new ConveyorShootCommand(robot.conveyor)
-                        .withTimeout(CONVEYOR_TO_SHOOTER), // 2 seconds
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE));
+                        .withTimeout(CONVEYOR_TO_SHOOTER));
         // First ball to terminal to RingShot
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL).fieldRelative()
-                        .withTimeout(FOUR_BALL_TO_TERMINAL_TIMEOUT),
+                new LEDSetCommand(robot.leds, LEDColor.RED_PULSE),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL).fieldRelative(),
                 new WaitCommand(HUMAN_WAIT_TIME));
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS).fieldRelative()
-                        .withTimeout(FOUR_BALL_SHOOT_TERMINAL_BALLS_TIMEOUT),
-                new DrivetrainAlignCommand(robot.drivetrain, ringShot)
+                new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS).fieldRelative(),
+                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor)
-                        .withTimeout(CONVEYOR_TO_SHOOTER),
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
+                        .withTimeout(CONVEYOR_TO_SHOOTER));
     }
 }

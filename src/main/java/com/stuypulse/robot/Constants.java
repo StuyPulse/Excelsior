@@ -275,6 +275,8 @@ public interface Constants {
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(38);
         double HUB_HEIGHT = Units.inchesToMeters(104);
 
+        double RING_SHOT_DISTANCE = -1;
+
         double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
