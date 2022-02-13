@@ -57,7 +57,7 @@ public class ColorSensor extends SubsystemBase {
         colorMatcher.addColorMatch(BallColor.RED);
     }
 
-    private boolean isConnected() {
+    public boolean isConnected() {
         return colorSensor.isConnected();
     }
 

@@ -106,6 +106,18 @@
       "open": true
     },
     "SmartDashboard": {
+      "Debug": {
+        "Color Sensor": {
+          "open": true
+        },
+        "Conveyor": {
+          "open": true
+        },
+        "Intake": {
+          "open": true
+        },
+        "open": true
+      },
       "open": true
     }
   }

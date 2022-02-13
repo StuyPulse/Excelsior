@@ -87,8 +87,9 @@ public class RobotContainer {
         /*** Drivetrain Control ***/
         /**************************/
 
-        driver.getRightButton().whenPressed(new DrivetrainLowGearCommand(drivetrain));
-        driver.getRightButton().whenReleased(new DrivetrainHighGearCommand(drivetrain));
+        driver.getRightButton()
+                .whenPressed(new DrivetrainLowGearCommand(drivetrain))
+                .whenReleased(new DrivetrainHighGearCommand(drivetrain));
 
         /**********************/
         /*** Intake Control ***/
@@ -101,6 +102,8 @@ public class RobotContainer {
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
         operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
+
+        new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
 
         /***********************/
         /*** Shooter Control ***/
