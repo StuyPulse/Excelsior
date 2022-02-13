@@ -31,18 +31,27 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  */
 
 public class TwoBallAuton extends SequentialCommandGroup {
+    // Initial delay for the auton
+    private static final double START_DELAY = 1.0;
+
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
-    private static final int SHOOTER_INITIALIZE_DELAY = 1;
+    private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
-    private static final int CONVEYOR_TO_SHOOTER = 1;
+    private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
-    private static final int DRIVETRAIN_ALIGN_TIME = 2;
+    private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
     // Distance from start point to Ring (in meters)
-    private static final int DISTANCE_TO_RING = 2;
+    private static final double DISTANCE_TO_RING = 2.0;
 
     public TwoBallAuton(RobotContainer robot) {
+
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+            new WaitCommand(START_DELAY)
+        );
+
         // Starting up subsystems
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
@@ -53,7 +62,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainDriveDistanceCommand(
                         robot.drivetrain, DISTANCE_TO_RING),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)

@@ -31,24 +31,28 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  */
 
 public class ThreeBallAuton extends SequentialCommandGroup {
+
+    private static final double START_DELAY = 0.5;
+
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
-    private static final int SHOOTER_INITIALIZE_DELAY = 1;
+    private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
-    private static final int CONVEYOR_TO_SHOOTER = 1;
+    private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
-    private static final int DRIVETRAIN_ALIGN_TIME = 2;
+    private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
 
-    private static final String THREE_BALL_START =
-            "ThreeBallAuton/output/ThreeBallAutonGetSecondBall.wpilib.json";
-    private static final String THREE_BALL_TO_TERMINAL =
-            "ThreeBallAuton/output/ThreeBallAutonGetTerminalBalls.wpilib.json";
-    private static final String THREE_BALL_SHOOT_TERMINAL_BALLS = 
-            "ThreeBallAuton/output/ThreeBallAutonShootTerminalBalls.wpilib.json";
+    private static final String THREE_BALL_START = "ThreeBallAuton/output/ThreeBallAutonGetSecondBall.wpilib.json";
+    private static final String THREE_BALL_TO_TERMINAL = "ThreeBallAuton/output/ThreeBallAutonGetTerminalBalls.wpilib.json";
+    private static final String THREE_BALL_SHOOT_TERMINAL_BALLS = "ThreeBallAuton/output/ThreeBallAutonShootTerminalBalls.wpilib.json";
 
     /** Creates a new ThreeBallAuton. */
     public ThreeBallAuton(RobotContainer robot) {
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new WaitCommand(START_DELAY));
+
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
                 new ShooterRingShotCommand(robot.shooter),
@@ -56,20 +60,24 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                 new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeAcquireForeverCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
-        addCommands(new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL).fieldRelative());
-        
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL).fieldRelative());
+
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS).fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+
     }
 }

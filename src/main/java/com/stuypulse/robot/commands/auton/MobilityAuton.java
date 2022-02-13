@@ -15,20 +15,41 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class MobilityAuton {
-    // Distance from start point to Ring (in meters)
-    private static final int DISTANCE_TO_RING = 2;
 
     public static class NoEncoders extends SequentialCommandGroup {
+        private static final double START_DELAY = 1.0;
+
         public NoEncoders(RobotContainer robot) {
-            addCommands(new DrivetrainDriveForeverCommand(robot.drivetrain, 1.0).withTimeout(5));
+            addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new WaitCommand(START_DELAY)
+            );
+
+            addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                new DrivetrainDriveForeverCommand(robot.drivetrain, 1.0).withTimeout(5)
+            );
         }
     }
 
     public static class WithEncoders extends SequentialCommandGroup {
+        // Distance from start point to Ring (in meters)
+        private static final double DISTANCE_TO_RING = 2.0;
+        private static final double START_DELAY = 1.0;
+
         public WithEncoders(RobotContainer robot) {
             addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new WaitCommand(START_DELAY)
+            );
+            
+            addCommands(
+                    new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                     new DrivetrainDriveDistanceCommand(
-                            robot.drivetrain, DISTANCE_TO_RING),
+                            robot.drivetrain, DISTANCE_TO_RING)
+            );
+            
+            addCommands(
                     new LEDSetCommand(robot.leds, LEDColor.BEAT),
                     new WaitCommand(0.5),
                     new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
