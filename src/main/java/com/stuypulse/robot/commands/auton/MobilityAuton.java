@@ -39,7 +39,15 @@ public class MobilityAuton {
                     new WaitCommand(0.5),
                     new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE),
                     new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.RED_PULSE));
+                    new LEDSetCommand(robot.leds, LEDColor.RED_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
+                    new WaitCommand(0.5),
+                    new LEDSetCommand(robot.leds, LEDColor.RAINBOW));
         }
     }
 }

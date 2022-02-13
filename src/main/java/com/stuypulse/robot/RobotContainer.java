@@ -62,6 +62,7 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
         drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
+        conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
     }
 
     private void configureButtonBindings() {
