@@ -35,9 +35,9 @@ public class FiveBallAuton extends SequentialCommandGroup {
     private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
     private static final int SHOOTER_INITIALIZE_DELAY = 1;
-    // Time it takes for the robot.conveyor to give the shooter the ball
+    // Time it takes for the conveyor to give the shooter the ball
     private static final int CONVEYOR_TO_SHOOTER = 1;
-    // Time we want to give the robot.drivetrain to align
+    // Time we want to give the drivetrain to align
     private static final int DRIVETRAIN_ALIGN_TIME = 2;
 
     private static final int HUMAN_WAIT_TIME = 2;
