@@ -136,6 +136,8 @@ public interface Constants {
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
 
         SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
+
+        SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
     }
 
     public interface DrivetrainSettings {
@@ -243,7 +245,6 @@ public interface Constants {
     }
 
     public interface IntakeSettings {
-        // TODO: test with intake
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
     }
 

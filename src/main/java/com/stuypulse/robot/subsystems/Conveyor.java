@@ -10,6 +10,7 @@ import com.stuypulse.robot.Constants.ConveyorSettings;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -124,6 +125,14 @@ public class Conveyor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         return colorSensor.hasAllianceBall();
+    }
+
+    public boolean isFull() {
+        return colorSensor.isConnected() && getTopBeltHasBall() && hasAllianceBall();
+    }
+
+    public boolean shouldRetractIntake() {
+        return ConveyorSettings.AUTO_RETRACT.get() && DriverStation.isTeleopEnabled() && isFull();
     }
 
     @Override
