@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Ian Jiang (ijiang05@gmail.com)
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Samuel Chen(samchen1738@gmail.com)
- * @author many other software newbies who left before writing author tags
  */
 
 public class OneBallAuton extends SequentialCommandGroup {

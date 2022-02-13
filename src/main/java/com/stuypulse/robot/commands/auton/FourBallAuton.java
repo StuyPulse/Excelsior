@@ -27,32 +27,29 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Ian Jiang (ijiang05@gmail.com)
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Samuel Chen(samchen1738@gmail.com)
- * @author many other software newbies who left before writing author tags
  */
 
 public class FourBallAuton extends SequentialCommandGroup {
-
-    // private static final int
-
-    // Times it takes for the robot to run through
-
     // Time it takes for the shooter to reach the target speed
     private static final int SHOOTER_INITIALIZE_DELAY = 1;
     // Time it takes for the conveyor to give the shooter the ball
     private static final int CONVEYOR_TO_SHOOTER = 1;
     // Time we want to give the drivetrain to align
     private static final int DRIVETRAIN_ALIGN_TIME = 2;
-
+    // Time it takes for human player to roll ball to intake
     private static final int HUMAN_WAIT_TIME = 2;
 
-    // we need to set these after testing
-    private static final int FOUR_BALL_START_TIMEOUT = 5;
-    private static final int FOUR_BALL_TO_TERMINAL_TIMEOUT = 5;
+    // Timeouts for Pathweaver paths
+    private static final int FOUR_BALL_START_TIMEOUT = 10;
+    private static final int FOUR_BALL_TO_TERMINAL_TIMEOUT = 10;
+    private static final int FOUR_BALL_SHOOT_TERMINAL_BALLS_TIMEOUT = 10;
 
     private static final String FOUR_BALL_START =
-            "FourBallAuton/output/FourBallStartPath.wpilib.json";
+            "FourBallAuton/output/FourBallAutonGetSecondBall.wpilib.json";
     private static final String FOUR_BALL_TO_TERMINAL =
-            "FourBallAuton/output/FourBallTerminalPath.wpilib.json";
+            "FourBallAuton/output/FourBallAutonGetTerminalBalls.wpilib.json";
+    private static final String FOUR_BALL_SHOOT_TERMINAL_BALLS = 
+            "FourBallAuton/output/FourBalAutonShootTerminalBalls.wpilib.json";
 
     /** Creates a new FourBallAuton. */
     public FourBallAuton(RobotContainer robot, double ringShot) {
@@ -66,7 +63,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // Tarmac to first ball
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START)
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative()
                         .withTimeout(FOUR_BALL_START_TIMEOUT),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
@@ -75,13 +72,16 @@ public class FourBallAuton extends SequentialCommandGroup {
                 new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE));
         // First ball to terminal to RingShot
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL)
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL).fieldRelative()
                         .withTimeout(FOUR_BALL_TO_TERMINAL_TIMEOUT),
-                new WaitCommand(HUMAN_WAIT_TIME),
+                new WaitCommand(HUMAN_WAIT_TIME));
+        addCommands(
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS).fieldRelative()
+                        .withTimeout(FOUR_BALL_SHOOT_TERMINAL_BALLS_TIMEOUT),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor)
-                        .withTimeout(CONVEYOR_TO_SHOOTER), // 2 seconds
+                        .withTimeout(CONVEYOR_TO_SHOOTER),
                 new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
     }
 }

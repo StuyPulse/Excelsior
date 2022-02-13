@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
@@ -28,12 +27,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Ian Jiang (ijiang05@gmail.com)
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Samuel Chen(samchen1738@gmail.com)
- * @author many other software newbies who left before writing author tags
  */
 
 public class TwoBallAuton extends SequentialCommandGroup {
     // Time it takes for the shooter to reach the target speed
     private static final int SHOOTER_INITIALIZE_DELAY = 1;
+    // Distance from starting position to ring shot
+    private static final int DISTANCE_TO_RING = 12;
 
     public TwoBallAuton(RobotContainer robot, double ringShot) {
         // Starting up subsystems
@@ -42,13 +42,15 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new IntakeExtendCommand(robot.intake),
                 new IntakeAcquireCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY),
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE));
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE)
+        );
 
         addCommands(
                 new DrivetrainDriveDistanceCommand(
-                        robot.drivetrain, Constants.DrivetrainSettings.TRACK_WIDTH * 4),
+                        robot.drivetrain, DISTANCE_TO_RING),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot),
                 new ConveyorShootCommand(robot.conveyor),
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI));
+                new LEDSetCommand(robot.leds, LEDColor.CONFETTI)
+        );
     }
 }

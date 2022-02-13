@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Ian Jiang (ijiang05@gmail.com)
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Samuel Chen(samchen1738@gmail.com)
- * @author many other software newbies who left before writing author tags
  */
 
 public class FiveBallAuton extends SequentialCommandGroup {
@@ -42,20 +41,20 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
     private static final int HUMAN_WAIT_TIME = 2;
 
-    // we need to set these after testing
-    private static final int FIVE_BALL_START_PATH_TIMEOUT = 5;
-    private static final int FIVE_BALL_TERMINAL_TO_SHOOT_TIMEOUT = 4;
-    private static final int FIVE_BALL_TO_TERIMAL_TIMEOUT = 3;
-    private static final int FIVE_BALL_GET_LAST_BALL_TIMEOUT = 2;
+    // Timeouts for Pathweaver paths
+    private static final int FIVE_BALL_TO_SECOND_BALL_TIMEOUT = 10;
+    private static final int FIVE_BALL_TO_TERMINAL_TIMEOUT = 10;
+    private static final int FIVE_BALL_TERMINAL_TO_SHOOT_TIMEOUT = 10;
+    private static final int FIVE_BALL_TO_WALL_BALL_TIMEOUT = 10;
 
-    private static final String FIVE_BALL_START_PATH =
-            "FiveBallAuton/output/FiveBallStartPath.wpilib.json";
+    private static final String FIVE_BALL_TO_SECOND_BALL =
+            "FiveBallAuton/output/FiveBallAcquireSecondBall.wpilib.json";
     private static final String FIVE_BALL_TO_TERMINAL =
-            "FiveBallAuton/output/FiveBallTerminalPath.wpilib.json";
+            "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";
     private static final String FIVE_BALL_TERMINAL_TO_SHOOT =
-            "FiveBallAuton/output/FiveBallTerminalToShoot.wpilib.json";
-    private static final String FIVE_BALL_GET_LAST_BALL =
-            "FiveBallAuton/output/FiveBallGetLastBallPath.wpilib.json";
+            "FiveBallAuton/output/FiveBallShootTerminalBalls.wpilib.json";
+    private static final String FIVE_BALL_TO_WALL_BALL =
+            "FiveBallAuton/output/FiveBallShootWallBall.wpilib.json";
 
     /** Creates a new FiveBallAuton. */
     public FiveBallAuton(RobotContainer robot, double ringShot) {
@@ -70,8 +69,8 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Tarmac to first ball
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_START_PATH)
-                        .withTimeout(FIVE_BALL_START_PATH_TIMEOUT),
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
+                        .withTimeout(FIVE_BALL_TO_SECOND_BALL_TIMEOUT),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
@@ -80,7 +79,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
         // First ball to terminal to RingShot
         addCommands(
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_TERMINAL)
-                        .withTimeout(FIVE_BALL_TO_TERIMAL_TIMEOUT),
+                        .withTimeout(FIVE_BALL_TO_TERMINAL_TIMEOUT),
                 new WaitCommand(HUMAN_WAIT_TIME),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
@@ -99,8 +98,8 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Pick up and shoot fifth ball
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_GET_LAST_BALL)
-                        .withTimeout(FIVE_BALL_GET_LAST_BALL_TIMEOUT),
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
+                        .withTimeout(FIVE_BALL_TO_WALL_BALL_TIMEOUT),
                 new DrivetrainAlignCommand(robot.drivetrain, ringShot)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
