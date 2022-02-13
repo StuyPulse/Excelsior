@@ -50,14 +50,14 @@ public class ThreeBallAuton extends SequentialCommandGroup {
     /** Creates a new ThreeBallAuton. */
     public ThreeBallAuton(RobotContainer robot) {
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
                 new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeAcquireForeverCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE),
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
@@ -66,7 +66,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
         addCommands(new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL).fieldRelative());
         
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS).fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),

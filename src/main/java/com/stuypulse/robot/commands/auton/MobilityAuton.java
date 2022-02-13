@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class MobilityAuton {
     // Distance from start point to Ring (in meters)
-    private static final int DISTANCE_TO_RING = 12;
+    private static final int DISTANCE_TO_RING = 2;
 
     public static class NoEncoders extends SequentialCommandGroup {
         public NoEncoders(RobotContainer robot) {

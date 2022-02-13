@@ -56,7 +56,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
                 new WaitCommand(INTAKE_FALL_DOWN),
@@ -65,34 +65,32 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Tarmac to first ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL),
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         // First ball to terminal to RingShot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_PULSE),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_TERMINAL),
-                new WaitCommand(HUMAN_WAIT_TIME),
-                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_TERMINAL).fieldRelative());
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
+                new WaitCommand(HUMAN_WAIT_TIME));
 
         // Return to Ring to shoot
-        //
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE_PULSE),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT).fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         // Pick up and shoot fifth ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL).fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));

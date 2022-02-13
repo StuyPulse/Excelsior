@@ -40,12 +40,12 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final int DRIVETRAIN_ALIGN_TIME = 2;
     // Distance from start point to Ring (in meters)
-    private static final int DISTANCE_TO_RING = 12;
+    private static final int DISTANCE_TO_RING = 2;
 
     public TwoBallAuton(RobotContainer robot) {
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
                 new ShooterRingShotCommand(robot.shooter),
                 new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeExtendCommand(robot.intake),
@@ -53,7 +53,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_SOLID),
                 new DrivetrainDriveDistanceCommand(
                         robot.drivetrain, DISTANCE_TO_RING),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
