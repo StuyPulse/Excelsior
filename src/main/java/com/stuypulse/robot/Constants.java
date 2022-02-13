@@ -11,8 +11,6 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
-import com.stuypulse.robot.util.UnknownPorts;
-
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -50,12 +48,16 @@ public interface Constants {
         public interface Climber {
             int MOTOR = 50;
 
-            int SOLENOID_LONG = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_SHORT = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_STOPPER = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_STOPPER = 4;
 
-            int BOTTOM_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
-            int TOP_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
+            int SOLENOID_LONG_FORWARD = 6;
+            int SOLENOID_LONG_REVERSE = 7;
+
+            int SOLENOID_SHORT_FORWARD = 8;
+            int SOLENOID_SHORT_REVERSE = 9;
+
+            int BOTTOM_LIMIT_SWITCH = 8;
+            int TOP_LIMIT_SWITCH = 7;
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -64,8 +66,7 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             int TOP_BELT_MOTOR = 31;
 
-            int GANDALF_IR_SENSOR = UnknownPorts.getFakeSensor();
-            int TOP_BELT_IR_SENSOR = UnknownPorts.getFakeSensor();
+            int TOP_BELT_IR_SENSOR = 5;
         }
 
         public interface Drivetrain {
@@ -77,23 +78,23 @@ public interface Constants {
             int RIGHT_MIDDLE = 14;
             int RIGHT_BOTTOM = 15;
 
-            int GEAR_SHIFT_A = UnknownPorts.getFakeSolenoid();
-            int GEAR_SHIFT_B = UnknownPorts.getFakeSolenoid();
+            int GEAR_SHIFT_FORWARD = 0;
+            int GEAR_SHIFT_REVERSE = 1;
 
             interface Encoders {
-                int LEFT_A = UnknownPorts.getFakeSensor();
-                int LEFT_B = UnknownPorts.getFakeSensor();
+                int LEFT_A = 0;
+                int LEFT_B = 1;
 
-                int RIGHT_A = UnknownPorts.getFakeSensor();
-                int RIGHT_B = UnknownPorts.getFakeSensor();
+                int RIGHT_A = 2;
+                int RIGHT_B = 3;
             }
         }
 
         public interface Intake {
             int MOTOR = 40;
 
-            int SOLENOID_A = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_B = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_FORWARD = 2;
+            int SOLENOID_REVERSE = 3;
         }
 
         public interface LEDController {
@@ -105,11 +106,13 @@ public interface Constants {
             int SHOOTER_FOLLOWER = 21;
             int FEEDER = 22;
 
-            int HOOD_SOLENOID = UnknownPorts.getFakeSolenoid();
+            int HOOD_SOLENOID = 5;
         }
     }
 
     public interface ClimberSettings {
+        boolean ENABLE_TILT = false;
+
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
@@ -124,7 +127,7 @@ public interface Constants {
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
 
-        SmartNumber MAX_PROXIMITY = new SmartNumber("Color Sensor/Max Proximity", 100);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 100);
     }
 
     public interface ConveyorSettings {
