@@ -26,7 +26,7 @@ public class MobilityAuton {
 
             addCommands(
                     new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-                    new DrivetrainDriveForeverCommand(robot.drivetrain, 1.0).withTimeout(5));
+                    new DrivetrainDriveForeverCommand(robot.drivetrain, 0.3).withTimeout(3));
         }
     }
 
