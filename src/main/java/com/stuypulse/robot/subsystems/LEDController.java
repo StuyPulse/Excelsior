@@ -11,6 +11,7 @@ import com.stuypulse.robot.Constants.LEDSettings;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.RobotContainer;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -109,7 +110,7 @@ public class LEDController extends SubsystemBase {
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value
-        if (lastUpdate.getTime() < LEDSettings.MANUAL_UPDATE_TIME) {
+        if (DriverStation.isAutonomous() || lastUpdate.getTime() < LEDSettings.MANUAL_UPDATE_TIME) {
             controller.set(manualColor.get());
         }
 
