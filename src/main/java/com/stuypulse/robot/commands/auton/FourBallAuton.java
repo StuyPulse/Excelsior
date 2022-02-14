@@ -53,7 +53,7 @@ public class FourBallAuton extends SequentialCommandGroup {
     public FourBallAuton(RobotContainer robot) {
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
                 new WaitCommand(INTAKE_FALL_DOWN),
@@ -62,7 +62,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // Tarmac to first ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
@@ -70,16 +70,16 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // First ball to terminal to RingShot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL)
                         .fieldRelative());
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
                 new WaitCommand(HUMAN_WAIT_TIME));
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
