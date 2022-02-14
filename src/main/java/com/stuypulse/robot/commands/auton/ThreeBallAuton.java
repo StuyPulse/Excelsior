@@ -46,9 +46,9 @@ public class ThreeBallAuton extends SequentialCommandGroup {
     private static final String THREE_BALL_START =
             "ThreeBallAuton/output/ThreeBallAutonGetSecondBall.wpilib.json";
     private static final String THREE_BALL_TO_TERMINAL =
-            "ThreeBallAuton/output/ThreeBallAutonGetTerminalBalls.wpilib.json";
+            "ThreeBallAuton/output/ThreeBallAutonGetThirdBall.wpilib.json";
     private static final String THREE_BALL_SHOOT_TERMINAL_BALLS =
-            "ThreeBallAuton/output/ThreeBallAutonShootTerminalBalls.wpilib.json";
+            "ThreeBallAuton/output/ThreeBallAutonShootThirdBall.wpilib.json";
 
     /** Creates a new ThreeBallAuton. */
     public ThreeBallAuton(RobotContainer robot) {
@@ -67,8 +67,8 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                 new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME));
+                //new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
@@ -80,8 +80,8 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME));
+                //new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
     }
