@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 /*-
@@ -58,35 +57,40 @@ public class ColorSensor extends SubsystemBase {
         colorMatcher.addColorMatch(BallColor.RED);
     }
 
+    public boolean isConnected() {
+        return colorSensor.isConnected();
+    }
+
     private Color getRawColor() {
         return colorSensor.getColor();
     }
 
-    private ColorMatchResult getMatchedColor() {
-        return colorMatcher.matchClosestColor(getRawColor());
+    private Color getMatchedColor() {
+        return colorMatcher.matchClosestColor(getRawColor()).color;
     }
 
+    // Returns value from 0 - 2047 [higher == closer]
     private int getProximity() {
         return colorSensor.getProximity();
     }
 
     private boolean hasBall() {
-        return getProximity() > ColorSensorSettings.MAX_PROXIMITY.get();
-    }
-
-    private boolean isConnected() {
-        return colorSensor.isConnected();
+        return getProximity() > ColorSensorSettings.PROXIMITY_THRESHOLD.get();
     }
 
     private CurrentBall getCurrentBall() {
-        ColorMatchResult matched = getMatchedColor();
+        Color matched = getMatchedColor();
+
         if (!hasBall()) {
             return CurrentBall.NO_BALL;
-        }
-        if (matched.color.equals(BallColor.RED)) {
+        } else if (matched.equals(BallColor.RED)) {
             return CurrentBall.RED_BALL;
+        } else if (matched.equals(BallColor.BLUE)) {
+            return CurrentBall.BLUE_BALL;
         }
-        return CurrentBall.BLUE_BALL;
+
+        DriverStation.reportWarning("ColorSensorMatching returned unexpected color!", true);
+        return getTargetBall();
     }
 
     private CurrentBall getTargetBall() {
@@ -96,6 +100,7 @@ public class ColorSensor extends SubsystemBase {
             case Red:
                 return CurrentBall.RED_BALL;
             default:
+                DriverStation.reportWarning("DriverStation.getAlliance() returned invalid!", true);
                 return CurrentBall.NO_BALL;
         }
     }
@@ -116,12 +121,29 @@ public class ColorSensor extends SubsystemBase {
         return hasBall() && !hasAllianceBall();
     }
 
+    private static String colorToString(Color color) {
+        StringBuilder output = new StringBuilder(36);
+        output.append("[r: ").append(Math.round(1000.0 * color.red) / 1000.0).append(",");
+        output.append(" g: ").append(Math.round(1000.0 * color.green) / 1000.0).append(",");
+        output.append(" b: ").append(Math.round(1000.0 * color.blue) / 1000.0).append("]");
+        return output.toString();
+    }
+
     @Override
     public void periodic() {
         if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
-            SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
+
+            SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));
+            SmartDashboard.putString(
+                    "Debug/Color Sensor/Matched Color", colorToString(getMatchedColor()));
+
+            SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
+            SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
+            SmartDashboard.putBoolean("Debug/Color Sensor/Has Opponent Ball", hasOpponentBall());
+
+            SmartDashboard.putString("Debug/Color Sensor/Current Ball", getCurrentBall().name());
+            SmartDashboard.putString("Debug/Color Sensor/Target Ball", getTargetBall().name());
 
             SmartDashboard.putNumber("Debug/Color Sensor/Proximity", getProximity());
         }

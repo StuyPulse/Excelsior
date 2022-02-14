@@ -5,13 +5,12 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.util.UnknownPorts;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
-
-import com.stuypulse.robot.util.UnknownPorts;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -50,12 +49,16 @@ public interface Constants {
         public interface Climber {
             int MOTOR = 50;
 
-            int SOLENOID_LONG = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_SHORT = UnknownPorts.getFakeSolenoid();
-            int SOLENOID_STOPPER = UnknownPorts.getFakeSolenoid();
+            int SOLENOID_STOPPER = 4;
 
-            int BOTTOM_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
-            int TOP_LIMIT_SWITCH = UnknownPorts.getFakeSensor();
+            int SOLENOID_LONG_FORWARD = 6;
+            int SOLENOID_LONG_REVERSE = 7;
+
+            int SOLENOID_SHORT_FORWARD = 8;
+            int SOLENOID_SHORT_REVERSE = 9;
+
+            int BOTTOM_LIMIT_SWITCH = 8;
+            int TOP_LIMIT_SWITCH = 7;
         }
 
         I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
@@ -64,8 +67,7 @@ public interface Constants {
             int GANDALF_MOTOR = 30;
             int TOP_BELT_MOTOR = 31;
 
-            int GANDALF_IR_SENSOR = UnknownPorts.getFakeSensor();
-            int TOP_BELT_IR_SENSOR = UnknownPorts.getFakeSensor();
+            int TOP_BELT_IR_SENSOR = 5;
         }
 
         public interface Drivetrain {
@@ -111,6 +113,8 @@ public interface Constants {
     }
 
     public interface ClimberSettings {
+        boolean ENABLE_TILT = false;
+
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
@@ -125,7 +129,7 @@ public interface Constants {
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
 
-        SmartNumber MAX_PROXIMITY = new SmartNumber("Color Sensor/Max Proximity", 100);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 100);
     }
 
     public interface ConveyorSettings {
@@ -134,6 +138,8 @@ public interface Constants {
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
 
         SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
+
+        SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
     }
 
     public interface DrivetrainSettings {
@@ -241,7 +247,6 @@ public interface Constants {
     }
 
     public interface IntakeSettings {
-        // TODO: test with intake
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
     }
 
@@ -273,13 +278,16 @@ public interface Constants {
     }
 
     public interface LimelightSettings {
-        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38);
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38.65);
         double HUB_HEIGHT = Units.inchesToMeters(104);
+
+        // if the intake is on the ring, distance of limelight to hub
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5);
 
         double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 30.0);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 25.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
 
         // Bounds for Distance
