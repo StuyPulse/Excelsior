@@ -46,9 +46,9 @@ public class ThreeBallAuton extends SequentialCommandGroup {
     private static final String THREE_BALL_START =
             "ThreeBallAuton/output/ThreeBallAutonGetSecondBall.wpilib.json";
     private static final String THREE_BALL_TO_TERMINAL =
-            "ThreeBallAuton/output/ThreeBallAutonGetTerminalBalls.wpilib.json";
+            "ThreeBallAuton/output/ThreeBallAutonGetThirdBall.wpilib.json";
     private static final String THREE_BALL_SHOOT_TERMINAL_BALLS =
-            "ThreeBallAuton/output/ThreeBallAutonShootTerminalBalls.wpilib.json";
+            "ThreeBallAuton/output/ThreeBallAutonShootThirdBall.wpilib.json";
 
     /** Creates a new ThreeBallAuton. */
     public ThreeBallAuton(RobotContainer robot) {
