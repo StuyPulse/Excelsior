@@ -36,7 +36,7 @@ public class RobotContainer {
     public final Climber climber = null; // new Climber();
     public final Conveyor conveyor = null; // new Conveyor();
     public final Drivetrain drivetrain = new Drivetrain();
-    public final Intake intake = null; // new Intake();
+    public final Intake intake = new Intake();
     public final LEDController leds = new LEDController(this);
     public final Pump pump = new Pump();
     public final Shooter shooter = new Shooter();
@@ -62,7 +62,7 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
         drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
-        conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
+        // conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
     }
 
     private void configureButtonBindings() {

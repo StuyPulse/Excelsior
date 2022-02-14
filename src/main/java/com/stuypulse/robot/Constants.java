@@ -94,8 +94,8 @@ public interface Constants {
         public interface Intake {
             int MOTOR = 18;
 
-            int SOLENOID_A = 4;
-            int SOLENOID_B = 5;
+            int SOLENOID_FORWARD = 4;
+            int SOLENOID_REVERSE = 5;
         }
 
         public interface LEDController {
