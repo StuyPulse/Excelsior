@@ -79,12 +79,12 @@ public class FiveBallAuton extends SequentialCommandGroup {
                         .fieldRelative());
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
                 new WaitCommand(HUMAN_WAIT_TIME));
 
         // Return to Ring to shoot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
@@ -93,11 +93,13 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Pick up and shoot fifth ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+    
+        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
     }
 }

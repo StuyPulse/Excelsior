@@ -27,6 +27,8 @@ public class MobilityAuton {
             addCommands(
                     new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                     new DrivetrainDriveForeverCommand(robot.drivetrain, 0.3).withTimeout(3));
+
+            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
         }
     }
 
@@ -44,26 +46,7 @@ public class MobilityAuton {
                     new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                     new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING));
 
-            addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.BEAT),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.CONFETTI),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.LIME_SOLID),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.ORANGE_PULSE),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.RED_PULSE),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
-                    new WaitCommand(0.5),
-                    new LEDSetCommand(robot.leds, LEDColor.RAINBOW));
+            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
         }
     }
 }
