@@ -165,7 +165,7 @@ public interface Constants {
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
 
-        boolean USING_GRAYHILLS = true;
+        boolean USING_GRAYHILLS = false;
         boolean USING_GYRO = true;
 
         public interface Motion {
@@ -179,13 +179,13 @@ public interface Constants {
             double MAX_ACCELERATION = Units.feetToMeters(8.0);
 
             public interface FeedForward {
-                double kS = 0; // TODO: characterize
-                double kV = 0; // TODO: characterize
-                double kA = 0; // TODO: characterize
+                double kS = 0.367; // TODO: characterize
+                double kV = 2.07; // TODO: characterize
+                double kA = 0.47; // TODO: characterize
             }
 
             public interface PID {
-                double kP = 0; // TODO: characterize
+                double kP = 0.00337; // TODO: characterize
                 double kI = 0; // TODO: characterize
                 double kD = 0; // TODO: characterize
             }
