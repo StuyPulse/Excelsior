@@ -70,7 +70,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // First ball to terminal to RingShot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL)
                         .fieldRelative());
 
