@@ -93,11 +93,13 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Pick up and shoot fifth ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.ORANGE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+    
+        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
     }
 }
