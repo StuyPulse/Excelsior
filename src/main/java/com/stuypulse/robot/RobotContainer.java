@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
@@ -42,7 +43,7 @@ public class RobotContainer {
     public final Shooter shooter = new Shooter();
 
     // Gamepads
-    public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
+    public final Gamepad driver = new Logitech.XMode(Ports.Gamepad.DRIVER); // new AutoGamepad(Ports.Gamepad.DRIVER);
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
 
     // Autons

@@ -157,13 +157,13 @@ public interface Constants {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Current Limit for the motors
-        int CURRENT_LIMIT_AMPS = 30;
+        int CURRENT_LIMIT_AMPS = 80;
 
         // If the motors are inverted
         boolean IS_INVERTED = true;
 
         // Width of the robot
-        double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
+        double TRACK_WIDTH = Units.inchesToMeters(30.0); // SEAN PROMISED !
 
         boolean USING_GRAYHILLS = false;
         boolean USING_GYRO = true;
@@ -185,7 +185,7 @@ public interface Constants {
             }
 
             public interface PID {
-                double kP = 0.00337; // TODO: characterize
+                double kP = 0.0198; // TODO: characterize
                 double kI = 0; // TODO: characterize
                 double kD = 0; // TODO: characterize
             }
@@ -202,36 +202,14 @@ public interface Constants {
         public interface Encoders {
 
             public interface GearRatio {
+                double LOW_GEAR_NEO_TO_WHEEL = (1.0 / 7.71);
 
-                public interface Stages {
-                    double INITIAL_STAGE = (11.0 / 50.0);
+                double HIGH_GEAR_NEO_TO_WHEEL = (1.0 / 16.67);
 
-                    double HIGH_GEAR_STAGE = (50.0 / 34.0);
-                    double LOW_GEAR_STAGE = (24.0 / 60.0);
-
-                    double THIRD_STAGE = (34.0 / 50.0);
-
-                    double EXTERNAL_STAGE = (1.0 / 1.0);
-
-                    double GRAYHILL_STAGE = (12.0 / 36.0);
-                }
-
-                double LOW_GEAR_NEO_TO_WHEEL =
-                        Stages.INITIAL_STAGE
-                                * Stages.LOW_GEAR_STAGE
-                                * Stages.THIRD_STAGE
-                                * Stages.EXTERNAL_STAGE;
-
-                double HIGH_GEAR_NEO_TO_WHEEL =
-                        Stages.INITIAL_STAGE
-                                * Stages.HIGH_GEAR_STAGE
-                                * Stages.THIRD_STAGE
-                                * Stages.EXTERNAL_STAGE;
-
-                double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.EXTERNAL_STAGE;
+                double GRAYHILL_TO_WHEEL = 1.0;
             }
 
-            double WHEEL_DIAMETER = Units.inchesToMeters(4);
+            double WHEEL_DIAMETER = Units.inchesToMeters(6);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
             double LOW_GEAR_DISTANCE_PER_ROTATION =
