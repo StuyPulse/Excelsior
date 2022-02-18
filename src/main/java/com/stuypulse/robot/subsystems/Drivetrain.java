@@ -432,7 +432,7 @@ public class Drivetrain extends SubsystemBase {
 
     public boolean isStalling() {
         boolean gear = getGear() == Gear.HIGH;
-        boolean current = getCurrentAmps() < DrivetrainSettings.Stalling.CURRENT_THRESHOLD;
+        boolean current = getCurrentAmps() > DrivetrainSettings.Stalling.CURRENT_THRESHOLD;
         boolean velocity = getVelocity() < DrivetrainSettings.Stalling.VELOCITY_THESHOLD;
         return gear && current && velocity;
     }
