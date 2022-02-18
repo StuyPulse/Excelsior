@@ -79,7 +79,6 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
-
     private final RelativeEncoder leftNEO;
     private final RelativeEncoder rightNEO;
 
@@ -156,11 +155,24 @@ public class Drivetrain extends SubsystemBase {
         setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT_AMPS);
         setIdleMode(IdleMode.kBrake);
         setHighGear();
+
+        // Save Motor Settings
+        burnFlash();
     }
 
     /***********************
      * MOTOR CONFIGURATION *
      ***********************/
+
+    private void burnFlash() {
+        for (CANSparkMax motor : leftMotors) {
+            motor.burnFlash();
+        }
+
+        for (CANSparkMax motor : rightMotors) {
+            motor.burnFlash();
+        }
+    }
 
     // Set the distance traveled in one rotation of the motor
     private void setNEODistancePerRotation(double distancePerRotation) {
@@ -388,6 +400,40 @@ public class Drivetrain extends SubsystemBase {
         }
 
         drivetrain.feed();
+    }
+
+    /*******************
+     * STALL DETECTION *
+     *******************/
+
+    private double getLeftCurrentAmps() {
+        double amps = 0.0;
+
+        for (CANSparkMax motor : leftMotors) {
+            amps += Math.abs(motor.getOutputCurrent());
+        }
+
+        return amps / leftMotors.length;
+    }
+
+    private double getRightCurrentAmps() {
+        double amps = 0.0;
+
+        for (CANSparkMax motor : rightMotors) {
+            amps += Math.abs(motor.getOutputCurrent());
+        }
+
+        return amps / rightMotors.length;
+    }
+
+    public double getCurrentAmps() {
+        return Math.max(getLeftCurrentAmps(), getRightCurrentAmps());
+    }
+
+    public boolean isStalling() {
+        boolean current = getCurrentAmps() < DrivetrainSettings.Stalling.CURRENT_THRESHOLD;
+        boolean velocity = getVelocity() < DrivetrainSettings.Stalling.VELOCITY_THESHOLD;
+        return current && velocity;
     }
 
     /********************

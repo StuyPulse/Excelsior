@@ -155,7 +155,7 @@ public interface Constants {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Current Limit for the motors
-        int CURRENT_LIMIT_AMPS = 30;
+        int CURRENT_LIMIT_AMPS = 50;
 
         // If the motors are inverted
         boolean IS_INVERTED = true;
@@ -194,6 +194,18 @@ public interface Constants {
             Rotation2d STARTING_ANGLE = new Rotation2d();
 
             Pose2d STARTING_POSITION = new Pose2d(STARTING_TRANSLATION, STARTING_ANGLE);
+        }
+
+        public interface Stalling {
+            // Motor will hit current limit when stalling
+            double CURRENT_THRESHOLD = CURRENT_LIMIT_AMPS - 10;
+
+            // This is about half the speed of low gear
+            // High Gear should be able to reach this speed
+            double VELOCITY_THESHOLD = Units.feetToMeters(2.4);
+
+            // Debounce Time
+            double DEBOUNCE_TIME = 0.75;
         }
 
         // Encoder Constants
