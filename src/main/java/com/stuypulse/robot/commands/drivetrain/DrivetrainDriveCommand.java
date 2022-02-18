@@ -15,6 +15,7 @@ import com.stuypulse.robot.Constants.DrivetrainSettings;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDriveCommand extends CommandBase {
@@ -22,7 +23,8 @@ public class DrivetrainDriveCommand extends CommandBase {
     private Drivetrain drivetrain;
     private Gamepad driver;
 
-    private Debouncer stallingFilter = new Debouncer(DrivetrainSettings.Stalling.DEBOUNCE_TIME);
+    private Debouncer stallingFilter =
+            new Debouncer(DrivetrainSettings.Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
     private IFilter speedFilter =
             new IFilterGroup(
