@@ -10,6 +10,7 @@ import com.stuypulse.stuylib.math.SLMath;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
+import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -426,15 +427,24 @@ public class Drivetrain extends SubsystemBase {
         return amps / rightMotors.length;
     }
 
-    public double getCurrentAmps() {
-        return Math.max(getLeftCurrentAmps(), getRightCurrentAmps());
+    private boolean isLeftStalling() {
+        boolean gear = getGear() == Gear.HIGH;
+        boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
+        boolean output = Math.abs(leftMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
+        boolean velocity = Math.abs(getLeftVelocity()) < Stalling.VELOCITY_THESHOLD;
+        return gear && (current || output) && velocity;
+    }
+
+    private boolean isRightStalling() {
+        boolean gear = getGear() == Gear.HIGH;
+        boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
+        boolean output = Math.abs(rightMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
+        boolean velocity = Math.abs(getRightVelocity()) < Stalling.VELOCITY_THESHOLD;
+        return gear && (current || output) && velocity;
     }
 
     public boolean isStalling() {
-        boolean gear = getGear() == Gear.HIGH;
-        boolean current = getCurrentAmps() > DrivetrainSettings.Stalling.CURRENT_THRESHOLD;
-        boolean velocity = getVelocity() < DrivetrainSettings.Stalling.VELOCITY_THESHOLD;
-        return gear && current && velocity;
+        return isLeftStalling() || isRightStalling();
     }
 
     /********************
@@ -535,7 +545,6 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber(
                     "Debug/Drivetrain/Velocity Right (m per s)", getRightVelocity());
 
-            SmartDashboard.putNumber("Debug/Drivetrain/Current (amps)", getCurrentAmps());
             SmartDashboard.putNumber("Debug/Drivetrain/Current Left (amps)", getLeftCurrentAmps());
             SmartDashboard.putNumber(
                     "Debug/Drivetrain/Current Right (amps)", getRightCurrentAmps());

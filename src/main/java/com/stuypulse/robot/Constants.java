@@ -200,12 +200,16 @@ public interface Constants {
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = CURRENT_LIMIT_AMPS - 10;
 
+            // If we are trying to go at full speed,
+            // it doesnt matter if our current draw isnt that high
+            double DUTY_CYCLE_THRESHOLD = 0.8;
+
             // This is about half the speed of low gear
             // High Gear should be able to reach this speed
-            double VELOCITY_THESHOLD = Units.feetToMeters(2.4);
+            double VELOCITY_THESHOLD = Units.feetToMeters(1.2);
 
             // Debounce Time
-            double DEBOUNCE_TIME = 0.75;
+            double DEBOUNCE_TIME = 1.0;
         }
 
         // Encoder Constants
