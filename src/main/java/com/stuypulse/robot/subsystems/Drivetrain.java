@@ -535,6 +535,11 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber(
                     "Debug/Drivetrain/Velocity Right (m per s)", getRightVelocity());
 
+            SmartDashboard.putNumber("Debug/Drivetrain/Current (amps)", getCurrentAmps());
+            SmartDashboard.putNumber("Debug/Drivetrain/Current Left (amps)", getLeftCurrentAmps());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Current Right (amps)", getRightCurrentAmps());
+
             SmartDashboard.putNumber("Debug/Drivetrain/Angle NavX (deg)", getAngle().toDegrees());
             SmartDashboard.putNumber(
                     "Debug/Drivetrain/Encoder Angle (deg)", getEncoderAngle().toDegrees());
