@@ -60,94 +60,94 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    private final DoubleSolenoid longSolenoid;
-    private final DoubleSolenoid shortSolenoid;
+    // private final DoubleSolenoid longSolenoid;
+    // private final DoubleSolenoid shortSolenoid;
 
-    private final DigitalInput bottomLimitSwitch;
-    private final DigitalInput topLimitSwitch;
+    // private final DigitalInput bottomLimitSwitch;
+    // private final DigitalInput topLimitSwitch;
 
-    private final Solenoid stopper;
+    // private final Solenoid stopper;
 
-    private final CANSparkMax climber;
+    // private final CANSparkMax climber;
 
     public Climber() {
-        climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
-        climber.setInverted(ClimberSettings.MOTOR_INVERTED);
+        // climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
+        // climber.setInverted(ClimberSettings.MOTOR_INVERTED);
 
-        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_STOPPER);
+        // stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_STOPPER);
 
-        if (ClimberSettings.ENABLE_TILT) {
-            longSolenoid =
-                    new DoubleSolenoid(
-                            PneumaticsModuleType.CTREPCM,
-                            Ports.Climber.SOLENOID_LONG_FORWARD,
-                            Ports.Climber.SOLENOID_LONG_REVERSE);
-            shortSolenoid =
-                    new DoubleSolenoid(
-                            PneumaticsModuleType.CTREPCM,
-                            Ports.Climber.SOLENOID_LONG_FORWARD,
-                            Ports.Climber.SOLENOID_LONG_REVERSE);
-        } else {
-            longSolenoid = null;
-            shortSolenoid = null;
-        }
+        // if (ClimberSettings.ENABLE_TILT) {
+        //     longSolenoid =
+        //             new DoubleSolenoid(
+        //                     PneumaticsModuleType.CTREPCM,
+        //                     Ports.Climber.SOLENOID_LONG_FORWARD,
+        //                     Ports.Climber.SOLENOID_LONG_REVERSE);
+        //     shortSolenoid =
+        //             new DoubleSolenoid(
+        //                     PneumaticsModuleType.CTREPCM,
+        //                     Ports.Climber.SOLENOID_LONG_FORWARD,
+        //                     Ports.Climber.SOLENOID_LONG_REVERSE);
+        // } else {
+        //     longSolenoid = null;
+        //     shortSolenoid = null;
+        // }
 
-        bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
-        topLimitSwitch = new DigitalInput(Ports.Climber.TOP_LIMIT_SWITCH);
+        // bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
+        // topLimitSwitch = new DigitalInput(Ports.Climber.TOP_LIMIT_SWITCH);
     }
 
     public void setMotor(double speed) {
-        if (stopper.get()) {
-            DriverStation.reportWarning("Climber attempted to run while lock was enabled!", true);
-            setMotorStop();
-        } else {
-            climber.set(speed);
-        }
+        // if (stopper.get()) {
+        //     DriverStation.reportWarning("Climber attempted to run while lock was enabled!", true);
+        //     setMotorStop();
+        // } else {
+        //     climber.set(speed);
+        // }
     }
 
     public void setMotorStop() {
-        climber.stopMotor();
+        // climber.stopMotor();
     }
 
     public boolean getTopReached() {
-        return topLimitSwitch.get();
+        return true; // topLimitSwitch.get();
     }
 
     public boolean getBottomReached() {
-        return bottomLimitSwitch.get();
+        return true; // bottomLimitSwitch.get();
     }
 
     public void setTilt(Tilt tilt) {
-        if (ClimberSettings.ENABLE_TILT) {
-            shortSolenoid.set(tilt.shorterExtended);
-            longSolenoid.set(tilt.longerExtended);
-        } else {
-            DriverStation.reportWarning(
-                    "Climber attempted to tilt while solenoids are disabled!", true);
-        }
+        // if (ClimberSettings.ENABLE_TILT) {
+        //     shortSolenoid.set(tilt.shorterExtended);
+        //     longSolenoid.set(tilt.longerExtended);
+        // } else {
+        //     DriverStation.reportWarning(
+        //             "Climber attempted to tilt while solenoids are disabled!", true);
+        // }
     }
 
     public void setClimberLocked() {
-        setMotorStop();
-        stopper.set(true);
+        // setMotorStop();
+        // stopper.set(true);
     }
 
     public void setClimberUnlocked() {
-        stopper.set(false);
+        // stopper.set(false);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        if (Constants.DEBUG_MODE.get()) {
-            if (ClimberSettings.ENABLE_TILT) {
-                SmartDashboard.putString(
-                        "Debug/Climber/Long Extended", longSolenoid.get().toString());
-                SmartDashboard.putString(
-                        "Debug/Climber/Short Extended", shortSolenoid.get().toString());
-            }
-            SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
-            SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
-        }
+        // if (Constants.DEBUG_MODE.get()) {
+        //     if (ClimberSettings.ENABLE_TILT) {
+        //         SmartDashboard.putString(
+        //                 "Debug/Climber/Long Extended", longSolenoid.get().toString());
+        //         SmartDashboard.putString(
+        //                 "Debug/Climber/Short Extended", shortSolenoid.get().toString());
+        //     }
+        //     SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
+        //     SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
+        // }
     }
 }

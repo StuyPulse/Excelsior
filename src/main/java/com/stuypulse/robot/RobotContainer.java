@@ -34,8 +34,8 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class RobotContainer {
 
     // Subsystems
-    public final Climber climber = null; // new Climber();
-    public final Conveyor conveyor = null; // new Conveyor();
+    public final Climber climber = new Climber();
+    public final Conveyor conveyor = new Conveyor();
     public final Drivetrain drivetrain = new Drivetrain();
     public final Intake intake = new Intake();
     public final LEDController leds = new LEDController(this);
@@ -43,7 +43,7 @@ public class RobotContainer {
     public final Shooter shooter = new Shooter();
 
     // Gamepads
-    public final Gamepad driver = new Logitech.XMode(Ports.Gamepad.DRIVER); // new AutoGamepad(Ports.Gamepad.DRIVER);
+    public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
 
     // Autons

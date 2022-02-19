@@ -37,7 +37,7 @@ public class DrivetrainAlignCommand extends CommandBase {
         distanceError =
                 new IFuser(
                         LimelightSettings.Alignment.FUSION_FILTER,
-                        () -> Target.getDistance() - targetDistance.doubleValue(),
+                        () -> targetDistance.doubleValue() - Target.getDistance(),
                         () -> drivetrain.getDistance());
 
         angleController = LimelightSettings.Alignment.Angle.getController();
@@ -48,10 +48,6 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        Target.enable();
-
-        drivetrain.setLowGear();
-
         angleError.initialize();
         distanceError.initialize();
     }
@@ -69,6 +65,9 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
+        Target.enable();
+        drivetrain.setLowGear();
+
         drivetrain.arcadeDrive(getSpeed(), getTurn());
     }
 
