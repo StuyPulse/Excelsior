@@ -81,14 +81,14 @@ public interface Constants {
 
             int GEAR_SHIFT_FORWARD = 0;
             int GEAR_SHIFT_REVERSE = 1;
+        }
 
-            interface Encoders {
-                int LEFT_A = 0;
-                int LEFT_B = 1;
+        interface Grayhill {
+            int LEFT_A = 0;
+            int LEFT_B = 1;
 
-                int RIGHT_A = 2;
-                int RIGHT_B = 3;
-            }
+            int RIGHT_A = 2;
+            int RIGHT_B = 3;
         }
 
         public interface Intake {
@@ -126,6 +126,8 @@ public interface Constants {
 
             MotorConfig LEFT = new MotorConfig(true, IDLE_MODE, CURRENT_LIMIT_AMPS);
             MotorConfig RIGHT = new MotorConfig(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
+
+            boolean GRAYHILL_INVERTED = false;
         }
 
         MotorConfig INTAKE = new MotorConfig(false, IdleMode.kBrake, 80);
@@ -182,7 +184,6 @@ public interface Constants {
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
 
-        boolean USING_GRAYHILLS = true;
         boolean USING_GYRO = true;
 
         public interface Motion {
@@ -253,28 +254,11 @@ public interface Constants {
                     double GRAYHILL_STAGE = (12.0 / 36.0);
                 }
 
-                double LOW_GEAR_NEO_TO_WHEEL =
-                        Stages.INITIAL_STAGE
-                                * Stages.LOW_GEAR_STAGE
-                                * Stages.THIRD_STAGE
-                                * Stages.EXTERNAL_STAGE;
-
-                double HIGH_GEAR_NEO_TO_WHEEL =
-                        Stages.INITIAL_STAGE
-                                * Stages.HIGH_GEAR_STAGE
-                                * Stages.THIRD_STAGE
-                                * Stages.EXTERNAL_STAGE;
-
                 double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.EXTERNAL_STAGE;
             }
 
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-
-            double LOW_GEAR_DISTANCE_PER_ROTATION =
-                    WHEEL_CIRCUMFERENCE * GearRatio.LOW_GEAR_NEO_TO_WHEEL;
-            double HIGH_GEAR_DISTANCE_PER_ROTATION =
-                    WHEEL_CIRCUMFERENCE * GearRatio.HIGH_GEAR_NEO_TO_WHEEL;
 
             double GRAYHILL_PULSES_PER_REVOLUTION = 256;
             double GRAYHILL_DISTANCE_PER_PULSE =

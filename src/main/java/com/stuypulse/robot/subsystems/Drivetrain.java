@@ -36,7 +36,6 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 /*-
  * Moves the robot around
@@ -64,15 +63,13 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH(Value.kForward, DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION),
-        LOW(Value.kReverse, DrivetrainSettings.Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
+        HIGH(Value.kForward),
+        LOW(Value.kReverse);
 
         private final Value value;
-        private final double ratio;
 
-        private Gear(Value value, double ratio) {
+        private Gear(Value value) {
             this.value = value;
-            this.ratio = ratio;
         }
     }
 
@@ -80,17 +77,14 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax[] leftMotors;
     private final CANSparkMax[] rightMotors;
 
-    // An encoder for each side of the drive train
-    private final RelativeEncoder leftNEO;
-    private final RelativeEncoder rightNEO;
-
-    private final Encoder leftGrayhill;
-    private final Encoder rightGrayhill;
-
     // DifferentialDrive and Gear Information
     private Gear gear;
     private final DoubleSolenoid gearShift;
     private final DifferentialDrive drivetrain;
+
+    // An encoder for each side of the drive train
+    private final Encoder leftGrayhill;
+    private final Encoder rightGrayhill;
 
     // NAVX for Gyro
     private final AHRS navx;
@@ -115,20 +109,6 @@ public class Drivetrain extends SubsystemBase {
                     new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
                 };
 
-        // Create list of encoders based on motors
-        leftNEO = leftMotors[0].getEncoder();
-        rightNEO = rightMotors[0].getEncoder();
-        setNEODistancePerRotation(
-                Constants.DrivetrainSettings.Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION);
-
-        leftGrayhill =
-                new Encoder(Ports.Drivetrain.Encoders.LEFT_A, Ports.Drivetrain.Encoders.LEFT_B);
-
-        rightGrayhill =
-                new Encoder(Ports.Drivetrain.Encoders.RIGHT_A, Ports.Drivetrain.Encoders.RIGHT_B);
-        setGrayhillDistancePerPulse(
-                Constants.DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
-
         // Make differential drive object
         drivetrain =
                 new DifferentialDrive(
@@ -141,6 +121,11 @@ public class Drivetrain extends SubsystemBase {
                         PneumaticsModuleType.CTREPCM,
                         Ports.Drivetrain.GEAR_SHIFT_FORWARD,
                         Ports.Drivetrain.GEAR_SHIFT_REVERSE);
+
+        // Create Encoders
+        leftGrayhill = new Encoder(Ports.Grayhill.LEFT_A, Ports.Grayhill.LEFT_B);
+        rightGrayhill = new Encoder(Ports.Grayhill.RIGHT_A, Ports.Grayhill.RIGHT_B);
+        setGrayhillDistancePerPulse(DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
@@ -162,28 +147,17 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     private void setMotorConfig(MotorConfig left, MotorConfig right) {
-        leftGrayhill.setReverseDirection(left.INVERTED);
+        leftGrayhill.setReverseDirection(
+                MotorSettings.Drivetrain.GRAYHILL_INVERTED ^ left.INVERTED);
         for (CANSparkMax motor : leftMotors) {
             left.configure(motor);
         }
 
-        rightGrayhill.setReverseDirection(right.INVERTED);
+        rightGrayhill.setReverseDirection(
+                MotorSettings.Drivetrain.GRAYHILL_INVERTED ^ right.INVERTED);
         for (CANSparkMax motor : rightMotors) {
             right.configure(motor);
         }
-    }
-
-    // Set the distance traveled in one rotation of the motor
-    private void setNEODistancePerRotation(double distancePerRotation) {
-        leftNEO.setPositionConversionFactor(distancePerRotation);
-        leftNEO.setVelocityConversionFactor(
-                (1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
-        leftNEO.setPosition(0);
-
-        rightNEO.setPositionConversionFactor(distancePerRotation);
-        rightNEO.setVelocityConversionFactor(
-                (1.0 / 60.0) * distancePerRotation); // Convert RPM -> rotations/s -> m/s
-        rightNEO.setPosition(0);
     }
 
     private void setGrayhillDistancePerPulse(double distance) {
@@ -205,12 +179,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
-        if (this.gear != gear) {
-            this.gear = gear;
-            gearShift.set(this.gear.value);
-            setNEODistancePerRotation(this.gear.ratio);
-            reset();
-        }
+        gearShift.set((this.gear = gear).value);
     }
 
     // Sets robot into low gear
@@ -227,17 +196,13 @@ public class Drivetrain extends SubsystemBase {
      * ENCODER FUNCTIONS *
      *********************/
 
-    private boolean getUsingGrayhills() {
-        return Constants.DrivetrainSettings.USING_GRAYHILLS;
-    }
-
     // Distance
     public double getLeftDistance() {
-        return getUsingGrayhills() ? leftGrayhill.getDistance() : leftNEO.getPosition();
+        return leftGrayhill.getDistance();
     }
 
     public double getRightDistance() {
-        return getUsingGrayhills() ? rightGrayhill.getDistance() : rightNEO.getPosition();
+        return rightGrayhill.getDistance();
     }
 
     public double getDistance() {
@@ -246,11 +211,11 @@ public class Drivetrain extends SubsystemBase {
 
     // Velocity
     public double getLeftVelocity() {
-        return getUsingGrayhills() ? leftGrayhill.getRate() : leftNEO.getVelocity();
+        return leftGrayhill.getRate();
     }
 
     public double getRightVelocity() {
-        return getUsingGrayhills() ? rightGrayhill.getRate() : rightNEO.getVelocity();
+        return rightGrayhill.getRate();
     }
 
     public double getVelocity() {
@@ -260,10 +225,6 @@ public class Drivetrain extends SubsystemBase {
     /***************
      * ROBOT ANGLE *
      ***************/
-
-    private boolean usingGyro() {
-        return DrivetrainSettings.USING_GYRO;
-    }
 
     // Gets current Angle of the Robot as a double (contiuous / not +-180)
     public double getRawGyroAngle() {
@@ -275,22 +236,19 @@ public class Drivetrain extends SubsystemBase {
         return Angle.fromDegrees(getRawGyroAngle());
     }
 
-    private void resetNavX() {
-        navx.reset();
-    }
-
-    // Angle
-    private double getEncoderRadians() {
+    // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
+    private double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
-        return distance / DrivetrainSettings.TRACK_WIDTH;
+        return Math.toDegrees(distance / DrivetrainSettings.TRACK_WIDTH);
     }
 
+    // Gets current Angle of the Robot [using encoders]
     public Angle getEncoderAngle() {
-        return Angle.fromRadians(getEncoderRadians());
+        return Angle.fromDegrees(getRawEncoderAngle());
     }
 
     public Angle getAngle() {
-        return usingGyro() ? getGyroAngle() : getEncoderAngle();
+        return DrivetrainSettings.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
 
     /**********************
@@ -324,12 +282,9 @@ public class Drivetrain extends SubsystemBase {
      ************************/
 
     public void reset(Pose2d location) {
-        resetNavX();
-
+        navx.reset();
         leftGrayhill.reset();
         rightGrayhill.reset();
-        leftNEO.setPosition(0);
-        rightNEO.setPosition(0);
 
         odometry.resetPosition(location, getAngle().getRotation2d());
     }
@@ -486,16 +441,6 @@ public class Drivetrain extends SubsystemBase {
 
             SmartDashboard.putNumber("Debug/Drivetrain/Motor Voltage Left (V)", getLeftVoltage());
             SmartDashboard.putNumber("Debug/Drivetrain/Motor Voltage Right (V)", getRightVoltage());
-
-            SmartDashboard.putNumber(
-                    "Debug/Drivetrain/NEO Distance Left (m)", leftNEO.getPosition());
-            SmartDashboard.putNumber(
-                    "Debug/Drivetrain/NEO Distance Right (m)", rightNEO.getPosition());
-
-            SmartDashboard.putNumber(
-                    "Debug/Drivetrain/Grayhill Distance Left (m)", rightGrayhill.getDistance());
-            SmartDashboard.putNumber(
-                    "Debug/Drivetrain/Grayhill Distance Right (m)", leftGrayhill.getDistance());
 
             SmartDashboard.putNumber("Debug/Drivetrain/Distance Traveled (m)", getDistance());
             SmartDashboard.putNumber(
