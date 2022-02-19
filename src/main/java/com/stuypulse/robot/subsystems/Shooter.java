@@ -67,8 +67,8 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
 
-        shooterLeader = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_A, MotorType.kBrushless);
-        shooterFollowerA = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
+        shooterLeader = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
+        shooterFollowerA = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_A, MotorType.kBrushless);
         shooterFollowerB = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER_B, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
 

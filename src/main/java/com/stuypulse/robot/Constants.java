@@ -270,10 +270,10 @@ public interface Constants {
         }
 
         public interface FeederPID {
-            double kP = 0.0;
+            double kP = 0.0028;
             double kI = 0.0;
             double kD = 0.0;
-            double kF = 0.0;
+            double kF = 0.00018;
         }
     }
 
