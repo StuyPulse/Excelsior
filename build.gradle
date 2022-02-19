@@ -82,12 +82,23 @@ dependencies {
 
 spotless {
     enforceCheck = false
+    format 'misc', {
+        // define the files to apply `misc` to
+        target '*.gradle', '*.md', '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
     java {
+        targetExclude("src/main/java/com/stuypulse/robot/commands/auton/*.java")
         licenseHeaderFile "LICENSE"
 
         googleJavaFormat().aosp()
-        
+
         trimTrailingWhitespace()
+        indentWithSpaces(4)
         endWithNewline()
 
         importOrder('com.stuypulse.stuylib', 'com.stuypulse', 'edu.wpi', 'com.revrobotics')
