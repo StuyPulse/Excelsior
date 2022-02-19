@@ -45,16 +45,16 @@ public interface FieldMap {
         double HEIGHT = imperialToMeters(6, 2);
 
         Translation2d BOTTOM_LEFT = new Translation2d(
-                -1 * imperialToMeters(27, 0),
-                imperialToMeters(3, 10));
+                -imperialToMeters(27, 0),
+                +imperialToMeters(3, 10));
 
         Translation2d BOTTOM_RIGHT = new Translation2d(
-                -1 * imperialToMeters(16, 5.75),
-                imperialToMeters(3, 10));
+                -imperialToMeters(16, 5.75),
+                +imperialToMeters(3, 10));
 
         Translation2d TOP_RIGHT = new Translation2d(
-                -1 * imperialToMeters(16, 5.75),
-                imperialToMeters(13, 6));
+                -imperialToMeters(16, 5.75),
+                +imperialToMeters(13, 6));
     }
 
     public interface Hub {
@@ -62,11 +62,9 @@ public interface FieldMap {
 
         double HEIGHT = imperialToMeters(8, 8);
         double UPPER_RADIUS = imperialToMeters(2, 0);
+    
     }
 
-    public interface Tarmac {
-
-    }
 
     public interface Terminal {
         double LENGTH = imperialToMeters(7, 8.5);
