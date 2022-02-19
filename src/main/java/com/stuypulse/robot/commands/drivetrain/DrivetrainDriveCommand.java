@@ -12,6 +12,7 @@ import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.Constants.DrivetrainSettings;
+import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -50,7 +51,7 @@ public class DrivetrainDriveCommand extends CommandBase {
     }
 
     public void execute() {
-        if (isStalling() || driver.getRawRightButton()) {
+        if (driver.getRawRightButton() || (Stalling.STALL_DETECTION.get() && isStalling())) {
             drivetrain.setLowGear();
         } else {
             drivetrain.setHighGear();
