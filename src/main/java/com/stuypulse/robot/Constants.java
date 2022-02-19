@@ -297,12 +297,11 @@ public interface Constants {
 
     public interface LimelightSettings {
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(38.65);
-        double HUB_HEIGHT = Units.inchesToMeters(104);
 
         // if the intake is on the ring, distance of limelight to hub
         double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5);
 
-        double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
+        double HEIGHT_DIFFERENCE = FieldMap.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 25.0);
