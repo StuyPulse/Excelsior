@@ -1,0 +1,9 @@
+{
+  "lengthUnit": "Meter",
+  "exportUnit": "Always Meters",
+  "maxVelocity": 1.0,
+  "maxAcceleration": 1.0,
+  "trackWidth": 1.0,
+  "gameName": "Rapid React",
+  "outputDir": "../../../src/main/deploy/ThreeBallWithWallBallAuton"
+}

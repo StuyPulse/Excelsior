@@ -2,7 +2,7 @@ plugins {
     id "java"
 
     id "com.diffplug.spotless" version "5.10.2"
-    id "edu.wpi.first.GradleRIO" version "2022.3.1"
+    id "edu.wpi.first.GradleRIO" version "2022.1.1"
 }
 
 allprojects {
@@ -11,7 +11,7 @@ allprojects {
     }
 }
 
-final String STUYLIB_VERSION = 'v2022.1.2'
+final String STUYLIB_VERSION = 'v2022.1.0'
 def ROBOT_MAIN_CLASS = "com.stuypulse.robot.Main"
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -82,12 +82,23 @@ dependencies {
 
 spotless {
     enforceCheck = false
+    format 'misc', {
+        // define the files to apply `misc` to
+        target '*.gradle', '*.md', '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
     java {
+        targetExclude("src/main/java/com/stuypulse/robot/commands/auton/*.java")
         licenseHeaderFile "LICENSE"
 
         googleJavaFormat().aosp()
-        
+
         trimTrailingWhitespace()
+        indentWithSpaces(4)
         endWithNewline()
 
         importOrder('com.stuypulse.stuylib', 'com.stuypulse', 'edu.wpi', 'com.revrobotics')

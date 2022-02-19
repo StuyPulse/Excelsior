@@ -21,8 +21,9 @@ public class MobilityAuton {
 
         public NoEncoders(RobotContainer robot) {
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
-                    new WaitCommand(START_DELAY));
+                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                new WaitCommand(START_DELAY)
+            );
 
             addCommands(
                     new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),

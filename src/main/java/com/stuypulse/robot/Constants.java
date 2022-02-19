@@ -199,6 +199,10 @@ public interface Constants {
         }
 
         public interface Stalling {
+            // Enable / Disable the Stall Detection
+            SmartBoolean STALL_DETECTION =
+                    new SmartBoolean("Driver Settings/Stall Detection", false);
+
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = CURRENT_LIMIT_AMPS - 10;
 

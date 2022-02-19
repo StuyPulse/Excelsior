@@ -5,5 +5,5 @@
   "maxAcceleration": 3.0,
   "trackWidth": 1.0,
   "gameName": "Rapid React",
-  "outputDir": "../../src/main/deploy/ThreeBallAuton"
+  "outputDir": "../../../src/main/deploy/ThreeBallAuton"
 }
