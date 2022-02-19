@@ -7,6 +7,7 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.IntakeSettings;
+import com.stuypulse.robot.Constants.MotorSettings;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -45,6 +46,8 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        MotorSettings.INTAKE.configure(motor);
+
         solenoid =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,

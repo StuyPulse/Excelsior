@@ -10,6 +10,7 @@ import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.robot.Constants;
+import com.stuypulse.robot.Constants.MotorSettings;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.Constants.ShooterSettings;
 
@@ -66,8 +67,8 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
 
-        shooterMotor = new CANSparkMax(Ports.Shooter.SHOOTER, MotorType.kBrushless);
-        shooterFollower = new CANSparkMax(Ports.Shooter.SHOOTER_FOLLOWER, MotorType.kBrushless);
+        shooterMotor = new CANSparkMax(Ports.Shooter.LEFT_SHOOTER, MotorType.kBrushless);
+        shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT_SHOOTER, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
 
         shooterFollower.follow(shooterMotor, true);
@@ -88,8 +89,9 @@ public class Shooter extends SubsystemBase {
         feederPIDController.setD(ShooterSettings.FeederPID.kD);
         feederPIDController.setFF(ShooterSettings.FeederPID.kF);
 
-        shooterMotor.burnFlash();
-        feederMotor.burnFlash();
+        MotorSettings.Shooter.LEFT.configure(shooterMotor);
+        MotorSettings.Shooter.RIGHT.configure(shooterFollower);
+        MotorSettings.Shooter.FEEDER.configure(feederMotor);
 
         hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
