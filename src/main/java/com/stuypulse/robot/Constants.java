@@ -131,9 +131,9 @@ public interface Constants {
         MotorConfig INTAKE = new MotorConfig(false, IdleMode.kBrake, 80);
 
         public interface Shooter {
-            MotorConfig LEFT = new MotorConfig(true, IdleMode.kBrake, 80);
-            MotorConfig RIGHT = new MotorConfig(false, IdleMode.kBrake, 80);
-            MotorConfig FEEDER = new MotorConfig(true, IdleMode.kBrake, 80);
+            MotorConfig LEFT = new MotorConfig(true, IdleMode.kCoast, 80);
+            MotorConfig RIGHT = new MotorConfig(false, IdleMode.kCoast, 80);
+            MotorConfig FEEDER = new MotorConfig(true, IdleMode.kCoast, 80);
         }
     }
 
@@ -294,6 +294,8 @@ public interface Constants {
     }
 
     public interface ShooterSettings {
+
+        double MIN_RPM = 100.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
