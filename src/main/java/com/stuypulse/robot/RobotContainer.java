@@ -116,7 +116,7 @@ public class RobotContainer {
 
         // operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
 
-        // operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
+        operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }
 
     public void configureAutons() {
