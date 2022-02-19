@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
+import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
@@ -86,7 +87,6 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax[] rightMotors;
 
     // An encoder for each side of the drive train
-
     private final RelativeEncoder leftNEO;
     private final RelativeEncoder rightNEO;
 
@@ -169,11 +169,24 @@ public class Drivetrain extends SubsystemBase {
         setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT_AMPS);
         setIdleMode(IdleMode.kBrake);
         setHighGear();
+
+        // Save Motor Settings
+        burnFlash();
     }
 
     /***********************
      * MOTOR CONFIGURATION *
      ***********************/
+
+    private void burnFlash() {
+        for (CANSparkMax motor : leftMotors) {
+            motor.burnFlash();
+        }
+
+        for (CANSparkMax motor : rightMotors) {
+            motor.burnFlash();
+        }
+    }
 
     // Set the distance traveled in one rotation of the motor
     private void setNEODistancePerRotation(double distancePerRotation) {
@@ -403,6 +416,50 @@ public class Drivetrain extends SubsystemBase {
         drivetrain.feed();
     }
 
+    /*******************
+     * STALL DETECTION *
+     *******************/
+
+    private double getLeftCurrentAmps() {
+        double amps = 0.0;
+
+        for (CANSparkMax motor : leftMotors) {
+            amps += Math.abs(motor.getOutputCurrent());
+        }
+
+        return amps / leftMotors.length;
+    }
+
+    private double getRightCurrentAmps() {
+        double amps = 0.0;
+
+        for (CANSparkMax motor : rightMotors) {
+            amps += Math.abs(motor.getOutputCurrent());
+        }
+
+        return amps / rightMotors.length;
+    }
+
+    private boolean isLeftStalling() {
+        boolean gear = getGear() == Gear.HIGH;
+        boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
+        boolean output = Math.abs(leftMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
+        boolean velocity = Math.abs(getLeftVelocity()) < Stalling.VELOCITY_THESHOLD;
+        return gear && (current || output) && velocity;
+    }
+
+    private boolean isRightStalling() {
+        boolean gear = getGear() == Gear.HIGH;
+        boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
+        boolean output = Math.abs(rightMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
+        boolean velocity = Math.abs(getRightVelocity()) < Stalling.VELOCITY_THESHOLD;
+        return gear && (current || output) && velocity;
+    }
+
+    public boolean isStalling() {
+        return isLeftStalling() || isRightStalling();
+    }
+
     /********************
      * DRIVING COMMANDS *
      ********************/
@@ -500,6 +557,10 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber("Debug/Drivetrain/Velocity Left (m per s)", getLeftVelocity());
             SmartDashboard.putNumber(
                     "Debug/Drivetrain/Velocity Right (m per s)", getRightVelocity());
+
+            SmartDashboard.putNumber("Debug/Drivetrain/Current Left (amps)", getLeftCurrentAmps());
+            SmartDashboard.putNumber(
+                    "Debug/Drivetrain/Current Right (amps)", getRightCurrentAmps());
 
             SmartDashboard.putNumber("Debug/Drivetrain/Angle NavX (deg)", getAngle().toDegrees());
             SmartDashboard.putNumber(
