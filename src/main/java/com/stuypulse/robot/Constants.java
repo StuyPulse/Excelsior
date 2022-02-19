@@ -11,6 +11,8 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
+import com.stuypulse.robot.util.MotorConfig;
+
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,6 +24,8 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
 import java.nio.file.Path;
+
+import com.revrobotics.CANSparkMax.IdleMode;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -48,13 +52,10 @@ public interface Constants {
         public interface Climber {
             int MOTOR = 50;
 
-            int SOLENOID_STOPPER = 4;
+            int STOPPER = 4;
 
-            int SOLENOID_LONG_FORWARD = 6;
-            int SOLENOID_LONG_REVERSE = 7;
-
-            int SOLENOID_SHORT_FORWARD = 8;
-            int SOLENOID_SHORT_REVERSE = 9;
+            int TILTER_FORWARD = 6;
+            int TILTER_REVERSE = 7;
 
             int BOTTOM_LIMIT_SWITCH = 8;
             int TOP_LIMIT_SWITCH = 7;
@@ -102,11 +103,37 @@ public interface Constants {
         }
 
         public interface Shooter {
-            int SHOOTER = 20;
-            int SHOOTER_FOLLOWER = 21;
+            int LEFT_SHOOTER = 20;
+            int RIGHT_SHOOTER = 21;
             int FEEDER = 22;
 
             int HOOD_SOLENOID = 5;
+        }
+    }
+
+    public interface MotorSettings {
+
+        MotorConfig CLIMBER = new MotorConfig(false, IdleMode.kBrake, 80);
+
+        public interface Conveyor {
+            MotorConfig GANDALF = new MotorConfig(true, IdleMode.kCoast, 80);
+            MotorConfig TOP_BELT = new MotorConfig(false, IdleMode.kBrake, 80);
+        }
+
+        public interface Drivetrain {
+            int CURRENT_LIMIT_AMPS = 50;
+            IdleMode IDLE_MODE = IdleMode.kBrake;
+
+            MotorConfig LEFT = new MotorConfig(true, IDLE_MODE, CURRENT_LIMIT_AMPS);
+            MotorConfig RIGHT = new MotorConfig(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
+        }
+
+        MotorConfig INTAKE = new MotorConfig(false, IdleMode.kBrake, 80);
+
+        public interface Shooter {
+            MotorConfig LEFT = new MotorConfig(true, IdleMode.kBrake, 80);
+            MotorConfig RIGHT = new MotorConfig(false, IdleMode.kBrake, 80);
+            MotorConfig FEEDER = new MotorConfig(true, IdleMode.kBrake, 80);
         }
     }
 
@@ -117,8 +144,6 @@ public interface Constants {
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
         SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
-
-        boolean MOTOR_INVERTED = false;
     }
 
     public interface ColorSensorSettings {
@@ -153,12 +178,6 @@ public interface Constants {
 
         SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.2);
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
-
-        // Current Limit for the motors
-        int CURRENT_LIMIT_AMPS = 50;
-
-        // If the motors are inverted
-        boolean IS_INVERTED = true;
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
@@ -202,7 +221,7 @@ public interface Constants {
                     new SmartBoolean("Driver Settings/Stall Detection", false);
 
             // Motor will hit current limit when stalling
-            double CURRENT_THRESHOLD = CURRENT_LIMIT_AMPS - 10;
+            double CURRENT_THRESHOLD = MotorSettings.Drivetrain.CURRENT_LIMIT_AMPS - 10;
 
             // If we are trying to go at full speed,
             // it doesnt matter if our current draw isnt that high
@@ -284,14 +303,14 @@ public interface Constants {
             double kP = 0.0;
             double kI = 0.0;
             double kD = 0.0;
-            double kF = 0.0;
+            double kF = 0.0001;
         }
 
         public interface FeederPID {
             double kP = 0.0;
             double kI = 0.0;
             double kD = 0.0;
-            double kF = 0.0;
+            double kF = 0.0001;
         }
     }
 

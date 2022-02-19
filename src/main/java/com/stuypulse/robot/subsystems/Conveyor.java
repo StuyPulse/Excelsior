@@ -7,6 +7,7 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.ConveyorSettings;
+import com.stuypulse.robot.Constants.MotorSettings;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -66,7 +67,10 @@ public class Conveyor extends SubsystemBase {
     /** Creates a Conveyor subsystem */
     public Conveyor() {
         topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
+        MotorSettings.Conveyor.TOP_BELT.configure(topBeltMotor);
+
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
+        MotorSettings.Conveyor.GANDALF.configure(gandalfMotor);
 
         colorSensor = new ColorSensor();
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);

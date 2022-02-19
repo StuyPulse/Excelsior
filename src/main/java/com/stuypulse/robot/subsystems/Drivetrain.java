@@ -11,7 +11,9 @@ import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
 import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
+import com.stuypulse.robot.Constants.MotorSettings;
 import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.util.MotorConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,7 +35,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -152,26 +153,23 @@ public class Drivetrain extends SubsystemBase {
         field = new Field2d();
 
         // Configure Motors and Other Things
-        setInverted(DrivetrainSettings.IS_INVERTED, !DrivetrainSettings.IS_INVERTED);
-        setSmartCurrentLimit(DrivetrainSettings.CURRENT_LIMIT_AMPS);
-        setIdleMode(IdleMode.kBrake);
+        setMotorConfig(MotorSettings.Drivetrain.LEFT, MotorSettings.Drivetrain.RIGHT);
         setHighGear();
-
-        // Save Motor Settings
-        burnFlash();
     }
 
     /***********************
      * MOTOR CONFIGURATION *
      ***********************/
 
-    private void burnFlash() {
+    private void setMotorConfig(MotorConfig left, MotorConfig right) {
+        leftGrayhill.setReverseDirection(left.INVERTED);
         for (CANSparkMax motor : leftMotors) {
-            motor.burnFlash();
+            left.configure(motor);
         }
 
+        rightGrayhill.setReverseDirection(right.INVERTED);
         for (CANSparkMax motor : rightMotors) {
-            motor.burnFlash();
+            right.configure(motor);
         }
     }
 
@@ -194,41 +192,6 @@ public class Drivetrain extends SubsystemBase {
 
         leftGrayhill.setDistancePerPulse(distance);
         leftGrayhill.reset();
-    }
-
-    // Set the smart current limit of all the motors
-    public void setSmartCurrentLimit(int limit) {
-        for (CANSparkMax motor : leftMotors) {
-            motor.setSmartCurrentLimit(limit);
-        }
-
-        for (CANSparkMax motor : rightMotors) {
-            motor.setSmartCurrentLimit(limit);
-        }
-    }
-
-    // Set the idle mode of the all the motors
-    public void setIdleMode(IdleMode mode) {
-        for (CANSparkMax motor : leftMotors) {
-            motor.setIdleMode(mode);
-        }
-
-        for (CANSparkMax motor : rightMotors) {
-            motor.setIdleMode(mode);
-        }
-    }
-
-    // Set isInverted of all the motors
-    public void setInverted(boolean leftSide, boolean rightSide) {
-        leftGrayhill.setReverseDirection(leftSide);
-        for (CANSparkMax motor : leftMotors) {
-            motor.setInverted(leftSide);
-        }
-
-        rightGrayhill.setReverseDirection(rightSide);
-        for (CANSparkMax motor : rightMotors) {
-            motor.setInverted(rightSide);
-        }
     }
 
     /*****************

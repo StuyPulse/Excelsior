@@ -7,6 +7,7 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.ClimberSettings;
+import com.stuypulse.robot.Constants.MotorSettings;
 import com.stuypulse.robot.Constants.Ports;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -47,21 +48,17 @@ public class Climber extends SubsystemBase {
 
     public enum Tilt {
         // first param is shorter, second is longer
-        MAX_TILT(Value.kForward, Value.kForward),
-        NO_TILT(Value.kReverse, Value.kReverse),
-        PARTIAL_TILT(Value.kForward, Value.kReverse);
+        MAX_TILT(Value.kForward),
+        NO_TILT(Value.kReverse);
 
-        private final Value shorterExtended;
-        private final Value longerExtended;
+        private final Value extended;
 
-        private Tilt(Value shorterExtended, Value longerExtended) {
-            this.shorterExtended = shorterExtended;
-            this.longerExtended = longerExtended;
+        private Tilt(Value extended) {
+            this.extended = extended;
         }
     }
 
-    private final DoubleSolenoid longSolenoid;
-    private final DoubleSolenoid shortSolenoid;
+    private final DoubleSolenoid tilter;
 
     private final DigitalInput bottomLimitSwitch;
     private final DigitalInput topLimitSwitch;
@@ -72,24 +69,18 @@ public class Climber extends SubsystemBase {
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
-        climber.setInverted(ClimberSettings.MOTOR_INVERTED);
+        MotorSettings.CLIMBER.configure(climber);
 
-        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.SOLENOID_STOPPER);
+        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
 
         if (ClimberSettings.ENABLE_TILT) {
-            longSolenoid =
+            tilter =
                     new DoubleSolenoid(
                             PneumaticsModuleType.CTREPCM,
-                            Ports.Climber.SOLENOID_LONG_FORWARD,
-                            Ports.Climber.SOLENOID_LONG_REVERSE);
-            shortSolenoid =
-                    new DoubleSolenoid(
-                            PneumaticsModuleType.CTREPCM,
-                            Ports.Climber.SOLENOID_LONG_FORWARD,
-                            Ports.Climber.SOLENOID_LONG_REVERSE);
+                            Ports.Climber.TILTER_FORWARD,
+                            Ports.Climber.TILTER_REVERSE);
         } else {
-            longSolenoid = null;
-            shortSolenoid = null;
+            tilter = null;
         }
 
         bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
@@ -118,9 +109,8 @@ public class Climber extends SubsystemBase {
     }
 
     public void setTilt(Tilt tilt) {
-        if (ClimberSettings.ENABLE_TILT) {
-            shortSolenoid.set(tilt.shorterExtended);
-            longSolenoid.set(tilt.longerExtended);
+        if (tilter != null) {
+            tilter.set(tilt.extended);
         } else {
             DriverStation.reportWarning(
                     "Climber attempted to tilt while solenoids are disabled!", true);
@@ -140,11 +130,8 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if (Constants.DEBUG_MODE.get()) {
-            if (ClimberSettings.ENABLE_TILT) {
-                SmartDashboard.putString(
-                        "Debug/Climber/Long Extended", longSolenoid.get().toString());
-                SmartDashboard.putString(
-                        "Debug/Climber/Short Extended", shortSolenoid.get().toString());
+            if (tilter != null) {
+                SmartDashboard.putString("Debug/Climber/Tilter", tilter.get().toString());
             }
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
