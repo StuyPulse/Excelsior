@@ -276,7 +276,7 @@ public interface Constants {
     }
 
     public interface LimelightSettings {
-        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38.65);
+        double LIMELIGHT_HEIGHT = Units.feetToMeters(2) + Units.inchesToMeters(10);
         double HUB_HEIGHT = Units.inchesToMeters(104);
 
         // if the intake is on the ring, distance of limelight to hub
@@ -285,14 +285,14 @@ public interface Constants {
         double HEIGHT_DIFFERENCE = HUB_HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 25.0);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 23.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
 
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Units.feetToMeters(24);
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2.0);
         SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.1);
 
         public interface Alignment {
@@ -300,9 +300,9 @@ public interface Constants {
             SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
 
             public interface Speed {
-                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
                 SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.06);
 
                 SmartNumber ERROR_FILTER =
                         new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
