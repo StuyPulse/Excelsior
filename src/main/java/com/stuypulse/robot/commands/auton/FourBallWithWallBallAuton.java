@@ -10,7 +10,7 @@ import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
+import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
@@ -19,21 +19,7 @@ import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-/*-
- * @author Vincent Wang (vinowang921@gmail.com)
- * @author Ivan Wei (ivanw8288@gmail.com)
- * @author Ivan Chen (ivanchen07@gmail.com)
- * @author Eric Lin (ericlin071906@gmail.com)
- * @author Marc Jiang (mjiang05@gmail.com)
- * @author Ian Jiang (ijiang05@gmail.com)
- * @author Carmin Vuong (carminvuong@gmail.com)
- * @author Samuel Chen(samchen1738@gmail.com)
- */
-
-public class ThreeBallAuton extends SequentialCommandGroup {
-
-    private static final double START_DELAY = 0.5;
-
+public class FourBallWithWallBallAuton extends SequentialCommandGroup {
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
@@ -41,48 +27,51 @@ public class ThreeBallAuton extends SequentialCommandGroup {
     // Time it takes for the conveyor to give the shooter the ball
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
-    private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
+    private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final String THREE_BALL_START =
-            "ThreeBallAuton/output/ThreeBallAutonGetRingBall.wpilib.json";
-    private static final String THREE_BALL_TO_TERMINAL =
-            "ThreeBallAuton/output/ThreeBallAutonGetTerminalBall.wpilib.json";
-    private static final String THREE_BALL_SHOOT_TERMINAL_BALLS =
-            "ThreeBallAuton/output/ThreeBallAutonShootTerminalBall.wpilib.json";
+    private static final String FOUR_BALL_GET_WALL_BALL =
+            "FourBallWithWallBall/output/FourBallAcquireWallBall.wpilib.json";
+    private static final String FOUR_BALL_GET_RING_BALL =
+            "FourBallWithWallBall/output/FourBallGetRingBall.wpilib.json";
+    private static final String FOUR_BALL_GET_TERMINAL_BALLS =
+            "FourBallWithWallBall/output/FourBallGetTerminalBalls.wpilib.json";
+    private static final String FOUR_BALL_SHOOT_TERMINAL_BALLS =
+            "FourBallWithWallBall/output/FourBallShootTerminalBalls.wpilib.json";
 
-    /** Creates a new ThreeBallAuton. */
-    public ThreeBallAuton(RobotContainer robot) {
-        addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
-
+    /** Creates a new FourBallAutonWallBallFirst. */
+    public FourBallWithWallBallAuton(RobotContainer robot) {
+        // Starting up subsystems
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
                 new ShooterRingShotCommand(robot.shooter),
                 new IntakeExtendCommand(robot.intake),
                 new WaitCommand(INTAKE_FALL_DOWN),
-                new IntakeAcquireForeverCommand(robot.intake),
+                new IntakeAcquireCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
-
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative(),
+                new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_GET_WALL_BALL)
+                        .robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
-
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL)
-                        .fieldRelative());
-
-        addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS)
+                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_GET_RING_BALL)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
-
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_GET_TERMINAL_BALLS)
+                        .fieldRelative());
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
+                new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
+                        .fieldRelative(),
+                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
     }
 }
