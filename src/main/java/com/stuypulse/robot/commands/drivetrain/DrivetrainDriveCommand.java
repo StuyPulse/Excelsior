@@ -12,14 +12,20 @@ import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.Constants.DrivetrainSettings;
+import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDriveCommand extends CommandBase {
 
     private Drivetrain drivetrain;
     private Gamepad driver;
+
+    private Debouncer stallingFilter =
+            new Debouncer(DrivetrainSettings.Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
     private IFilter speedFilter =
             new IFilterGroup(
@@ -40,8 +46,12 @@ public class DrivetrainDriveCommand extends CommandBase {
         addRequirements(drivetrain);
     }
 
+    private boolean isStalling() {
+        return stallingFilter.calculate(drivetrain.isStalling());
+    }
+
     public void execute() {
-        if (driver.getRawRightButton()) {
+        if (driver.getRawRightButton() || (Stalling.STALL_DETECTION.get() && isStalling())) {
             drivetrain.setLowGear();
         } else {
             drivetrain.setHighGear();
