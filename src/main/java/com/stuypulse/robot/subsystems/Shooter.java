@@ -23,6 +23,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 
 /*-
  * Shoots balls out of the robot
@@ -122,11 +123,16 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-
-        double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
-        shooterPIDController.setReference(targetRPM.get(), kVelocity);
-        feederPIDController.setReference(targetRPM.get() * feederMultipler, kVelocity);
+        
+        double rpm = targetRPM.get();
+        if(rpm < ShooterSettings.MIN_RPM) {
+            shooterPIDController.setReference(0, ControlType.kDutyCycle);
+            feederPIDController.setReference(0, ControlType.kDutyCycle);
+        } else {
+            double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
+            shooterPIDController.setReference(rpm, kVelocity);
+            feederPIDController.setReference(rpm * feederMultipler, kVelocity);
+        }
 
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
