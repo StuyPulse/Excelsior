@@ -48,24 +48,33 @@ public class TwoBallAuton extends SequentialCommandGroup {
     public TwoBallAuton(RobotContainer robot) {
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), 
+            
+            new WaitCommand(START_DELAY)
+        );
 
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
-                new ShooterRingShotCommand(robot.shooter),
-                new WaitCommand(INTAKE_FALL_DOWN),
-                new IntakeExtendCommand(robot.intake),
-                new IntakeAcquireCommand(robot.intake),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+        
+            new ShooterRingShotCommand(robot.shooter),
+            new WaitCommand(INTAKE_FALL_DOWN),
+            new IntakeExtendCommand(robot.intake),
+            new IntakeAcquireCommand(robot.intake),
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-                new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
-                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+            new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+            
+            new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
+            new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
+                .withTimeout(DRIVETRAIN_ALIGN_TIME),
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE)
+        );
     }
 }

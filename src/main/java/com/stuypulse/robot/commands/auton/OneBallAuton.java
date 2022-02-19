@@ -42,22 +42,32 @@ public class OneBallAuton extends SequentialCommandGroup {
     private static final double DISTANCE_TO_RING = 2.0;
 
     public OneBallAuton(RobotContainer robot) {
+
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+
+            new WaitCommand(START_DELAY)
+        );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
-                new ShooterRingShotCommand(robot.shooter),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+
+            new ShooterRingShotCommand(robot.shooter),
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-                new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
-                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+            new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+            new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
+            new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
+                .withTimeout(DRIVETRAIN_ALIGN_TIME),
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
+
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE)
+        );
     }
 }

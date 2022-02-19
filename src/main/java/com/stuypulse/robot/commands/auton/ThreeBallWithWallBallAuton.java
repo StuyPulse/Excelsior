@@ -39,27 +39,39 @@ public class ThreeBallWithWallBallAuton extends SequentialCommandGroup {
 
     public ThreeBallWithWallBallAuton(RobotContainer robot) {
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+        
+            new WaitCommand(START_DELAY)
+        );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
-                new ShooterRingShotCommand(robot.shooter),
-                new IntakeExtendCommand(robot.intake),
-                new WaitCommand(INTAKE_FALL_DOWN),
-                new IntakeAcquireForeverCommand(robot.intake),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+
+            new ShooterRingShotCommand(robot.shooter),
+            new IntakeExtendCommand(robot.intake),
+            new WaitCommand(INTAKE_FALL_DOWN),
+            new IntakeAcquireForeverCommand(robot.intake),
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_GET_RING_BALL),
-                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+            new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
+        
+            new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_GET_RING_BALL),
+            new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
+                .withTimeout(DRIVETRAIN_ALIGN_TIME),
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
+
         addCommands(
-                new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_GET_WALL_BALL),
-                new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+            new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_GET_WALL_BALL),
+            new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
+                .withTimeout(DRIVETRAIN_ALIGN_TIME),
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
+
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE)
+        );
     }
 }
