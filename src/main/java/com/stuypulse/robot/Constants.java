@@ -157,7 +157,7 @@ public interface Constants {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Current Limit for the motors
-        int CURRENT_LIMIT_AMPS = 50;
+        int CURRENT_LIMIT_AMPS = 80;
 
         // If the motors are inverted
         boolean IS_INVERTED = true;
@@ -222,9 +222,9 @@ public interface Constants {
         public interface Encoders {
 
             public interface GearRatio {
-                double LOW_GEAR_NEO_TO_WHEEL = (1.0 / 7.71);
+                double LOW_GEAR_NEO_TO_WHEEL =  (1.0 / 16.67); 
 
-                double HIGH_GEAR_NEO_TO_WHEEL = (1.0 / 16.67);
+                double HIGH_GEAR_NEO_TO_WHEEL = (1.0 / 7.71);
 
                 double GRAYHILL_TO_WHEEL = 1.0;
             }

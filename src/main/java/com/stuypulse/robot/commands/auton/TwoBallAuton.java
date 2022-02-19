@@ -59,8 +59,8 @@ public class TwoBallAuton extends SequentialCommandGroup {
         
             new ShooterRingShotCommand(robot.shooter),
             new WaitCommand(INTAKE_FALL_DOWN),
-            new IntakeExtendCommand(robot.intake),
-            new IntakeAcquireCommand(robot.intake),
+            //new IntakeExtendCommand(robot.intake),
+            //new IntakeAcquireCommand(robot.intake),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 

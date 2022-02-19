@@ -63,33 +63,33 @@ public class ThreeBallAuton extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
         
             new ShooterRingShotCommand(robot.shooter),
-            new IntakeExtendCommand(robot.intake),
+            //new IntakeExtendCommand(robot.intake),
             new WaitCommand(INTAKE_FALL_DOWN),
-            new IntakeAcquireForeverCommand(robot.intake),
+            //new IntakeAcquireForeverCommand(robot.intake),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-        
-            new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative(),
+            new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative());
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                 .withTimeout(DRIVETRAIN_ALIGN_TIME),
-            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
-        );
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
-        
             new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_TO_TERMINAL)
                 .fieldRelative()
         );
 
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
-            
             new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS)
-                .fieldRelative(),
+                .fieldRelative());
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
                 .withTimeout(DRIVETRAIN_ALIGN_TIME),
             new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
@@ -103,7 +104,9 @@ public class RobotContainer {
 
         // operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
-        // operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
+        operator.getDPadUp()
+                    .whenPressed(new IntakeRetractCommand(intake))
+                    .whenPressed(new InstantCommand(() -> intake.setMotor(0.0), intake));
 
         // new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
 
@@ -120,10 +123,10 @@ public class RobotContainer {
     }
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.setDefaultOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
 
         autonChooser.addOption("No Encoders (moby)", new MobilityAuton.NoEncoders(this));
-        autonChooser.addOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
+        autonChooser.addOption("Do Nothing", new DoNothingAuton());
         autonChooser.addOption("One Ball", new OneBallAuton(this));
         autonChooser.addOption("Two Ball", new TwoBallAuton(this));
         autonChooser.addOption("Three Ball", new ThreeBallAuton(this));
