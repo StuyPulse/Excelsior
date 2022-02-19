@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.subsystems;
 
+import static com.revrobotics.CANSparkMax.ControlType.kDutyCycle;
 import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
 
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -23,7 +24,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
 
 /*-
  * Shoots balls out of the robot
@@ -123,11 +123,11 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
+
         double rpm = targetRPM.get();
-        if(rpm < ShooterSettings.MIN_RPM) {
-            shooterPIDController.setReference(0, ControlType.kDutyCycle);
-            feederPIDController.setReference(0, ControlType.kDutyCycle);
+        if (rpm < ShooterSettings.MIN_RPM) {
+            shooterPIDController.setReference(0, kDutyCycle);
+            feederPIDController.setReference(0, kDutyCycle);
         } else {
             double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
             shooterPIDController.setReference(rpm, kVelocity);
