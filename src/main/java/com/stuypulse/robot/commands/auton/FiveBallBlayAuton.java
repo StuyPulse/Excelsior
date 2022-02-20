@@ -19,6 +19,10 @@ import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/*-
+ * @author Vincent Wang (vinowang921@gmail.com)
+ */
+
 public class FiveBallBlayAuton extends SequentialCommandGroup {
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;
@@ -28,8 +32,8 @@ public class FiveBallBlayAuton extends SequentialCommandGroup {
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
-
-    private static final double HUMAN_WAIT_TIME = 3.0;
+    // Time it takes for human player to roll ball to intake
+    private static final double HUMAN_WAIT_TIME = 1.5;
 
     private static final String FIVE_BALL_GET_WALL_BALL =
             "FiveBallBlayAuton/output/FiveBallAcquireWallBall.wpilib.json";

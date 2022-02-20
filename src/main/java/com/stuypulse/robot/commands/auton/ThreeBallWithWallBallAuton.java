@@ -19,6 +19,10 @@ import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/*-
+ * @author Vincent Wang (vinowang921@gmail.com)
+ */
+
 public class ThreeBallWithWallBallAuton extends SequentialCommandGroup {
     /** Creates a new ThreeBallWithWallBallAuton. */
     private static final double START_DELAY = 0.5;

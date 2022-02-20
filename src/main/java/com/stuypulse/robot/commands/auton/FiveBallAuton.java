@@ -39,8 +39,8 @@ public class FiveBallAuton extends SequentialCommandGroup {
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
-
-    private static final double HUMAN_WAIT_TIME = 3.0;
+    // Time it takes for human player to roll ball to intake
+    private static final double HUMAN_WAIT_TIME = 1.5;
 
     private static final String FIVE_BALL_TO_SECOND_BALL = "FiveBallAuton/output/FiveBallAcquireSecondBall.wpilib.json";
     private static final String FIVE_BALL_TO_TERMINAL = "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";

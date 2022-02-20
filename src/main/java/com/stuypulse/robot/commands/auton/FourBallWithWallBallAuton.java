@@ -19,6 +19,10 @@ import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/*-
+ * @author Vincent Wang (vinowang921@gmail.com)
+ */
+
 public class FourBallWithWallBallAuton extends SequentialCommandGroup {
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;
@@ -27,7 +31,7 @@ public class FourBallWithWallBallAuton extends SequentialCommandGroup {
     // Time it takes for the conveyor to give the shooter the ball
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
-    private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
+    private static final double DRIVETRAIN_ALIGN_TIME = 1.5;
 
     private static final String FOUR_BALL_GET_WALL_BALL =
             "FourBallWithWallBall/output/FourBallAcquireWallBall.wpilib.json";

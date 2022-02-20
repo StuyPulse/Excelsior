@@ -14,6 +14,10 @@ import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/*-
+ * @author Vincent Wang (vinowang921@gmail.com)
+ */
+
 public class MobilityAuton {
 
     public static class NoEncoders extends SequentialCommandGroup {
