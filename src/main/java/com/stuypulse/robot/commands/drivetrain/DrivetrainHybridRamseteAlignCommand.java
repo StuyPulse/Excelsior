@@ -19,13 +19,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
  * to avoid the extra period of time of alignment after completing a path.
  */
 public class DrivetrainHybridRamseteAlignCommand extends SequentialCommandGroup {
-    // Time we want to give the drivetrain to align
-    private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    public DrivetrainHybridRamseteAlignCommand(Drivetrain drivetrain, Trajectory trajectory, Number targetDistance) {
+    public DrivetrainHybridRamseteAlignCommand(Drivetrain drivetrain, Trajectory trajectory, Number targetDistance, double alignmentTimeout) {
         addCommands(
             new DrivetrainRamseteCommand(drivetrain, trajectory).withInterrupt(() -> Target.hasTarget()),
-            new DrivetrainAlignCommand(drivetrain, targetDistance).withTimeout(DRIVETRAIN_ALIGN_TIME)
+            new DrivetrainAlignCommand(drivetrain, targetDistance).withTimeout(alignmentTimeout)
         );
     }
 
