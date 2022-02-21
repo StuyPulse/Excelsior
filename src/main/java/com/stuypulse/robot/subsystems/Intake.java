@@ -5,10 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.IntakeSettings;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -46,7 +45,7 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        MotorSettings.INTAKE.configure(motor);
+        Motors.INTAKE.configure(motor);
 
         solenoid =
                 new DoubleSolenoid(
@@ -74,16 +73,17 @@ public class Intake extends SubsystemBase {
     }
 
     public void acquire() {
-        setMotor(IntakeSettings.MOTOR_SPEED.get());
+        setMotor(Settings.Intake.MOTOR_SPEED.get());
     }
 
     public void deacquire() {
-        setMotor(-IntakeSettings.MOTOR_SPEED.get());
+        setMotor(-Settings.Intake.MOTOR_SPEED.get());
     }
 
+    /*** Debug Information ***/
     @Override
     public void periodic() {
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Intake/Motor Speed", motor.get());
             SmartDashboard.putString("Debug/Intake/Solenoid", solenoid.get().name());
             SmartDashboard.putBoolean("Debug/Intake/Extended", solenoid.get() == Value.kReverse);

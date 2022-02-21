@@ -20,6 +20,6 @@ public class ShooterExtendHoodCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        shooter.extendHoodSolenoid();
+        shooter.extendHood();
     }
 }

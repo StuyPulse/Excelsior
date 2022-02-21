@@ -7,7 +7,7 @@ package com.stuypulse.robot.commands.climber;
 
 import com.stuypulse.stuylib.util.StopWatch;
 
-import com.stuypulse.robot.Constants;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -36,7 +36,7 @@ public class ClimberMoveCommand extends CommandBase {
     @Override
     public void execute() {
         climber.setClimberUnlocked();
-        if (timer.getTime() < Constants.ClimberSettings.CLIMBER_DELAY.get()) {
+        if (timer.getTime() < Settings.Climber.CLIMBER_DELAY.get()) {
             climber.setMotorStop();
         } else if (movingUp) {
             climber.setMotor(+this.number.doubleValue());

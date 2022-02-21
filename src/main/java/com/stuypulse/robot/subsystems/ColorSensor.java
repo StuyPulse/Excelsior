@@ -5,10 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.ColorSensorSettings;
-import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
-import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +39,7 @@ import com.revrobotics.ColorSensorV3;
  * @author Vincent Wang
  */
 public class ColorSensor extends SubsystemBase {
+
     public enum CurrentBall {
         RED_BALL,
         BLUE_BALL,
@@ -57,9 +57,13 @@ public class ColorSensor extends SubsystemBase {
         colorMatcher.addColorMatch(BallColor.RED);
     }
 
+    /*** IS CONNECTED ***/
+
     public boolean isConnected() {
-        return colorSensor.isConnected();
+        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
     }
+
+    /*** COLOR DETERMINATION ***/
 
     private Color getRawColor() {
         return colorSensor.getColor();
@@ -69,14 +73,18 @@ public class ColorSensor extends SubsystemBase {
         return colorMatcher.matchClosestColor(getRawColor()).color;
     }
 
+    /*** PROXIMITY DETERMINATION ***/
+
     // Returns value from 0 - 2047 [higher == closer]
     private int getProximity() {
         return colorSensor.getProximity();
     }
 
     private boolean hasBall() {
-        return getProximity() > ColorSensorSettings.PROXIMITY_THRESHOLD.get();
+        return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
     }
+
+    /*** BALL DETERMINATION ***/
 
     private CurrentBall getCurrentBall() {
         Color matched = getMatchedColor();
@@ -121,6 +129,8 @@ public class ColorSensor extends SubsystemBase {
         return hasBall() && !hasAllianceBall();
     }
 
+    /*** DEBUG INFORMATION ***/
+
     private static String colorToString(Color color) {
         StringBuilder output = new StringBuilder(36);
         output.append("[r: ").append(Math.round(1000.0 * color.red) / 1000.0).append(",");
@@ -131,7 +141,7 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
             SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));

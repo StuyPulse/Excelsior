@@ -5,10 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.ConveyorSettings;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -67,10 +66,10 @@ public class Conveyor extends SubsystemBase {
     /** Creates a Conveyor subsystem */
     public Conveyor() {
         topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
-        MotorSettings.Conveyor.TOP_BELT.configure(topBeltMotor);
+        Motors.Conveyor.TOP_BELT.configure(topBeltMotor);
 
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
-        MotorSettings.Conveyor.GANDALF.configure(gandalfMotor);
+        Motors.Conveyor.GANDALF.configure(gandalfMotor);
 
         colorSensor = new ColorSensor();
         topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
@@ -79,18 +78,20 @@ public class Conveyor extends SubsystemBase {
         setGandalf(Direction.STOPPED);
     }
 
+    /*** MOTOR CONTROL ***/
+
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
     public void setTopBelt(Direction direction) {
         topBeltDirection = direction;
         switch (direction) {
             case FORWARD:
-                topBeltMotor.set(ConveyorSettings.TOP_BELT_SPEED.get());
+                topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
                 break;
             case STOPPED:
                 topBeltMotor.stopMotor();
                 break;
             case REVERSE:
-                topBeltMotor.set(-ConveyorSettings.TOP_BELT_SPEED.get());
+                topBeltMotor.set(-Settings.Conveyor.TOP_BELT_SPEED.get());
                 break;
         }
     }
@@ -99,13 +100,13 @@ public class Conveyor extends SubsystemBase {
         gandalfDirection = direction;
         switch (direction) {
             case FORWARD:
-                gandalfMotor.set(ConveyorSettings.ACCEPT_SPEED.get());
+                gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
                 break;
             case STOPPED:
                 gandalfMotor.stopMotor();
                 break;
             case REVERSE:
-                gandalfMotor.set(ConveyorSettings.REJECT_SPEED.get());
+                gandalfMotor.set(Settings.Conveyor.REJECT_SPEED.get());
                 break;
         }
     }
@@ -118,9 +119,11 @@ public class Conveyor extends SubsystemBase {
         return gandalfDirection;
     }
 
+    /*** SENSOR INFORMATION ***/
+
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
-        return ConveyorSettings.DISABLE_IR_SENSOR.get() || topIRSensor.get();
+        return Settings.Conveyor.DISABLE_IR_SENSOR.get() || topIRSensor.get();
     }
 
     public boolean hasOpponentBall() {
@@ -131,21 +134,24 @@ public class Conveyor extends SubsystemBase {
         return colorSensor.hasAllianceBall();
     }
 
+    /*** AUTOMATIC RETRACTION ***/
+
     public boolean isFull() {
         return colorSensor.isConnected() && getTopBeltHasBall() && hasAllianceBall();
     }
 
     public boolean shouldRetractIntake() {
-        return ConveyorSettings.AUTO_RETRACT.get() && DriverStation.isTeleopEnabled() && isFull();
+        return Settings.Conveyor.AUTO_RETRACT.get() && DriverStation.isTeleopEnabled() && isFull();
     }
+
+    /*** DEBUG INFORMATION ***/
 
     @Override
     public void periodic() {
-        if (Constants.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Conveyor/Top Belt Speed", topBeltMotor.get());
-            SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor Speed", gandalfMotor.get());
-            SmartDashboard.putBoolean(
-                    "Debug/Conveyor/Top Belt Upper IR Has Ball", getTopBeltHasBall());
+        if (Settings.DEBUG_MODE.get()) {
+            SmartDashboard.putNumber("Debug/Conveyor/Top Belt", topBeltMotor.get());
+            SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor", gandalfMotor.get());
+            SmartDashboard.putBoolean("Debug/Conveyor/Top IR", getTopBeltHasBall());
         }
     }
 }

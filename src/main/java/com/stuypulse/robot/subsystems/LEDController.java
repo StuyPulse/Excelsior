@@ -7,9 +7,9 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.util.StopWatch;
 
-import com.stuypulse.robot.Constants.LEDSettings;
-import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -65,8 +65,8 @@ public class LEDController extends SubsystemBase {
 
         double get() {
             // Variables for detecting if we should be blinking or not
-            double cT = Timer.getFPGATimestamp() % (LEDSettings.BLINK_TIME);
-            double oT = (0.5 * LEDSettings.BLINK_TIME);
+            double cT = Timer.getFPGATimestamp() % (Settings.LED.BLINK_TIME);
+            double oT = (0.5 * Settings.LED.BLINK_TIME);
 
             // Detect if the color should be on or off
             if (pulse && cT >= oT) {
@@ -110,7 +110,8 @@ public class LEDController extends SubsystemBase {
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value
-        if (DriverStation.isAutonomous() || lastUpdate.getTime() < LEDSettings.MANUAL_UPDATE_TIME) {
+        if (DriverStation.isAutonomous()
+                || lastUpdate.getTime() < Settings.LED.MANUAL_UPDATE_TIME) {
             controller.set(manualColor.get());
         }
 

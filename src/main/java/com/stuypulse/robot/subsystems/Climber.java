@@ -5,10 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.ClimberSettings;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -47,7 +46,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Climber extends SubsystemBase {
 
     public enum Tilt {
-        // first param is shorter, second is longer
         MAX_TILT(Value.kForward),
         NO_TILT(Value.kReverse);
 
@@ -58,22 +56,22 @@ public class Climber extends SubsystemBase {
         }
     }
 
+    private final CANSparkMax climber;
+
+    private final Solenoid stopper;
+
     private final DoubleSolenoid tilter;
 
     private final DigitalInput bottomLimitSwitch;
     private final DigitalInput topLimitSwitch;
 
-    private final Solenoid stopper;
-
-    private final CANSparkMax climber;
-
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
-        MotorSettings.CLIMBER.configure(climber);
+        Motors.CLIMBER.configure(climber);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
 
-        if (ClimberSettings.ENABLE_TILT) {
+        if (Settings.Climber.ENABLE_TILT) {
             tilter =
                     new DoubleSolenoid(
                             PneumaticsModuleType.CTREPCM,
@@ -86,6 +84,8 @@ public class Climber extends SubsystemBase {
         bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
         topLimitSwitch = new DigitalInput(Ports.Climber.TOP_LIMIT_SWITCH);
     }
+
+    /*** MOTOR CONTROL ***/
 
     public void setMotor(double speed) {
         if (stopper.get()) {
@@ -100,22 +100,7 @@ public class Climber extends SubsystemBase {
         climber.stopMotor();
     }
 
-    public boolean getTopReached() {
-        return topLimitSwitch.get();
-    }
-
-    public boolean getBottomReached() {
-        return bottomLimitSwitch.get();
-    }
-
-    public void setTilt(Tilt tilt) {
-        if (tilter != null) {
-            tilter.set(tilt.extended);
-        } else {
-            DriverStation.reportWarning(
-                    "Climber attempted to tilt while solenoids are disabled!", true);
-        }
-    }
+    /*** BRAKE CONTROL ***/
 
     public void setClimberLocked() {
         setMotorStop();
@@ -126,15 +111,41 @@ public class Climber extends SubsystemBase {
         stopper.set(false);
     }
 
+    /*** TILE CONTROL ***/
+
+    public void setTilt(Tilt tilt) {
+        if (tilter != null) {
+            tilter.set(tilt.extended);
+        } else {
+            DriverStation.reportWarning(
+                    "Climber attempted to tilt while solenoids are disabled!", true);
+        }
+    }
+
+    /*** LIMIT SWITCHES ***/
+
+    public boolean getTopReached() {
+        return topLimitSwitch.get();
+    }
+
+    public boolean getBottomReached() {
+        return bottomLimitSwitch.get();
+    }
+
+    /*** DEBUG INFORMATION ***/
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             if (tilter != null) {
                 SmartDashboard.putString("Debug/Climber/Tilter", tilter.get().toString());
             }
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
+
+            SmartDashboard.putBoolean("Debug/Climber/Top Limit Switch", getTopReached());
+            SmartDashboard.putBoolean("Debug/Climber/Bottom Limit Switch", getBottomReached());
         }
     }
 }

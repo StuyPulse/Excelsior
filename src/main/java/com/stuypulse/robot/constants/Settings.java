@@ -3,15 +3,13 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot;
+package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
-
-import com.stuypulse.robot.util.MotorConfig;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,126 +18,23 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
 import java.nio.file.Path;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+/*-
+ * File containing tunable settings for every subsystem on the robot.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * We use StuyLib's SmartNumber / SmartBoolean in order to have tunable
+ * values that we can edit on Shuffleboard.
  */
-public interface Constants {
+public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
-    public interface Ports {
-
-        public interface Gamepad {
-            int DRIVER = 0;
-            int OPERATOR = 1;
-            int DEBUGGER = 2;
-        }
-
-        public interface Climber {
-            int MOTOR = 50;
-
-            int STOPPER = 4;
-
-            int TILTER_FORWARD = 6;
-            int TILTER_REVERSE = 7;
-
-            int BOTTOM_LIMIT_SWITCH = 8;
-            int TOP_LIMIT_SWITCH = 7;
-        }
-
-        I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
-
-        public interface Conveyor {
-            int GANDALF_MOTOR = 30;
-            int TOP_BELT_MOTOR = 31;
-
-            int TOP_BELT_IR_SENSOR = 5;
-        }
-
-        public interface Drivetrain {
-            int LEFT_TOP = 10;
-            int LEFT_MIDDLE = 11;
-            int LEFT_BOTTOM = 12;
-
-            int RIGHT_TOP = 13;
-            int RIGHT_MIDDLE = 14;
-            int RIGHT_BOTTOM = 15;
-
-            int GEAR_SHIFT_FORWARD = 0;
-            int GEAR_SHIFT_REVERSE = 1;
-        }
-
-        interface Grayhill {
-            int LEFT_A = 0;
-            int LEFT_B = 1;
-
-            int RIGHT_A = 2;
-            int RIGHT_B = 3;
-        }
-
-        public interface Intake {
-            int MOTOR = 40;
-
-            int SOLENOID_FORWARD = 2;
-            int SOLENOID_REVERSE = 3;
-        }
-
-        public interface LEDController {
-            int PWM_PORT = 0;
-        }
-
-        public interface Shooter {
-            int LEFT_SHOOTER = 20;
-            int RIGHT_SHOOTER = 21;
-            int FEEDER = 22;
-
-            int HOOD_SOLENOID = 5;
-        }
-    }
-
-    public interface MotorSettings {
-
-        MotorConfig CLIMBER = new MotorConfig(false, IdleMode.kBrake, 80);
-
-        public interface Conveyor {
-            MotorConfig GANDALF = new MotorConfig(true, IdleMode.kCoast, 80);
-            MotorConfig TOP_BELT = new MotorConfig(false, IdleMode.kBrake, 80);
-        }
-
-        public interface Drivetrain {
-            int CURRENT_LIMIT_AMPS = 50;
-            IdleMode IDLE_MODE = IdleMode.kBrake;
-
-            MotorConfig LEFT = new MotorConfig(true, IDLE_MODE, CURRENT_LIMIT_AMPS);
-            MotorConfig RIGHT = new MotorConfig(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
-
-            boolean GRAYHILL_INVERTED = false;
-        }
-
-        MotorConfig INTAKE = new MotorConfig(false, IdleMode.kBrake, 80);
-
-        public interface Shooter {
-            MotorConfig LEFT = new MotorConfig(true, IdleMode.kCoast, 80);
-            MotorConfig RIGHT = new MotorConfig(false, IdleMode.kCoast, 80);
-            MotorConfig FEEDER = new MotorConfig(true, IdleMode.kCoast, 80);
-        }
-    }
-
-    public interface ClimberSettings {
+    public interface Climber {
         boolean ENABLE_TILT = false;
 
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
@@ -148,7 +43,9 @@ public interface Constants {
         SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
     }
 
-    public interface ColorSensorSettings {
+    public interface ColorSensor {
+        SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
+
         public interface BallColor {
             Color RED = new Color(0.5432, 0.3401, 0.1169);
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
@@ -157,17 +54,17 @@ public interface Constants {
         SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 100);
     }
 
-    public interface ConveyorSettings {
-        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
-        SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 0.6);
-        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -0.6);
+    public interface Conveyor {
+        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 1.0);
+        SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
+        SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
 
         SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
     }
 
-    public interface DrivetrainSettings {
+    public interface Drivetrain {
         // If speed is below this, use quick turn
         SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.4);
 
@@ -222,7 +119,7 @@ public interface Constants {
                     new SmartBoolean("Driver Settings/Stall Detection", false);
 
             // Motor will hit current limit when stalling
-            double CURRENT_THRESHOLD = MotorSettings.Drivetrain.CURRENT_LIMIT_AMPS - 10;
+            double CURRENT_THRESHOLD = Motors.Drivetrain.CURRENT_LIMIT_AMPS - 10;
 
             // If we are trying to go at full speed,
             // it doesnt matter if our current draw isnt that high
@@ -267,17 +164,17 @@ public interface Constants {
         }
     }
 
-    public interface IntakeSettings {
+    public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
     }
 
-    public interface LEDSettings {
+    public interface LED {
         double MANUAL_UPDATE_TIME = 0.65;
 
         double BLINK_TIME = 0.5;
     }
 
-    public interface ShooterSettings {
+    public interface Shooter {
 
         double MIN_RPM = 100.0;
 
@@ -300,61 +197,66 @@ public interface Constants {
         }
     }
 
-    public interface LimelightSettings {
-        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38.65);
+    public interface Limelight {
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(39.135042);
 
         // if the intake is on the ring, distance of limelight to hub
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5);
+        double INTAKE_TO_LIMELIGHT = Units.inchesToMeters(28);
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5) - INTAKE_TO_LIMELIGHT;
 
-        double HEIGHT_DIFFERENCE = FieldMap.Hub.HEIGHT - LIMELIGHT_HEIGHT;
+        double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 25.0);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 35.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
 
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
-        double MAX_VALID_DISTANCE = Units.feetToMeters(24);
+        double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
+
+        // What angle error should make us start distance alignment
+        SmartNumber MAX_ANGLE_FOR_MOVEMENT =
+                new SmartNumber("Limelight/Max Angle For Distance", 2.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.1);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
+    }
 
-        public interface Alignment {
+    public interface Alignment {
 
-            SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
 
-            public interface Speed {
-                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
-                SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
+        public interface Speed {
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
+            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
 
-                SmartNumber ERROR_FILTER =
-                        new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
-                SmartNumber OUT_FILTER =
-                        new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+            SmartNumber ERROR_FILTER =
+                    new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
+            SmartNumber OUT_FILTER =
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
 
-                public static Controller getController() {
-                    return new PIDController(kP, kI, kD)
-                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
-                }
+            public static Controller getController() {
+                return new PIDController(kP, kI, kD)
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
+        }
 
-            public interface Angle {
-                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
-                SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
+        public interface Angle {
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
+            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
 
-                SmartNumber ERROR_FILTER =
-                        new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
-                SmartNumber OUT_FILTER =
-                        new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
+            SmartNumber ERROR_FILTER =
+                    new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
+            SmartNumber OUT_FILTER =
+                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
 
-                public static Controller getController() {
-                    return new PIDController(kP, kI, kD)
-                            .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                            .setOutputFilter(new LowPassFilter(OUT_FILTER));
-                }
+            public static Controller getController() {
+                return new PIDController(kP, kI, kD)
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
         }
     }

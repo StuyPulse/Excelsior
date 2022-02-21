@@ -10,10 +10,10 @@ import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
 
 import com.stuypulse.stuylib.network.SmartNumber;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
-import com.stuypulse.robot.Constants.ShooterSettings;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Shooter.*;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -66,8 +66,10 @@ public class Shooter extends SubsystemBase {
     private final Solenoid hoodSolenoid;
 
     public Shooter() {
+        // Network Table RPM Value
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
 
+        // Setup Motors
         shooterMotor = new CANSparkMax(Ports.Shooter.LEFT_SHOOTER, MotorType.kBrushless);
         shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT_SHOOTER, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
@@ -79,28 +81,34 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = shooterMotor.getPIDController();
         feederPIDController = feederMotor.getPIDController();
+        configure();
 
-        shooterPIDController.setP(ShooterSettings.ShooterPID.kP);
-        shooterPIDController.setI(ShooterSettings.ShooterPID.kI);
-        shooterPIDController.setD(ShooterSettings.ShooterPID.kD);
-        shooterPIDController.setFF(ShooterSettings.ShooterPID.kF);
+        Motors.Shooter.LEFT.configure(shooterMotor);
+        Motors.Shooter.RIGHT.configure(shooterFollower);
+        Motors.Shooter.FEEDER.configure(feederMotor);
 
-        feederPIDController.setP(ShooterSettings.FeederPID.kP);
-        feederPIDController.setI(ShooterSettings.FeederPID.kI);
-        feederPIDController.setD(ShooterSettings.FeederPID.kD);
-        feederPIDController.setFF(ShooterSettings.FeederPID.kF);
-
-        MotorSettings.Shooter.LEFT.configure(shooterMotor);
-        MotorSettings.Shooter.RIGHT.configure(shooterFollower);
-        MotorSettings.Shooter.FEEDER.configure(feederMotor);
-
+        // Setup Solenoid
         hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
 
+    private void configure() {
+        shooterPIDController.setP(ShooterPID.kP);
+        shooterPIDController.setI(ShooterPID.kI);
+        shooterPIDController.setD(ShooterPID.kD);
+        shooterPIDController.setFF(ShooterPID.kF);
+
+        feederPIDController.setP(FeederPID.kP);
+        feederPIDController.setI(FeederPID.kI);
+        feederPIDController.setD(FeederPID.kD);
+        feederPIDController.setFF(FeederPID.kF);
+    }
+
+    /*** Speed Control ***/
     public void setShooterRPM(Number speed) {
         targetRPM.set(speed);
     }
 
+    /*** RPM Information ***/
     public double getShooterRPM() {
         return Math.abs(shooterEncoder.getVelocity());
     }
@@ -109,32 +117,30 @@ public class Shooter extends SubsystemBase {
         return Math.abs(feederEncoder.getVelocity());
     }
 
-    public void extendHoodSolenoid() {
+    /*** Hood Control ***/
+    public void extendHood() {
         hoodSolenoid.set(true);
     }
 
-    public void retractHoodSolenoid() {
+    public void retractHood() {
         hoodSolenoid.set(false);
     }
 
-    public void setDefaultSolenoidPosition() {
-        retractHoodSolenoid();
-    }
-
+    /*** Debug Information ***/
     @Override
     public void periodic() {
-
         double rpm = targetRPM.get();
-        if (rpm < ShooterSettings.MIN_RPM) {
+
+        if (rpm < Settings.Shooter.MIN_RPM) {
             shooterPIDController.setReference(0, kDutyCycle);
             feederPIDController.setReference(0, kDutyCycle);
         } else {
-            double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
+            double feederMultipler = Settings.Shooter.FEEDER_MULTIPLER.get();
             shooterPIDController.setReference(rpm, kVelocity);
             feederPIDController.setReference(rpm * feederMultipler, kVelocity);
         }
 
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
             SmartDashboard.putNumber("Debug/Shooter/Feeder RPM", getFeederRPM());
         }
