@@ -6,9 +6,7 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.robot.subsystems.Drivetrain;
-import com.stuypulse.robot.util.IFuser;
 import com.stuypulse.robot.util.Target;
-import com.stuypulse.robot.constants.Settings.Alignment;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 
@@ -47,13 +45,8 @@ public class DrivetrainHybridRamseteAlignCommand extends SequentialCommandGroup 
      * @param swapDistance distance error at which below to switch to alignment
      */
     public DrivetrainHybridRamseteAlignCommand(Drivetrain drivetrain, Trajectory trajectory, Number targetDistance, double alignmentTimeout, double swapDistance) {
-        IFuser distanceError =
-            new IFuser(
-                Alignment.FUSION_FILTER,
-                () -> Target.getDistance() - targetDistance.doubleValue(),
-                () -> drivetrain.getDistance());
         addCommands(
-            new DrivetrainRamseteCommand(drivetrain, trajectory).withInterrupt(() -> Target.hasTarget() && (distanceError.get() < swapDistance)),
+            new DrivetrainRamseteCommand(drivetrain, trajectory).withInterrupt(() -> Target.hasTarget() && (Target.getDistance() < swapDistance)),
             new DrivetrainAlignCommand(drivetrain, targetDistance).withTimeout(alignmentTimeout)
         );
     }
