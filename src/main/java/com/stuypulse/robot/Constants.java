@@ -292,17 +292,17 @@ public interface Constants {
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Units.feetToMeters(24);
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2.0);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.1);
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.75);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
 
         public interface Alignment {
 
-            SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+            SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.2);
 
             public interface Speed {
-                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
+                SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.9);
                 SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.06);
+                SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.065);
 
                 SmartNumber ERROR_FILTER =
                         new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);

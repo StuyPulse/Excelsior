@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.Constants;
 import com.stuypulse.robot.Constants.DrivetrainSettings;
+import com.stuypulse.robot.Constants.DrivetrainSettings.Odometry;
 import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
 import com.stuypulse.robot.Constants.Ports;
 import com.stuypulse.stuylib.math.Angle;
@@ -159,10 +160,9 @@ public class Drivetrain extends SubsystemBase {
 
         // Initialize Odometry
         odometry =
-                new DifferentialDriveOdometry(
-                        DrivetrainSettings.Odometry.STARTING_ANGLE,
-                        DrivetrainSettings.Odometry.STARTING_POSITION);
+                new DifferentialDriveOdometry(getRotation2d());
         field = new Field2d();
+        reset(Odometry.STARTING_POSITION);
 
         // Configure Motors and Other Things
         setInverted(DrivetrainSettings.IS_INVERTED, !DrivetrainSettings.IS_INVERTED);
@@ -172,8 +172,6 @@ public class Drivetrain extends SubsystemBase {
 
         // Save Motor Settings
         burnFlash();
-
-        reset();
     }
 
     /***********************
@@ -376,14 +374,13 @@ public class Drivetrain extends SubsystemBase {
      ************************/
 
     public void reset(Pose2d location) {
-        resetNavX();
-
+        // resetNavX();
         leftGrayhill.reset();
         rightGrayhill.reset();
         leftNEO.setPosition(0);
         rightNEO.setPosition(0);
 
-        odometry.resetPosition(location, getAngle().getRotation2d());
+        odometry.resetPosition(location, getRotation2d());
     }
 
     public void reset() {

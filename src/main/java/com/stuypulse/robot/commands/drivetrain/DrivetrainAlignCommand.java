@@ -32,7 +32,7 @@ public class DrivetrainAlignCommand extends CommandBase {
                 new IFuser(
                         LimelightSettings.Alignment.FUSION_FILTER,
                         () -> Target.getXAngle().toDegrees(),
-                        () -> drivetrain.getAngle().toDegrees());
+                        () -> drivetrain.getRawGyroAngle());
 
         distanceError =
                 new IFuser(
@@ -48,6 +48,10 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        Target.enable();
+
+        drivetrain.setLowGear();
+
         angleError.initialize();
         distanceError.initialize();
     }
@@ -56,7 +60,7 @@ public class DrivetrainAlignCommand extends CommandBase {
         double speed = distanceController.update(distanceError.get());
         double maxAngleError = LimelightSettings.MAX_ANGLE_ERROR.get();
 
-        return speed * Math.exp(-SLMath.fpow(angleError.get() / maxAngleError, 2));
+        return speed * Math.exp(-SLMath.fpow(angleError.get() / (1.0 * maxAngleError), 2));
     }
 
     public double getTurn() {
@@ -65,9 +69,6 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
-        Target.enable();
-        drivetrain.setLowGear();
-
         drivetrain.arcadeDrive(getSpeed(), getTurn());
     }
 
@@ -78,7 +79,8 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return angleController.isDone(LimelightSettings.MAX_ANGLE_ERROR.get())
+        return Target.hasTarget()
+                && angleController.isDone(LimelightSettings.MAX_ANGLE_ERROR.get())
                 && distanceController.isDone(LimelightSettings.MAX_DISTANCE_ERROR.get());
     }
 }

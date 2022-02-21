@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ThreeBallAutonOtherStartPoint extends SequentialCommandGroup {
     /** Creates a new ThreeBallAutonOtherStartPoint. */
-    private static final double START_DELAY = 0.5;
+    private static final double START_DELAY = 0.05;
 
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;

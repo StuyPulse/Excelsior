@@ -36,7 +36,7 @@ public class FourBallAuton extends SequentialCommandGroup {
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
-    private static final double CONVEYOR_TO_SHOOTER = 1.0;
+    private static final double CONVEYOR_TO_SHOOTER = 2.0;
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
     // Time it takes for human player to roll ball to intake
@@ -70,7 +70,7 @@ public class FourBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                .withTimeout(DRIVETRAIN_ALIGN_TIME), // 2 seconds
+                .withTimeout(DRIVETRAIN_ALIGN_TIME / 2),
             new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         // First ball to terminal to RingShot
@@ -95,7 +95,7 @@ public class FourBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, LimelightSettings.RING_SHOT_DISTANCE)
-                    .withTimeout(DRIVETRAIN_ALIGN_TIME),
+                    .perpetually().withTimeout(DRIVETRAIN_ALIGN_TIME / 2.0),
             new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
         );
 
