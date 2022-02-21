@@ -23,31 +23,25 @@ public class DrivetrainHybridRamseteAlignCommand extends SequentialCommandGroup 
     /**
      * Creates a Hybrid Ramsete Align command which immediately swaps from path following
      * to alignment as soon as a target is acquired.
-     * @param drivetrain drivetrain required for both ramsete and align commands
-     * @param trajectory see ramsete command
-     * @param targetDistance see align command
      * @param alignmentTimeout time allowed for alignment
      */
-    public DrivetrainHybridRamseteAlignCommand(Drivetrain drivetrain, Trajectory trajectory, Number targetDistance, double alignmentTimeout) {
+    public DrivetrainHybridRamseteAlignCommand(DrivetrainRamseteCommand ramseteCommand, DrivetrainAlignCommand alignCommand, double alignmentTimeout) {
         addCommands(
-            new DrivetrainRamseteCommand(drivetrain, trajectory).withInterrupt(() -> Target.hasTarget()),
-            new DrivetrainAlignCommand(drivetrain, targetDistance).withTimeout(alignmentTimeout)
+            ramseteCommand.withInterrupt(() -> Target.hasTarget()),
+            alignCommand.withTimeout(alignmentTimeout)
         );
     }
 
     /**
      * Creates a Hybrid Ramsete Align command which swaps from path following to alignment when
      * a target is acquired AND the robot is below a certain distance away.
-     * @param drivetrain drivetrain required for both ramsete and align commands
-     * @param trajectory see ramsete command
-     * @param targetDistance see align command
      * @param alignmentTimeout time allowed for alignment
      * @param swapDistance distance error at which below to switch to alignment
      */
-    public DrivetrainHybridRamseteAlignCommand(Drivetrain drivetrain, Trajectory trajectory, Number targetDistance, double alignmentTimeout, double swapDistance) {
+    public DrivetrainHybridRamseteAlignCommand(DrivetrainRamseteCommand ramseteCommand, DrivetrainAlignCommand alignCommand, double alignmentTimeout, double swapDistance) {
         addCommands(
-            new DrivetrainRamseteCommand(drivetrain, trajectory).withInterrupt(() -> Target.hasTarget() && (Target.getDistance() < swapDistance)),
-            new DrivetrainAlignCommand(drivetrain, targetDistance).withTimeout(alignmentTimeout)
+            ramseteCommand.withInterrupt(() -> Target.hasTarget() && (Target.getDistance() < swapDistance)),
+            alignCommand.withTimeout(alignmentTimeout)
         );
     }
 
