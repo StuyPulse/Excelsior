@@ -79,7 +79,7 @@ public interface Settings {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Width of the robot
-        double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
+        double TRACK_WIDTH = Units.inchesToMeters(30.0); // SEAN PROMISED !
 
         boolean USING_GYRO = true;
 
@@ -94,13 +94,13 @@ public interface Settings {
             double MAX_ACCELERATION = Units.feetToMeters(8.0);
 
             public interface FeedForward {
-                double kS = 0; // TODO: characterize
-                double kV = 0; // TODO: characterize
-                double kA = 0; // TODO: characterize
+                double kS = 0.367; // TODO: characterize
+                double kV = 2.07; // TODO: characterize
+                double kA = 0.47; // TODO: characterize
             }
 
             public interface PID {
-                double kP = 0; // TODO: characterize
+                double kP = 0.0198; // TODO: characterize
                 double kI = 0; // TODO: characterize
                 double kD = 0; // TODO: characterize
             }
@@ -158,7 +158,7 @@ public interface Settings {
                 double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.EXTERNAL_STAGE;
             }
 
-            double WHEEL_DIAMETER = Units.inchesToMeters(4);
+            double WHEEL_DIAMETER = Units.inchesToMeters(6);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
             double LOW_GEAR_DISTANCE_PER_ROTATION =
@@ -207,7 +207,7 @@ public interface Settings {
     }
 
     public interface Limelight {
-        double LIMELIGHT_HEIGHT = Units.inchesToMeters(39.135042);
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(34);
 
         // if the intake is on the ring, distance of limelight to hub
         double INTAKE_TO_LIMELIGHT = Units.inchesToMeters(28);
@@ -216,7 +216,7 @@ public interface Settings {
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 35.0);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 23.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
 
         // Bounds for Distance

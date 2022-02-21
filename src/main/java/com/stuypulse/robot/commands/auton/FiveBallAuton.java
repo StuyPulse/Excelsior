@@ -9,7 +9,7 @@ import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
+import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
@@ -40,37 +40,38 @@ public class FiveBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final double HUMAN_WAIT_TIME = 3.0;
+    private static final double HUMAN_WAIT_TIME = 1.5;
 
-    private static final String FIVE_BALL_TO_SECOND_BALL =
-            "FiveBallAuton/output/FiveBallAcquireSecondBall.wpilib.json";
-    private static final String FIVE_BALL_TO_TERMINAL =
-            "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";
-    private static final String FIVE_BALL_TERMINAL_TO_SHOOT =
-            "FiveBallAuton/output/FiveBallShootTerminalBalls.wpilib.json";
-    private static final String FIVE_BALL_TO_WALL_BALL =
-            "FiveBallAuton/output/FiveBallShootWallBall.wpilib.json";
+    private static final String FIVE_BALL_TO_SECOND_BALL = "FiveBallAuton/output/FiveBallAcquireSecondBall.wpilib.json";
+    private static final String FIVE_BALL_TO_TERMINAL = "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";
+    private static final String FIVE_BALL_TERMINAL_TO_SHOOT = "FiveBallAuton/output/FiveBallShootTerminalBalls.wpilib.json";
+    private static final String FIVE_BALL_TO_WALL_BALL = "FiveBallAuton/output/FiveBallGetWallBall.wpilib.json";
+    private static final String FIVE_BALL_SHOOT_WALL_BALL = "FiveBallAuton/output/FiveBallShootWallBall.wpilib.json";
 
     /** Creates a new FiveBallAuton. */
     public FiveBallAuton(RobotContainer robot) {
 
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
-                new ShooterRingShotCommand(robot.shooter),
-                new IntakeExtendCommand(robot.intake),
-                new WaitCommand(INTAKE_FALL_DOWN),
-                new IntakeAcquireCommand(robot.intake),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+            new ShooterRingShotCommand(robot.shooter),
+            new IntakeExtendCommand(robot.intake),
+            new WaitCommand(INTAKE_FALL_DOWN),
+            new IntakeAcquireForeverCommand(robot.intake),
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         // Tarmac to first ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
-                        .robotRelative(),
-                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+            new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+            new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
+                    .robotRelative());
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
+            new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+                    .withTimeout(DRIVETRAIN_ALIGN_TIME),
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
 
         // First ball to terminal to RingShot
         addCommands(
@@ -86,7 +87,9 @@ public class FiveBallAuton extends SequentialCommandGroup {
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT)
-                        .fieldRelative(),
+                        .fieldRelative());
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
@@ -95,7 +98,11 @@ public class FiveBallAuton extends SequentialCommandGroup {
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
+                        .fieldRelative());
+        addCommands(  
+                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_SHOOT_WALL_BALL)
                         .fieldRelative(),
+                new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));

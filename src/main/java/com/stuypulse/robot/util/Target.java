@@ -20,7 +20,7 @@ public class Target {
     }
 
     public static void disable() {
-        kLimelight.setLEDMode(LEDMode.FORCE_OFF);
+        kLimelight.setLEDMode(LEDMode.PIPELINE);
     }
 
     public static boolean hasTarget() {

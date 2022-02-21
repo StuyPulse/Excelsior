@@ -71,6 +71,7 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
+        Target.enable();
         drivetrain.arcadeDrive(getSpeed(), getTurn());
     }
 
