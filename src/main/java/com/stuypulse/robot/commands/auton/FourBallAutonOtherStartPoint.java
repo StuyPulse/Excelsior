@@ -54,9 +54,9 @@ public class FourBallAutonOtherStartPoint extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
 
             new ShooterRingShotCommand(robot.shooter),
-            new IntakeExtendCommand(robot.intake),
+            //new IntakeExtendCommand(robot.intake),
             new WaitCommand(INTAKE_FALL_DOWN),
-            new IntakeAcquireForeverCommand(robot.intake),
+            //new IntakeAcquireForeverCommand(robot.intake),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 

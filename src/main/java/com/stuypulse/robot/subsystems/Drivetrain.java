@@ -172,6 +172,8 @@ public class Drivetrain extends SubsystemBase {
 
         // Save Motor Settings
         burnFlash();
+
+        reset();
     }
 
     /***********************
@@ -258,8 +260,8 @@ public class Drivetrain extends SubsystemBase {
         if (this.gear != gear) {
             this.gear = gear;
             gearShift.set(this.gear.value);
-            setNEODistancePerRotation(this.gear.ratio);
             reset();
+            setNEODistancePerRotation(this.gear.ratio);
         }
     }
 

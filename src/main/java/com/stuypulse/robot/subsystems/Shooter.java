@@ -125,9 +125,12 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
-        shooterPIDController.setReference(targetRPM.get(), kVelocity);
-        feederPIDController.setReference(targetRPM.get() * feederMultipler, kVelocity);
+        shooterLeader.stopMotor();
+        feederMotor.stopMotor();
+
+        // double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
+        // shooterPIDController.setReference(targetRPM.get(), kVelocity);
+        // feederPIDController.setReference(targetRPM.get() * feederMultipler, kVelocity);
 
         if (Constants.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Shooter/Shooter Leader RPM", getShooterRPM());

@@ -22,8 +22,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
@@ -64,7 +62,7 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
         drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
-        // conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
+        conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
     }
 
     private void configureButtonBindings() {
@@ -72,18 +70,18 @@ public class RobotContainer {
         /*** Climber Control ***/
         /***********************/
 
-        // new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
+        new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
 
-        // new Button(() -> operator.getRightY() <= -0.75)
-        //         .whenPressed(new IntakeRetractCommand(intake))
-        //         .whileHeld(new ClimberMoveDownCommand(climber));
+        new Button(() -> operator.getRightY() <= -0.75)
+                .whenPressed(new IntakeRetractCommand(intake))
+                .whileHeld(new ClimberMoveDownCommand(climber));
 
         /*************************/
         /*** Conveyor Control ***/
         /*************************/
 
-        // operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
-        // operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
+        operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
+        operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /**************************/
         /*** Drivetrain Control ***/
@@ -98,17 +96,15 @@ public class RobotContainer {
         /*** Intake Control ***/
         /**********************/
 
-        // operator.getRightTriggerButton()
-        //         .whenPressed(new IntakeExtendCommand(intake))
-        //         .whileHeld(new IntakeAcquireCommand(intake));
+        operator.getRightTriggerButton()
+                .whenPressed(new IntakeExtendCommand(intake))
+                .whileHeld(new IntakeAcquireCommand(intake));
 
-        // operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
+        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
-        operator.getDPadUp()
-                    .whenPressed(new IntakeRetractCommand(intake))
-                    .whenPressed(new InstantCommand(() -> intake.setMotor(0.0), intake));
+        operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
 
-        // new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
+        new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
 
         /***********************/
         /*** Shooter Control ***/
@@ -117,21 +113,27 @@ public class RobotContainer {
         operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
 
-        // operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
+        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
 
         operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
+        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
 
         autonChooser.addOption("No Encoders (moby)", new MobilityAuton.NoEncoders(this));
-        autonChooser.addOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
         autonChooser.addOption("One Ball", new OneBallAuton(this));
         autonChooser.addOption("Two Ball", new TwoBallAuton(this));
         autonChooser.addOption("Three Ball", new ThreeBallAuton(this));
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
         autonChooser.addOption("Five Ball", new FiveBallAuton(this));
+        autonChooser.addOption("Five Ball Blay", new FiveBallBlayAuton(this));
+        // Alternate Autons
+        autonChooser.addOption("Three Ball With Wall Ball", new ThreeBallWithWallBallAuton(this));
+        autonChooser.addOption("Three Ball From Other Starting Point", new ThreeBallAutonOtherStartPoint(this));
+        autonChooser.addOption("Four Ball With Wall Ball", new FourBallWithWallBallAuton(this));
+        autonChooser.addOption("Four Ball From Other Start Point", new FourBallAutonOtherStartPoint(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

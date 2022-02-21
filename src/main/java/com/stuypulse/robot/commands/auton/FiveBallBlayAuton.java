@@ -28,7 +28,7 @@ public class FiveBallBlayAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final double HUMAN_WAIT_TIME = 3.0;
+    private static final double HUMAN_WAIT_TIME = 1.5;
 
     private static final String FIVE_BALL_GET_WALL_BALL =
             "FiveBallBlayAuton/output/FiveBallAcquireWallBall.wpilib.json";
@@ -45,9 +45,9 @@ public class FiveBallBlayAuton extends SequentialCommandGroup {
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
                 new ShooterRingShotCommand(robot.shooter),
-                new IntakeExtendCommand(robot.intake),
+                //new IntakeExtendCommand(robot.intake),
                 new WaitCommand(INTAKE_FALL_DOWN),
-                new IntakeAcquireCommand(robot.intake),
+                //new IntakeAcquireCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
