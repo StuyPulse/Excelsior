@@ -224,7 +224,7 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.5);
 
         public interface Speed {
             SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
