@@ -39,6 +39,7 @@ import com.revrobotics.ColorSensorV3;
  * @author Vincent Wang
  */
 public class ColorSensor extends SubsystemBase {
+
     public enum CurrentBall {
         RED_BALL,
         BLUE_BALL,
@@ -56,9 +57,13 @@ public class ColorSensor extends SubsystemBase {
         colorMatcher.addColorMatch(BallColor.RED);
     }
 
+    /*** IS CONNECTED ***/
+
     public boolean isConnected() {
-        return colorSensor.isConnected();
+        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
     }
+
+    /*** COLOR DETERMINATION ***/
 
     private Color getRawColor() {
         return colorSensor.getColor();
@@ -68,6 +73,8 @@ public class ColorSensor extends SubsystemBase {
         return colorMatcher.matchClosestColor(getRawColor()).color;
     }
 
+    /*** PROXIMITY DETERMINATION ***/
+
     // Returns value from 0 - 2047 [higher == closer]
     private int getProximity() {
         return colorSensor.getProximity();
@@ -76,6 +83,8 @@ public class ColorSensor extends SubsystemBase {
     private boolean hasBall() {
         return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
     }
+
+    /*** BALL DETERMINATION ***/
 
     private CurrentBall getCurrentBall() {
         Color matched = getMatchedColor();
@@ -119,6 +128,8 @@ public class ColorSensor extends SubsystemBase {
         }
         return hasBall() && !hasAllianceBall();
     }
+
+    /*** DEBUG INFORMATION ***/
 
     private static String colorToString(Color color) {
         StringBuilder output = new StringBuilder(36);

@@ -44,6 +44,8 @@ public interface Settings {
     }
 
     public interface ColorSensor {
+        SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
+
         public interface BallColor {
             Color RED = new Color(0.5432, 0.3401, 0.1169);
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
@@ -196,23 +198,24 @@ public interface Settings {
     }
 
     public interface Limelight {
-        double LIMELIGHT_HEIGHT = Units.inchesToMeters(38.65);
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(39.135042);
 
         // if the intake is on the ring, distance of limelight to hub
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5);
+        double INTAKE_TO_LIMELIGHT = Units.inchesToMeters(28);
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5) - INTAKE_TO_LIMELIGHT;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 25.0);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 35.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
 
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
-        double MAX_VALID_DISTANCE = Units.feetToMeters(24);
+        double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.1);
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2.0);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
     }
 
     public interface Alignment {

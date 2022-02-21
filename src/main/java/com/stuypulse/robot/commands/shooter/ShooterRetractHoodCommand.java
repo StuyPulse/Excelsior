@@ -20,6 +20,6 @@ public class ShooterRetractHoodCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        shooter.retractHoodSolenoid();
+        shooter.retractHood();
     }
 }

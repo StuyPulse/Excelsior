@@ -80,6 +80,7 @@ public class Intake extends SubsystemBase {
         setMotor(-Settings.Intake.MOTOR_SPEED.get());
     }
 
+    /*** Debug Information ***/
     @Override
     public void periodic() {
         if (Settings.DEBUG_MODE.get()) {

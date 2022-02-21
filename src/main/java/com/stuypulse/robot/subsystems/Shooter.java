@@ -66,8 +66,10 @@ public class Shooter extends SubsystemBase {
     private final Solenoid hoodSolenoid;
 
     public Shooter() {
+        // Network Table RPM Value
         targetRPM = new SmartNumber("Shooter/Target", 0.0);
 
+        // Setup Motors
         shooterMotor = new CANSparkMax(Ports.Shooter.LEFT_SHOOTER, MotorType.kBrushless);
         shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT_SHOOTER, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
@@ -79,7 +81,17 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = shooterMotor.getPIDController();
         feederPIDController = feederMotor.getPIDController();
+        configure();
 
+        Motors.Shooter.LEFT.configure(shooterMotor);
+        Motors.Shooter.RIGHT.configure(shooterFollower);
+        Motors.Shooter.FEEDER.configure(feederMotor);
+
+        // Setup Solenoid
+        hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
+    }
+
+    private void configure() {
         shooterPIDController.setP(ShooterPID.kP);
         shooterPIDController.setI(ShooterPID.kI);
         shooterPIDController.setD(ShooterPID.kD);
@@ -89,18 +101,14 @@ public class Shooter extends SubsystemBase {
         feederPIDController.setI(FeederPID.kI);
         feederPIDController.setD(FeederPID.kD);
         feederPIDController.setFF(FeederPID.kF);
-
-        Motors.Shooter.LEFT.configure(shooterMotor);
-        Motors.Shooter.RIGHT.configure(shooterFollower);
-        Motors.Shooter.FEEDER.configure(feederMotor);
-
-        hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
 
+    /*** Speed Control ***/
     public void setShooterRPM(Number speed) {
         targetRPM.set(speed);
     }
 
+    /*** RPM Information ***/
     public double getShooterRPM() {
         return Math.abs(shooterEncoder.getVelocity());
     }
@@ -109,18 +117,16 @@ public class Shooter extends SubsystemBase {
         return Math.abs(feederEncoder.getVelocity());
     }
 
-    public void extendHoodSolenoid() {
+    /*** Hood Control ***/
+    public void extendHood() {
         hoodSolenoid.set(true);
     }
 
-    public void retractHoodSolenoid() {
+    public void retractHood() {
         hoodSolenoid.set(false);
     }
 
-    public void setDefaultSolenoidPosition() {
-        retractHoodSolenoid();
-    }
-
+    /*** Debug Information ***/
     @Override
     public void periodic() {
         double rpm = targetRPM.get();
