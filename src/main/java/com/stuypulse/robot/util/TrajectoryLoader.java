@@ -5,9 +5,8 @@
 
 package com.stuypulse.robot.util;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.DrivetrainSettings;
-import com.stuypulse.robot.Constants.DrivetrainSettings.Motion;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Drivetrain.Motion;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,7 +23,7 @@ public final class TrajectoryLoader {
 
     private static final TrajectoryConfig MAX_SPEED_TRAJECTORY =
             new TrajectoryConfig(Motion.MAX_VELOCITY, Motion.MAX_ACCELERATION)
-                    .setKinematics(DrivetrainSettings.Motion.KINEMATICS);
+                    .setKinematics(Settings.Drivetrain.Motion.KINEMATICS);
 
     private static final Trajectory DEFAULT_TRAJECTORY =
             TrajectoryGenerator.generateTrajectory(
@@ -32,13 +31,13 @@ public final class TrajectoryLoader {
                     List.of(),
                     new Pose2d(1, 0, new Rotation2d()),
                     new TrajectoryConfig(0.1, 0.1)
-                            .setKinematics(DrivetrainSettings.Motion.KINEMATICS));
+                            .setKinematics(Settings.Drivetrain.Motion.KINEMATICS));
 
     // Function that gets a trajectory from path weaver,
     // but will give a default one if it has an issue
     public static Trajectory getTrajectory(String path) {
         try {
-            return TrajectoryUtil.fromPathweaverJson(Constants.DEPLOY_DIRECTORY.resolve(path));
+            return TrajectoryUtil.fromPathweaverJson(Settings.DEPLOY_DIRECTORY.resolve(path));
         } catch (IOException e) {
             DriverStation.reportError("Error Opening \"" + path + "\"!", e.getStackTrace());
 

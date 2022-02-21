@@ -10,10 +10,10 @@ import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
 
 import com.stuypulse.stuylib.network.SmartNumber;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
-import com.stuypulse.robot.Constants.ShooterSettings;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Shooter.*;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -80,19 +80,19 @@ public class Shooter extends SubsystemBase {
         shooterPIDController = shooterMotor.getPIDController();
         feederPIDController = feederMotor.getPIDController();
 
-        shooterPIDController.setP(ShooterSettings.ShooterPID.kP);
-        shooterPIDController.setI(ShooterSettings.ShooterPID.kI);
-        shooterPIDController.setD(ShooterSettings.ShooterPID.kD);
-        shooterPIDController.setFF(ShooterSettings.ShooterPID.kF);
+        shooterPIDController.setP(ShooterPID.kP);
+        shooterPIDController.setI(ShooterPID.kI);
+        shooterPIDController.setD(ShooterPID.kD);
+        shooterPIDController.setFF(ShooterPID.kF);
 
-        feederPIDController.setP(ShooterSettings.FeederPID.kP);
-        feederPIDController.setI(ShooterSettings.FeederPID.kI);
-        feederPIDController.setD(ShooterSettings.FeederPID.kD);
-        feederPIDController.setFF(ShooterSettings.FeederPID.kF);
+        feederPIDController.setP(FeederPID.kP);
+        feederPIDController.setI(FeederPID.kI);
+        feederPIDController.setD(FeederPID.kD);
+        feederPIDController.setFF(FeederPID.kF);
 
-        MotorSettings.Shooter.LEFT.configure(shooterMotor);
-        MotorSettings.Shooter.RIGHT.configure(shooterFollower);
-        MotorSettings.Shooter.FEEDER.configure(feederMotor);
+        Motors.Shooter.LEFT.configure(shooterMotor);
+        Motors.Shooter.RIGHT.configure(shooterFollower);
+        Motors.Shooter.FEEDER.configure(feederMotor);
 
         hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
@@ -123,18 +123,18 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-
         double rpm = targetRPM.get();
-        if (rpm < ShooterSettings.MIN_RPM) {
+
+        if (rpm < Settings.Shooter.MIN_RPM) {
             shooterPIDController.setReference(0, kDutyCycle);
             feederPIDController.setReference(0, kDutyCycle);
         } else {
-            double feederMultipler = ShooterSettings.FEEDER_MULTIPLER.get();
+            double feederMultipler = Settings.Shooter.FEEDER_MULTIPLER.get();
             shooterPIDController.setReference(rpm, kVelocity);
             feederPIDController.setReference(rpm * feederMultipler, kVelocity);
         }
 
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
             SmartDashboard.putNumber("Debug/Shooter/Feeder RPM", getFeederRPM());
         }

@@ -8,7 +8,8 @@ package com.stuypulse.robot.commands.drivetrain;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.math.SLMath;
 
-import com.stuypulse.robot.Constants.LimelightSettings;
+import com.stuypulse.robot.constants.Settings.Alignment;
+import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.util.IFuser;
 import com.stuypulse.robot.util.Target;
@@ -30,18 +31,18 @@ public class DrivetrainAlignCommand extends CommandBase {
 
         angleError =
                 new IFuser(
-                        LimelightSettings.Alignment.FUSION_FILTER,
+                        Alignment.FUSION_FILTER,
                         () -> Target.getXAngle().toDegrees(),
                         () -> drivetrain.getAngle().toDegrees());
 
         distanceError =
                 new IFuser(
-                        LimelightSettings.Alignment.FUSION_FILTER,
+                        Alignment.FUSION_FILTER,
                         () -> Target.getDistance() - targetDistance.doubleValue(),
                         () -> drivetrain.getDistance());
 
-        angleController = LimelightSettings.Alignment.Angle.getController();
-        distanceController = LimelightSettings.Alignment.Speed.getController();
+        angleController = Alignment.Angle.getController();
+        distanceController = Alignment.Speed.getController();
 
         addRequirements(drivetrain);
     }
@@ -58,7 +59,7 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     public double getSpeed() {
         double speed = distanceController.update(distanceError.get());
-        double maxAngleError = LimelightSettings.MAX_ANGLE_ERROR.get();
+        double maxAngleError = Limelight.MAX_ANGLE_ERROR.get();
 
         return speed * Math.exp(-SLMath.fpow(angleError.get() / maxAngleError, 2));
     }
@@ -79,7 +80,7 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return angleController.isDone(LimelightSettings.MAX_ANGLE_ERROR.get())
-                && distanceController.isDone(LimelightSettings.MAX_DISTANCE_ERROR.get());
+        return angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
+                && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get());
     }
 }

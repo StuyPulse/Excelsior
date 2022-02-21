@@ -5,10 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.ClimberSettings;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -69,11 +68,11 @@ public class Climber extends SubsystemBase {
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
-        MotorSettings.CLIMBER.configure(climber);
+        Motors.CLIMBER.configure(climber);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
 
-        if (ClimberSettings.ENABLE_TILT) {
+        if (Settings.Climber.ENABLE_TILT) {
             tilter =
                     new DoubleSolenoid(
                             PneumaticsModuleType.CTREPCM,
@@ -129,7 +128,7 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             if (tilter != null) {
                 SmartDashboard.putString("Debug/Climber/Tilter", tilter.get().toString());
             }

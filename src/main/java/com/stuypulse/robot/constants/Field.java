@@ -3,15 +3,13 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot;
+package com.stuypulse.robot.constants;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
-// origin is at center of hub
-// units are meters
-
-public interface FieldMap {
+/** Class containing the measurements of every item on the field */
+public interface Field {
 
     static double imperialToMeters(int feet, double inches) {
         return Units.feetToMeters(feet) + Units.inchesToMeters(inches);
@@ -21,11 +19,9 @@ public interface FieldMap {
     // robot starting positions
     // shooting distance
 
-    public interface Field {
-        double WIDTH = imperialToMeters(27, 0);
-        double LENGTH = imperialToMeters(54, 0);
-        Translation2d CENTER = new Translation2d(0, 0);
-    }
+    double WIDTH = imperialToMeters(27, 0);
+    double LENGTH = imperialToMeters(54, 0);
+    Translation2d CENTER = new Translation2d(0, 0);
 
     public interface Balls {
         public interface Alliance {

@@ -5,10 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.ColorSensorSettings;
-import com.stuypulse.robot.Constants.ColorSensorSettings.BallColor;
-import com.stuypulse.robot.Constants.Ports;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -75,7 +74,7 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private boolean hasBall() {
-        return getProximity() > ColorSensorSettings.PROXIMITY_THRESHOLD.get();
+        return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
     }
 
     private CurrentBall getCurrentBall() {
@@ -131,7 +130,7 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
             SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));

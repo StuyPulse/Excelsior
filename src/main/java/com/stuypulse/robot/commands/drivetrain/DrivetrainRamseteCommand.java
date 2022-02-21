@@ -5,7 +5,7 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.Constants.DrivetrainSettings.Motion;
+import com.stuypulse.robot.constants.Settings.Drivetrain.Motion;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.util.TrajectoryLoader;
 

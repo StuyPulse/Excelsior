@@ -90,7 +90,17 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
 
-        importOrder('com.stuypulse.stuylib', 'com.stuypulse', 'edu.wpi', 'com.revrobotics')
+        importOrder(
+            'com.stuypulse.stuylib', 
+            'com.stuypulse.constants', 
+            'com.stuypulse.subsystems', 
+            'com.stuypulse.commands', 
+            'com.stuypulse.commands.auton', 
+            'com.stuypulse.util', 
+            'com.stuypulse', 
+            'edu.wpi', 
+            'com.revrobotics'
+        )
         removeUnusedImports()
     }
 }

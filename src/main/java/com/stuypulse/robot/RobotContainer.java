@@ -8,13 +8,13 @@ package com.stuypulse.robot;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 
-import com.stuypulse.robot.Constants.*;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.drivetrain.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.shooter.*;
+import com.stuypulse.robot.constants.*;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -90,7 +90,7 @@ public class RobotContainer {
         driver.getBottomButton()
                 .whileHeld(
                         new DrivetrainAlignCommand(
-                                drivetrain, LimelightSettings.RING_SHOT_DISTANCE));
+                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
 
         /**********************/
         /*** Intake Control ***/

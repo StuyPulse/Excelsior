@@ -8,12 +8,10 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
 
-import com.stuypulse.robot.Constants;
-import com.stuypulse.robot.Constants.DrivetrainSettings;
-import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
-import com.stuypulse.robot.Constants.MotorSettings;
-import com.stuypulse.robot.Constants.Ports;
-import com.stuypulse.robot.util.MotorConfig;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -125,20 +123,18 @@ public class Drivetrain extends SubsystemBase {
         // Create Encoders
         leftGrayhill = new Encoder(Ports.Grayhill.LEFT_A, Ports.Grayhill.LEFT_B);
         rightGrayhill = new Encoder(Ports.Grayhill.RIGHT_A, Ports.Grayhill.RIGHT_B);
-        setGrayhillDistancePerPulse(DrivetrainSettings.Encoders.GRAYHILL_DISTANCE_PER_PULSE);
+        setGrayhillDistancePerPulse(Encoders.GRAYHILL_DISTANCE_PER_PULSE);
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
 
         // Initialize Odometry
         odometry =
-                new DifferentialDriveOdometry(
-                        DrivetrainSettings.Odometry.STARTING_ANGLE,
-                        DrivetrainSettings.Odometry.STARTING_POSITION);
+                new DifferentialDriveOdometry(Odometry.STARTING_ANGLE, Odometry.STARTING_POSITION);
         field = new Field2d();
 
         // Configure Motors and Other Things
-        setMotorConfig(MotorSettings.Drivetrain.LEFT, MotorSettings.Drivetrain.RIGHT);
+        setMotorConfig(Motors.Drivetrain.LEFT, Motors.Drivetrain.RIGHT);
         setHighGear();
     }
 
@@ -146,15 +142,13 @@ public class Drivetrain extends SubsystemBase {
      * MOTOR CONFIGURATION *
      ***********************/
 
-    private void setMotorConfig(MotorConfig left, MotorConfig right) {
-        leftGrayhill.setReverseDirection(
-                MotorSettings.Drivetrain.GRAYHILL_INVERTED ^ left.INVERTED);
+    private void setMotorConfig(Motors.Config left, Motors.Config right) {
+        leftGrayhill.setReverseDirection(Motors.Drivetrain.GRAYHILL_INVERTED ^ left.INVERTED);
         for (CANSparkMax motor : leftMotors) {
             left.configure(motor);
         }
 
-        rightGrayhill.setReverseDirection(
-                MotorSettings.Drivetrain.GRAYHILL_INVERTED ^ right.INVERTED);
+        rightGrayhill.setReverseDirection(Motors.Drivetrain.GRAYHILL_INVERTED ^ right.INVERTED);
         for (CANSparkMax motor : rightMotors) {
             right.configure(motor);
         }
@@ -239,7 +233,7 @@ public class Drivetrain extends SubsystemBase {
     // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
     private double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
-        return Math.toDegrees(distance / DrivetrainSettings.TRACK_WIDTH);
+        return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
     }
 
     // Gets current Angle of the Robot [using encoders]
@@ -248,7 +242,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public Angle getAngle() {
-        return DrivetrainSettings.USING_GYRO ? getGyroAngle() : getEncoderAngle();
+        return Settings.Drivetrain.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
 
     /**********************
@@ -413,7 +407,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Drives using curvature drive algorithm with automatic quick turn
     public void curvatureDrive(double xSpeed, double zRotation) {
-        this.curvatureDrive(xSpeed, zRotation, DrivetrainSettings.BASE_TURNING_SPEED.get());
+        this.curvatureDrive(xSpeed, zRotation, Settings.Drivetrain.BASE_TURNING_SPEED.get());
     }
 
     /*********************
@@ -426,8 +420,7 @@ public class Drivetrain extends SubsystemBase {
         field.setRobotPose(getPose());
 
         // Smart Dashboard Information
-
-        if (Constants.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
 
             SmartDashboard.putData("Debug/Drivetrain/Field", field);
             SmartDashboard.putString(

@@ -11,8 +11,8 @@ import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
-import com.stuypulse.robot.Constants.DrivetrainSettings;
-import com.stuypulse.robot.Constants.DrivetrainSettings.Stalling;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Drivetrain.Stalling;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -24,20 +24,19 @@ public class DrivetrainDriveCommand extends CommandBase {
     private Drivetrain drivetrain;
     private Gamepad driver;
 
-    private Debouncer stallingFilter =
-            new Debouncer(DrivetrainSettings.Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
+    private Debouncer stallingFilter = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
     private IFilter speedFilter =
             new IFilterGroup(
-                    x -> SLMath.deadband(x, DrivetrainSettings.SPEED_DEADBAND.get()),
-                    x -> SLMath.spow(x, DrivetrainSettings.SPEED_POWER.get()),
-                    new LowPassFilter(DrivetrainSettings.SPEED_FILTER));
+                    x -> SLMath.deadband(x, Settings.Drivetrain.SPEED_DEADBAND.get()),
+                    x -> SLMath.spow(x, Settings.Drivetrain.SPEED_POWER.get()),
+                    new LowPassFilter(Settings.Drivetrain.SPEED_FILTER));
 
     private IFilter angleFilter =
             new IFilterGroup(
-                    x -> SLMath.deadband(x, DrivetrainSettings.ANGLE_DEADBAND.get()),
-                    x -> SLMath.spow(x, DrivetrainSettings.ANGLE_POWER.get()),
-                    new LowPassFilter(DrivetrainSettings.ANGLE_FILTER));
+                    x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
+                    x -> SLMath.spow(x, Settings.Drivetrain.ANGLE_POWER.get()),
+                    new LowPassFilter(Settings.Drivetrain.ANGLE_FILTER));
 
     public DrivetrainDriveCommand(Drivetrain drivetrain, Gamepad driver) {
         this.drivetrain = drivetrain;
