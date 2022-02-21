@@ -214,7 +214,11 @@ public interface Settings {
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2.0);
+        // What angle error should make us start distance alignment
+        SmartNumber MAX_ANGLE_FOR_MOVEMENT =
+                new SmartNumber("Limelight/Max Angle For Distance", 2.0);
+
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
         SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
     }
 

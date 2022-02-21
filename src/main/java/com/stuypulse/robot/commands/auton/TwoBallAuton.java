@@ -13,7 +13,7 @@ import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
-import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -62,7 +62,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
-                new DrivetrainAlignCommand(robot.drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
+                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 

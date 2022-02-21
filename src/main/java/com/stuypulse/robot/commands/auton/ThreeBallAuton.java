@@ -13,7 +13,7 @@ import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
-import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.LEDController.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -66,7 +66,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_START).robotRelative(),
-                new DrivetrainAlignCommand(robot.drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
+                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
@@ -79,7 +79,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                 new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, THREE_BALL_SHOOT_TERMINAL_BALLS)
                         .fieldRelative(),
-                new DrivetrainAlignCommand(robot.drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
+                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 

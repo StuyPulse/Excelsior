@@ -6,7 +6,6 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.math.SLMath;
 
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
@@ -33,7 +32,7 @@ public class DrivetrainAlignCommand extends CommandBase {
                 new IFuser(
                         Alignment.FUSION_FILTER,
                         () -> Target.getXAngle().toDegrees(),
-                        () -> drivetrain.getAngle().toDegrees());
+                        () -> drivetrain.getRawGyroAngle());
 
         distanceError =
                 new IFuser(
@@ -57,11 +56,14 @@ public class DrivetrainAlignCommand extends CommandBase {
         distanceError.initialize();
     }
 
+    private double getSpeedAdjustment() {
+        double error = angleError.get() / Limelight.MAX_ANGLE_FOR_MOVEMENT.get();
+        return Math.exp(-error * error);
+    }
+
     public double getSpeed() {
         double speed = distanceController.update(distanceError.get());
-        double maxAngleError = Limelight.MAX_ANGLE_ERROR.get();
-
-        return speed * Math.exp(-SLMath.fpow(angleError.get() / maxAngleError, 2));
+        return speed * getSpeedAdjustment();
     }
 
     public double getTurn() {
@@ -80,7 +82,8 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
+        return Target.hasTarget()
+                && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
                 && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get());
     }
 }
