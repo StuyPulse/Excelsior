@@ -37,7 +37,7 @@ public class DrivetrainAlignCommand extends CommandBase {
         distanceError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> Target.getDistance() - targetDistance.doubleValue(),
+                        () -> targetDistance.doubleValue() - Target.getDistance(),
                         () -> drivetrain.getDistance());
 
         angleController = Alignment.Angle.getController();

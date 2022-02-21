@@ -56,15 +56,18 @@ public class FiveBallBlayAuton extends SequentialCommandGroup {
                         .robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new WaitCommand(CONVEYOR_TO_SHOOTER),
+                new WaitCommand(CONVEYOR_TO_SHOOTER));
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_GET_RING_BALL)
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-                        .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new WaitCommand(CONVEYOR_TO_SHOOTER),
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME));
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
@@ -79,7 +82,9 @@ public class FiveBallBlayAuton extends SequentialCommandGroup {
                         .fieldRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new WaitCommand(CONVEYOR_TO_SHOOTER),
+                new WaitCommand(CONVEYOR_TO_SHOOTER));
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
     }
 }

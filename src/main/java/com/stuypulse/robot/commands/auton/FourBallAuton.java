@@ -67,12 +67,15 @@ public class FourBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative());
-            
+
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-                .withTimeout(DRIVETRAIN_ALIGN_TIME / 2),
-            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                .withTimeout(DRIVETRAIN_ALIGN_TIME / 2));
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
 
         // First ball to terminal to RingShot
         addCommands(
@@ -96,7 +99,11 @@ public class FourBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-                    .perpetually().withTimeout(DRIVETRAIN_ALIGN_TIME / 2.0),
+                    .withTimeout(DRIVETRAIN_ALIGN_TIME / 2.0)
+        );
+
+        addCommands(
+            new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
             new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
         );
 
