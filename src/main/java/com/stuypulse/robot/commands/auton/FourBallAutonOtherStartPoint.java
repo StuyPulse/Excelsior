@@ -32,7 +32,7 @@ public class FourBallAutonOtherStartPoint extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
     // Time it takes for human player to roll ball to intake
-    private static final double HUMAN_WAIT_TIME = 3.0;
+    private static final double HUMAN_WAIT_TIME = 1.5;
 
     private static final String FOUR_BALL_GET_RING_BALL =
             "FourBallAutonOtherStartPoint/output/FourBallAutonAcquireRingBall.wpilib.json";
