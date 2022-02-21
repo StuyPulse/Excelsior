@@ -151,11 +151,20 @@ public interface Settings {
                     double GRAYHILL_STAGE = (12.0 / 36.0);
                 }
 
+                double LOW_GEAR_TO_WHEEL = (1.0 / 16.67);
+
+                double HIGH_GEAR_TO_WHEEL = (1.0 / 7.71);
+
                 double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.EXTERNAL_STAGE;
             }
 
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+
+            double LOW_GEAR_DISTANCE_PER_ROTATION =
+                    WHEEL_CIRCUMFERENCE * GearRatio.LOW_GEAR_TO_WHEEL;
+            double HIGH_GEAR_DISTANCE_PER_ROTATION =
+                    WHEEL_CIRCUMFERENCE * GearRatio.HIGH_GEAR_TO_WHEEL;
 
             double GRAYHILL_PULSES_PER_REVOLUTION = 256;
             double GRAYHILL_DISTANCE_PER_PULSE =

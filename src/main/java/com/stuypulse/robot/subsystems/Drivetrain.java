@@ -12,17 +12,16 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.*;
+import com.stuypulse.robot.constants.Settings.Drivetrain.Encoders;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -34,6 +33,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 /*-
  * Moves the robot around
@@ -61,13 +61,15 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH(Value.kForward),
-        LOW(Value.kReverse);
+        HIGH(true, Encoders.HIGH_GEAR_DISTANCE_PER_ROTATION),
+        LOW(false, Encoders.LOW_GEAR_DISTANCE_PER_ROTATION);
 
-        private final Value value;
+        private final boolean value;
+        private final double ratio;
 
-        private Gear(Value value) {
+        private Gear(boolean value, double ratio) {
             this.value = value;
+            this.ratio = ratio;
         }
     }
 
@@ -77,12 +79,12 @@ public class Drivetrain extends SubsystemBase {
 
     // DifferentialDrive and Gear Information
     private Gear gear;
-    private final DoubleSolenoid gearShift;
+    private final Solenoid gearShift;
     private final DifferentialDrive drivetrain;
 
     // An encoder for each side of the drive train
-    private final Encoder leftGrayhill;
-    private final Encoder rightGrayhill;
+    private final RelativeEncoder leftEncoder;
+    private final RelativeEncoder rightEncoder;
 
     // NAVX for Gyro
     private final AHRS navx;
@@ -96,14 +98,12 @@ public class Drivetrain extends SubsystemBase {
         leftMotors =
                 new CANSparkMax[] {
                     new CANSparkMax(Ports.Drivetrain.LEFT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
                     new CANSparkMax(Ports.Drivetrain.LEFT_BOTTOM, MotorType.kBrushless)
                 };
 
         rightMotors =
                 new CANSparkMax[] {
                     new CANSparkMax(Ports.Drivetrain.RIGHT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
                     new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
                 };
 
@@ -114,16 +114,11 @@ public class Drivetrain extends SubsystemBase {
                         new MotorControllerGroup(rightMotors));
 
         // Add Gear Shifter
-        gearShift =
-                new DoubleSolenoid(
-                        PneumaticsModuleType.CTREPCM,
-                        Ports.Drivetrain.GEAR_SHIFT_FORWARD,
-                        Ports.Drivetrain.GEAR_SHIFT_REVERSE);
+        gearShift = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Drivetrain.GEAR_SHIFT);
 
         // Create Encoders
-        leftGrayhill = new Encoder(Ports.Grayhill.LEFT_A, Ports.Grayhill.LEFT_B);
-        rightGrayhill = new Encoder(Ports.Grayhill.RIGHT_A, Ports.Grayhill.RIGHT_B);
-        setGrayhillDistancePerPulse(Encoders.GRAYHILL_DISTANCE_PER_PULSE);
+        leftEncoder = leftMotors[0].getEncoder();
+        rightEncoder = leftMotors[0].getEncoder();
 
         // Initialize NAVX
         navx = new AHRS(SPI.Port.kMXP);
@@ -143,23 +138,13 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     private void setMotorConfig(Motors.Config left, Motors.Config right) {
-        leftGrayhill.setReverseDirection(Motors.Drivetrain.GRAYHILL_INVERTED ^ left.INVERTED);
         for (CANSparkMax motor : leftMotors) {
             left.configure(motor);
         }
 
-        rightGrayhill.setReverseDirection(Motors.Drivetrain.GRAYHILL_INVERTED ^ right.INVERTED);
         for (CANSparkMax motor : rightMotors) {
             right.configure(motor);
         }
-    }
-
-    private void setGrayhillDistancePerPulse(double distance) {
-        rightGrayhill.setDistancePerPulse(distance);
-        rightGrayhill.reset();
-
-        leftGrayhill.setDistancePerPulse(distance);
-        leftGrayhill.reset();
     }
 
     /*****************
@@ -173,7 +158,16 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
-        gearShift.set((this.gear = gear).value);
+        if (this.gear != gear) {
+            gearShift.set((this.gear = gear).value);
+            reset();
+
+            leftEncoder.setPositionConversionFactor(gear.ratio);
+            leftEncoder.setVelocityConversionFactor(gear.ratio / 60.0);
+
+            rightEncoder.setPositionConversionFactor(gear.ratio);
+            rightEncoder.setVelocityConversionFactor(gear.ratio / 60.0);
+        }
     }
 
     // Sets robot into low gear
@@ -192,11 +186,11 @@ public class Drivetrain extends SubsystemBase {
 
     // Distance
     public double getLeftDistance() {
-        return leftGrayhill.getDistance();
+        return leftEncoder.getPosition();
     }
 
     public double getRightDistance() {
-        return rightGrayhill.getDistance();
+        return rightEncoder.getPosition();
     }
 
     public double getDistance() {
@@ -205,11 +199,11 @@ public class Drivetrain extends SubsystemBase {
 
     // Velocity
     public double getLeftVelocity() {
-        return leftGrayhill.getRate();
+        return leftEncoder.getVelocity();
     }
 
     public double getRightVelocity() {
-        return rightGrayhill.getRate();
+        return rightEncoder.getVelocity();
     }
 
     public double getVelocity() {
@@ -277,8 +271,8 @@ public class Drivetrain extends SubsystemBase {
 
     public void reset(Pose2d location) {
         navx.reset();
-        leftGrayhill.reset();
-        rightGrayhill.reset();
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
 
         odometry.resetPosition(location, getRotation2d());
     }

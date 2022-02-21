@@ -5,18 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*-
  * Intake balls into the robot
@@ -40,36 +31,36 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class Intake extends SubsystemBase {
 
-    private final CANSparkMax motor;
-    private final DoubleSolenoid solenoid;
+    // private final CANSparkMax motor;
+    // private final DoubleSolenoid solenoid;
 
     public Intake() {
-        motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        Motors.INTAKE.configure(motor);
+        // motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        // Motors.INTAKE.configure(motor);
 
-        solenoid =
-                new DoubleSolenoid(
-                        PneumaticsModuleType.CTREPCM,
-                        Ports.Intake.SOLENOID_FORWARD,
-                        Ports.Intake.SOLENOID_REVERSE);
+        // solenoid =
+        //         new DoubleSolenoid(
+        //                 PneumaticsModuleType.CTREPCM,
+        //                 Ports.Intake.SOLENOID_FORWARD,
+        //                 Ports.Intake.SOLENOID_REVERSE);
     }
 
     /*** Extend / Retract ***/
     public void extend() {
-        solenoid.set(Value.kReverse);
+        // solenoid.set(Value.kReverse);
     }
 
     public void retract() {
-        solenoid.set(Value.kForward);
+        // solenoid.set(Value.kForward);
     }
 
     /*** Acquire / Deaqcuire ***/
     public void setMotor(double speed) {
-        motor.set(speed);
+        // motor.set(speed);
     }
 
     public void stop() {
-        motor.stopMotor();
+        // motor.stopMotor();
     }
 
     public void acquire() {
@@ -84,9 +75,9 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (Settings.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Intake/Motor Speed", motor.get());
-            SmartDashboard.putString("Debug/Intake/Solenoid", solenoid.get().name());
-            SmartDashboard.putBoolean("Debug/Intake/Extended", solenoid.get() == Value.kReverse);
+            // SmartDashboard.putNumber("Debug/Intake/Motor Speed", motor.get());
+            // SmartDashboard.putString("Debug/Intake/Solenoid", solenoid.get().name());
+            // SmartDashboard.putBoolean("Debug/Intake/Extended", solenoid.get() == Value.kReverse);
         }
     }
 }

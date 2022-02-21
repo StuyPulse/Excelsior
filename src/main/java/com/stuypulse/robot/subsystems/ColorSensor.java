@@ -5,17 +5,12 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
 
 /*-
  * Detects what color ball is in the Conveyor.
@@ -46,38 +41,32 @@ public class ColorSensor extends SubsystemBase {
         NO_BALL;
     }
 
-    private final ColorMatch colorMatcher;
+    // private final ColorMatch colorMatcher;
 
-    private final ColorSensorV3 colorSensor;
+    // private final ColorSensorV3 colorSensor;
 
     public ColorSensor() {
-        colorMatcher = new ColorMatch();
-        colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
-        colorMatcher.addColorMatch(BallColor.BLUE);
-        colorMatcher.addColorMatch(BallColor.RED);
+        // colorMatcher = new ColorMatch();
+        // colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+        // colorMatcher.addColorMatch(BallColor.BLUE);
+        // colorMatcher.addColorMatch(BallColor.RED);
     }
 
     /*** IS CONNECTED ***/
 
     public boolean isConnected() {
-        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
+        // return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
+        return true;
     }
 
     /*** COLOR DETERMINATION ***/
-
-    private Color getRawColor() {
-        return colorSensor.getColor();
-    }
-
-    private Color getMatchedColor() {
-        return colorMatcher.matchClosestColor(getRawColor()).color;
-    }
 
     /*** PROXIMITY DETERMINATION ***/
 
     // Returns value from 0 - 2047 [higher == closer]
     private int getProximity() {
-        return colorSensor.getProximity();
+        // return colorSensor.getProximity();
+        return 2047;
     }
 
     private boolean hasBall() {
@@ -87,17 +76,6 @@ public class ColorSensor extends SubsystemBase {
     /*** BALL DETERMINATION ***/
 
     private CurrentBall getCurrentBall() {
-        Color matched = getMatchedColor();
-
-        if (!hasBall()) {
-            return CurrentBall.NO_BALL;
-        } else if (matched.equals(BallColor.RED)) {
-            return CurrentBall.RED_BALL;
-        } else if (matched.equals(BallColor.BLUE)) {
-            return CurrentBall.BLUE_BALL;
-        }
-
-        DriverStation.reportWarning("ColorSensorMatching returned unexpected color!", true);
         return getTargetBall();
     }
 
@@ -114,19 +92,21 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public boolean hasAllianceBall() {
-        if (!isConnected()) {
-            DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            return true;
-        }
-        return hasBall() && getCurrentBall() == getTargetBall();
+        // if (!isConnected()) {
+        //     DriverStation.reportWarning("Color Sensor is disconnected!", true);
+        //     return true;
+        // }
+        // return hasBall() && getCurrentBall() == getTargetBall();
+        return true;
     }
 
     public boolean hasOpponentBall() {
-        if (!isConnected()) {
-            DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            return false;
-        }
-        return hasBall() && !hasAllianceBall();
+        // if (!isConnected()) {
+        //     DriverStation.reportWarning("Color Sensor is disconnected!", true);
+        //     return false;
+        // }
+        // return hasBall() && !hasAllianceBall();
+        return false;
     }
 
     /*** DEBUG INFORMATION ***/
@@ -144,9 +124,10 @@ public class ColorSensor extends SubsystemBase {
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
-            SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));
-            SmartDashboard.putString(
-                    "Debug/Color Sensor/Matched Color", colorToString(getMatchedColor()));
+            // SmartDashboard.putString("Debug/Color Sensor/Raw Color",
+            // colorToString(getRawColor()));
+            // SmartDashboard.putString(
+            //         "Debug/Color Sensor/Matched Color", colorToString(getMatchedColor()));
 
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());

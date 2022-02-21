@@ -44,17 +44,14 @@ public interface Ports {
 
     public interface Drivetrain {
         // Motors
-        int LEFT_TOP = 10;
-        int LEFT_MIDDLE = 11;
-        int LEFT_BOTTOM = 12;
+        int LEFT_TOP = 7;
+        int LEFT_BOTTOM = 6;
 
-        int RIGHT_TOP = 13;
-        int RIGHT_MIDDLE = 14;
-        int RIGHT_BOTTOM = 15;
+        int RIGHT_TOP = 4;
+        int RIGHT_BOTTOM = 3;
 
         // Soleniods
-        int GEAR_SHIFT_FORWARD = 0;
-        int GEAR_SHIFT_REVERSE = 1;
+        int GEAR_SHIFT = 0;
     }
 
     interface Grayhill {

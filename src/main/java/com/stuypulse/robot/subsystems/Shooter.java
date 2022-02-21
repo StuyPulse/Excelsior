@@ -5,25 +5,9 @@
 
 package com.stuypulse.robot.subsystems;
 
-import static com.revrobotics.CANSparkMax.ControlType.kDutyCycle;
-import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
-
-import com.stuypulse.stuylib.network.SmartNumber;
-
-import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.constants.Ports;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Shooter.*;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 
 /*-
  * Shoots balls out of the robot
@@ -47,102 +31,104 @@ import com.revrobotics.SparkMaxPIDController;
  */
 public class Shooter extends SubsystemBase {
 
-    private final SmartNumber targetRPM;
+    // private final SmartNumber targetRPM;
 
-    // Motors
-    private final CANSparkMax shooterMotor;
-    private final CANSparkMax shooterFollower;
-    private final CANSparkMax feederMotor;
+    // // Motors
+    // private final CANSparkMax shooterMotor;
+    // private final CANSparkMax shooterFollower;
+    // private final CANSparkMax feederMotor;
 
-    // Encoders
-    private final RelativeEncoder shooterEncoder;
-    private final RelativeEncoder feederEncoder;
+    // // Encoders
+    // private final RelativeEncoder shooterEncoder;
+    // private final RelativeEncoder feederEncoder;
 
-    // PID
-    private final SparkMaxPIDController shooterPIDController;
-    private final SparkMaxPIDController feederPIDController;
+    // // PID
+    // private final SparkMaxPIDController shooterPIDController;
+    // private final SparkMaxPIDController feederPIDController;
 
-    // Hood Solenoid
-    private final Solenoid hoodSolenoid;
+    // // Hood Solenoid
+    // private final Solenoid hoodSolenoid;
 
     public Shooter() {
-        // Network Table RPM Value
-        targetRPM = new SmartNumber("Shooter/Target", 0.0);
+        // // Network Table RPM Value
+        // targetRPM = new SmartNumber("Shooter/Target", 0.0);
 
-        // Setup Motors
-        shooterMotor = new CANSparkMax(Ports.Shooter.LEFT_SHOOTER, MotorType.kBrushless);
-        shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT_SHOOTER, MotorType.kBrushless);
-        feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
+        // // Setup Motors
+        // shooterMotor = new CANSparkMax(Ports.Shooter.LEFT_SHOOTER, MotorType.kBrushless);
+        // shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT_SHOOTER, MotorType.kBrushless);
+        // feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
 
-        shooterFollower.follow(shooterMotor, true);
+        // shooterFollower.follow(shooterMotor, true);
 
-        shooterEncoder = shooterMotor.getEncoder();
-        feederEncoder = feederMotor.getEncoder();
+        // shooterEncoder = shooterMotor.getEncoder();
+        // feederEncoder = feederMotor.getEncoder();
 
-        shooterPIDController = shooterMotor.getPIDController();
-        feederPIDController = feederMotor.getPIDController();
-        configure();
+        // shooterPIDController = shooterMotor.getPIDController();
+        // feederPIDController = feederMotor.getPIDController();
+        // configure();
 
-        Motors.Shooter.LEFT.configure(shooterMotor);
-        Motors.Shooter.RIGHT.configure(shooterFollower);
-        Motors.Shooter.FEEDER.configure(feederMotor);
+        // Motors.Shooter.LEFT.configure(shooterMotor);
+        // Motors.Shooter.RIGHT.configure(shooterFollower);
+        // Motors.Shooter.FEEDER.configure(feederMotor);
 
-        // Setup Solenoid
-        hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
+        // // Setup Solenoid
+        // hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
 
     private void configure() {
-        shooterPIDController.setP(ShooterPID.kP);
-        shooterPIDController.setI(ShooterPID.kI);
-        shooterPIDController.setD(ShooterPID.kD);
-        shooterPIDController.setFF(ShooterPID.kF);
+        // shooterPIDController.setP(ShooterPID.kP);
+        // shooterPIDController.setI(ShooterPID.kI);
+        // shooterPIDController.setD(ShooterPID.kD);
+        // shooterPIDController.setFF(ShooterPID.kF);
 
-        feederPIDController.setP(FeederPID.kP);
-        feederPIDController.setI(FeederPID.kI);
-        feederPIDController.setD(FeederPID.kD);
-        feederPIDController.setFF(FeederPID.kF);
+        // feederPIDController.setP(FeederPID.kP);
+        // feederPIDController.setI(FeederPID.kI);
+        // feederPIDController.setD(FeederPID.kD);
+        // feederPIDController.setFF(FeederPID.kF);
     }
 
     /*** Speed Control ***/
     public void setShooterRPM(Number speed) {
-        targetRPM.set(speed);
+        // targetRPM.set(speed);
     }
 
     /*** RPM Information ***/
     public double getShooterRPM() {
-        return Math.abs(shooterEncoder.getVelocity());
+        // return Math.abs(shooterEncoder.getVelocity());
+        return 0;
     }
 
     public double getFeederRPM() {
-        return Math.abs(feederEncoder.getVelocity());
+        // return Math.abs(feederEncoder.getVelocity());
+        return 0;
     }
 
     /*** Hood Control ***/
     public void extendHood() {
-        hoodSolenoid.set(true);
+        // hoodSolenoid.set(true);
     }
 
     public void retractHood() {
-        hoodSolenoid.set(false);
+        // hoodSolenoid.set(false);
     }
 
     /*** Debug Information ***/
     @Override
     public void periodic() {
-        double rpm = targetRPM.get();
+        // double rpm = targetRPM.get();
 
-        if (rpm < Settings.Shooter.MIN_RPM) {
-            shooterPIDController.setReference(0, kDutyCycle);
-            feederPIDController.setReference(0, kDutyCycle);
-        } else {
-            double feederMultipler = Settings.Shooter.FEEDER_MULTIPLER.get();
-            shooterPIDController.setReference(rpm, kVelocity);
-            feederPIDController.setReference(rpm * feederMultipler, kVelocity);
-        }
+        // if (rpm < Settings.Shooter.MIN_RPM) {
+        //     shooterPIDController.setReference(0, kDutyCycle);
+        //     feederPIDController.setReference(0, kDutyCycle);
+        // } else {
+        //     double feederMultipler = Settings.Shooter.FEEDER_MULTIPLER.get();
+        //     shooterPIDController.setReference(rpm, kVelocity);
+        //     feederPIDController.setReference(rpm * feederMultipler, kVelocity);
+        // }
 
-        if (Settings.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
-            SmartDashboard.putNumber("Debug/Shooter/Feeder RPM", getFeederRPM());
-        }
+        // if (Settings.DEBUG_MODE.get()) {
+        //     SmartDashboard.putNumber("Debug/Shooter/Shooter RPM", getShooterRPM());
+        //     SmartDashboard.putNumber("Debug/Shooter/Feeder RPM", getFeederRPM());
+        // }
     }
 }

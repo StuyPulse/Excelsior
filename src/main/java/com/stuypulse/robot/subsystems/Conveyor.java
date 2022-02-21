@@ -5,17 +5,11 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*-
  * The Conveyor subsystem is meant to transport team alliance balls from the intake to the shooter, while rejecting balls that are
@@ -54,25 +48,25 @@ public class Conveyor extends SubsystemBase {
         REVERSE
     }
 
-    private final CANSparkMax topBeltMotor;
-    private final CANSparkMax gandalfMotor;
+    // private final CANSparkMax topBeltMotor;
+    // private final CANSparkMax gandalfMotor;
 
     private final ColorSensor colorSensor;
-    private final DigitalInput topIRSensor;
+    // private final DigitalInput topIRSensor;
 
     private Direction topBeltDirection;
     private Direction gandalfDirection;
 
     /** Creates a Conveyor subsystem */
     public Conveyor() {
-        topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
-        Motors.Conveyor.TOP_BELT.configure(topBeltMotor);
+        // topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
+        // Motors.Conveyor.TOP_BELT.configure(topBeltMotor);
 
-        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
-        Motors.Conveyor.GANDALF.configure(gandalfMotor);
+        // gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
+        // Motors.Conveyor.GANDALF.configure(gandalfMotor);
 
         colorSensor = new ColorSensor();
-        topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
+        // topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
@@ -83,32 +77,32 @@ public class Conveyor extends SubsystemBase {
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
     public void setTopBelt(Direction direction) {
         topBeltDirection = direction;
-        switch (direction) {
-            case FORWARD:
-                topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
-                break;
-            case STOPPED:
-                topBeltMotor.stopMotor();
-                break;
-            case REVERSE:
-                topBeltMotor.set(-Settings.Conveyor.TOP_BELT_SPEED.get());
-                break;
-        }
+        // switch (direction) {
+        //     case FORWARD:
+        //         topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
+        //         break;
+        //     case STOPPED:
+        //         topBeltMotor.stopMotor();
+        //         break;
+        //     case REVERSE:
+        //         topBeltMotor.set(-Settings.Conveyor.TOP_BELT_SPEED.get());
+        //         break;
+        // }
     }
 
     public void setGandalf(Direction direction) {
         gandalfDirection = direction;
-        switch (direction) {
-            case FORWARD:
-                gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
-                break;
-            case STOPPED:
-                gandalfMotor.stopMotor();
-                break;
-            case REVERSE:
-                gandalfMotor.set(Settings.Conveyor.REJECT_SPEED.get());
-                break;
-        }
+        // switch (direction) {
+        //     case FORWARD:
+        //         gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
+        //         break;
+        //     case STOPPED:
+        //         gandalfMotor.stopMotor();
+        //         break;
+        //     case REVERSE:
+        //         gandalfMotor.set(Settings.Conveyor.REJECT_SPEED.get());
+        //         break;
+        // }
     }
 
     public Direction getTopBeltDirection() {
@@ -123,7 +117,8 @@ public class Conveyor extends SubsystemBase {
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
-        return Settings.Conveyor.DISABLE_IR_SENSOR.get() || topIRSensor.get();
+        return false;
+        // return Settings.Conveyor.DISABLE_IR_SENSOR.get() || topIRSensor.get();
     }
 
     public boolean hasOpponentBall() {
@@ -149,8 +144,8 @@ public class Conveyor extends SubsystemBase {
     @Override
     public void periodic() {
         if (Settings.DEBUG_MODE.get()) {
-            SmartDashboard.putNumber("Debug/Conveyor/Top Belt", topBeltMotor.get());
-            SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor", gandalfMotor.get());
+            // SmartDashboard.putNumber("Debug/Conveyor/Top Belt", topBeltMotor.get());
+            // SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor", gandalfMotor.get());
             SmartDashboard.putBoolean("Debug/Conveyor/Top IR", getTopBeltHasBall());
         }
     }
