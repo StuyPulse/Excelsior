@@ -50,6 +50,7 @@ public class DrivetrainAlignCommand extends CommandBase {
     public void initialize() {
         Target.enable();
 
+        drivetrain.reset();
         drivetrain.setLowGear();
 
         angleError.initialize();
