@@ -119,15 +119,16 @@ public class RobotContainer {
     }
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
         autonChooser.addOption("No Encoders (moby)", new MobilityAuton.NoEncoders(this));
-        autonChooser.addOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
+        autonChooser.setDefaultOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
         autonChooser.addOption("One Ball", new OneBallAuton(this));
         autonChooser.addOption("Two Ball", new TwoBallAuton(this));
-        autonChooser.addOption("Three Ball", new ThreeBallAuton(this));
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
         autonChooser.addOption("Five Ball", new FiveBallAuton(this));
+        // alternate Five Ball Auton
+        autonChooser.addOption("Five Ball Blay Auton", new FiveBallBlayAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
