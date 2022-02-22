@@ -46,8 +46,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Climber extends SubsystemBase {
 
     public enum Tilt {
-        MAX_TILT(Value.kForward),
-        NO_TILT(Value.kReverse);
+        MAX_TILT(Value.kReverse),
+        NO_TILT(Value.kForward);
 
         private final Value extended;
 
