@@ -35,7 +35,7 @@ public interface Motors {
         boolean GRAYHILL_INVERTED = false;
     }
 
-    Config INTAKE = new Config(false, IdleMode.kBrake, 80);
+    Config INTAKE = new Config(true, IdleMode.kBrake, 80);
 
     public interface Shooter {
         Config LEFT = new Config(true, IdleMode.kCoast, 80);
