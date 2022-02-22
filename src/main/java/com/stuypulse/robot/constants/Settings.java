@@ -37,6 +37,8 @@ public interface Settings {
     public interface Climber {
         boolean ENABLE_TILT = false;
 
+        SmartBoolean ENABLE_SWITCHES = new SmartBoolean("Climber/Enable Switches", false);
+
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 

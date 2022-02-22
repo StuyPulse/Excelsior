@@ -125,11 +125,11 @@ public class Climber extends SubsystemBase {
     /*** LIMIT SWITCHES ***/
 
     public boolean getTopReached() {
-        return topLimitSwitch.get();
+        return Settings.Climber.ENABLE_SWITCHES.get() && topLimitSwitch.get();
     }
 
     public boolean getBottomReached() {
-        return bottomLimitSwitch.get();
+        return Settings.Climber.ENABLE_SWITCHES.get() && bottomLimitSwitch.get();
     }
 
     /*** DEBUG INFORMATION ***/
