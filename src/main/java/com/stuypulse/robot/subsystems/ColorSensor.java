@@ -81,6 +81,10 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private boolean hasBall() {
+        if (!isConnected()) {
+            DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            return true;
+        }
         return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
     }
 
