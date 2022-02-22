@@ -227,7 +227,7 @@ public interface Settings {
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
                 new SmartNumber("Limelight/Max Angle For Distance", 2.0);
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.75);
         SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
     }
 

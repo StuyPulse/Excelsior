@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Carmin Vuong (carminvuong@gmail.com)
  * @author Samuel Chen(samchen1738@gmail.com)
  */
-
+ 
 public class FiveBallAuton extends SequentialCommandGroup {
     // Time it takes for the intake to go down
     private static final double INTAKE_FALL_DOWN = 0.1;

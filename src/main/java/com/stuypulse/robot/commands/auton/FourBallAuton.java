@@ -104,7 +104,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER / 2)
         );
 
         addCommands(
