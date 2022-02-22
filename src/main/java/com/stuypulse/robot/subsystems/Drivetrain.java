@@ -61,8 +61,8 @@ public class Drivetrain extends SubsystemBase {
 
     // Enum used to store the state of the gear
     public static enum Gear {
-        HIGH(Value.kForward),
-        LOW(Value.kReverse);
+        HIGH(Value.kReverse),
+        LOW(Value.kForward);
 
         private final Value value;
 
