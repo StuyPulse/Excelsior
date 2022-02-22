@@ -185,17 +185,17 @@ public interface Settings {
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
 
         public interface ShooterPID {
-            double kP = 0.0;
+            double kP = 0.00007;
             double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0001;
+            double kD = 0.0001;
+            double kF = 0.00018;
         }
 
         public interface FeederPID {
-            double kP = 0.0;
+            double kP = 0.00015;
             double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0001;
+            double kD = 0.0001;
+            double kF = 0.0001826;
         }
     }
 
