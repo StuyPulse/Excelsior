@@ -165,7 +165,7 @@ public interface Settings {
     }
 
     public interface Intake {
-        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
+        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
     }
 
     public interface LED {
