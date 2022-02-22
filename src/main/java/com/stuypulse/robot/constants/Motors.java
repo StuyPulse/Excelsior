@@ -21,7 +21,7 @@ public interface Motors {
     Config CLIMBER = new Config(false, IdleMode.kBrake, 80);
 
     public interface Conveyor {
-        Config GANDALF = new Config(true, IdleMode.kCoast, 80);
+        Config GANDALF = new Config(true, IdleMode.kBrake, 80);
         Config TOP_BELT = new Config(false, IdleMode.kBrake, 80);
     }
 
@@ -38,9 +38,9 @@ public interface Motors {
     Config INTAKE = new Config(true, IdleMode.kBrake, 80);
 
     public interface Shooter {
-        Config LEFT = new Config(true, IdleMode.kCoast, 80);
-        Config RIGHT = new Config(false, IdleMode.kCoast, 80);
-        Config FEEDER = new Config(true, IdleMode.kCoast, 80);
+        Config LEFT = new Config(false, IdleMode.kCoast, 80);
+        Config RIGHT = new Config(true, IdleMode.kCoast, 80);
+        Config FEEDER = new Config(false, IdleMode.kCoast, 80);
     }
 
     /** Class to store all of the values a motor needs */
