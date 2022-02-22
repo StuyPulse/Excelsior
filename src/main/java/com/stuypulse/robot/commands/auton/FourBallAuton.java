@@ -13,8 +13,10 @@ import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.Target;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -95,7 +97,8 @@ public class FourBallAuton extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
 
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
-                    .fieldRelative());
+                    .fieldRelative()
+                    .withInterrupt(() -> Target.hasTarget() && Target.getDistance() < Settings.Limelight.SWAP_DISTANCE));
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)

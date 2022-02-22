@@ -212,6 +212,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double INTAKE_TO_LIMELIGHT = Units.inchesToMeters(28);
         double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5) - INTAKE_TO_LIMELIGHT;
+        double SWAP_DISTANCE = RING_SHOT_DISTANCE + 2 * INTAKE_TO_LIMELIGHT;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
