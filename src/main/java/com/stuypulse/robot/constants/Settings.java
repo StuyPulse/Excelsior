@@ -206,9 +206,9 @@ public interface Settings {
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
-        double LIMELIGHT_TO_SHOOTER = Units.inchesToMeters(14);
+        double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(40);
         double RING_SHOT_DISTANCE =
-                Units.inchesToMeters(128.5) - CENTER_TO_HUB - LIMELIGHT_TO_SHOOTER;
+                Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
@@ -225,7 +225,7 @@ public interface Settings {
                 new SmartNumber("Limelight/Max Angle For Distance", 2.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.12);
     }
 
     public interface Alignment {
