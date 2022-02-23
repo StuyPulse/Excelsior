@@ -208,7 +208,7 @@ public interface Settings {
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_SHOOTER = Units.inchesToMeters(14);
         double RING_SHOT_DISTANCE =
-                Units.inchesToMeters(140.5) - CENTER_TO_HUB - LIMELIGHT_TO_SHOOTER;
+                Units.inchesToMeters(128.5) - CENTER_TO_HUB - LIMELIGHT_TO_SHOOTER;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
