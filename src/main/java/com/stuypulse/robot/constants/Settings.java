@@ -61,7 +61,7 @@ public interface Settings {
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
 
-        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", true);
+        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
     }
@@ -167,7 +167,7 @@ public interface Settings {
     }
 
     public interface Intake {
-        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.7);
+        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
     }
 
     public interface LED {
@@ -182,20 +182,20 @@ public interface Settings {
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.2);
 
         public interface ShooterPID {
-            double kP = 0.00007;
+            double kP = 0.00025;
             double kI = 0.0;
-            double kD = 0.0001;
-            double kF = 0.00018;
+            double kD = 0.0;
+            double kF = 0.0001725;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
             double kI = 0.0;
-            double kD = 0.0001;
-            double kF = 0.0001826;
+            double kD = 0.0;
+            double kF = 0.0001825;
         }
     }
 
