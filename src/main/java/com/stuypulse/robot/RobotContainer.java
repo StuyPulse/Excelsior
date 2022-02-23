@@ -34,9 +34,10 @@ public class RobotContainer {
 
     // Subsystems
     public final Climber climber = new Climber();
-    public final Conveyor conveyor = new Conveyor();
+    public final ColorSensor colorSensor = new ColorSensor();
+    public final Conveyor conveyor = new Conveyor(colorSensor);
     public final Drivetrain drivetrain = new Drivetrain();
-    public final Intake intake = new Intake();
+    public final Intake intake = new Intake(colorSensor);
     public final LEDController leds = new LEDController(this);
     public final Pump pump = new Pump();
     public final Shooter shooter = new Shooter();
@@ -70,11 +71,13 @@ public class RobotContainer {
         /*** Climber Control ***/
         /***********************/
 
-        new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
-
+        new Button(() -> operator.getRightY() >= +0.75).whileHeld(new ClimberMoveUpCommand(climber));
         new Button(() -> operator.getRightY() <= -0.75)
                 .whenPressed(new IntakeRetractCommand(intake))
                 .whileHeld(new ClimberMoveDownCommand(climber));
+
+        new Button(() -> operator.getLeftX() >= +0.75).whenPressed(new ClimberMaxTiltCommand(climber));
+        new Button(() -> operator.getLeftX() <= -0.75).whenPressed(new ClimberNoTiltCommand(climber));
 
         /*************************/
         /*** Conveyor Control ***/
@@ -90,7 +93,7 @@ public class RobotContainer {
         driver.getBottomButton()
                 .whileHeld(
                         new DrivetrainAlignCommand(
-                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
+                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE).perpetually());
 
         /**********************/
         /*** Intake Control ***/

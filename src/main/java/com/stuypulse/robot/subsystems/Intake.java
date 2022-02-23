@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -43,15 +44,19 @@ public class Intake extends SubsystemBase {
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
 
-    public Intake() {
-        motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+    private final ColorSensor colorSensor;
+
+    public Intake(ColorSensor colorSensor) {
+        this.motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
         Motors.INTAKE.configure(motor);
 
-        solenoid =
+        this.solenoid =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
                         Ports.Intake.SOLENOID_FORWARD,
                         Ports.Intake.SOLENOID_REVERSE);
+
+        this.colorSensor = colorSensor;
     }
 
     /*** Extend / Retract ***/
@@ -73,11 +78,20 @@ public class Intake extends SubsystemBase {
     }
 
     public void acquire() {
-        setMotor(Settings.Intake.MOTOR_SPEED.get());
+        if(getShouldStop()) {
+            stop();
+        } else {
+            setMotor(Settings.Intake.MOTOR_SPEED.get());
+        }
     }
 
     public void deacquire() {
         setMotor(-Settings.Intake.MOTOR_SPEED.get());
+    }
+
+    /*** Color Sensor Information ***/
+    private boolean getShouldStop() {
+        return colorSensor.isConnected() && colorSensor.hasAllianceBall();
     }
 
     /*** Debug Information ***/
