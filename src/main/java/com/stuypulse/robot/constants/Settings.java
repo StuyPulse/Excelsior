@@ -37,6 +37,8 @@ public interface Settings {
     public interface Climber {
         boolean ENABLE_TILT = false;
 
+        SmartBoolean ENABLE_SWITCHES = new SmartBoolean("Climber/Enable Switches", false);
+
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
@@ -51,7 +53,7 @@ public interface Settings {
             Color BLUE = new Color(0.1826, 0.42505, 0.3982);
         }
 
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 100);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 200);
     }
 
     public interface Conveyor {
@@ -59,7 +61,7 @@ public interface Settings {
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
 
-        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
+        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", true);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
     }
@@ -165,7 +167,7 @@ public interface Settings {
     }
 
     public interface Intake {
-        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.8);
+        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.7);
     }
 
     public interface LED {
@@ -183,17 +185,17 @@ public interface Settings {
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
 
         public interface ShooterPID {
-            double kP = 0.0;
+            double kP = 0.00007;
             double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0001;
+            double kD = 0.0001;
+            double kF = 0.00018;
         }
 
         public interface FeederPID {
-            double kP = 0.0;
+            double kP = 0.00015;
             double kI = 0.0;
-            double kD = 0.0;
-            double kF = 0.0001;
+            double kD = 0.0001;
+            double kF = 0.0001826;
         }
     }
 

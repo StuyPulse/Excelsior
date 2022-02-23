@@ -56,11 +56,11 @@ public class Intake extends SubsystemBase {
 
     /*** Extend / Retract ***/
     public void extend() {
-        solenoid.set(Value.kReverse);
+        solenoid.set(Value.kForward);
     }
 
     public void retract() {
-        solenoid.set(Value.kForward);
+        solenoid.set(Value.kReverse);
     }
 
     /*** Acquire / Deaqcuire ***/
