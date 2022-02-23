@@ -230,12 +230,13 @@ public interface Settings {
 
     public interface Alignment {
 
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.1);
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.5);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.06);
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
