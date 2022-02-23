@@ -21,8 +21,8 @@ public interface Motors {
     Config CLIMBER = new Config(false, IdleMode.kBrake, 80);
 
     public interface Conveyor {
-        Config GANDALF = new Config(true, IdleMode.kBrake, 80);
-        Config TOP_BELT = new Config(false, IdleMode.kBrake, 80);
+        Config GANDALF = new Config(true, IdleMode.kBrake, 60);
+        Config TOP_BELT = new Config(false, IdleMode.kBrake, 60);
     }
 
     public interface Drivetrain {
@@ -35,7 +35,7 @@ public interface Motors {
         boolean GRAYHILL_INVERTED = true;
     }
 
-    Config INTAKE = new Config(true, IdleMode.kBrake, 80);
+    Config INTAKE = new Config(true, IdleMode.kBrake, 60);
 
     public interface Shooter {
         Config LEFT = new Config(false, IdleMode.kCoast, 80);
