@@ -32,6 +32,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
+    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", false);
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     public interface Climber {

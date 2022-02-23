@@ -89,7 +89,9 @@ public class Climber extends SubsystemBase {
 
     public void setMotor(double speed) {
         if (stopper.get()) {
-            DriverStation.reportWarning("Climber attempted to run while lock was enabled!", true);
+            if(Settings.ENABLE_WARNINGS.get()) {
+                DriverStation.reportWarning("Climber attempted to run while lock was enabled!", true);
+            }
             setMotorStop();
         } else {
             climber.set(speed);
@@ -117,8 +119,10 @@ public class Climber extends SubsystemBase {
         if (tilter != null) {
             tilter.set(tilt.extended);
         } else {
-            DriverStation.reportWarning(
+            if(Settings.ENABLE_WARNINGS.get()) {
+                DriverStation.reportWarning(
                     "Climber attempted to tilt while solenoids are disabled!", true);
+            }
         }
     }
 

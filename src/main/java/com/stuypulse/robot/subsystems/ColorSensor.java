@@ -46,15 +46,18 @@ public class ColorSensor extends SubsystemBase {
         NO_BALL;
     }
 
-    private final ColorMatch colorMatcher;
-
     private final ColorSensorV3 colorSensor;
-
+    private final ColorMatch colorMatcher;
+    private CurrentBall currentBall;
+    
     public ColorSensor() {
         colorMatcher = new ColorMatch();
+
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
         colorMatcher.addColorMatch(BallColor.BLUE);
         colorMatcher.addColorMatch(BallColor.RED);
+
+        updateCurrentBall();
     }
 
     /*** IS CONNECTED ***/
@@ -82,7 +85,10 @@ public class ColorSensor extends SubsystemBase {
 
     private boolean hasBall() {
         if (!isConnected()) {
-            DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            if(Settings.ENABLE_WARNINGS.get()) {
+                DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            }
+            
             return true;
         }
         return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
@@ -90,19 +96,26 @@ public class ColorSensor extends SubsystemBase {
 
     /*** BALL DETERMINATION ***/
 
-    private CurrentBall getCurrentBall() {
+    private CurrentBall updateCurrentBall() {
         Color matched = getMatchedColor();
 
         if (!hasBall()) {
-            return CurrentBall.NO_BALL;
+            return currentBall = CurrentBall.NO_BALL;
         } else if (matched.equals(BallColor.RED)) {
-            return CurrentBall.RED_BALL;
+            return currentBall = CurrentBall.RED_BALL;
         } else if (matched.equals(BallColor.BLUE)) {
-            return CurrentBall.BLUE_BALL;
+            return currentBall = CurrentBall.BLUE_BALL;
         }
 
-        DriverStation.reportWarning("ColorSensorMatching returned unexpected color!", true);
-        return getTargetBall();
+        if(Settings.ENABLE_WARNINGS.get()) {
+            DriverStation.reportWarning("ColorSensorMatching returned unexpected color!", true);
+        }
+
+        return currentBall = getTargetBall();
+    }
+
+    private CurrentBall getCurrentBall() {
+        return currentBall;
     }
 
     private CurrentBall getTargetBall() {
@@ -112,24 +125,35 @@ public class ColorSensor extends SubsystemBase {
             case Red:
                 return CurrentBall.RED_BALL;
             default:
-                DriverStation.reportWarning("DriverStation.getAlliance() returned invalid!", true);
+                if(Settings.ENABLE_WARNINGS.get()) {
+                    DriverStation.reportWarning("DriverStation.getAlliance() returned invalid!", true);
+                }
+                
                 return CurrentBall.NO_BALL;
         }
     }
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
-            DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            if(Settings.ENABLE_WARNINGS.get()) {
+                DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            }
+            
             return true;
         }
+
         return hasBall() && getCurrentBall() == getTargetBall();
     }
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
-            DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            if(Settings.ENABLE_WARNINGS.get()) {
+                DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            }
+            
             return false;
         }
+
         return hasBall() && !hasAllianceBall();
     }
 
@@ -145,6 +169,8 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
+        updateCurrentBall();
+
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
