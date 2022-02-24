@@ -232,7 +232,7 @@ public interface Settings {
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
-                new SmartNumber("Limelight/Max Angle For Distance", 2.0);
+                new SmartNumber("Limelight/Max Angle For Distance", 2.5);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
         SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.12);
@@ -240,13 +240,13 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.05);
-        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.15);
+        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 2.7);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.06);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
@@ -261,14 +261,14 @@ public interface Settings {
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.03);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0035);
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
+                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD)
