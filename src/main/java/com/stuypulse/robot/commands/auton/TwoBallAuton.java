@@ -9,7 +9,7 @@ import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireCommand;
+import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
@@ -43,7 +43,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
     // Distance from start point to Ring (in meters)
-    private static final double DISTANCE_TO_RING = 2.0;
+    private static final double DISTANCE_TO_RING = 3.0;
 
     public TwoBallAuton(RobotContainer robot) {
 
@@ -56,7 +56,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new ShooterRingShotCommand(robot.shooter),
                 new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeExtendCommand(robot.intake),
-                new IntakeAcquireCommand(robot.intake),
+                new IntakeAcquireForeverCommand(robot.intake),
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
 
         addCommands(

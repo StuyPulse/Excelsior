@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.commands.conveyor.ConveyorIndexCommand;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
@@ -86,9 +87,11 @@ public class FourBallAuton extends SequentialCommandGroup {
         );
 
         addCommands(
+
             new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
 
-            new WaitCommand(HUMAN_WAIT_TIME)
+            // new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull()),
+            new ConveyorIndexCommand.Ejectionless(robot.conveyor).withTimeout(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull())
         );
 
         addCommands(
@@ -104,11 +107,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER / 2)
-        );
-
-        addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE)
+            new ConveyorShootCommand(robot.conveyor).perpetually()
         );
     }
 }

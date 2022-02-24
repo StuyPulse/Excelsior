@@ -32,7 +32,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", false);
+    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     public interface Climber {
@@ -50,15 +50,17 @@ public interface Settings {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
         public interface BallColor {
-            Color RED = new Color(0.331, 0.428, 0.241);
+            Color RED = new Color(0.328, 0.436, 0.238);
             Color BLUE = new Color(0.2, 0.432, 0.368);
         }
 
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 150);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
     }
 
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
+
+        double DEBOUNCE_TIME = 0.20;
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -105,7 +107,7 @@ public interface Settings {
             }
 
             public interface PID {
-                double kP = 1;
+                double kP = 1.5;
                 double kI = 0;
                 double kD = 0;
             }
@@ -198,14 +200,14 @@ public interface Settings {
 
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.000001;
+            double kI = 0.0000005;
             double kD = 0.0;
             double kF = 0.000174;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.000001;
+            double kI = 0.0000005;
             double kD = 0.0;
             double kF = 0.0001825;
         }
@@ -228,6 +230,10 @@ public interface Settings {
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
+
+        SmartNumber MAX_VELOCITY = new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
+
+        double DEBOUNCER_TIME = 0.3;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =

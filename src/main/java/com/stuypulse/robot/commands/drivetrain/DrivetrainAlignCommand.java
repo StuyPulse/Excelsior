@@ -8,18 +8,21 @@ package com.stuypulse.robot.commands.drivetrain;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
-
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.util.IFuser;
 import com.stuypulse.robot.util.Target;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainAlignCommand extends CommandBase {
 
     private final Drivetrain drivetrain;
+
+    private final Debouncer finished;
 
     private IFilter speedAdjFilter;
 
@@ -47,6 +50,8 @@ public class DrivetrainAlignCommand extends CommandBase {
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
         angleController = Alignment.Angle.getController();
         distanceController = Alignment.Speed.getController();
+
+        finished = new Debouncer(Limelight.DEBOUNCER_TIME, DebounceType.kRising);
 
         addRequirements(drivetrain);
     }
@@ -88,8 +93,9 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Target.hasTarget()
+        return finished.calculate(Target.hasTarget()
+                && drivetrain.getVelocity() < Limelight.MAX_VELOCITY.get()
                 && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
-                && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get());
+                && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get()));
     }
 }

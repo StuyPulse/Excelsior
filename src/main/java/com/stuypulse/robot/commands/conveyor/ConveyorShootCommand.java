@@ -5,9 +5,12 @@
 
 package com.stuypulse.robot.commands.conveyor;
 
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /*
@@ -38,11 +41,13 @@ public class ConveyorShootCommand extends CommandBase {
         }
     }
 
+    private final Debouncer finished;
     private final Conveyor conveyor;
     private final boolean ejectionless;
 
     /** Creates a new ConveyorShootCommand. */
     private ConveyorShootCommand(Conveyor conveyor, boolean ejectionless) {
+        this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
         this.conveyor = conveyor;
         this.ejectionless = ejectionless;
 
@@ -68,8 +73,12 @@ public class ConveyorShootCommand extends CommandBase {
         conveyor.setTopBelt(Direction.STOPPED);
     }
 
+    private boolean hasBall() {
+        return conveyor.getTopBeltHasBall() || conveyor.hasAllianceBall();
+    }
+
     @Override
     public boolean isFinished() {
-        return false;
+        return this.finished.calculate(!hasBall());
     }
 }

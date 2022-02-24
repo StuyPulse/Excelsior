@@ -34,7 +34,7 @@ public class MobilityAuton {
 
     public static class WithEncoders extends SequentialCommandGroup {
         // Distance from start point to Ring (in meters)
-        private static final double DISTANCE_TO_RING = 2.0;
+        private static final double DISTANCE_TO_RING = 3.0;
         private static final double START_DELAY = 1.0;
 
         public WithEncoders(RobotContainer robot) {
