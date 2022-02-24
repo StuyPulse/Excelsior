@@ -973,6 +973,31 @@
           }
         }
       }
+    },
+    {
+      "title": "Intake",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "network_table:///SmartDashboard/Intake/",
+      "widgetPane": {
+        "gridSize": 10.69,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "3,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Motor Speed",
+              "_title": "Motor Speed"
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {

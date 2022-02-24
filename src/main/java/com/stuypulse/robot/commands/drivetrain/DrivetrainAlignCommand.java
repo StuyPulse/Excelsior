@@ -6,7 +6,8 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
-
+import com.stuypulse.stuylib.streams.filters.IFilter;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Drivetrain;
@@ -18,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DrivetrainAlignCommand extends CommandBase {
 
     private final Drivetrain drivetrain;
+
+    private IFilter speedAdjFilter;
 
     private final IFuser angleError;
     private final IFuser distanceError;
@@ -40,6 +43,7 @@ public class DrivetrainAlignCommand extends CommandBase {
                         () -> targetDistance.doubleValue() - Target.getDistance(),
                         () -> drivetrain.getDistance());
 
+        speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
         angleController = Alignment.Angle.getController();
         distanceController = Alignment.Speed.getController();
 
@@ -51,13 +55,15 @@ public class DrivetrainAlignCommand extends CommandBase {
         Target.enable();
         drivetrain.setLowGear();
 
+        speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
+        
         angleError.initialize();
         distanceError.initialize();
     }
 
     private double getSpeedAdjustment() {
         double error = angleError.get() / Limelight.MAX_ANGLE_FOR_MOVEMENT.get();
-        return Math.exp(-error * error);
+        return speedAdjFilter.get(Math.exp(-error * error));
     }
 
     public double getSpeed() {

@@ -83,6 +83,7 @@ dependencies {
 spotless {
     enforceCheck = false
     java {
+        targetExclude("src/main/java/com/stuypulse/robot/commands/auton/*.java")
         licenseHeaderFile "LICENSE"
 
         googleJavaFormat().aosp()

@@ -50,16 +50,16 @@ public class DrivetrainDriveCommand extends CommandBase {
     }
 
     public void execute() {
-        if (driver.getRawRightButton() || (Stalling.STALL_DETECTION.get() && isStalling())) {
-            drivetrain.setLowGear();
-        } else {
-            drivetrain.setHighGear();
-        }
-
         double speed = driver.getRightTrigger() - driver.getLeftTrigger();
         double angle = driver.getLeftX();
 
-        drivetrain.curvatureDrive(speedFilter.get(speed), angleFilter.get(angle));
+        if (driver.getRawRightButton() || (Stalling.STALL_DETECTION.get() && isStalling())) {
+            drivetrain.setLowGear();
+            drivetrain.arcadeDrive(speedFilter.get(speed), angleFilter.get(angle));
+        } else {
+            drivetrain.setHighGear();
+            drivetrain.curvatureDrive(speedFilter.get(speed), angleFilter.get(angle));
+        }
     }
 
     public boolean isFinished() {

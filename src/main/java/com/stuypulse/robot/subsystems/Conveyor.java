@@ -64,15 +64,15 @@ public class Conveyor extends SubsystemBase {
     private Direction gandalfDirection;
 
     /** Creates a Conveyor subsystem */
-    public Conveyor() {
-        topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
+    public Conveyor(ColorSensor colorSensor) {
+        this.topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
         Motors.Conveyor.TOP_BELT.configure(topBeltMotor);
 
-        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
+        this.gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR, MotorType.kBrushless);
         Motors.Conveyor.GANDALF.configure(gandalfMotor);
 
-        colorSensor = new ColorSensor();
-        topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
+        this.colorSensor = colorSensor;
+        this.topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
@@ -123,7 +123,7 @@ public class Conveyor extends SubsystemBase {
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
-        return Settings.Conveyor.DISABLE_IR_SENSOR.get() || topIRSensor.get();
+        return Settings.Conveyor.DISABLE_IR_SENSOR.get() || !topIRSensor.get();
     }
 
     public boolean hasOpponentBall() {

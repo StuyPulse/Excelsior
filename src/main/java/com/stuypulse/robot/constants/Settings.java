@@ -32,10 +32,11 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
+    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", false);
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     public interface Climber {
-        boolean ENABLE_TILT = false;
+        boolean ENABLE_TILT = true;
 
         SmartBoolean ENABLE_SWITCHES = new SmartBoolean("Climber/Enable Switches", false);
 
@@ -49,26 +50,28 @@ public interface Settings {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
         public interface BallColor {
-            Color RED = new Color(0.5432, 0.3401, 0.1169);
-            Color BLUE = new Color(0.1826, 0.42505, 0.3982);
+            Color RED = new Color(0.331, 0.428, 0.241);
+            Color BLUE = new Color(0.2, 0.432, 0.368);
         }
 
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 200);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 150);
     }
 
     public interface Conveyor {
+        boolean TOP_IR_INVERTED = true;
+        
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 1.0);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
 
-        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", true);
+        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
     }
 
     public interface Drivetrain {
         // If speed is below this, use quick turn
-        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.4);
+        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.25);
 
         // Low Pass Filter and deadband for Driver Controls
         SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.05);
@@ -146,14 +149,16 @@ public interface Settings {
                     double HIGH_GEAR_STAGE = (50.0 / 34.0);
                     double LOW_GEAR_STAGE = (24.0 / 60.0);
 
+                    double GRAYHILL_STAGE = (12.0 / 36.0);
+
                     double THIRD_STAGE = (34.0 / 50.0);
 
                     double EXTERNAL_STAGE = (1.0 / 1.0);
-
-                    double GRAYHILL_STAGE = (12.0 / 36.0);
                 }
 
-                double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.EXTERNAL_STAGE;
+                /** = 0.22666 */
+                double GRAYHILL_TO_WHEEL =
+                        Stages.GRAYHILL_STAGE * Stages.THIRD_STAGE * Stages.EXTERNAL_STAGE;
             }
 
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
@@ -167,7 +172,8 @@ public interface Settings {
     }
 
     public interface Intake {
-        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 0.7);
+        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
+        SmartNumber LOCKED_MUL = new SmartNumber("Intake/Locked Mul", 0.0);
     }
 
     public interface LED {
@@ -180,22 +186,22 @@ public interface Settings {
 
         double MIN_RPM = 100.0;
 
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.0);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         public interface ShooterPID {
-            double kP = 0.00007;
-            double kI = 0.0;
-            double kD = 0.0001;
-            double kF = 0.00018;
+            double kP = 0.00025;
+            double kI = 0.00001;
+            double kD = 0.0;
+            double kF = 0.000174;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.0;
-            double kD = 0.0001;
-            double kF = 0.0001826;
+            double kI = 0.00001;
+            double kD = 0.0;
+            double kF = 0.0001825;
         }
     }
 
@@ -203,8 +209,10 @@ public interface Settings {
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(39.135042);
 
         // if the intake is on the ring, distance of limelight to hub
-        double INTAKE_TO_LIMELIGHT = Units.inchesToMeters(28);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(140.5) - INTAKE_TO_LIMELIGHT;
+        double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
+        double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(40);
+        double RING_SHOT_DISTANCE =
+                Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
@@ -221,22 +229,23 @@ public interface Settings {
                 new SmartNumber("Limelight/Max Angle For Distance", 2.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.12);
     }
 
     public interface Alignment {
 
-        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.5);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.05);
+        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.75);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.05);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.06);
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.15);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD)
