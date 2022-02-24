@@ -99,15 +99,15 @@ public interface Settings {
             double MAX_ACCELERATION = Units.feetToMeters(8.0);
 
             public interface FeedForward {
-                double kS = 0; // TODO: characterize
-                double kV = 0; // TODO: characterize
-                double kA = 0; // TODO: characterize
+                double kS = 0.20094; 
+                double kV = 1.6658;
+                double kA = 0.4515; 
             }
 
             public interface PID {
-                double kP = 0; // TODO: characterize
-                double kI = 0; // TODO: characterize
-                double kD = 0; // TODO: characterize
+                double kP = 1;
+                double kI = 0;
+                double kD = 0;
             }
         }
 
