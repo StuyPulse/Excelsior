@@ -190,6 +190,12 @@ public interface Settings {
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
+        double INTEGRAL_MAX_RPM_ERROR = 500;
+        double INTEGRAL_MAX_ADJUST = 0.05;
+
+        double MIN_PID_OUTPUT = 0.0;
+        double MAX_PID_OUTPUT = 1.0;
+
         public interface ShooterPID {
             double kP = 0.00025;
             double kI = 0.00001;
