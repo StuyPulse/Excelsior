@@ -26,7 +26,7 @@ public interface Motors {
     }
 
     public interface Drivetrain {
-        int CURRENT_LIMIT_AMPS = 50;
+        int CURRENT_LIMIT_AMPS = 60;
         IdleMode IDLE_MODE = IdleMode.kBrake;
 
         Config LEFT = new Config(true, IDLE_MODE, CURRENT_LIMIT_AMPS);
