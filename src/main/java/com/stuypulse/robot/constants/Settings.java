@@ -36,7 +36,7 @@ public interface Settings {
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     public interface Climber {
-        boolean ENABLE_TILT = false;
+        boolean ENABLE_TILT = true;
 
         SmartBoolean ENABLE_SWITCHES = new SmartBoolean("Climber/Enable Switches", false);
 
@@ -58,6 +58,8 @@ public interface Settings {
     }
 
     public interface Conveyor {
+        boolean TOP_IR_INVERTED = true;
+        
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 1.0);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
@@ -171,6 +173,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
+        SmartNumber LOCKED_MUL = new SmartNumber("Intake/Locked Mul", 0.0);
     }
 
     public interface LED {
@@ -183,20 +186,20 @@ public interface Settings {
 
         double MIN_RPM = 100.0;
 
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3900);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 3000);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.2);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.0;
+            double kI = 0.00001;
             double kD = 0.0;
-            double kF = 0.0001725;
+            double kF = 0.000174;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.0;
+            double kI = 0.00001;
             double kD = 0.0;
             double kF = 0.0001825;
         }
@@ -231,8 +234,8 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.1);
-        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.5);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.05);
+        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
 
         public interface Speed {
             SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
@@ -242,7 +245,7 @@ public interface Settings {
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.15);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD)
