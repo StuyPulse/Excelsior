@@ -59,8 +59,8 @@ public interface Settings {
 
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
-        
-        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 1.0);
+
+        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
 
@@ -198,14 +198,14 @@ public interface Settings {
 
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.00001;
+            double kI = 0.000001;
             double kD = 0.0;
             double kF = 0.000174;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.00001;
+            double kI = 0.000001;
             double kD = 0.0;
             double kF = 0.0001825;
         }
@@ -217,8 +217,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(40);
-        double RING_SHOT_DISTANCE =
-                Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 

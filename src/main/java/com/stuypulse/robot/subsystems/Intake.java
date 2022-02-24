@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -97,7 +96,7 @@ public class Intake extends SubsystemBase {
     /*** Debug Information ***/
     @Override
     public void periodic() {
-        if(0.0 <= this.speed && getShouldStop()) {
+        if (0.0 <= this.speed && getShouldStop()) {
             motor.set(this.speed * Settings.Intake.LOCKED_MUL.get());
         } else {
             motor.set(this.speed);

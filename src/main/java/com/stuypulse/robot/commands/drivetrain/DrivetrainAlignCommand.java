@@ -8,6 +8,7 @@ package com.stuypulse.robot.commands.drivetrain;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Drivetrain;
@@ -56,7 +57,7 @@ public class DrivetrainAlignCommand extends CommandBase {
         drivetrain.setLowGear();
 
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
-        
+
         angleError.initialize();
         distanceError.initialize();
     }

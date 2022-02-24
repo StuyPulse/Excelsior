@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 
 /*-
@@ -69,10 +68,10 @@ public class ColorSensor extends SubsystemBase {
 
     private boolean hasBall() {
         if (!isConnected()) {
-            if(Settings.ENABLE_WARNINGS.get()) {
+            if (Settings.ENABLE_WARNINGS.get()) {
                 DriverStation.reportWarning("Color Sensor is disconnected!", true);
             }
-            
+
             return true;
         }
         return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
@@ -87,10 +86,11 @@ public class ColorSensor extends SubsystemBase {
             case Red:
                 return targetBall = CurrentBall.RED_BALL;
             default:
-                if(Settings.ENABLE_WARNINGS.get()) {
-                    DriverStation.reportWarning("DriverStation.getAlliance() returned invalid!", true);
+                if (Settings.ENABLE_WARNINGS.get()) {
+                    DriverStation.reportWarning(
+                            "DriverStation.getAlliance() returned invalid!", true);
                 }
-                
+
                 return targetBall = CurrentBall.NO_BALL;
         }
     }
@@ -106,7 +106,7 @@ public class ColorSensor extends SubsystemBase {
         double dg = a.green - b.green;
         double db = a.blue - b.blue;
         return dr * dr + dg * dg + db * db;
-      }
+    }
 
     private Color getRawColor() {
         return colorSensor.getColor();
@@ -114,11 +114,11 @@ public class ColorSensor extends SubsystemBase {
 
     private CurrentBall getCurrentBall() {
         Color color = getRawColor();
-        
+
         double redError = getColorDistance(color, BallColor.RED);
         double blueError = getColorDistance(color, BallColor.BLUE);
 
-        if(redError < blueError) {
+        if (redError < blueError) {
             return CurrentBall.RED_BALL;
         } else {
             return CurrentBall.BLUE_BALL;
@@ -129,10 +129,10 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
-            if(Settings.ENABLE_WARNINGS.get()) {
+            if (Settings.ENABLE_WARNINGS.get()) {
                 DriverStation.reportWarning("Color Sensor is disconnected!", true);
             }
-            
+
             return true;
         }
 
@@ -141,10 +141,10 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
-            if(Settings.ENABLE_WARNINGS.get()) {
+            if (Settings.ENABLE_WARNINGS.get()) {
                 DriverStation.reportWarning("Color Sensor is disconnected!", true);
             }
-            
+
             return false;
         }
 
