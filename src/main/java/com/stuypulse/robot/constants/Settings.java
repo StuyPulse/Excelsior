@@ -69,6 +69,8 @@ public interface Settings {
         SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
+
+        SmartBoolean EJECTIONLESS = new SmartBoolean("Conveyor/Ejectionless", false);
     }
 
     public interface Drivetrain {
@@ -101,9 +103,9 @@ public interface Settings {
             double MAX_ACCELERATION = Units.feetToMeters(8.0);
 
             public interface FeedForward {
-                double kS = 0.20094; 
+                double kS = 0.20094;
                 double kV = 1.6658;
-                double kA = 0.4515; 
+                double kA = 0.4515;
             }
 
             public interface PID {
@@ -231,7 +233,8 @@ public interface Settings {
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
-        SmartNumber MAX_VELOCITY = new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
+        SmartNumber MAX_VELOCITY =
+                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
 
         double DEBOUNCER_TIME = 0.3;
 

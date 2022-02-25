@@ -66,7 +66,7 @@ public class ColorSensor extends SubsystemBase {
         return colorSensor.getProximity();
     }
 
-    private boolean hasBall() {
+    public boolean hasBall() {
         if (!isConnected()) {
             if (Settings.ENABLE_WARNINGS.get()) {
                 DriverStation.reportWarning("Color Sensor is disconnected!", true);
@@ -95,7 +95,7 @@ public class ColorSensor extends SubsystemBase {
         }
     }
 
-    private CurrentBall getTargetBall() {
+    public CurrentBall getTargetBall() {
         return targetBall;
     }
 
@@ -112,7 +112,7 @@ public class ColorSensor extends SubsystemBase {
         return colorSensor.getColor();
     }
 
-    private CurrentBall getCurrentBall() {
+    public CurrentBall getCurrentBall() {
         Color color = getRawColor();
 
         double redError = getColorDistance(color, BallColor.RED);

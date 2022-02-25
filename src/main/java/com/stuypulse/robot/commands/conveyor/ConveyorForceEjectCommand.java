@@ -5,8 +5,8 @@
 
 package com.stuypulse.robot.commands.conveyor;
 
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -41,13 +41,11 @@ public class ConveyorForceEjectCommand extends CommandBase {
 
     @Override
     public void execute() {
-        conveyor.setGandalf(Direction.REVERSE);
-        conveyor.setTopBelt(Direction.REVERSE);
+        conveyor.setMode(ConveyorMode.EJECT);
     }
 
     @Override
     public void end(boolean interrupted) {
-        conveyor.setGandalf(Direction.STOPPED);
-        conveyor.setTopBelt(Direction.STOPPED);
+        conveyor.setMode(ConveyorMode.DEFAULT);
     }
 }

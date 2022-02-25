@@ -5,8 +5,8 @@
 
 package com.stuypulse.robot.commands.conveyor;
 
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -32,61 +32,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorIndexCommand extends CommandBase {
 
-    public static class Ejectionless extends ConveyorIndexCommand {
-        public Ejectionless(Conveyor conveyor) {
-            super(conveyor, true);
-        }
-    }
-
     private final Conveyor conveyor;
-    private final boolean ejectionless;
 
     /** Creates a new ConveyorIndexCommand. */
-    private ConveyorIndexCommand(Conveyor conveyor, boolean ejectionless) {
+    public ConveyorIndexCommand(Conveyor conveyor) {
         this.conveyor = conveyor;
-        this.ejectionless = ejectionless;
 
         addRequirements(conveyor);
     }
 
-    public ConveyorIndexCommand(Conveyor conveyor) {
-        this(conveyor, false);
+    @Override
+    public void execute() {
+        conveyor.setMode(ConveyorMode.INDEX);
     }
 
     @Override
-    public void execute() {
-        /*** Gandalf logic ***/
-
-        // Eject if you have wrong ball
-        if (!ejectionless && conveyor.hasOpponentBall()) { // Start eject
-            conveyor.setGandalf(Direction.REVERSE);
-        }
-
-        // Stop if you already have ball
-        else if (conveyor.getTopBeltHasBall()) {
-            conveyor.setGandalf(Direction.STOPPED);
-        }
-
-        // Accept Alliance Ball if no ball on top
-        else if (ejectionless || conveyor.hasAllianceBall()) {
-            conveyor.setGandalf(Direction.FORWARD);
-        }
-
-        // If you were ejecting and there is no longer a ball, stop
-        else if (conveyor.getGandalfDirection() == Direction.REVERSE) {
-            conveyor.setGandalf(Direction.STOPPED);
-        }
-
-        /*** Top belt logic ***/
-
-        // Stop if you already have ball
-        if (conveyor.getTopBeltHasBall()) {
-            conveyor.setTopBelt(Direction.STOPPED);
-        }
-
-        // Accept Alliance Ball if no ball on top
-        else if (ejectionless || conveyor.hasAllianceBall()) {
-            conveyor.setTopBelt(Direction.FORWARD);
-        }
+    public void end(boolean interrupted) {
+        conveyor.setMode(ConveyorMode.DEFAULT);
     }
 }
