@@ -55,6 +55,8 @@ public interface Settings {
         }
 
         SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
+        
+        // SmartBoolean ALLIANCE_COLOR = new SmartBoolean("Conveyor/Alliance Color", false); // false is red, true is blue
     }
 
     public interface Conveyor {
