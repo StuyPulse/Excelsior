@@ -61,14 +61,15 @@ public interface Settings {
         SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
         
         // Alliance Color
-        SendableChooser<DriverStation.Alliance> ALLIANCE_COLOR = new SendableChooser<>();
+        SendableChooser<Alliance> ALLIANCE_COLOR = getAllianceChooser();
 
-        public static void configureAllianceColor() {
-            Settings.ColorSensor.ALLIANCE_COLOR.setDefaultOption("Use FMS", Alliance.Invalid);
-            Settings.ColorSensor.ALLIANCE_COLOR.addOption("Red", Alliance.Red);
-            Settings.ColorSensor.ALLIANCE_COLOR.addOption("Blue", Alliance.Blue);
-    
-            SmartDashboard.putData("Alliance Color", Settings.ColorSensor.ALLIANCE_COLOR);
+        public static SendableChooser<Alliance> getAllianceChooser() {
+            SendableChooser<Alliance> ALLIANCE_COLOR = new SendableChooser<>();
+            ALLIANCE_COLOR.setDefaultOption("Use FMS", Alliance.Invalid);
+            ALLIANCE_COLOR.addOption("Red", Alliance.Red);
+            ALLIANCE_COLOR.addOption("Blue", Alliance.Blue);
+
+            return ALLIANCE_COLOR;
         }
     }
 
