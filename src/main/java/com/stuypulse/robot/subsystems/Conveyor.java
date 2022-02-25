@@ -79,6 +79,7 @@ public class Conveyor extends SubsystemBase {
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
+        setMode(ConveyorMode.DEFAULT);
     }
 
     /*** MODE CONTROL ***/
