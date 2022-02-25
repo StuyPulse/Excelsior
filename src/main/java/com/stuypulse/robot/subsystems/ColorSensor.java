@@ -51,7 +51,7 @@ public class ColorSensor extends SubsystemBase {
 
     public ColorSensor() {
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
-        Settings.ColorSensor.getAllianceChooser();
+        Settings.ColorSensor.configureAllianceColor();
         updateAllianceColor();
     }
 
