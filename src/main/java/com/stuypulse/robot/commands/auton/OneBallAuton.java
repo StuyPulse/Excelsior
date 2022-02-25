@@ -43,7 +43,7 @@ public class OneBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
     // Distance from start point to Ring (in meters)
-    private static final double DISTANCE_TO_RING = 2.0;
+    private static final double DISTANCE_TO_RING = 3.0;
 
     public OneBallAuton(RobotContainer robot) {
         // Starting up subsystems

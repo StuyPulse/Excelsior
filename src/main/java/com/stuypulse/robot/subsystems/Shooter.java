@@ -96,11 +96,19 @@ public class Shooter extends SubsystemBase {
         shooterPIDController.setI(ShooterPID.kI);
         shooterPIDController.setD(ShooterPID.kD);
         shooterPIDController.setFF(ShooterPID.kF);
+        shooterPIDController.setOutputRange(
+                Settings.Shooter.MIN_PID_OUTPUT, Settings.Shooter.MAX_PID_OUTPUT);
+        shooterPIDController.setIMaxAccum(Settings.Shooter.INTEGRAL_MAX_ADJUST, 0);
+        shooterPIDController.setIZone(Settings.Shooter.INTEGRAL_MAX_RPM_ERROR, 0);
 
         feederPIDController.setP(FeederPID.kP);
         feederPIDController.setI(FeederPID.kI);
         feederPIDController.setD(FeederPID.kD);
         feederPIDController.setFF(FeederPID.kF);
+        feederPIDController.setOutputRange(
+                Settings.Shooter.MIN_PID_OUTPUT, Settings.Shooter.MAX_PID_OUTPUT);
+        feederPIDController.setIMaxAccum(Settings.Shooter.INTEGRAL_MAX_ADJUST, 0);
+        feederPIDController.setIZone(Settings.Shooter.INTEGRAL_MAX_RPM_ERROR, 0);
     }
 
     /*** Speed Control ***/

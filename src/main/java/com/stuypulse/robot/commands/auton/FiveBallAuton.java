@@ -46,7 +46,6 @@ public class FiveBallAuton extends SequentialCommandGroup {
     private static final String FIVE_BALL_TO_TERMINAL = "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";
     private static final String FIVE_BALL_TERMINAL_TO_SHOOT = "FiveBallAuton/output/FiveBallShootTerminalBalls.wpilib.json";
     private static final String FIVE_BALL_TO_WALL_BALL = "FiveBallAuton/output/FiveBallGetWallBall.wpilib.json";
-    private static final String FIVE_BALL_SHOOT_WALL_BALL = "FiveBallAuton/output/FiveBallShootWallBall.wpilib.json";
 
     /** Creates a new FiveBallAuton. */
     public FiveBallAuton(RobotContainer robot) {
@@ -107,8 +106,6 @@ public class FiveBallAuton extends SequentialCommandGroup {
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
                         .fieldRelative());
         addCommands(  
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_SHOOT_WALL_BALL)
-                        .fieldRelative(),
                 new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME)

@@ -32,7 +32,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", false);
+    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     public interface Climber {
@@ -50,17 +50,19 @@ public interface Settings {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
         public interface BallColor {
-            Color RED = new Color(0.331, 0.428, 0.241);
+            Color RED = new Color(0.328, 0.436, 0.238);
             Color BLUE = new Color(0.2, 0.432, 0.368);
         }
 
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 150);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
     }
 
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
-        
-        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 1.0);
+
+        double DEBOUNCE_TIME = 0.20;
+
+        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
 
@@ -99,15 +101,15 @@ public interface Settings {
             double MAX_ACCELERATION = Units.feetToMeters(8.0);
 
             public interface FeedForward {
-                double kS = 0; // TODO: characterize
-                double kV = 0; // TODO: characterize
-                double kA = 0; // TODO: characterize
+                double kS = 0.20094; 
+                double kV = 1.6658;
+                double kA = 0.4515; 
             }
 
             public interface PID {
-                double kP = 0; // TODO: characterize
-                double kI = 0; // TODO: characterize
-                double kD = 0; // TODO: characterize
+                double kP = 1.5;
+                double kI = 0;
+                double kD = 0;
             }
         }
 
@@ -190,16 +192,22 @@ public interface Settings {
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
+        double INTEGRAL_MAX_RPM_ERROR = 500;
+        double INTEGRAL_MAX_ADJUST = 0.05;
+
+        double MIN_PID_OUTPUT = 0.0;
+        double MAX_PID_OUTPUT = 1.0;
+
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.00001;
+            double kI = 0.00000075;
             double kD = 0.0;
             double kF = 0.000174;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.00001;
+            double kI = 0.00000075;
             double kD = 0.0;
             double kF = 0.0001825;
         }
@@ -211,8 +219,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(40);
-        double RING_SHOT_DISTANCE =
-                Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
@@ -224,9 +231,13 @@ public interface Settings {
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
+        SmartNumber MAX_VELOCITY = new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
+
+        double DEBOUNCER_TIME = 0.3;
+
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
-                new SmartNumber("Limelight/Max Angle For Distance", 2.0);
+                new SmartNumber("Limelight/Max Angle For Distance", 2.5);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
         SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.12);
@@ -234,13 +245,13 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.05);
-        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.25);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.15);
+        SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 0.8);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 2.7);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.06);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
@@ -255,14 +266,14 @@ public interface Settings {
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.022);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.03);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0023);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0035);
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.06);
+                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD)

@@ -79,6 +79,11 @@ public interface Ports {
         int PWM_PORT = 0;
     }
 
+    public interface Pump {
+        // Sensors
+        int PRESSURE_SENSOR = 9;
+    }
+
     public interface Shooter {
         // Motors
         int LEFT_SHOOTER = 20;

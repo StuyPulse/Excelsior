@@ -71,13 +71,16 @@ public class RobotContainer {
         /*** Climber Control ***/
         /***********************/
 
-        new Button(() -> operator.getRightY() >= +0.75).whileHeld(new ClimberMoveUpCommand(climber));
+        new Button(() -> operator.getRightY() >= +0.75)
+                .whileHeld(new ClimberMoveUpCommand(climber));
         new Button(() -> operator.getRightY() <= -0.75)
                 .whenPressed(new IntakeRetractCommand(intake))
                 .whileHeld(new ClimberMoveDownCommand(climber));
 
-        new Button(() -> operator.getLeftX() >= +0.75).whenPressed(new ClimberMaxTiltCommand(climber));
-        new Button(() -> operator.getLeftX() <= -0.75).whenPressed(new ClimberNoTiltCommand(climber));
+        new Button(() -> operator.getLeftX() >= +0.75)
+                .whenPressed(new ClimberMaxTiltCommand(climber));
+        new Button(() -> operator.getLeftX() <= -0.75)
+                .whenPressed(new ClimberNoTiltCommand(climber));
 
         /*************************/
         /*** Conveyor Control ***/
@@ -93,7 +96,8 @@ public class RobotContainer {
         driver.getBottomButton()
                 .whileHeld(
                         new DrivetrainAlignCommand(
-                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE).perpetually());
+                                        drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
+                                .perpetually());
 
         /**********************/
         /*** Intake Control ***/
