@@ -91,6 +91,21 @@ public class ColorSensor extends SubsystemBase {
                             "DriverStation.getAlliance() returned invalid!", true);
                 }
 
+                return getAllianceColorFromSmartDashboard();
+        }
+    }
+
+    public CurrentBall getAllianceColorFromSmartDashboard() {
+        switch (SmartDashboard.getString("Alliance Color", "Invalid")) {
+            case "Blue":
+                return targetBall = CurrentBall.BLUE_BALL;
+            case "Red": 
+                return targetBall = CurrentBall.RED_BALL;
+            default: 
+                if (Settings.ENABLE_WARNINGS.get()) {
+                    DriverStation.reportWarning(
+                        "Alliance Color from SmartDashboard returned invalid!", true);
+                }
                 return targetBall = CurrentBall.NO_BALL;
         }
     }
