@@ -10,6 +10,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -48,9 +49,20 @@ public class ColorSensor extends SubsystemBase {
     private CurrentBall targetBall;
     private final ColorSensorV3 colorSensor;
 
+    // Alliance Color
+    public static SendableChooser<DriverStation.Alliance> ALLIANCE_COLOR = new SendableChooser<>();
+
     public ColorSensor() {
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
         getUpdateFromDriverStation();
+    }
+    
+    public void configureAllianceColor() {
+        ALLIANCE_COLOR.setDefaultOption("Invalid", DriverStation.Alliance.Invalid);
+        ALLIANCE_COLOR.addOption("Red", DriverStation.Alliance.Red);
+        ALLIANCE_COLOR.addOption("Blue", DriverStation.Alliance.Blue);
+
+        SmartDashboard.putData("Alliance Color", ALLIANCE_COLOR);
     }
 
     /*** IS CONNECTED ***/
@@ -80,26 +92,29 @@ public class ColorSensor extends SubsystemBase {
     /*** TARGET BALL DETERMINATION ***/
 
     public CurrentBall getUpdateFromDriverStation() {
-        switch (DriverStation.getAlliance()) {
-            case Blue:
-                return targetBall = CurrentBall.BLUE_BALL;
-            case Red:
-                return targetBall = CurrentBall.RED_BALL;
-            default:
-                if (Settings.ENABLE_WARNINGS.get()) {
-                    DriverStation.reportWarning(
-                            "DriverStation.getAlliance() returned invalid!", true);
-                }
-
-                return getAllianceColorFromSmartDashboard();
+        if (DriverStation.getAlliance() == ALLIANCE_COLOR.getSelected()) {
+            switch (DriverStation.getAlliance()) {
+                case Blue:
+                    return targetBall = CurrentBall.BLUE_BALL;
+                case Red:
+                    return targetBall = CurrentBall.RED_BALL;
+                default:
+                    if (Settings.ENABLE_WARNINGS.get()) {
+                        DriverStation.reportWarning(
+                                "DriverStation.getAlliance() returned invalid!", true);
+                    }
+    
+                    return getAllianceColorFromSmartDashboard();
+            }
         }
+        else { return getAllianceColorFromSmartDashboard(); }
     }
 
     public CurrentBall getAllianceColorFromSmartDashboard() {
-        switch (SmartDashboard.getString("Alliance Color", "Invalid")) {
-            case "Blue":
+        switch (ALLIANCE_COLOR.getSelected()) {
+            case Blue:
                 return targetBall = CurrentBall.BLUE_BALL;
-            case "Red": 
+            case Red: 
                 return targetBall = CurrentBall.RED_BALL;
             default: 
                 if (Settings.ENABLE_WARNINGS.get()) {

@@ -49,9 +49,6 @@ public class RobotContainer {
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 
-    // Alliance Color
-    private static SendableChooser<String> allianceColor = new SendableChooser<>();
-
     public RobotContainer() {
         // Disable telemetry to reduce lag
         LiveWindow.disableAllTelemetry();
@@ -61,16 +58,8 @@ public class RobotContainer {
         configureDefaultCommands();
         configureButtonBindings();
         configureAutons();
-
-        configureAllianceColor();
-    }
-
-    private void configureAllianceColor() {
-        allianceColor.setDefaultOption("Invalid", "Invalid");
-        allianceColor.addOption("Red", "Red");
-        allianceColor.addOption("Blue", "Blue");
-
-        SmartDashboard.putData("Alliance Color", allianceColor);
+        
+        colorSensor.configureAllianceColor();
     }
 
     private void configureDefaultCommands() {
