@@ -129,6 +129,10 @@ public class Conveyor extends SubsystemBase {
 
     /*** SENSOR INFORMATION ***/
 
+    public boolean getColorSensorConnected() {
+        return colorSensor.isConnected();
+    }
+
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
         return Settings.Conveyor.DISABLE_IR_SENSOR.get() || !topIRSensor.get();

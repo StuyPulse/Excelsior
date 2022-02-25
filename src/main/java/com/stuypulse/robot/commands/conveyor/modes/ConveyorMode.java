@@ -25,7 +25,11 @@ public enum ConveyorMode {
 
                 // Stop if you already have ball
                 else if (conveyor.getTopBeltHasBall()) {
-                    conveyor.setGandalf(Direction.STOPPED);
+                    if(conveyor.getColorSensorConnected()) {
+                        conveyor.setGandalf(Direction.STOPPED);
+                    } else {
+                        conveyor.setGandalf(Direction.FORWARD);
+                    }
                 }
 
                 // Accept Alliance Ball if no ball on top

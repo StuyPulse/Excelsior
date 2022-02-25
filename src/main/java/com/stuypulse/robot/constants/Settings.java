@@ -179,7 +179,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        double OPEN_LOOP_RATE = 0.15;
+        double OPEN_LOOP_RATE = 0.08;
     }
 
     public interface LED {
@@ -193,7 +193,7 @@ public interface Settings {
         double MIN_RPM = 100.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
@@ -229,7 +229,7 @@ public interface Settings {
 
         // TODO: Measure with ???
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 35.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
 
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
