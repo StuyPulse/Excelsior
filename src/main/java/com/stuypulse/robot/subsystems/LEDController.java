@@ -112,6 +112,8 @@ public class LEDController extends SubsystemBase {
          * finished green .75 second - Pick up a ball and sensed in the color sensor flash color of
          * ball .75 second blue/orange - Two correct ball green
          */
+        if (robot.pump.getCompressing()) return LEDColor.PINK_PULSE;
+
         if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
 
         if (robot.colorSensor.hasBall()) {

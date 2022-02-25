@@ -56,7 +56,7 @@ public class ColorSensor extends SubsystemBase {
     /*** IS CONNECTED ***/
 
     public boolean isConnected() {
-        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
+        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected() && getProximity() > 0;
     }
 
     /*** PROXIMITY DETERMINATION ***/

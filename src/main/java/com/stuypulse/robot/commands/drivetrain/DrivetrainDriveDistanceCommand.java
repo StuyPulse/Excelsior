@@ -20,4 +20,10 @@ public class DrivetrainDriveDistanceCommand extends DrivetrainRamseteCommand {
     public DrivetrainDriveDistanceCommand(Drivetrain drivetrain, double distance) {
         super(drivetrain, TrajectoryLoader.getLine(distance));
     }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        trajectory = trajectory.relativeTo(drivetrain.getPose());
+    }
 }

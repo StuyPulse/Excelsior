@@ -56,7 +56,7 @@ public interface Settings {
             Color BLUE = new Color(0.2, 0.432, 0.368);
         }
 
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 105);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
     }
 
     public interface Conveyor {
@@ -179,7 +179,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_MUL = new SmartNumber("Intake/Locked Mul", 0.1);
+        double OPEN_LOOP_RATE = 0.15;
     }
 
     public interface LED {
