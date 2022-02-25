@@ -200,14 +200,14 @@ public interface Settings {
 
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.0000005;
+            double kI = 0.00000075;
             double kD = 0.0;
             double kF = 0.000174;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.0000005;
+            double kI = 0.00000075;
             double kD = 0.0;
             double kF = 0.0001825;
         }

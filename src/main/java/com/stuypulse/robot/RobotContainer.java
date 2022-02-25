@@ -52,7 +52,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Disable telemetry to reduce lag
         LiveWindow.disableAllTelemetry();
-        DriverStation.silenceJoystickConnectionWarning(true);
+        DriverStation.silenceJoystickConnectionWarning(false);
 
         // Configure the button bindings
         configureDefaultCommands();

@@ -98,7 +98,9 @@ public class FourBallAuton extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
 
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
-                    .fieldRelative());
+                    .fieldRelative()
+                    .raceWith(new ConveyorIndexCommand.Ejectionless(robot.conveyor)));
+    
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
@@ -109,5 +111,6 @@ public class FourBallAuton extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
             new ConveyorShootCommand(robot.conveyor).perpetually()
         );
+
     }
 }
