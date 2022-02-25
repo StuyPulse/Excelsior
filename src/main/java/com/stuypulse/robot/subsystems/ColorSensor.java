@@ -51,7 +51,6 @@ public class ColorSensor extends SubsystemBase {
 
     public ColorSensor() {
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
-        Settings.ColorSensor.getAllianceChooser();
         updateAllianceColor();
     }
 
@@ -83,10 +82,10 @@ public class ColorSensor extends SubsystemBase {
 
     // Used to decide whether to use FMS or SmartDashboard provided alliance color
     public Alliance getAllianceColor() {
-        Alliance network = Settings.ColorSensor.ALLIANCE_COLOR.getSelected();
-        Alliance fms = DriverStation.getAlliance();
+        Alliance colorFromNetwork = Settings.ColorSensor.ALLIANCE_COLOR.getSelected();
+        Alliance colorFromFMS = DriverStation.getAlliance();
 
-        return network == Alliance.Invalid ? fms : network;
+        return colorFromNetwork == Alliance.Invalid ? colorFromFMS : colorFromNetwork;
     }
 
     public CurrentBall updateAllianceColor() {
