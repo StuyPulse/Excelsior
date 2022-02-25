@@ -95,7 +95,7 @@ public class ColorSensor extends SubsystemBase {
         Alliance network = Settings.ColorSensor.ALLIANCE_COLOR.getSelected();
         Alliance fms = DriverStation.getAlliance();
 
-        return network == DriverStation.Alliance.Invalid ? fms : network;
+        return network == Alliance.Invalid ? fms : network;
     }
 
     public CurrentBall updateAllianceColor() {
