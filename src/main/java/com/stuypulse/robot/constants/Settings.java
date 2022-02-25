@@ -49,12 +49,14 @@ public interface Settings {
     public interface ColorSensor {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
+        SmartBoolean COLOR_SENSOR_DEBUG = new SmartBoolean("Color Sensor/Debug", true);
+
         public interface BallColor {
             Color RED = new Color(0.328, 0.436, 0.238);
             Color BLUE = new Color(0.2, 0.432, 0.368);
         }
 
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
+        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 105);
     }
 
     public interface Conveyor {
@@ -177,7 +179,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_MUL = new SmartNumber("Intake/Locked Mul", 0.0);
+        SmartNumber LOCKED_MUL = new SmartNumber("Intake/Locked Mul", 0.1);
     }
 
     public interface LED {
@@ -195,21 +197,21 @@ public interface Settings {
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 0.05;
+        double INTEGRAL_MAX_ADJUST = 0.1;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.00000075;
+            double kI = 0.0000005;
             double kD = 0.0;
-            double kF = 0.000174;
+            double kF = 0.000175;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.00000075;
+            double kI = 0.0000005;
             double kD = 0.0;
             double kF = 0.0001825;
         }
