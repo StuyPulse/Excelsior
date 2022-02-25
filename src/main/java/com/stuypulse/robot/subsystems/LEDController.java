@@ -115,8 +115,6 @@ public class LEDController extends SubsystemBase {
          * ball .75 second blue/orange - Two correct ball green
          */
 
-         
-        
         if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
 
         if (robot.colorSensor.hasBall()) {
@@ -134,10 +132,17 @@ public class LEDController extends SubsystemBase {
             }
         }
 
-        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 200) {
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 100) {
+            return LEDColor.RED_SOLID;
+        }
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 100) {
+            return LEDColor.WHITE_SOLID;
+        }
+
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 500) {
             return LEDColor.RED_PULSE;
         }
-        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 200) {
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 500) {
             return LEDColor.WHITE_PULSE;
         }
 
