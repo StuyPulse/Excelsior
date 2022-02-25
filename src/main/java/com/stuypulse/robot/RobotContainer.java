@@ -58,8 +58,6 @@ public class RobotContainer {
         configureDefaultCommands();
         configureButtonBindings();
         configureAutons();
-        
-        colorSensor.configureAllianceColor();
     }
 
     private void configureDefaultCommands() {

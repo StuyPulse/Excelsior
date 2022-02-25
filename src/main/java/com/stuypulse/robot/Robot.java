@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_robotContainer.colorSensor.getUpdateFromDriverStation();
+        m_robotContainer.colorSensor.updateAllianceColor();
 
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        m_robotContainer.colorSensor.getUpdateFromDriverStation();
+        m_robotContainer.colorSensor.updateAllianceColor();
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
