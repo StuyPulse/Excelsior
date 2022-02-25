@@ -58,6 +58,7 @@ public class LEDController extends SubsystemBase {
 
         private final double color;
         private final boolean pulse;
+    
 
         LEDColor(double color, boolean pulse) {
             this.color = color;
@@ -83,6 +84,7 @@ public class LEDController extends SubsystemBase {
 
     // Stopwatch to check when to start overriding manual updates
     private final StopWatch lastUpdate;
+    private StopWatch lastUpdateTwo;
 
     // The robot container to get information from
     private final RobotContainer robot;
@@ -112,13 +114,23 @@ public class LEDController extends SubsystemBase {
          * finished green .75 second - Pick up a ball and sensed in the color sensor flash color of
          * ball .75 second blue/orange - Two correct ball green
          */
+
+         
+        
         if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
 
         if (robot.colorSensor.hasBall()) {
             if (robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL) {
-                return LEDColor.BLUE_SOLID;
+                this.lastUpdateTwo = new StopWatch();
+               
+               while (lastUpdateTwo.getTime() < .75){
+                    return LEDColor.BLUE_SOLID;
+               }
+
             } else {
-                return LEDColor.ORANGE_SOLID;
+                while (lastUpdateTwo.getTime() < .75){
+                    return LEDColor.ORANGE_SOLID;
+               };
             }
         }
 
