@@ -84,7 +84,7 @@ public class LEDController extends SubsystemBase {
 
     // Stopwatch to check when to start overriding manual updates
     private final StopWatch lastUpdate;
-    private StopWatch lastUpdateTwo;
+    private StopWatch colorSensorLEDDelay;
 
     // The robot container to get information from
     private final RobotContainer robot;
@@ -119,14 +119,14 @@ public class LEDController extends SubsystemBase {
 
         if (robot.colorSensor.hasBall()) {
             if (robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL) {
-                this.lastUpdateTwo = new StopWatch();
+                this.colorSensorLEDDelay = new StopWatch();
                
-               while (lastUpdateTwo.getTime() < .75){
+               while (colorSensorLEDDelay.getTime() < .75){
                     return LEDColor.BLUE_SOLID;
                }
 
             } else {
-                while (lastUpdateTwo.getTime() < .75){
+                while (colorSensorLEDDelay.getTime() < .75){
                     return LEDColor.ORANGE_SOLID;
                };
             }
