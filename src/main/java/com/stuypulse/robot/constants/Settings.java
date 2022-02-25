@@ -19,7 +19,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 import java.nio.file.Path;
@@ -59,7 +61,15 @@ public interface Settings {
         SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
         
         // Alliance Color
-    public static SendableChooser<DriverStation.Alliance> ALLIANCE_COLOR = new SendableChooser<>();
+        SendableChooser<DriverStation.Alliance> ALLIANCE_COLOR = new SendableChooser<>();
+
+        public static void configureAllianceColor() {
+            Settings.ColorSensor.ALLIANCE_COLOR.setDefaultOption("Use FMS", Alliance.Invalid);
+            Settings.ColorSensor.ALLIANCE_COLOR.addOption("Red", Alliance.Red);
+            Settings.ColorSensor.ALLIANCE_COLOR.addOption("Blue", Alliance.Blue);
+    
+            SmartDashboard.putData("Alliance Color", Settings.ColorSensor.ALLIANCE_COLOR);
+        }
     }
 
     public interface Conveyor {

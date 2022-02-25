@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.sql.Driver;
-
 import com.revrobotics.ColorSensorV3;
 
 /*-
@@ -53,16 +51,8 @@ public class ColorSensor extends SubsystemBase {
 
     public ColorSensor() {
         colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
-        configureAllianceColor();
+        Settings.ColorSensor.getAllianceChooser();
         updateAllianceColor();
-    }
-    
-    public void configureAllianceColor() {
-        Settings.ColorSensor.ALLIANCE_COLOR.setDefaultOption("Use FMS", Alliance.Invalid);
-        Settings.ColorSensor.ALLIANCE_COLOR.addOption("Red", Alliance.Red);
-        Settings.ColorSensor.ALLIANCE_COLOR.addOption("Blue", Alliance.Blue);
-
-        SmartDashboard.putData("Alliance Color", Settings.ColorSensor.ALLIANCE_COLOR);
     }
 
     /*** IS CONNECTED ***/
@@ -91,6 +81,7 @@ public class ColorSensor extends SubsystemBase {
 
     /*** TARGET BALL DETERMINATION ***/
 
+    // Used to decide whether to use FMS or SmartDashboard provided alliance color
     public Alliance getAllianceColor() {
         Alliance network = Settings.ColorSensor.ALLIANCE_COLOR.getSelected();
         Alliance fms = DriverStation.getAlliance();
