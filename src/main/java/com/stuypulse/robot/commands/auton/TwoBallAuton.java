@@ -64,7 +64,8 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
+                new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING / 2));
 
         addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
     }
