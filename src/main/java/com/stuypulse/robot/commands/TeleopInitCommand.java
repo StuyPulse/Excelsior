@@ -10,7 +10,6 @@ import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.subsystems.Climber.Tilt;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class TeleopInitCommand extends InstantCommand {

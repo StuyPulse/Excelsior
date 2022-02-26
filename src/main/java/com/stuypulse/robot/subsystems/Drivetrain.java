@@ -173,7 +173,8 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the current gear the robot is in
     public void setGear(Gear gear) {
-        gearShift.set((this.gear = gear).value);
+        gearShift.set(gear.value);
+        this.gear = gear;
     }
 
     // Sets robot into low gear
@@ -340,19 +341,19 @@ public class Drivetrain extends SubsystemBase {
     }
 
     private boolean isLeftStalling() {
-        boolean gear = getGear() == Gear.HIGH;
+        boolean highGear = getGear() == Gear.HIGH;
         boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(leftMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
         boolean velocity = Math.abs(getLeftVelocity()) < Stalling.VELOCITY_THESHOLD;
-        return gear && (current || output) && velocity;
+        return highGear && (current || output) && velocity;
     }
 
     private boolean isRightStalling() {
-        boolean gear = getGear() == Gear.HIGH;
+        boolean highGear = getGear() == Gear.HIGH;
         boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(rightMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
         boolean velocity = Math.abs(getRightVelocity()) < Stalling.VELOCITY_THESHOLD;
-        return gear && (current || output) && velocity;
+        return highGear && (current || output) && velocity;
     }
 
     public boolean isStalling() {
@@ -380,7 +381,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Drives using curvature drive algorithm
     public void curvatureDrive(double xSpeed, double zRotation, double baseTS) {
-        // Clamp all inputs to valid values;
+        // Clamp all inputs to valid values
         xSpeed = SLMath.clamp(xSpeed, -1.0, 1.0);
         zRotation = SLMath.clamp(zRotation, -1.0, 1.0);
         baseTS = SLMath.clamp(baseTS, 0.0, 1.0);

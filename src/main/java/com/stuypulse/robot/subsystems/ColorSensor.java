@@ -41,29 +41,44 @@ public class ColorSensor extends SubsystemBase {
 
     private static class Sensor {
 
-        private final ColorSensorV3 sensor;
+        private final ColorSensorV3 colorSensor;
 
         public boolean connected;
         public int proximity;
         public Color color;
 
         public Sensor() {
-            sensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+            colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
         }
 
         public void update() {
-            if (Settings.ColorSensor.ENABLED.get()
-                    && (connected = sensor.isConnected())
-                    && ((proximity = sensor.getProximity()) != 0)) {
-                color = sensor.getColor();
-            } else {
-                connected = false;
-                proximity = 69420;
-                color = Color.kBlack;
+            if (!Settings.ColorSensor.ENABLED.get()) {
+                updateFail();
+                return;
+            }
 
-                if (Settings.ENABLE_WARNINGS.get() && Settings.ColorSensor.ENABLED.get()) {
-                    DriverStation.reportWarning("Color Sensor is disconnected!", true);
-                }
+            this.connected = colorSensor.isConnected();
+            if (!this.connected) {
+                updateFail();
+                return;
+            }
+
+            this.proximity = colorSensor.getProximity();
+            if (this.proximity <= 0) {
+                updateFail();
+                return;
+            }
+
+            this.color = colorSensor.getColor();
+        }
+
+        private void updateFail() {
+            this.connected = false;
+            this.proximity = 69420;
+            this.color = Color.kBlack;
+
+            if (Settings.ENABLE_WARNINGS.get() && Settings.ColorSensor.ENABLED.get()) {
+                DriverStation.reportWarning("Color Sensor is disconnected!", true);
             }
         }
     }
@@ -108,17 +123,22 @@ public class ColorSensor extends SubsystemBase {
     public CurrentBall getUpdateFromDriverStation() {
         switch (DriverStation.getAlliance()) {
             case Blue:
-                return targetBall = CurrentBall.BLUE_BALL;
+                targetBall = CurrentBall.BLUE_BALL;
+                break;
             case Red:
-                return targetBall = CurrentBall.RED_BALL;
+                targetBall = CurrentBall.RED_BALL;
+                break;
             default:
                 if (Settings.ENABLE_WARNINGS.get()) {
                     DriverStation.reportWarning(
                             "DriverStation.getAlliance() returned invalid!", true);
                 }
 
-                return targetBall = CurrentBall.NO_BALL;
+                targetBall = CurrentBall.NO_BALL;
+                break;
         }
+
+        return targetBall;
     }
 
     public CurrentBall getTargetBall() {
