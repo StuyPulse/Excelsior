@@ -52,14 +52,16 @@ public class ColorSensor extends SubsystemBase {
         }
 
         public void update() {
-            if ((connected = sensor.isConnected()) || ((proximity = sensor.getProximity()) != 0)) {
+            if (Settings.ColorSensor.ENABLED.get()
+                    && (connected = sensor.isConnected())
+                    && ((proximity = sensor.getProximity()) != 0)) {
                 color = sensor.getColor();
             } else {
                 connected = false;
                 proximity = 69420;
                 color = Color.kBlack;
 
-                if (Settings.ENABLE_WARNINGS.get()) {
+                if (Settings.ENABLE_WARNINGS.get() && Settings.ColorSensor.ENABLED.get()) {
                     DriverStation.reportWarning("Color Sensor is disconnected!", true);
                 }
             }
@@ -83,7 +85,7 @@ public class ColorSensor extends SubsystemBase {
     /*** IS CONNECTED ***/
 
     public boolean isConnected() {
-        return Settings.ColorSensor.ENABLED.get() && sensor.connected;
+        return sensor.connected;
     }
 
     /*** PROXIMITY DETERMINATION ***/
