@@ -70,6 +70,8 @@ public interface Settings {
 
         double DEBOUNCE_TIME = 0.25;
 
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
+
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
@@ -117,7 +119,7 @@ public interface Settings {
             }
 
             public interface PID {
-                double kP = 1.5;
+                double kP = 1.0;
                 double kI = 0;
                 double kD = 0;
             }

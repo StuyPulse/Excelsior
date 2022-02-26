@@ -51,6 +51,7 @@ public class Conveyor extends SubsystemBase {
 
     public enum Direction {
         FORWARD,
+        FORWARD_SLOW,
         STOPPED,
         REVERSE
     }
@@ -96,6 +97,9 @@ public class Conveyor extends SubsystemBase {
             case FORWARD:
                 topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
                 break;
+            case FORWARD_SLOW:
+                gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get() * Settings.Conveyor.SLOW_MUL.get());
+                break;
             case STOPPED:
                 topBeltMotor.stopMotor();
                 break;
@@ -109,6 +113,9 @@ public class Conveyor extends SubsystemBase {
         switch (gandalfDirection = direction) {
             case FORWARD:
                 gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
+                break;
+            case FORWARD_SLOW:
+                gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get() * Settings.Conveyor.SLOW_MUL.get());
                 break;
             case STOPPED:
                 gandalfMotor.stopMotor();
