@@ -49,8 +49,6 @@ public interface Settings {
     public interface ColorSensor {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
-        SmartBoolean COLOR_SENSOR_DEBUG = new SmartBoolean("Color Sensor/Debug", true);
-
         public interface BallColor {
             Color RED = new Color(0.328, 0.436, 0.238);
             Color BLUE = new Color(0.2, 0.432, 0.368);

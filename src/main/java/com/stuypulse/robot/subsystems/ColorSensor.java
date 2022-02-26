@@ -188,7 +188,7 @@ public class ColorSensor extends SubsystemBase {
     public void periodic() {
         sensor.update();
 
-        if (Settings.ColorSensor.COLOR_SENSOR_DEBUG.get() && Settings.DEBUG_MODE.get()) {
+        if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
             SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));
