@@ -719,7 +719,7 @@
               "_title": "SmartDashboard/Shooter/Target"
             }
           },
-          "5,0": {
+          "6,0": {
             "size": [
               5,
               3
@@ -772,7 +772,7 @@
               "_title": "Feeder RPM"
             }
           },
-          "5,3": {
+          "6,3": {
             "size": [
               5,
               3
