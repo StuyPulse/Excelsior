@@ -7,8 +7,6 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.network.SmartBoolean;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,14 +26,10 @@ public class Pump extends SubsystemBase {
     private final SmartBoolean enabled;
     private final Compressor compressor;
 
-    private final Debouncer disable;
-
     public Pump() {
         enabled = new SmartBoolean("Pump/Compressor Enabled", true);
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-
-        disable = new Debouncer(1.0, DebounceType.kRising);
-
+        
         stop();
     }
 
@@ -58,22 +52,10 @@ public class Pump extends SubsystemBase {
         enabled.set(compressing);
     }
 
-    // Determine if we should disable the pump
-    private boolean shouldDisable() {
-        return disable.calculate(
-            enabled.get() &&
-            !getCompressing()
-        );
-    }
-
     @Override
     public void periodic() {
         if (enabled.get()) {
             compressor.enableDigital();
-
-            if (shouldDisable()) {
-                stop();
-            }
         } else {
             compressor.disable();
         }

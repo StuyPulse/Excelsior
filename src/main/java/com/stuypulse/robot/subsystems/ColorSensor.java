@@ -9,6 +9,7 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -40,46 +41,20 @@ import com.revrobotics.ColorSensorV3;
 public class ColorSensor extends SubsystemBase {
 
     private static class Sensor {
-
         private final ColorSensorV3 colorSensor;
-
         public boolean connected;
-        public int proximity;
         public Color color;
 
         public Sensor() {
-            colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+            colorSensor = new ColorSensorV3(Ports.ColorSensor.COLOR_SENSOR);
         }
 
         public void update() {
-            if (!Settings.ColorSensor.ENABLED.get()) {
-                updateFail();
-                return;
-            }
-
-            this.connected = colorSensor.isConnected();
-            if (!this.connected) {
-                updateFail();
-                return;
-            }
-
-            this.proximity = colorSensor.getProximity();
-            if (this.proximity <= 0) {
-                updateFail();
-                return;
-            }
+            this.connected = Settings.ColorSensor.ENABLED.get();
+            this.connected &= !DriverStation.isAutonomous();
+            this.connected &= colorSensor.isConnected();
 
             this.color = colorSensor.getColor();
-        }
-
-        private void updateFail() {
-            this.connected = false;
-            this.proximity = 69420;
-            this.color = Color.kBlack;
-
-            if (Settings.ColorSensor.ENABLED.get()) {
-                Settings.reportWarning("Color Sensor is disconnected!");
-            }
         }
     }
 
@@ -90,10 +65,15 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private CurrentBall targetBall;
+
     private final Sensor sensor;
+    private final DigitalInput ballIR;
 
     public ColorSensor() {
         sensor = new Sensor();
+
+        ballIR = new DigitalInput(Ports.ColorSensor.BALL_IR_SENSOR);
+
         getUpdateFromDriverStation();
     }
 
@@ -105,17 +85,8 @@ public class ColorSensor extends SubsystemBase {
 
     /*** PROXIMITY DETERMINATION ***/
 
-    // Returns value from 0 - 2047 [higher == closer]
-    private int getProximity() {
-        return sensor.proximity;
-    }
-
     public boolean hasBall() {
-        if (!isConnected()) {
-            return true;
-        }
-
-        return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
+        return !ballIR.get();
     }
 
     /*** TARGET BALL DETERMINATION ***/
@@ -172,7 +143,7 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
-            return true;
+            return hasBall();
         }
 
         return hasBall() && getCurrentBall() == getTargetBall();
@@ -202,8 +173,6 @@ public class ColorSensor extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Opponent Ball", hasOpponentBall());
-
-            SmartDashboard.putNumber("Debug/Color Sensor/Proximity", getProximity());
         }
     }
 }

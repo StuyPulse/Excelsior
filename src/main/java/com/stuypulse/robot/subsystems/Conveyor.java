@@ -93,7 +93,8 @@ public class Conveyor extends SubsystemBase {
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
     public void setTopBelt(Direction direction) {
-        switch (topBeltDirection = direction) {
+        topBeltDirection = direction;
+        switch (direction) {
             case FORWARD:
                 topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
                 break;
@@ -110,7 +111,8 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void setGandalf(Direction direction) {
-        switch (gandalfDirection = direction) {
+        gandalfDirection = direction;
+        switch (direction) {
             case FORWARD:
                 gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
                 break;
@@ -156,7 +158,7 @@ public class Conveyor extends SubsystemBase {
     /*** AUTOMATIC RETRACTION ***/
 
     public boolean isFull() {
-        return colorSensor.isConnected() && getTopBeltHasBall() && hasAllianceBall();
+        return getTopBeltHasBall() && hasAllianceBall();
     }
 
     public boolean shouldRetractIntake() {

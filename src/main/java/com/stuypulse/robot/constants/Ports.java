@@ -31,7 +31,10 @@ public interface Ports {
         int TOP_LIMIT_SWITCH = 7;
     }
 
-    I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
+    public interface ColorSensor {
+        I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
+        int BALL_IR_SENSOR = 4;
+    }
 
     public interface Conveyor {
         // Motors
