@@ -40,7 +40,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class Intake extends SubsystemBase {
 
-    private double speed;
+    public static double speed;
 
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
@@ -72,20 +72,20 @@ public class Intake extends SubsystemBase {
     }
 
     /*** Acquire / Deaqcuire ***/
-    public void setMotor(double speed) {
-        this.speed = speed;
+    public void setMotor(double newSpeed) {
+        speed = newSpeed;
     }
 
     public void stop() {
-        this.speed = 0.0;
+        speed = 0.0;
     }
 
     public void acquire() {
-        this.speed = +Settings.Intake.MOTOR_SPEED.get();
+        speed = +Settings.Intake.MOTOR_SPEED.get();
     }
 
     public void deacquire() {
-        this.speed = -Settings.Intake.MOTOR_SPEED.get();
+        speed = -Settings.Intake.MOTOR_SPEED.get();
     }
 
     /*** Color Sensor Information ***/
@@ -96,10 +96,10 @@ public class Intake extends SubsystemBase {
     /*** Debug Information ***/
     @Override
     public void periodic() {
-        if (0.0 <= this.speed && getShouldStop()) {
-            motor.set(this.speed * Settings.Intake.LOCKED_SPEED.get());
+        if (0.0 <= speed && getShouldStop()) {
+            motor.set(speed * Settings.Intake.LOCKED_SPEED.get());
         } else {
-            motor.set(this.speed);
+            motor.set(speed);
         }
 
         if (Settings.DEBUG_MODE.get()) {

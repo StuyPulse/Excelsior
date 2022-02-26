@@ -8,6 +8,7 @@ package com.stuypulse.robot.commands.conveyor.modes;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
+import com.stuypulse.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -25,10 +26,11 @@ public enum ConveyorMode {
 
                 // Stop if you already have ball
                 else if (conveyor.getTopBeltHasBall()) {
-                    if (conveyor.getColorSensorConnected()) {
-                        conveyor.setGandalf(Direction.STOPPED);
-                    } else {
+                    if (!conveyor.getColorSensorConnected()
+                            && (Intake.speed > (Settings.Intake.MOTOR_SPEED.get() / 2))) {
                         conveyor.setGandalf(Direction.FORWARD);
+                    } else {
+                        conveyor.setGandalf(Direction.STOPPED);
                     }
                 }
 
