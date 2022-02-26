@@ -75,6 +75,7 @@ public class RobotContainer {
                 .whileHeld(new ClimberMoveUpCommand(climber));
         new Button(() -> operator.getRightY() <= -0.75)
                 .whenPressed(new IntakeRetractCommand(intake))
+                .whenPressed(new ShooterStopCommand(shooter))
                 .whileHeld(new ClimberMoveDownCommand(climber));
 
         new Button(() -> operator.getLeftX() >= +0.75)
@@ -129,9 +130,9 @@ public class RobotContainer {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
         autonChooser.addOption("No Encoders (moby)", new MobilityAuton.NoEncoders(this));
-        autonChooser.setDefaultOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
+        autonChooser.addOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
         autonChooser.addOption("One Ball", new OneBallAuton(this));
-        autonChooser.addOption("Two Ball", new TwoBallAuton(this));
+        autonChooser.setDefaultOption("Two Ball", new TwoBallAuton(this));
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
         autonChooser.addOption("Five Ball", new FiveBallAuton(this));
         // alternate Five Ball Auton
