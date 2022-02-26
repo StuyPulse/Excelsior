@@ -10,6 +10,7 @@ import com.stuypulse.stuylib.util.StopWatch;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -84,7 +85,7 @@ public class LEDController extends SubsystemBase {
     private final StopWatch lastUpdate;
 
     // The robot container to get information from
-    private final RobotContainer robotContainer;
+    private final RobotContainer robot;
 
     // The current color to set the LEDs to
     private LEDColor manualColor;
@@ -92,7 +93,7 @@ public class LEDController extends SubsystemBase {
     public LEDController(RobotContainer container) {
         this.controller = new PWMSparkMax(Ports.LEDController.PWM_PORT);
         this.lastUpdate = new StopWatch();
-        this.robotContainer = container;
+        this.robot = container;
 
         setColor(LEDColor.OFF);
     }
@@ -103,10 +104,36 @@ public class LEDController extends SubsystemBase {
     }
 
     public LEDColor getDefaultColor() {
-        // TODO: Add if statements that check sensor values to update LEDController
+        /**
+         * - In fender shot mode led white - Ring shot red
+         *
+         * <p>All other behavior overides it - When shooter is getting to speed not yet the rpm
+         * flashing the color its suppose to be - When robot aligning solid yellow - When alignment
+         * finished green .75 second - Pick up a ball and sensed in the color sensor flash color of
+         * ball .75 second blue/orange - Two correct ball green
+         */
+        if (robot.pump.getCompressing()) return LEDColor.PINK_PULSE;
+
+        if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
+
+        if (robot.colorSensor.hasBall()) {
+            if (robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL) {
+                return LEDColor.BLUE_SOLID;
+            } else {
+                return LEDColor.ORANGE_SOLID;
+            }
+        }
+
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 200) {
+            return LEDColor.RED_PULSE;
+        }
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 200) {
+            return LEDColor.WHITE_PULSE;
+        }
+
         return LEDColor.OFF;
     }
-
+        
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value

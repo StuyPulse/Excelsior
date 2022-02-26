@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public class DrivetrainRamseteCommand extends RamseteCommand {
 
-    private boolean resetPosition;
-    private Trajectory trajectory;
-    private Drivetrain drivetrain;
+    protected boolean resetPosition;
+    protected Trajectory trajectory;
+    protected Drivetrain drivetrain;
 
     public DrivetrainRamseteCommand(Drivetrain drivetrain, Trajectory trajectory) {
         super(

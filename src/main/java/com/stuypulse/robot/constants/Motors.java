@@ -21,7 +21,7 @@ public interface Motors {
     Config CLIMBER = new Config(true, IdleMode.kBrake, 80);
 
     public interface Conveyor {
-        Config GANDALF = new Config(true, IdleMode.kBrake, 60);
+        Config GANDALF = new Config(true, IdleMode.kBrake, 80);
         Config TOP_BELT = new Config(false, IdleMode.kBrake, 60);
     }
 

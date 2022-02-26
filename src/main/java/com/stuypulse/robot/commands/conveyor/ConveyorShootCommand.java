@@ -5,9 +5,9 @@
 
 package com.stuypulse.robot.commands.conveyor;
 
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
@@ -35,42 +35,25 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorShootCommand extends CommandBase {
 
-    public static class Ejectionless extends ConveyorShootCommand {
-        public Ejectionless(Conveyor conveyor) {
-            super(conveyor, true);
-        }
-    }
-
     private final Debouncer finished;
     private final Conveyor conveyor;
-    private final boolean ejectionless;
 
     /** Creates a new ConveyorShootCommand. */
-    private ConveyorShootCommand(Conveyor conveyor, boolean ejectionless) {
+    public ConveyorShootCommand(Conveyor conveyor) {
         this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
         this.conveyor = conveyor;
-        this.ejectionless = ejectionless;
 
         addRequirements(conveyor);
     }
 
-    public ConveyorShootCommand(Conveyor conveyor) {
-        this(conveyor, false);
-    }
-
     @Override
     public void execute() {
-        conveyor.setTopBelt(Direction.FORWARD);
-        conveyor.setGandalf(
-                !ejectionless && conveyor.hasOpponentBall()
-                        ? Direction.REVERSE
-                        : Direction.FORWARD);
+        conveyor.setMode(ConveyorMode.SHOOT);
     }
 
     @Override
     public void end(boolean interrupted) {
-        conveyor.setGandalf(Direction.STOPPED);
-        conveyor.setTopBelt(Direction.STOPPED);
+        conveyor.setMode(ConveyorMode.DEFAULT);
     }
 
     private boolean hasBall() {

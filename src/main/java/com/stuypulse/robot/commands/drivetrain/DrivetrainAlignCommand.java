@@ -8,6 +8,7 @@ package com.stuypulse.robot.commands.drivetrain;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Drivetrain;
@@ -93,9 +94,10 @@ public class DrivetrainAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return finished.calculate(Target.hasTarget()
-                && drivetrain.getVelocity() < Limelight.MAX_VELOCITY.get()
-                && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
-                && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get()));
+        return finished.calculate(
+                Target.hasTarget()
+                        && drivetrain.getVelocity() < Limelight.MAX_VELOCITY.get()
+                        && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
+                        && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get()));
     }
 }

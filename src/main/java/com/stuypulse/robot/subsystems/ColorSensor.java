@@ -56,7 +56,7 @@ public class ColorSensor extends SubsystemBase {
     /*** IS CONNECTED ***/
 
     public boolean isConnected() {
-        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
+        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected() && getProximity() > 0;
     }
 
     /*** PROXIMITY DETERMINATION ***/
@@ -66,7 +66,7 @@ public class ColorSensor extends SubsystemBase {
         return colorSensor.getProximity();
     }
 
-    private boolean hasBall() {
+    public boolean hasBall() {
         if (!isConnected()) {
             if (Settings.ENABLE_WARNINGS.get()) {
                 DriverStation.reportWarning("Color Sensor is disconnected!", true);
@@ -95,7 +95,7 @@ public class ColorSensor extends SubsystemBase {
         }
     }
 
-    private CurrentBall getTargetBall() {
+    public CurrentBall getTargetBall() {
         return targetBall;
     }
 
@@ -112,7 +112,7 @@ public class ColorSensor extends SubsystemBase {
         return colorSensor.getColor();
     }
 
-    private CurrentBall getCurrentBall() {
+    public CurrentBall getCurrentBall() {
         Color color = getRawColor();
 
         double redError = getColorDistance(color, BallColor.RED);
@@ -163,8 +163,7 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-        if (Settings.DEBUG_MODE.get()) {
+        if (Settings.ColorSensor.COLOR_SENSOR_DEBUG.get() && Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
             SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));

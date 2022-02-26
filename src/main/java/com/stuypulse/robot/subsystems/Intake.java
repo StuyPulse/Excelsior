@@ -49,6 +49,7 @@ public class Intake extends SubsystemBase {
 
     public Intake(ColorSensor colorSensor) {
         this.motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        this.motor.setOpenLoopRampRate(Settings.Intake.OPEN_LOOP_RATE);
         Motors.INTAKE.configure(motor);
 
         this.solenoid =
@@ -97,7 +98,7 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (0.0 <= this.speed && getShouldStop()) {
-            motor.set(this.speed * Settings.Intake.LOCKED_MUL.get());
+            motor.set(0);
         } else {
             motor.set(this.speed);
         }
