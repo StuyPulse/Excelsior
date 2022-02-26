@@ -70,7 +70,7 @@ public interface Settings {
 
         double DEBOUNCE_TIME = 0.25;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -187,7 +187,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 1.0 / 16.0);
+        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 1.0 / 4.0);
     }
 
     public interface LED {
