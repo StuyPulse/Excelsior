@@ -25,7 +25,7 @@ public enum ConveyorMode {
 
                 // Stop if you already have ball
                 else if (conveyor.getTopBeltHasBall()) {
-                    if(conveyor.getColorSensorConnected()) {
+                    if (conveyor.getColorSensorConnected()) {
                         conveyor.setGandalf(Direction.STOPPED);
                     } else {
                         conveyor.setGandalf(Direction.FORWARD);

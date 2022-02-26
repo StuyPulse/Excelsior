@@ -133,7 +133,7 @@ public class LEDController extends SubsystemBase {
 
         return LEDColor.OFF;
     }
-        
+
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value

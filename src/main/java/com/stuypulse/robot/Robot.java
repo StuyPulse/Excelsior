@@ -86,8 +86,6 @@ public class Robot extends TimedRobot {
         robot.conveyor.setTopBelt(Direction.STOPPED);
         robot.conveyor.setGandalf(Direction.STOPPED);
 
-        
-
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
