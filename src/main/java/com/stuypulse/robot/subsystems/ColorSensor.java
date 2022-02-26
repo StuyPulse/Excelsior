@@ -39,6 +39,29 @@ import com.revrobotics.ColorSensorV3;
  */
 public class ColorSensor extends SubsystemBase {
 
+    private static class Sensor {
+
+        private final ColorSensorV3 sensor;
+
+        public boolean connected;
+        public int proximity;
+        public Color color;
+
+        public Sensor() {
+            sensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+        }
+
+        public void update() {
+            if ((connected = sensor.isConnected()) || ((proximity = sensor.getProximity()) != 0)) {
+                color = sensor.getColor();
+            } else {
+                connected = false;
+                proximity = 0;
+                color = Color.kBlack;
+            }
+        }
+    }
+
     public enum CurrentBall {
         RED_BALL,
         BLUE_BALL,
@@ -46,24 +69,24 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private CurrentBall targetBall;
-    private final ColorSensorV3 colorSensor;
+    private final Sensor sensor;
 
     public ColorSensor() {
-        colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+        sensor = new Sensor();
         getUpdateFromDriverStation();
     }
 
     /*** IS CONNECTED ***/
 
     public boolean isConnected() {
-        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected() && getProximity() > 0;
+        return Settings.ColorSensor.ENABLED.get() && sensor.connected;
     }
 
     /*** PROXIMITY DETERMINATION ***/
 
     // Returns value from 0 - 2047 [higher == closer]
     private int getProximity() {
-        return colorSensor.getProximity();
+        return sensor.proximity;
     }
 
     public boolean hasBall() {
@@ -109,7 +132,7 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private Color getRawColor() {
-        return colorSensor.getColor();
+        return sensor.color;
     }
 
     public CurrentBall getCurrentBall() {
@@ -163,6 +186,8 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
+        sensor.update();
+
         if (Settings.ColorSensor.COLOR_SENSOR_DEBUG.get() && Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
