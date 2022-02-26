@@ -177,7 +177,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        double OPEN_LOOP_RATE = 0.08;
+        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 1.0 / 16.0);
     }
 
     public interface LED {

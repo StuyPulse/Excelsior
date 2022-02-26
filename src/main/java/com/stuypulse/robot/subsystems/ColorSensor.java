@@ -56,8 +56,12 @@ public class ColorSensor extends SubsystemBase {
                 color = sensor.getColor();
             } else {
                 connected = false;
-                proximity = 0;
+                proximity = 69420;
                 color = Color.kBlack;
+
+                if (Settings.ENABLE_WARNINGS.get()) {
+                    DriverStation.reportWarning("Color Sensor is disconnected!", true);
+                }
             }
         }
     }
@@ -91,12 +95,9 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasBall() {
         if (!isConnected()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            }
-
             return true;
         }
+
         return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
     }
 
@@ -152,10 +153,6 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            }
-
             return true;
         }
 
@@ -164,10 +161,6 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            }
-
             return false;
         }
 
