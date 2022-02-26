@@ -171,14 +171,6 @@ public class ColorSensor extends SubsystemBase {
 
     /*** DEBUG INFORMATION ***/
 
-    private static String colorToString(Color color) {
-        StringBuilder output = new StringBuilder(36);
-        output.append("[r: ").append(Math.round(1000.0 * color.red) / 1000.0).append(",");
-        output.append(" g: ").append(Math.round(1000.0 * color.green) / 1000.0).append(",");
-        output.append(" b: ").append(Math.round(1000.0 * color.blue) / 1000.0).append("]");
-        return output.toString();
-    }
-
     @Override
     public void periodic() {
         sensor.update();
@@ -186,14 +178,13 @@ public class ColorSensor extends SubsystemBase {
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
 
-            SmartDashboard.putString("Debug/Color Sensor/Raw Color", colorToString(getRawColor()));
+            SmartDashboard.putNumber("Debug/Color Sensor/Color R", getRawColor().red);
+            SmartDashboard.putNumber("Debug/Color Sensor/Color G", getRawColor().green);
+            SmartDashboard.putNumber("Debug/Color Sensor/Color B", getRawColor().blue);
 
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Any Ball", hasBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Alliance Ball", hasAllianceBall());
             SmartDashboard.putBoolean("Debug/Color Sensor/Has Opponent Ball", hasOpponentBall());
-
-            SmartDashboard.putString("Debug/Color Sensor/Current Ball", getCurrentBall().name());
-            SmartDashboard.putString("Debug/Color Sensor/Target Ball", getTargetBall().name());
 
             SmartDashboard.putNumber("Debug/Color Sensor/Proximity", getProximity());
         }

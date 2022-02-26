@@ -423,9 +423,9 @@ public class Drivetrain extends SubsystemBase {
         if (Settings.DEBUG_MODE.get()) {
 
             SmartDashboard.putData("Debug/Drivetrain/Field", field);
-            SmartDashboard.putString(
-                    "Debug/Drivetrain/Current Gear",
-                    getGear().equals(Gear.HIGH) ? "High Gear" : "Low Gear");
+            SmartDashboard.putBoolean(
+                    "Debug/Drivetrain/High Gear",
+                    getGear().equals(Gear.HIGH));
             SmartDashboard.putNumber("Debug/Drivetrain/Odometer X Position (m)", getPose().getX());
             SmartDashboard.putNumber("Debug/Drivetrain/Odometer Y Position (m)", getPose().getY());
             SmartDashboard.putNumber(
