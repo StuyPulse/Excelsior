@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -54,6 +55,8 @@ public class Conveyor extends SubsystemBase {
         REVERSE
     }
 
+    private ConveyorMode mode;
+
     private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;
 
@@ -76,14 +79,20 @@ public class Conveyor extends SubsystemBase {
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
+        setMode(ConveyorMode.DEFAULT);
+    }
+
+    /*** MODE CONTROL ***/
+
+    public void setMode(ConveyorMode mode) {
+        this.mode = mode;
     }
 
     /*** MOTOR CONTROL ***/
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
     public void setTopBelt(Direction direction) {
-        topBeltDirection = direction;
-        switch (direction) {
+        switch (topBeltDirection = direction) {
             case FORWARD:
                 topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
                 break;
@@ -97,8 +106,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void setGandalf(Direction direction) {
-        gandalfDirection = direction;
-        switch (direction) {
+        switch (gandalfDirection = direction) {
             case FORWARD:
                 gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
                 break;
@@ -120,6 +128,10 @@ public class Conveyor extends SubsystemBase {
     }
 
     /*** SENSOR INFORMATION ***/
+
+    public boolean getColorSensorConnected() {
+        return colorSensor.isConnected();
+    }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
@@ -144,10 +156,12 @@ public class Conveyor extends SubsystemBase {
         return Settings.Conveyor.AUTO_RETRACT.get() && DriverStation.isTeleopEnabled() && isFull();
     }
 
-    /*** DEBUG INFORMATION ***/
+    /*** PERIODIC COMMAND ***/
 
     @Override
     public void periodic() {
+        mode.run(this);
+
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Conveyor/Top Belt", topBeltMotor.get());
             SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor", gandalfMotor.get());

@@ -96,7 +96,7 @@ public class ColorSensor extends SubsystemBase {
         return sensor.proximity;
     }
 
-    private boolean hasBall() {
+    public boolean hasBall() {
         if (!isConnected()) {
             return true;
         }
@@ -129,7 +129,7 @@ public class ColorSensor extends SubsystemBase {
         }
     }
 
-    private CurrentBall getTargetBall() {
+    public CurrentBall getTargetBall() {
         return targetBall;
     }
 
@@ -146,7 +146,7 @@ public class ColorSensor extends SubsystemBase {
         return sensor.color;
     }
 
-    private CurrentBall getCurrentBall() {
+    public CurrentBall getCurrentBall() {
         Color color = getRawColor();
 
         double redError = getColorDistance(color, BallColor.RED);
@@ -189,6 +189,7 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
+        sensor.update();
 
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());

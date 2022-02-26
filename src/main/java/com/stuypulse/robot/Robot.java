@@ -5,6 +5,10 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.subsystems.Climber.Tilt;
+import com.stuypulse.robot.subsystems.Conveyor.Direction;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -60,7 +64,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         robot.colorSensor.updateAllianceColor();
-
         auto = robot.getAutonomousCommand();
 
         // schedule the autonomous command (example)
@@ -76,6 +79,13 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         robot.colorSensor.updateAllianceColor();
+        robot.intake.stop();
+
+        robot.climber.setTilt(Tilt.NO_TILT);
+
+        robot.conveyor.setMode(ConveyorMode.DEFAULT);
+        robot.conveyor.setTopBelt(Direction.STOPPED);
+        robot.conveyor.setGandalf(Direction.STOPPED);
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to

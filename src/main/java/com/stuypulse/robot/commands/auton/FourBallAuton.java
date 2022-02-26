@@ -6,9 +6,10 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.conveyor.ConveyorIndexCommand;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
@@ -16,7 +17,11 @@ import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.TrajectoryLoader;
 
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -87,19 +92,20 @@ public class FourBallAuton extends SequentialCommandGroup {
         );
 
         addCommands(
+            new DrivetrainDriveDistanceCommand(robot.drivetrain, Units.feetToMeters(-1))
+                .fieldRelative(),
 
             new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
 
             // new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull()),
-            new ConveyorIndexCommand.Ejectionless(robot.conveyor).withTimeout(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull())
+            new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull())
         );
 
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
 
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
-                    .fieldRelative()
-                    .raceWith(new ConveyorIndexCommand.Ejectionless(robot.conveyor)));
+                    .fieldRelative());
     
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
