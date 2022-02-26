@@ -94,12 +94,14 @@ public class LEDController extends SubsystemBase {
     private LEDColor manualColor;
 
     // Debouncer for led persist delay
-    private final Debouncer ledPersistDelay;
+    private final Debouncer redBall;
+    private final Debouncer blueBall;
 
     public LEDController(RobotContainer container) {
         this.controller = new PWMSparkMax(Ports.LEDController.PWM_PORT);
         this.lastUpdate = new StopWatch();
-        this.ledPersistDelay = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kRising);
+        this.redBall = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kFalling);
+        this.blueBall = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kFalling);
         this.robot = container;
 
         setColor(LEDColor.OFF);
@@ -124,11 +126,13 @@ public class LEDController extends SubsystemBase {
         if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
 
         if (robot.colorSensor.hasBall()) {
-            if (ledPersistDelay.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
+            if (blueBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
                 return LEDColor.BLUE_SOLID;
-            } else {
+            } 
+            
+            if (redBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.RED_BALL)) {
                 return LEDColor.ORANGE_SOLID;
-            }
+            } 
         }
 
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 100) {
