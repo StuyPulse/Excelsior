@@ -56,6 +56,10 @@ public class Pump extends SubsystemBase {
     public void periodic() {
         if (enabled.get()) {
             compressor.enableDigital();
+
+            if(!getCompressing()) {
+                stop();
+            }
         } else {
             compressor.disable();
         }
