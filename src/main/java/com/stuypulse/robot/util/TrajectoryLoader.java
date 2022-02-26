@@ -68,10 +68,9 @@ public final class TrajectoryLoader {
         distance = Math.abs(distance);
 
         return TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, heading),
-            List.of(),
-            new Pose2d(distance, 0, heading),
-            MAX_SPEED_TRAJECTORY.setReversed(reversed)
-        );
+                new Pose2d(0, 0, heading),
+                List.of(),
+                new Pose2d(distance, 0, heading),
+                MAX_SPEED_TRAJECTORY.setReversed(reversed));
     }
 }

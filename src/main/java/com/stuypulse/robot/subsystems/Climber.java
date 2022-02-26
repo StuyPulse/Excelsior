@@ -144,7 +144,8 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
         if (Settings.DEBUG_MODE.get()) {
             if (tilter != null) {
-                SmartDashboard.putBoolean("Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
+                SmartDashboard.putBoolean(
+                        "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
             }
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
