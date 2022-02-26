@@ -88,12 +88,6 @@ public class Conveyor extends SubsystemBase {
         this.mode = mode;
     }
 
-    /*** MODE CONTROL ***/
-
-    public void setMode(ConveyorMode mode) {
-        this.mode = mode;
-    }
-
     /*** MOTOR CONTROL ***/
 
     /** Spins the Top Conveyor Belt, moving the ball up to the shooter. If false, */
