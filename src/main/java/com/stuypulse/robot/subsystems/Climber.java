@@ -12,7 +12,6 @@ import com.stuypulse.robot.constants.Settings;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -89,10 +88,7 @@ public class Climber extends SubsystemBase {
 
     public void setMotor(double speed) {
         if (stopper.get()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning(
-                        "Climber attempted to run while lock was enabled!", true);
-            }
+            Settings.reportWarning("Climber attempted to run while lock was enabled!");
             setMotorStop();
         } else {
             climber.set(speed);
@@ -120,10 +116,7 @@ public class Climber extends SubsystemBase {
         if (tilter != null) {
             tilter.set(tilt.extended);
         } else {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning(
-                        "Climber attempted to tilt while solenoids are disabled!", true);
-            }
+            Settings.reportWarning("Climber attempted to tilt while solenoids are disabled!");
         }
     }
 

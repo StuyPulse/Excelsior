@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -32,8 +33,15 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
+
+    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
+
+    static void reportWarning(String warning) {
+        if (ENABLE_WARNINGS.get()) {
+            DriverStation.reportWarning(warning, false);
+        }
+    }
 
     public interface Climber {
         boolean ENABLE_TILT = true;
@@ -261,7 +269,7 @@ public interface Settings {
             SmartNumber OUT_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.15);
 
-            public static Controller getController() {
+            static Controller getController() {
                 return new PIDController(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(new LowPassFilter(OUT_FILTER));
@@ -278,7 +286,7 @@ public interface Settings {
             SmartNumber OUT_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
 
-            public static Controller getController() {
+            static Controller getController() {
                 return new PIDController(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(new LowPassFilter(OUT_FILTER));

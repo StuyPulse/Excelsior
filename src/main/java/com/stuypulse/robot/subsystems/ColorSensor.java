@@ -77,8 +77,8 @@ public class ColorSensor extends SubsystemBase {
             this.proximity = 69420;
             this.color = Color.kBlack;
 
-            if (Settings.ENABLE_WARNINGS.get() && Settings.ColorSensor.ENABLED.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
+            if (Settings.ColorSensor.ENABLED.get()) {
+                Settings.reportWarning("Color Sensor is disconnected!");
             }
         }
     }
@@ -129,10 +129,7 @@ public class ColorSensor extends SubsystemBase {
                 targetBall = CurrentBall.RED_BALL;
                 break;
             default:
-                if (Settings.ENABLE_WARNINGS.get()) {
-                    DriverStation.reportWarning(
-                            "DriverStation.getAlliance() returned invalid!", true);
-                }
+                Settings.reportWarning("DriverStation.getAlliance() returned invalid!");
 
                 targetBall = CurrentBall.NO_BALL;
                 break;
