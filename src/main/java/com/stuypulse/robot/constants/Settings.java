@@ -60,7 +60,7 @@ public interface Settings {
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
 
-        double DEBOUNCE_TIME = 0.20;
+        double DEBOUNCE_TIME = 0.25;
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);

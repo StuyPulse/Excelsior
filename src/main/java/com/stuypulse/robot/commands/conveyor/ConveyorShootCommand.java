@@ -47,6 +47,11 @@ public class ConveyorShootCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        this.finished.calculate(false);
+    }
+
+    @Override
     public void execute() {
         conveyor.setMode(ConveyorMode.SHOOT);
     }
