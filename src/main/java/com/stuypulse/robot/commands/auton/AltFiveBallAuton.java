@@ -106,7 +106,7 @@ public class AltFiveBallAuton extends SequentialCommandGroup {
         );
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-            new ConveyorShootCommand(robot.conveyor).perpetually()
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
         );
 
         // Acquire last ball
