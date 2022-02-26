@@ -60,7 +60,7 @@ public interface Settings {
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
 
-        double DEBOUNCE_TIME = 0.20;
+        double DEBOUNCE_TIME = 0.25;
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -177,7 +177,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_MUL = new SmartNumber("Intake/Locked Mul", 0.0);
+        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 1.0 / 16.0);
     }
 
     public interface LED {
@@ -191,25 +191,25 @@ public interface Settings {
         double MIN_RPM = 100.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 0.05;
+        double INTEGRAL_MAX_ADJUST = 0.1;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
         public interface ShooterPID {
             double kP = 0.00025;
-            double kI = 0.00000075;
+            double kI = 0.0000005;
             double kD = 0.0;
-            double kF = 0.000174;
+            double kF = 0.000175;
         }
 
         public interface FeederPID {
             double kP = 0.00015;
-            double kI = 0.00000075;
+            double kI = 0.0000005;
             double kD = 0.0;
             double kF = 0.0001825;
         }
@@ -227,7 +227,7 @@ public interface Settings {
 
         // TODO: Measure with ???
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 35.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
 
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);

@@ -79,6 +79,13 @@ public class Conveyor extends SubsystemBase {
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
+        setMode(ConveyorMode.DEFAULT);
+    }
+
+    /*** MODE CONTROL ***/
+
+    public void setMode(ConveyorMode mode) {
+        this.mode = mode;
     }
 
     /*** MODE CONTROL ***/
@@ -127,6 +134,10 @@ public class Conveyor extends SubsystemBase {
     }
 
     /*** SENSOR INFORMATION ***/
+
+    public boolean getColorSensorConnected() {
+        return colorSensor.isConnected();
+    }
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {

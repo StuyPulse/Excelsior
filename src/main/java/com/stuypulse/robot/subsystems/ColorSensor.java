@@ -39,6 +39,35 @@ import com.revrobotics.ColorSensorV3;
  */
 public class ColorSensor extends SubsystemBase {
 
+    private static class Sensor {
+
+        private final ColorSensorV3 sensor;
+
+        public boolean connected;
+        public int proximity;
+        public Color color;
+
+        public Sensor() {
+            sensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+        }
+
+        public void update() {
+            if (Settings.ColorSensor.ENABLED.get()
+                    && (connected = sensor.isConnected())
+                    && ((proximity = sensor.getProximity()) != 0)) {
+                color = sensor.getColor();
+            } else {
+                connected = false;
+                proximity = 69420;
+                color = Color.kBlack;
+
+                if (Settings.ENABLE_WARNINGS.get() && Settings.ColorSensor.ENABLED.get()) {
+                    DriverStation.reportWarning("Color Sensor is disconnected!", true);
+                }
+            }
+        }
+    }
+
     public enum CurrentBall {
         RED_BALL,
         BLUE_BALL,
@@ -46,34 +75,31 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private CurrentBall targetBall;
-    private final ColorSensorV3 colorSensor;
+    private final Sensor sensor;
 
     public ColorSensor() {
-        colorSensor = new ColorSensorV3(Ports.COLOR_SENSOR);
+        sensor = new Sensor();
         getUpdateFromDriverStation();
     }
 
     /*** IS CONNECTED ***/
 
     public boolean isConnected() {
-        return Settings.ColorSensor.ENABLED.get() && colorSensor.isConnected();
+        return sensor.connected;
     }
 
     /*** PROXIMITY DETERMINATION ***/
 
     // Returns value from 0 - 2047 [higher == closer]
     private int getProximity() {
-        return colorSensor.getProximity();
+        return sensor.proximity;
     }
 
     public boolean hasBall() {
         if (!isConnected()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            }
-
             return true;
         }
+
         return getProximity() > Settings.ColorSensor.PROXIMITY_THRESHOLD.get();
     }
 
@@ -109,7 +135,7 @@ public class ColorSensor extends SubsystemBase {
     }
 
     private Color getRawColor() {
-        return colorSensor.getColor();
+        return sensor.color;
     }
 
     public CurrentBall getCurrentBall() {
@@ -129,10 +155,6 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            }
-
             return true;
         }
 
@@ -141,10 +163,6 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
-            if (Settings.ENABLE_WARNINGS.get()) {
-                DriverStation.reportWarning("Color Sensor is disconnected!", true);
-            }
-
             return false;
         }
 
@@ -163,6 +181,7 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
+        sensor.update();
 
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());

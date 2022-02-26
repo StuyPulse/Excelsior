@@ -33,6 +33,10 @@ public class Pump extends SubsystemBase {
         stop();
     }
 
+    public boolean getCompressing() {
+        return compressor.enabled();
+    }
+
     // Start Compressing the Robot
     public void compress() {
         this.set(true);

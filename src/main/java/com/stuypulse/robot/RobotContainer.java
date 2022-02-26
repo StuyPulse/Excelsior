@@ -120,7 +120,7 @@ public class RobotContainer {
         operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
 
-        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
+        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
 
         operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }

@@ -272,6 +272,17 @@
               "_source0": "network_table:///SmartDashboard/Color Sensor/Enabled",
               "_title": "SmartDashboard/Color Sensor/Enabled"
             }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Proximity",
+              "_title": "SmartDashboard/Debug/Color Sensor/Proximity"
+            }
           }
         }
       }
@@ -565,7 +576,7 @@
               "_type": "Field",
               "_source0": "network_table:///SmartDashboard/Debug/Drivetrain/Field",
               "_title": "SmartDashboard/Debug/Drivetrain/Field",
-              "Game/Game": "A2022_Rapid_React",
+              "Game/Game": "A2021_Infinite_Recharge",
               "Visuals/Robot Icon Size": 50.0,
               "Visuals/Show Outside Circles": false
             }
@@ -715,8 +726,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Debug/Shooter/Shooter RPM",
-              "_source1": "network_table:///SmartDashboard/Shooter/Target",
+              "_source0": "network_table:///SmartDashboard/Shooter/Target",
+              "_source1": "network_table:///SmartDashboard/Debug/Shooter/Shooter RPM",
               "_title": "Shooter RPM vs Target RPM",
               "Graph/Visible time": 30.0,
               "Graph/X-axis auto scrolling": true,
@@ -768,8 +779,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Debug/Shooter/Feeder RPM",
-              "_source1": "network_table:///SmartDashboard/Shooter/Target",
+              "_source0": "network_table:///SmartDashboard/Shooter/Target",
+              "_source1": "network_table:///SmartDashboard/Debug/Shooter/Feeder RPM",
               "_title": "Feeder RPM vs Target RPM",
               "Graph/Visible time": 30.0,
               "Graph/X-axis auto scrolling": true,
@@ -979,21 +990,78 @@
       "autoPopulate": true,
       "autoPopulatePrefix": "network_table:///SmartDashboard/Intake/",
       "widgetPane": {
-        "gridSize": 10.69,
+        "gridSize": 128.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "3,2": {
+          "3,1": {
             "size": [
-              3,
-              2
+              1,
+              1
             ],
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Intake/Motor Speed",
               "_title": "Motor Speed"
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Debug/Intake/Extended",
+              "_title": "SmartDashboard/Debug/Intake/Extended",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "5,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Debug/Intake/Motor Speed",
+              "_title": "SmartDashboard/Debug/Intake/Motor Speed"
+            }
+          },
+          "5,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Debug/Intake/Solenoid",
+              "_title": "SmartDashboard/Debug/Intake/Solenoid"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Locked Mul",
+              "_title": "Locked Mul"
+            }
+          },
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Locked Multiplier",
+              "_title": "Locked Multiplier"
             }
           }
         }
@@ -1001,9 +1069,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -5.599999904632568,
-    "y": 0.800000011920929,
-    "width": 1547.199951171875,
-    "height": 828.7999877929688
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1616.0,
+    "height": 868.0
   }
 }
