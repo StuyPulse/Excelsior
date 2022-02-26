@@ -184,6 +184,8 @@ public interface Settings {
         double MANUAL_UPDATE_TIME = 0.65;
 
         double BLINK_TIME = 0.5;
+
+        double DEBOUNCE_TIME = 0.75;
     }
 
     public interface Shooter {

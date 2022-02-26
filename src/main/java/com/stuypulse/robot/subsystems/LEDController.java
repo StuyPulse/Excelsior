@@ -12,6 +12,8 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
@@ -84,7 +86,6 @@ public class LEDController extends SubsystemBase {
 
     // Stopwatch to check when to start overriding manual updates
     private final StopWatch lastUpdate;
-    private StopWatch colorSensorLEDDelay;
 
     // The robot container to get information from
     private final RobotContainer robot;
@@ -92,9 +93,13 @@ public class LEDController extends SubsystemBase {
     // The current color to set the LEDs to
     private LEDColor manualColor;
 
+    // Debouncer for led persist delay
+    private final Debouncer ledPersistDelay;
+
     public LEDController(RobotContainer container) {
         this.controller = new PWMSparkMax(Ports.LEDController.PWM_PORT);
         this.lastUpdate = new StopWatch();
+        this.ledPersistDelay = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kRising);
         this.robot = container;
 
         setColor(LEDColor.OFF);
@@ -119,17 +124,10 @@ public class LEDController extends SubsystemBase {
         if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
 
         if (robot.colorSensor.hasBall()) {
-            if (robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL) {
-                this.colorSensorLEDDelay = new StopWatch();
-               
-               while (colorSensorLEDDelay.getTime() < .75){
-                    return LEDColor.BLUE_SOLID;
-               }
-
+            if (ledPersistDelay.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
+                return LEDColor.BLUE_SOLID;
             } else {
-                while (colorSensorLEDDelay.getTime() < .75){
-                    return LEDColor.ORANGE_SOLID;
-               };
+                return LEDColor.ORANGE_SOLID;
             }
         }
 
