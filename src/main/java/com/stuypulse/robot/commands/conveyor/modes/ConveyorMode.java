@@ -8,6 +8,7 @@ package com.stuypulse.robot.commands.conveyor.modes;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
+import com.stuypulse.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -30,6 +31,10 @@ public enum ConveyorMode {
                     } else {
                         conveyor.setGandalf(Direction.FORWARD);
                     }
+                }
+
+                else if (Intake.getShouldStop()) {
+                    conveyor.setGandalf(Direction.STOPPED);
                 }
 
                 // Accept Alliance Ball if no ball on top

@@ -45,7 +45,7 @@ public class Intake extends SubsystemBase {
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
 
-    private final ColorSensor colorSensor;
+    private static ColorSensor colorSensor;
 
     public Intake(ColorSensor colorSensor) {
         this.motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
@@ -57,7 +57,7 @@ public class Intake extends SubsystemBase {
                         Ports.Intake.SOLENOID_FORWARD,
                         Ports.Intake.SOLENOID_REVERSE);
 
-        this.colorSensor = colorSensor;
+        Intake.colorSensor = colorSensor;
 
         speed = 0.0;
     }
@@ -89,7 +89,7 @@ public class Intake extends SubsystemBase {
     }
 
     /*** Color Sensor Information ***/
-    private boolean getShouldStop() {
+    public static boolean getShouldStop() {
         return colorSensor.isConnected() && colorSensor.hasAllianceBall();
     }
 
