@@ -58,8 +58,8 @@ public interface Settings {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
         public interface BallColor {
-            Color RED = new Color(0.328, 0.436, 0.238);
-            Color BLUE = new Color(0.2, 0.432, 0.368);
+            Color RED = new Color(0.42, 0.39, 0.19);
+            Color BLUE = new Color(0.22, 0.43, 0.35);
         }
 
         SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
@@ -68,7 +68,7 @@ public interface Settings {
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
 
-        double DEBOUNCE_TIME = 0.25;
+        double DEBOUNCE_TIME = 0.2;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
 
@@ -246,14 +246,14 @@ public interface Settings {
         SmartNumber MAX_VELOCITY =
                 new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
 
-        double DEBOUNCER_TIME = 0.3;
+        double DEBOUNCER_TIME = 0.25;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
-                new SmartNumber("Limelight/Max Angle For Distance", 2.5);
+                new SmartNumber("Limelight/Max Angle For Distance", 3.0);
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.12);
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
     }
 
     public interface Alignment {

@@ -1063,15 +1063,26 @@
               "_source0": "network_table:///SmartDashboard/Intake/Locked Multiplier",
               "_title": "Locked Multiplier"
             }
+          },
+          "1,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Locked Speed",
+              "_title": "Locked Speed"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -8.0,
-    "y": -8.0,
-    "width": 1616.0,
-    "height": 868.0
+    "x": -7.333333492279053,
+    "y": -7.333333492279053,
+    "width": 1294.6666259765625,
+    "height": 814.6666870117188
   }
 }

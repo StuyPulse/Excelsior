@@ -65,7 +65,6 @@ public final class TrajectoryLoader {
     public static Trajectory getLine(double distance) {
         boolean reversed = distance < 0;
         Rotation2d heading = Rotation2d.fromDegrees(reversed ? 180.0 : 0.0);
-        distance = Math.abs(distance);
 
         return TrajectoryGenerator.generateTrajectory(
                 new Pose2d(0, 0, heading),
