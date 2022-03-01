@@ -123,11 +123,17 @@ public class LEDController extends SubsystemBase {
                 return LEDColor.ORANGE_SOLID;
             }
         }
-
+        
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 200) {
-            return LEDColor.RED_PULSE;
+            return LEDColor.RED_SOLID;
         }
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 200) {
+            return LEDColor.WHITE_SOLID;
+        }
+
+        if (robot.shooter.getShooterRPM() > Settings.Shooter.FENDER_RPM.get()) {
+            return LEDColor.RED_PULSE;
+        } else if (robot.shooter.getShooterRPM() > 100) {
             return LEDColor.WHITE_PULSE;
         }
 
