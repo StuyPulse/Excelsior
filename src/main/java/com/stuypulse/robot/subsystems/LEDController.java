@@ -12,6 +12,8 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
@@ -58,6 +60,7 @@ public class LEDController extends SubsystemBase {
 
         private final double color;
         private final boolean pulse;
+    
 
         LEDColor(double color, boolean pulse) {
             this.color = color;
@@ -90,9 +93,15 @@ public class LEDController extends SubsystemBase {
     // The current color to set the LEDs to
     private LEDColor manualColor;
 
+    // Debouncer for led persist delay
+    private final Debouncer redBall;
+    private final Debouncer blueBall;
+
     public LEDController(RobotContainer container) {
         this.controller = new PWMSparkMax(Ports.LEDController.PWM_PORT);
         this.lastUpdate = new StopWatch();
+        this.redBall = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kFalling);
+        this.blueBall = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kFalling);
         this.robot = container;
 
         setColor(LEDColor.OFF);
@@ -117,23 +126,32 @@ public class LEDController extends SubsystemBase {
         if (robot.conveyor.isFull()) return LEDColor.GREEN_SOLID;
 
         if (robot.colorSensor.hasBall()) {
-            if (robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL) {
+            if (blueBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
                 return LEDColor.BLUE_SOLID;
-            } else {
+            } 
+            
+            if (redBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.RED_BALL)) {
                 return LEDColor.ORANGE_SOLID;
-            }
+            } 
         }
 
-        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 200) {
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 100) {
+            return LEDColor.RED_SOLID;
+        }
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 100) {
+            return LEDColor.WHITE_SOLID;
+        }
+
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 500) {
             return LEDColor.RED_PULSE;
         }
-        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 200) {
+        if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 500) {
             return LEDColor.WHITE_PULSE;
         }
 
         return LEDColor.OFF;
     }
-
+        
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value
