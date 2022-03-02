@@ -1045,6 +1045,17 @@
               "_source0": "network_table:///SmartDashboard/Intake/Locked Speed",
               "_title": "Locked Speed"
             }
+          },
+          "1,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Locked Speed",
+              "_title": "Locked Speed"
+            }
           }
         }
       }

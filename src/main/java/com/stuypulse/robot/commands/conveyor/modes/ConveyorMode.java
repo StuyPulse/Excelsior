@@ -20,22 +20,17 @@ public enum ConveyorMode {
                 /*** Gandalf logic ***/
 
                 // Eject if you have wrong ball
-                if (!ejectionless() && conveyor.hasOpponentBall()) {
+                if (conveyor.hasOpponentBall()) {
                     conveyor.setGandalf(Direction.REVERSE);
                 }
 
                 // Stop if you already have ball
                 else if (conveyor.getTopBeltHasBall()) {
-                    if (!conveyor.getColorSensorConnected()
-                            && (Intake.speed > (Settings.Intake.MOTOR_SPEED.get() / 2))) {
-                        conveyor.setGandalf(Direction.FORWARD);
-                    } else {
-                        conveyor.setGandalf(Direction.STOPPED);
-                    }
+                    conveyor.setGandalf(Direction.STOPPED);
                 }
 
                 // Accept Alliance Ball if no ball on top
-                else if (ejectionless() || conveyor.hasAllianceBall()) {
+                else if (conveyor.hasAllianceBall()) {
                     conveyor.setGandalf(Direction.FORWARD);
                 }
 
@@ -49,8 +44,16 @@ public enum ConveyorMode {
                 // Stop if you already have ball
                 if (conveyor.getTopBeltHasBall()) {
                     conveyor.setTopBelt(Direction.STOPPED);
-                } else if (conveyor.hasAllianceBall()) {
+                } 
+                
+                // Run upwards if you have an alliance ball
+                else if (conveyor.hasAllianceBall()) {
                     conveyor.setTopBelt(Direction.FORWARD);
+                } 
+                
+                // Stop Ejecting Once Done
+                else if (conveyor.getTopBeltDirection() == Direction.REVERSE) {
+                    conveyor.setTopBelt(Direction.STOPPED);
                 }
             }),
 
@@ -58,7 +61,7 @@ public enum ConveyorMode {
             (Conveyor conveyor) -> {
                 conveyor.setTopBelt(Direction.FORWARD);
                 conveyor.setGandalf(
-                        !ejectionless() && conveyor.hasOpponentBall()
+                        conveyor.hasOpponentBall()
                                 ? Direction.REVERSE
                                 : Direction.FORWARD);
             }),
@@ -76,10 +79,6 @@ public enum ConveyorMode {
             }),
 
     DEFAULT(INDEX.method);
-
-    private static boolean ejectionless() {
-        return DriverStation.isAutonomous() || Settings.Conveyor.EJECTIONLESS.get();
-    }
 
     private final Consumer<Conveyor> method;
 

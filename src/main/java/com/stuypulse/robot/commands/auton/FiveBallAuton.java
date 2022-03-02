@@ -33,10 +33,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  */
  
 public class FiveBallAuton extends SequentialCommandGroup {
-    // Time it takes for the intake to go down
-    private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
-    private static final double SHOOTER_INITIALIZE_DELAY = 0.3;
+    private static final double SHOOTER_INITIALIZE_DELAY = 0.7;
     // Time it takes for the conveyor to give the shooter the ball
     private static final double CONVEYOR_TO_SHOOTER = 3.0;
     // Time we want to give the drivetrain to align
@@ -55,10 +53,9 @@ public class FiveBallAuton extends SequentialCommandGroup {
         // Starting up subsystems
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
-            new ShooterRingShotCommand(robot.shooter),
             new IntakeExtendCommand(robot.intake),
-            new WaitCommand(INTAKE_FALL_DOWN),
             new IntakeAcquireForeverCommand(robot.intake),
+            new ShooterRingShotCommand(robot.shooter),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 
@@ -67,6 +64,8 @@ public class FiveBallAuton extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
             new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
                     .robotRelative());
+        addCommands(
+        );
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
@@ -112,11 +111,11 @@ public class FiveBallAuton extends SequentialCommandGroup {
                 new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
                         .fieldRelative());
-        // addCommands(  
-        //         new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
-        //         new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-        //                 .withTimeout(DRIVETRAIN_ALIGN_TIME)
-        // );
+        addCommands(  
+                new LEDSetCommand(robot.leds, LEDColor.PINK_PULSE),
+                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+                        .withTimeout(DRIVETRAIN_ALIGN_TIME)
+        );
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
