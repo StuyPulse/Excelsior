@@ -64,17 +64,12 @@ public class ColorSensor extends SubsystemBase {
         NO_BALL;
     }
 
-    private CurrentBall targetBall;
-
     private final Sensor sensor;
     private final DigitalInput ballIR;
 
     public ColorSensor() {
         sensor = new Sensor();
-
         ballIR = new DigitalInput(Ports.ColorSensor.BALL_IR_SENSOR);
-
-        getUpdateFromDriverStation();
     }
 
     /*** IS CONNECTED ***/
@@ -91,26 +86,16 @@ public class ColorSensor extends SubsystemBase {
 
     /*** TARGET BALL DETERMINATION ***/
 
-    public CurrentBall getUpdateFromDriverStation() {
+    public CurrentBall getTargetBall() {
         switch (DriverStation.getAlliance()) {
             case Blue:
-                targetBall = CurrentBall.BLUE_BALL;
-                break;
+                return CurrentBall.BLUE_BALL;
             case Red:
-                targetBall = CurrentBall.RED_BALL;
-                break;
+                return CurrentBall.RED_BALL;
             default:
                 Settings.reportWarning("DriverStation.getAlliance() returned invalid!");
-
-                targetBall = CurrentBall.NO_BALL;
-                break;
+                return CurrentBall.NO_BALL;
         }
-
-        return targetBall;
-    }
-
-    public CurrentBall getTargetBall() {
-        return targetBall;
     }
 
     /*** COLOR DETERMINATION ***/
@@ -127,10 +112,8 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public CurrentBall getCurrentBall() {
-        Color color = getRawColor();
-
-        double redError = getColorDistance(color, BallColor.RED);
-        double blueError = getColorDistance(color, BallColor.BLUE);
+        double redError = getColorDistance(getRawColor(), BallColor.RED);
+        double blueError = getColorDistance(getRawColor(), BallColor.BLUE);
 
         if (redError < blueError) {
             return CurrentBall.RED_BALL;

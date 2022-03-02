@@ -5,7 +5,7 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.TeleopInitCommand;
+import com.stuypulse.robot.commands.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-    private Command auto;
 
     private RobotContainer robot;
+    private Command auto;
 
     /**
      * This function is run when the robot is first started up and should be used for any

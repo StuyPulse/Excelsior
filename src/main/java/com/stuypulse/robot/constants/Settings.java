@@ -61,13 +61,9 @@ public interface Settings {
             Color RED = new Color(0.42, 0.39, 0.19);
             Color BLUE = new Color(0.22, 0.43, 0.35);
         }
-
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
     }
 
     public interface Conveyor {
-        boolean TOP_IR_INVERTED = true;
-
         double DEBOUNCE_TIME = 0.2;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
@@ -75,12 +71,6 @@ public interface Settings {
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
-
-        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
-
-        SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
-
-        SmartBoolean EJECTIONLESS = new SmartBoolean("Conveyor/Ejectionless", false);
     }
 
     public interface Drivetrain {
@@ -182,6 +172,8 @@ public interface Settings {
             double GRAYHILL_DISTANCE_PER_PULSE =
                     (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
                             * GearRatio.GRAYHILL_TO_WHEEL;
+
+            boolean GRAYHILL_INVERTED = true;
         }
     }
 

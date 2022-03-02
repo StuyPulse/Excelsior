@@ -71,7 +71,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // Tarmac to first ball
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+            new LEDSetCommand(robot.leds, LEDColor.GREEN),
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative());
 
         addCommands(
@@ -85,7 +85,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // First ball to terminal to RingShot
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
+            new LEDSetCommand(robot.leds, LEDColor.BLUE),
 
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_TO_TERMINAL)
                 .fieldRelative()
@@ -101,7 +101,7 @@ public class FourBallAuton extends SequentialCommandGroup {
         );
 
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
+            new LEDSetCommand(robot.leds, LEDColor.PURPLE),
 
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_SHOOT_TERMINAL_BALLS)
                     .fieldRelative());

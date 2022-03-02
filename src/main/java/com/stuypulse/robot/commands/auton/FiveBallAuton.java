@@ -52,7 +52,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW),
             new IntakeExtendCommand(robot.intake),
             new IntakeAcquireForeverCommand(robot.intake),
             new ShooterRingShotCommand(robot.shooter),
@@ -61,7 +61,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Tarmac to first ball
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+            new LEDSetCommand(robot.leds, LEDColor.GREEN),
             new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
                     .robotRelative());
         addCommands(
@@ -78,7 +78,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // First ball to terminal to RingShot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.BLUE),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_TERMINAL)
                         .fieldRelative());
 
@@ -93,7 +93,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Return to Ring to shoot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PURPLE_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT)
                         .fieldRelative());
         addCommands(
@@ -108,7 +108,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Pick up and shoot fifth ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PINK_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.PINK),
                 new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
                         .fieldRelative());
         addCommands(  
