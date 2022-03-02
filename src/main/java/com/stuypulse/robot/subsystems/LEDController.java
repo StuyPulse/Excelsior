@@ -34,12 +34,12 @@ public class LEDController extends SubsystemBase {
         RAINBOW(-0.99, false),
         SINELON(-0.77, false),
         CONFETTI(-0.87, false),
-        FIRE(0.57,false),
-        TWINKLES(-0.53,false),
+        FIRE(0.57, false),
+        TWINKLES(-0.53, false),
         BEAT(-0.67, false),
         WAVE(-0.43, false),
-        HEARTBEAT(-0.25,false),
-        BREATH(-0.17,false),
+        HEARTBEAT(-0.25, false),
+        BREATH(-0.17, false),
 
         WHITE_SOLID(0.93, false),
         PINK_SOLID(0.57, false),
@@ -54,17 +54,17 @@ public class LEDController extends SubsystemBase {
         DARK_RED_SOLID(0.59, false),
         RED_ORANGE_SOLID(0.63, false),
         GOLD_SOLID(0.67, false),
-        LAWN_GREEN_SOLID(0.71,false),
-        DARK_GREEN_SOLID(0.75,false),
-        BLUE_GREEN_SOLID(0.79,false),
-        AQUA_SOLID(0.81,false),
-        SKY_BLUE_SOLID(0.83,false),
-        DARK_BLUE_SOLID(0.85,false),
-        BLUE_VIOLET_SOLID(0.89,false),
-        VIOLET_SOLID(0.91,false),
-        GRAY_SOLID(0.95,false),
-        DARK_GRAY_SOLID(0.97,false),
-        BLACK_SOLID(0.99,false),
+        LAWN_GREEN_SOLID(0.71, false),
+        DARK_GREEN_SOLID(0.75, false),
+        BLUE_GREEN_SOLID(0.79, false),
+        AQUA_SOLID(0.81, false),
+        SKY_BLUE_SOLID(0.83, false),
+        DARK_BLUE_SOLID(0.85, false),
+        BLUE_VIOLET_SOLID(0.89, false),
+        VIOLET_SOLID(0.91, false),
+        GRAY_SOLID(0.95, false),
+        DARK_GRAY_SOLID(0.97, false),
+        BLACK_SOLID(0.99, false),
 
         WHITE_PULSE(0.93, true),
         PINK_PULSE(0.57, true),
@@ -79,23 +79,22 @@ public class LEDController extends SubsystemBase {
         DARK_RED_PULSE(0.59, true),
         RED_ORANGE_PULSE(0.63, true),
         GOLD_PULSE(0.67, true),
-        LAWN_GREEN_PULSE(0.71,true),
-        DARK_GREEN_PULSE(0.75,true),
-        BLUE_GREEN_PULSE(0.79,true),
-        AQUA_PULSE(0.81,true),
-        SKY_BLUE_PULSE(0.83,true),
-        DARK_BLUE_PULSE(0.85,true),
-        BLUE_VIOLET_PULSE(0.89,true),
-        VIOLET_PULSE(0.91,true),
-        GRAY_PULSE(0.95,true),
-        DARK_GRAY_PULSE(0.97,true),
-        BLACK_PULSE(0.99,true),
+        LAWN_GREEN_PULSE(0.71, true),
+        DARK_GREEN_PULSE(0.75, true),
+        BLUE_GREEN_PULSE(0.79, true),
+        AQUA_PULSE(0.81, true),
+        SKY_BLUE_PULSE(0.83, true),
+        DARK_BLUE_PULSE(0.85, true),
+        BLUE_VIOLET_PULSE(0.89, true),
+        VIOLET_PULSE(0.91, true),
+        GRAY_PULSE(0.95, true),
+        DARK_GRAY_PULSE(0.97, true),
+        BLACK_PULSE(0.99, true),
 
         OFF(0.99, false);
 
         private final double color;
         private final boolean pulse;
-    
 
         LEDColor(double color, boolean pulse) {
             this.color = color;
@@ -163,11 +162,11 @@ public class LEDController extends SubsystemBase {
         if (robot.colorSensor.hasBall()) {
             if (blueBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
                 return LEDColor.BLUE_SOLID;
-            } 
-            
+            }
+
             if (redBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.RED_BALL)) {
                 return LEDColor.ORANGE_SOLID;
-            } 
+            }
         }
 
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 100) {
@@ -186,7 +185,7 @@ public class LEDController extends SubsystemBase {
 
         return LEDColor.OFF;
     }
-        
+
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value

@@ -6,9 +6,8 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorModeCommand;
 import com.stuypulse.robot.subsystems.Conveyor;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /*
  * @author Ivan Wei (ivanw8288@gmail.com)
@@ -30,24 +29,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-public class ConveyorIndexCommand extends CommandBase {
+public class ConveyorIndexCommand extends ConveyorModeCommand {
 
-    private final Conveyor conveyor;
-
-    /** Creates a new ConveyorIndexCommand. */
     public ConveyorIndexCommand(Conveyor conveyor) {
-        this.conveyor = conveyor;
-
-        addRequirements(conveyor);
-    }
-
-    @Override
-    public void execute() {
-        conveyor.setMode(ConveyorMode.INDEX);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        conveyor.setMode(ConveyorMode.DEFAULT);
+        super(conveyor, ConveyorMode.INDEX);
     }
 }

@@ -5,12 +5,8 @@
 
 package com.stuypulse.robot.commands.conveyor.modes;
 
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
-import com.stuypulse.robot.subsystems.Intake;
-
-import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.function.Consumer;
 
@@ -44,26 +40,30 @@ public enum ConveyorMode {
                 // Stop if you already have ball
                 if (conveyor.getTopBeltHasBall()) {
                     conveyor.setTopBelt(Direction.STOPPED);
-                } 
-                
+                }
+
                 // Run upwards if you have an alliance ball
                 else if (conveyor.hasAllianceBall()) {
                     conveyor.setTopBelt(Direction.FORWARD);
-                } 
-                
+                }
+
                 // Stop Ejecting Once Done
                 else if (conveyor.getTopBeltDirection() == Direction.REVERSE) {
                     conveyor.setTopBelt(Direction.STOPPED);
                 }
             }),
 
+    FORCE_INTAKE(
+            (Conveyor conveyor) -> {
+                conveyor.setTopBelt(Direction.STOPPED);
+                conveyor.setGandalf(Direction.FORWARD);
+            }),
+
     SHOOT(
             (Conveyor conveyor) -> {
                 conveyor.setTopBelt(Direction.FORWARD);
                 conveyor.setGandalf(
-                        conveyor.hasOpponentBall()
-                                ? Direction.REVERSE
-                                : Direction.FORWARD);
+                        conveyor.hasOpponentBall() ? Direction.REVERSE : Direction.FORWARD);
             }),
 
     EJECT(
