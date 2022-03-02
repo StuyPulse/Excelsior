@@ -8,9 +8,8 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -55,18 +54,21 @@ public class Climber extends SubsystemBase {
         }
     }
 
+    private final Encoder climberEncoder; 
+    // encoder on neo sensor
+
     private final CANSparkMax climber;
 
     private final Solenoid stopper;
 
     private final DoubleSolenoid tilter;
 
-    private final DigitalInput bottomLimitSwitch;
-    private final DigitalInput topLimitSwitch;
-
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
         Motors.CLIMBER.configure(climber);
+        
+        climberEncoder = new Encoder(Ports.Climber.ENCODER_SOURCE_A, Ports.Climber.ENCODER_SOURCE_B);
+        climberEncoder.setDistancePerPulse(Settings.Climber.CLIMBER_ENCODER_RATIO);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
 
@@ -79,9 +81,6 @@ public class Climber extends SubsystemBase {
         } else {
             tilter = null;
         }
-
-        bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
-        topLimitSwitch = new DigitalInput(Ports.Climber.TOP_LIMIT_SWITCH);
     }
 
     /*** MOTOR CONTROL ***/
@@ -120,14 +119,10 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    /*** LIMIT SWITCHES ***/
+    /*** ENCODER ***/
 
-    public boolean getTopReached() {
-        return Settings.Climber.ENABLE_SWITCHES.get() && topLimitSwitch.get();
-    }
-
-    public boolean getBottomReached() {
-        return Settings.Climber.ENABLE_SWITCHES.get() && bottomLimitSwitch.get();
+    public double getDistanceTraveled() {
+        return climberEncoder.getDistance();
     }
 
     /*** DEBUG INFORMATION ***/
@@ -142,9 +137,6 @@ public class Climber extends SubsystemBase {
             }
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
-
-            SmartDashboard.putBoolean("Debug/Climber/Top Limit Switch", getTopReached());
-            SmartDashboard.putBoolean("Debug/Climber/Bottom Limit Switch", getBottomReached());
         }
     }
 }
