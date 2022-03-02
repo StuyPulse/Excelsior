@@ -66,7 +66,7 @@ public class Climber extends SubsystemBase {
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
         Motors.CLIMBER.configure(climber);
-        
+
         climberEncoder = new Encoder(Ports.Climber.ENCODER_SOURCE_A, Ports.Climber.ENCODER_SOURCE_B);
         climberEncoder.setDistancePerPulse(Settings.Climber.CLIMBER_ENCODER_RATIO);
 
@@ -123,6 +123,10 @@ public class Climber extends SubsystemBase {
 
     public double getDistanceTraveled() {
         return climberEncoder.getDistance();
+    }
+
+    public void reset() {
+        climberEncoder.reset();
     }
 
     /*** DEBUG INFORMATION ***/
