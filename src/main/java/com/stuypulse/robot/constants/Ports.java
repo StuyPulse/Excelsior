@@ -25,10 +25,6 @@ public interface Ports {
 
         int TILTER_FORWARD = 6;
         int TILTER_REVERSE = 7;
-
-        // Sensors
-        int ENCODER_SOURCE_A = -1;
-        int ENCODER_SOURCE_B = -1;
     }
 
     public interface ColorSensor {

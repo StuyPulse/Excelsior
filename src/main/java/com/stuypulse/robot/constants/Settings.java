@@ -46,18 +46,17 @@ public interface Settings {
 
     public interface Climber {
         boolean ENABLE_TILT = true;
-
-        SmartBoolean ENABLE_SWITCHES = new SmartBoolean("Climber/Enable Switches", false);
-
+        
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
         SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
 
+        SmartNumber CLIMBER_HEIGHT_LIMIT = new SmartNumber("Climber/Height Limit", -1);
+
         double CLIMBER_GEAR_RATIO = 1.0 / 36;
         double CLIMBER_MOTOR_DIAMETER = 2; //inches
         double CLIMBER_ENCODER_RATIO = CLIMBER_GEAR_RATIO * CLIMBER_MOTOR_DIAMETER * Math.PI;
-
     }
 
     public interface ColorSensor {

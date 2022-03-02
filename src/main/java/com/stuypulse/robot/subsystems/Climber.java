@@ -9,7 +9,6 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -17,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*-
@@ -54,7 +54,7 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    private final Encoder climberEncoder; 
+    private final RelativeEncoder climberEncoder; 
     // encoder on neo sensor
 
     private final CANSparkMax climber;
@@ -67,8 +67,8 @@ public class Climber extends SubsystemBase {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
         Motors.CLIMBER.configure(climber);
 
-        climberEncoder = new Encoder(Ports.Climber.ENCODER_SOURCE_A, Ports.Climber.ENCODER_SOURCE_B);
-        climberEncoder.setDistancePerPulse(Settings.Climber.CLIMBER_ENCODER_RATIO);
+        climberEncoder = climber.getEncoder();
+        climberEncoder.setPositionConversionFactor(Settings.Climber.CLIMBER_ENCODER_RATIO);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
 
@@ -121,12 +121,20 @@ public class Climber extends SubsystemBase {
 
     /*** ENCODER ***/
 
-    public double getDistanceTraveled() {
-        return climberEncoder.getDistance();
+    public double getPosition() {
+        return climberEncoder.getPosition();
     }
 
-    public void reset() {
-        climberEncoder.reset();
+    public void resetEncoder() {
+        climberEncoder.setPosition(0);
+    }
+
+    public boolean getTopHeightLimitReached() {
+        return getPosition() >= Settings.Climber.CLIMBER_HEIGHT_LIMIT.get();
+    }
+
+    public boolean getBottomHeightLimitReached() {
+        return getPosition() <= 0;
     }
 
     /*** DEBUG INFORMATION ***/
