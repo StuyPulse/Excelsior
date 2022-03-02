@@ -5,9 +5,7 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
-import com.stuypulse.robot.subsystems.Climber.Tilt;
-import com.stuypulse.robot.subsystems.Conveyor.Direction;
+import com.stuypulse.robot.commands.TeleopInitCommand;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -77,14 +75,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        robot.colorSensor.getUpdateFromDriverStation();
-        robot.intake.stop();
-
-        robot.climber.setTilt(Tilt.NO_TILT);
-
-        robot.conveyor.setMode(ConveyorMode.DEFAULT);
-        robot.conveyor.setTopBelt(Direction.STOPPED);
-        robot.conveyor.setGandalf(Direction.STOPPED);
+        new TeleopInitCommand(robot).schedule(false);
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to

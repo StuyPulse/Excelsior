@@ -37,7 +37,7 @@ public class RobotContainer {
     public final ColorSensor colorSensor = new ColorSensor();
     public final Conveyor conveyor = new Conveyor(colorSensor);
     public final Drivetrain drivetrain = new Drivetrain();
-    public final Intake intake = new Intake(colorSensor);
+    public final Intake intake = new Intake(conveyor);
     public final LEDController leds = new LEDController(this);
     public final Pump pump = new Pump();
     public final Shooter shooter = new Shooter();

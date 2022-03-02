@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -40,15 +41,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class Intake extends SubsystemBase {
 
-    public static double speed;
+    private double speed;
 
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
 
-    private final ColorSensor colorSensor;
+    private final Conveyor conveyor;
 
-    public Intake(ColorSensor colorSensor) {
+    public Intake(Conveyor conveyor) {
         this.motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        this.motor.setOpenLoopRampRate(0.0);
         Motors.INTAKE.configure(motor);
 
         this.solenoid =
@@ -57,9 +59,9 @@ public class Intake extends SubsystemBase {
                         Ports.Intake.SOLENOID_FORWARD,
                         Ports.Intake.SOLENOID_REVERSE);
 
-        this.colorSensor = colorSensor;
+        this.conveyor = conveyor;
 
-        speed = 0.0;
+        this.speed = 0.0;
     }
 
     /*** Extend / Retract ***/
@@ -72,25 +74,25 @@ public class Intake extends SubsystemBase {
     }
 
     /*** Acquire / Deaqcuire ***/
-    public void setMotor(double newSpeed) {
-        speed = newSpeed;
+    public void setMotor(double speed) {
+        this.speed = speed;
     }
 
     public void stop() {
-        speed = 0.0;
+        this.speed = 0.0;
     }
 
     public void acquire() {
-        speed = +Settings.Intake.MOTOR_SPEED.get();
+        this.speed = +Settings.Intake.MOTOR_SPEED.get();
     }
 
     public void deacquire() {
-        speed = -Settings.Intake.MOTOR_SPEED.get();
+        this.speed = -Settings.Intake.MOTOR_SPEED.get();
     }
 
     /*** Color Sensor Information ***/
     private boolean getShouldStop() {
-        return colorSensor.isConnected() && colorSensor.hasAllianceBall();
+        return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.isFull();
     }
 
     /*** Debug Information ***/
@@ -104,8 +106,7 @@ public class Intake extends SubsystemBase {
 
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Intake/Motor Speed", motor.get());
-            SmartDashboard.putString("Debug/Intake/Solenoid", solenoid.get().name());
-            SmartDashboard.putBoolean("Debug/Intake/Extended", solenoid.get() == Value.kReverse);
+            SmartDashboard.putBoolean("Debug/Intake/Extended", solenoid.get() == Value.kForward);
         }
     }
 }

@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FourBallAuton extends SequentialCommandGroup {
     // Time it takes for the intake to go down
-    private static final double INTAKE_FALL_DOWN = 0.1;
+    private static final double INTAKE_FALL_DOWN = 0.2;
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
@@ -77,7 +77,7 @@ public class FourBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-                .withTimeout(DRIVETRAIN_ALIGN_TIME / 2));
+                .withTimeout(DRIVETRAIN_ALIGN_TIME));
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
             new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
@@ -97,7 +97,6 @@ public class FourBallAuton extends SequentialCommandGroup {
 
             new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
 
-            // new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull()),
             new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull())
         );
 
@@ -110,7 +109,7 @@ public class FourBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
-                    .withTimeout(DRIVETRAIN_ALIGN_TIME / 2.0)
+                    .withTimeout(DRIVETRAIN_ALIGN_TIME)
         );
 
         addCommands(

@@ -29,7 +29,7 @@ public class Pump extends SubsystemBase {
     public Pump() {
         enabled = new SmartBoolean("Pump/Compressor Enabled", true);
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-
+        
         stop();
     }
 

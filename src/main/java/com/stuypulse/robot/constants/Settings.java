@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -32,8 +33,15 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
     SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
+
+    SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
+
+    static void reportWarning(String warning) {
+        if (ENABLE_WARNINGS.get()) {
+            DriverStation.reportWarning(warning, false);
+        }
+    }
 
     public interface Climber {
         boolean ENABLE_TILT = true;
@@ -50,8 +58,8 @@ public interface Settings {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
         public interface BallColor {
-            Color RED = new Color(0.328, 0.436, 0.238);
-            Color BLUE = new Color(0.2, 0.432, 0.368);
+            Color RED = new Color(0.42, 0.39, 0.19);
+            Color BLUE = new Color(0.22, 0.43, 0.35);
         }
 
         SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
@@ -60,7 +68,9 @@ public interface Settings {
     public interface Conveyor {
         boolean TOP_IR_INVERTED = true;
 
-        double DEBOUNCE_TIME = 0.25;
+        double DEBOUNCE_TIME = 0.2;
+
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -84,8 +94,8 @@ public interface Settings {
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 1.0);
         SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
 
-        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.2);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
+        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.25);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.02);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
@@ -109,7 +119,7 @@ public interface Settings {
             }
 
             public interface PID {
-                double kP = 1.5;
+                double kP = 1.0;
                 double kI = 0;
                 double kD = 0;
             }
@@ -177,7 +187,7 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 1.0 / 16.0);
+        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 0.0);
     }
 
     public interface LED {
@@ -236,14 +246,14 @@ public interface Settings {
         SmartNumber MAX_VELOCITY =
                 new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
 
-        double DEBOUNCER_TIME = 0.3;
+        double DEBOUNCER_TIME = 0.25;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
-                new SmartNumber("Limelight/Max Angle For Distance", 2.5);
+                new SmartNumber("Limelight/Max Angle For Distance", 3.0);
 
-        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 1.5);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.12);
+        SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
     }
 
     public interface Alignment {
@@ -261,7 +271,7 @@ public interface Settings {
             SmartNumber OUT_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.15);
 
-            public static Controller getController() {
+            static Controller getController() {
                 return new PIDController(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(new LowPassFilter(OUT_FILTER));
@@ -278,7 +288,7 @@ public interface Settings {
             SmartNumber OUT_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
 
-            public static Controller getController() {
+            static Controller getController() {
                 return new PIDController(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(new LowPassFilter(OUT_FILTER));
