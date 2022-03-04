@@ -25,10 +25,6 @@ public interface Ports {
 
         int TILTER_FORWARD = 6;
         int TILTER_REVERSE = 7;
-
-        // Sensors
-        int BOTTOM_LIMIT_SWITCH = 8;
-        int TOP_LIMIT_SWITCH = 7;
     }
 
     public interface ColorSensor {

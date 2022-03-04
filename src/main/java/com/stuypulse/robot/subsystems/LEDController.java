@@ -105,7 +105,7 @@ public class LEDController extends SubsystemBase {
 
         private final double color;
         private final boolean pulse;
-
+      
         LEDColor(double color) {
             this.color = color;
             this.pulse = false;

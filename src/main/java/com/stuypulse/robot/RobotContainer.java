@@ -82,6 +82,8 @@ public class RobotContainer {
         new Button(() -> operator.getLeftX() <= -0.75)
                 .whenPressed(new ClimberNoTiltCommand(climber));
 
+        operator.getBottomButton().whenPressed(new ClimberBrakeCommand(climber));
+
         /*************************/
         /*** Conveyor Control ***/
         /*************************/

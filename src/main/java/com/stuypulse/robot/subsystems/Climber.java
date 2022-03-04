@@ -9,7 +9,6 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -19,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 /*-
  * Climbs at end of match
@@ -55,40 +55,41 @@ public class Climber extends SubsystemBase {
         }
     }
 
+    private final RelativeEncoder climberEncoder;
+    // encoder on neo sensor
+
     private final CANSparkMax climber;
 
     private final Solenoid stopper;
 
     private final DoubleSolenoid tilter;
 
-    private final DigitalInput bottomLimitSwitch;
-    private final DigitalInput topLimitSwitch;
-
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
         Motors.CLIMBER.configure(climber);
 
+        climberEncoder = climber.getEncoder();
+        climberEncoder.setPositionConversionFactor(Settings.Climber.CLIMBER_ENCODER_RATIO);
+
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
-
-        if (Settings.Climber.ENABLE_TILT) {
-            tilter =
-                    new DoubleSolenoid(
-                            PneumaticsModuleType.CTREPCM,
-                            Ports.Climber.TILTER_FORWARD,
-                            Ports.Climber.TILTER_REVERSE);
-        } else {
-            tilter = null;
-        }
-
-        bottomLimitSwitch = new DigitalInput(Ports.Climber.BOTTOM_LIMIT_SWITCH);
-        topLimitSwitch = new DigitalInput(Ports.Climber.TOP_LIMIT_SWITCH);
+        tilter =
+                new DoubleSolenoid(
+                        PneumaticsModuleType.CTREPCM,
+                        Ports.Climber.TILTER_FORWARD,
+                        Ports.Climber.TILTER_REVERSE);
     }
 
     /*** MOTOR CONTROL ***/
 
     public void setMotor(double speed) {
-        if (stopper.get()) {
+        if (getLocked()) {
             Settings.reportWarning("Climber attempted to run while lock was enabled!");
+            setMotorStop();
+        } else if (speed > 0.0 && getTopHeightLimitReached()) {
+            Settings.reportWarning("Climber attempted to run past top height limit!");
+            setMotorStop();
+        } else if (speed < 0.0 && getBottomHeightLimitReached()) {
+            Settings.reportWarning("Climber attempted to run past bottom height limit!");
             setMotorStop();
         } else {
             climber.set(speed);
@@ -101,33 +102,42 @@ public class Climber extends SubsystemBase {
 
     /*** BRAKE CONTROL ***/
 
-    public void setClimberLocked() {
+    public void setLocked() {
         setMotorStop();
-        stopper.set(true);
-    }
-
-    public void setClimberUnlocked() {
         stopper.set(false);
     }
 
-    /*** TILE CONTROL ***/
+    public void setUnlocked() {
+        stopper.set(true);
+    }
+
+    public boolean getLocked() {
+        return stopper.get();
+    }
+
+    /*** TILT CONTROL ***/
 
     public void setTilt(Tilt tilt) {
-        if (tilter != null) {
-            tilter.set(tilt.extended);
-        } else {
-            Settings.reportWarning("Climber attempted to tilt while solenoids are disabled!");
-        }
+        tilter.set(tilt.extended);
     }
 
-    /*** LIMIT SWITCHES ***/
+    /*** ENCODER ***/
 
-    public boolean getTopReached() {
-        return Settings.Climber.ENABLE_SWITCHES.get() && topLimitSwitch.get();
+    public double getPosition() {
+        return climberEncoder.getPosition();
     }
 
-    public boolean getBottomReached() {
-        return Settings.Climber.ENABLE_SWITCHES.get() && bottomLimitSwitch.get();
+    public void resetEncoder() {
+        climberEncoder.setPosition(0);
+    }
+
+    public boolean getTopHeightLimitReached() {
+        return Settings.Climber.ENABLE_ENCODERS.get()
+                && getPosition() >= Settings.Climber.CLIMBER_HEIGHT_LIMIT.get();
+    }
+
+    public boolean getBottomHeightLimitReached() {
+        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() <= 0;
     }
 
     /*** DEBUG INFORMATION ***/
@@ -136,15 +146,10 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if (Settings.DEBUG_MODE.get()) {
-            if (tilter != null) {
-                SmartDashboard.putBoolean(
-                        "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
-            }
+            SmartDashboard.putBoolean(
+                    "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
-
-            SmartDashboard.putBoolean("Debug/Climber/Top Limit Switch", getTopReached());
-            SmartDashboard.putBoolean("Debug/Climber/Bottom Limit Switch", getBottomReached());
         }
     }
 }
