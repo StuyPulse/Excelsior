@@ -71,16 +71,12 @@ public class Climber extends SubsystemBase {
         climberEncoder.setPositionConversionFactor(Settings.Climber.CLIMBER_ENCODER_RATIO);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
-
-        if (Settings.Climber.ENABLE_TILT) {
-            tilter =
-                    new DoubleSolenoid(
-                            PneumaticsModuleType.CTREPCM,
-                            Ports.Climber.TILTER_FORWARD,
-                            Ports.Climber.TILTER_REVERSE);
-        } else {
-            tilter = null;
-        }
+        tilter =
+                new DoubleSolenoid(
+                        PneumaticsModuleType.CTREPCM,
+                        Ports.Climber.TILTER_FORWARD,
+                        Ports.Climber.TILTER_REVERSE);
+        
     }
 
     /*** MOTOR CONTROL ***/
@@ -116,11 +112,7 @@ public class Climber extends SubsystemBase {
     /*** TILT CONTROL ***/
 
     public void setTilt(Tilt tilt) {
-        if (tilter != null) {
-            tilter.set(tilt.extended);
-        } else {
-            Settings.reportWarning("Climber attempted to tilt while solenoids are disabled!");
-        }
+        tilter.set(tilt.extended);
     }
 
     /*** ENCODER ***/
@@ -134,11 +126,11 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getTopHeightLimitReached() {
-        return getPosition() >= Settings.Climber.CLIMBER_HEIGHT_LIMIT.get();
+        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() >= Settings.Climber.CLIMBER_HEIGHT_LIMIT.get();
     }
 
     public boolean getBottomHeightLimitReached() {
-        return getPosition() <= 0;
+        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() <= 0; 
     }
 
     /*** DEBUG INFORMATION ***/

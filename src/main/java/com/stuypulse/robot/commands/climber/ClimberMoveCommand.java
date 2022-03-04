@@ -52,6 +52,6 @@ public class ClimberMoveCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Settings.Climber.ENABLE_ENCODERS && climber.getTopHeightLimitReached();
+        return (movingUp) ? climber.getTopHeightLimitReached() : climber.getBottomHeightLimitReached();
     }
 }
