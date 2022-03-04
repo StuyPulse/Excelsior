@@ -106,11 +106,11 @@ public class Climber extends SubsystemBase {
 
     public void setLocked() {
         setMotorStop();
-        stopper.set(true);
+        stopper.set(false);
     }
 
     public void setUnlocked() {
-        stopper.set(false);
+        stopper.set(true);
     }
 
     public boolean getLocked() {
