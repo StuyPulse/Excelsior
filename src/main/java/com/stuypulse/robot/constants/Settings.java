@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.robot.constants.Settings.Drivetrain.Encoders.GearRatio;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -46,6 +45,7 @@ public interface Settings {
 
     public interface Climber {
         boolean ENABLE_TILT = true;
+        boolean ENABLE_ENCODERS = false;
         
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
@@ -57,6 +57,8 @@ public interface Settings {
         double CLIMBER_GEAR_RATIO = 1.0 / 36;
         double CLIMBER_MOTOR_DIAMETER = 2; //inches
         double CLIMBER_ENCODER_RATIO = CLIMBER_GEAR_RATIO * CLIMBER_MOTOR_DIAMETER * Math.PI;
+
+        double MAX_EXTENSION = -1;
     }
 
     public interface ColorSensor {

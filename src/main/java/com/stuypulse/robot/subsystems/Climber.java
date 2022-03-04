@@ -109,7 +109,11 @@ public class Climber extends SubsystemBase {
         stopper.set(false);
     }
 
-    /*** TILE CONTROL ***/
+    public boolean getClimberUnlocked() {
+        return stopper.get();
+    }
+
+    /*** TILT CONTROL ***/
 
     public void setTilt(Tilt tilt) {
         if (tilter != null) {

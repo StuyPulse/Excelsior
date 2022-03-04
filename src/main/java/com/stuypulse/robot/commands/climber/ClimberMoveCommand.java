@@ -31,13 +31,13 @@ public class ClimberMoveCommand extends CommandBase {
     @Override
     public void initialize() {
         timer.reset();
-        climber.setClimberUnlocked();
     }
 
     @Override
     public void execute() {
-        if (timer.getTime() < Settings.Climber.CLIMBER_DELAY.get()) {
+        if (timer.getTime() < Settings.Climber.CLIMBER_DELAY.get() && !climber.getClimberUnlocked()) {
             climber.setMotorStop();
+            climber.setClimberUnlocked();
         } else if (movingUp) {
             climber.setMotor(+this.number.doubleValue());
         } else {
@@ -48,5 +48,10 @@ public class ClimberMoveCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         climber.setMotorStop();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return Settings.Climber.ENABLE_ENCODERS && climber.getTopHeightLimitReached();
     }
 }
