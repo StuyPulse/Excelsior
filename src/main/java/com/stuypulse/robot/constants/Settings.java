@@ -281,6 +281,8 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
             SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
 
+            double BANG_BANG = 0.8;
+
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
@@ -298,6 +300,8 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
             SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0035);
 
+            double BANG_BANG = 0.6;
+
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
@@ -305,8 +309,8 @@ public interface Settings {
 
             static Controller getController() {
                 return new PIDController(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                    .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                    .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
         }
     }

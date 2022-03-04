@@ -30,12 +30,13 @@ public class DrivetrainAlignCommand extends CommandBase {
     private final IFuser angleError;
     private final IFuser distanceError;
 
-    private final Controller angleController;
-    private final Controller distanceController;
+    protected final Controller angleController;
+    protected final Controller distanceController;
 
-    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
+    protected DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance, Controller angleController, Controller distanceController) {
         this.drivetrain = drivetrain;
 
+        // find errors
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
@@ -48,13 +49,19 @@ public class DrivetrainAlignCommand extends CommandBase {
                         () -> targetDistance.doubleValue() - Target.getDistance(),
                         () -> drivetrain.getDistance());
 
+        // handle errors
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
-        angleController = Alignment.Angle.getController();
-        distanceController = Alignment.Speed.getController();
+        this.angleController = angleController;
+        this.distanceController = distanceController;
 
+        // finish optimally 
         finished = new Debouncer(Limelight.DEBOUNCER_TIME, DebounceType.kRising);
 
         addRequirements(drivetrain);
+    }
+
+    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
+        this(drivetrain, targetDistance, Alignment.Angle.getController(), Alignment.Speed.getController());
     }
 
     @Override
