@@ -70,13 +70,14 @@ public class Climber extends SubsystemBase {
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
-        Motors.CLIMBER.configure(climber);
 
         encoder = climber.getEncoder();
         encoder.setPositionConversionFactor(Settings.Climber.ENCODER_RATIO);
         encoder.setVelocityConversionFactor(Settings.Climber.ENCODER_RATIO / 60.0);
 
-        stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
+        Motors.CLIMBER.configure(climber);
+
+        stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);   
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
         tilter =
