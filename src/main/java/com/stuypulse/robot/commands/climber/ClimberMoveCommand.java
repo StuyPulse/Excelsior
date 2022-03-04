@@ -37,7 +37,7 @@ public class ClimberMoveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (timer.getTime() < Settings.Climber.CLIMBER_DELAY.get()) {
+        if (timer.getTime() < Settings.Climber.BRAKE_DELAY.get()) {
             climber.setMotorStop();
             climber.setUnlocked();
         } else if (movingUp) {

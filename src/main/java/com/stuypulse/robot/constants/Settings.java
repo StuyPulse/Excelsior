@@ -46,19 +46,33 @@ public interface Settings {
     public interface Climber {
         SmartBoolean ENABLE_ENCODERS = new SmartBoolean("Climber/Enable Encoders", true);
 
-        SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
-        SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
+        SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
+        SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
-        SmartNumber CLIMBER_DELAY = new SmartNumber("Climber/Delay", 0.1);
-
-        SmartNumber CLIMBER_HEIGHT_LIMIT = new SmartNumber("Climber/Height Limit", -1);
-
-        double CLIMBER_GEAR_RATIO = 1.0 / 36.0;
-        double CLIMBER_WINCH_DIAMATER = Units.inchesToMeters(1.0); // inches
-        double CLIMBER_ENCODER_RATIO = CLIMBER_GEAR_RATIO * CLIMBER_WINCH_DIAMATER * Math.PI;
+        SmartNumber BRAKE_DELAY = new SmartNumber("Climber/Delay", 0.1);
 
         SmartNumber MAX_EXTENSION =
                 new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+
+        double GEAR_RATIO = 1.0 / 36.0;
+        double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
+        double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
+
+        public interface Stalling {
+            // Motor will hit current limit when stalling
+            double CURRENT_THRESHOLD = Motors.CLIMBER.CURRENT_LIMIT_AMPS - 10;
+
+            // If we are trying to go at full speed,
+            // it doesnt matter if our current draw isnt that high
+            double DUTY_CYCLE_THRESHOLD = 0.1;
+
+            // This is about half the speed of low gear
+            // High Gear should be able to reach this speed
+            double VELOCITY_THESHOLD = Units.inchesToMeters(1);
+
+            // Debounce Time
+            double DEBOUNCE_TIME = 1.0;
+        }
     }
 
     public interface ColorSensor {
