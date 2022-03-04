@@ -82,7 +82,7 @@ public class Climber extends SubsystemBase {
     /*** MOTOR CONTROL ***/
 
     public void setMotor(double speed) {
-        if (stopper.get()) {
+        if (getLocked()) {
             Settings.reportWarning("Climber attempted to run while lock was enabled!");
             setMotorStop();
         } else if(speed > 0.0 && getTopHeightLimitReached()) {
@@ -104,16 +104,16 @@ public class Climber extends SubsystemBase {
 
     /*** BRAKE CONTROL ***/
 
-    public void setClimberLocked() {
+    public void setLocked() {
         setMotorStop();
         stopper.set(true);
     }
 
-    public void setClimberUnlocked() {
+    public void setUnlocked() {
         stopper.set(false);
     }
 
-    public boolean getClimberUnlocked() {
+    public boolean getLocked() {
         return stopper.get();
     }
 
@@ -147,10 +147,8 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if (Settings.DEBUG_MODE.get()) {
-            if (tilter != null) {
-                SmartDashboard.putBoolean(
-                        "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
-            }
+            SmartDashboard.putBoolean(
+                    "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
             SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
         }

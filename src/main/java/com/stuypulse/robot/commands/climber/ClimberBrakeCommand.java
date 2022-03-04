@@ -15,6 +15,6 @@ public class ClimberBrakeCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        climber.setClimberLocked();
+        climber.setLocked();
     }
 }

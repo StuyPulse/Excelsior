@@ -21,6 +21,6 @@ public class ClimberStopCommand extends InstantCommand {
     @Override
     public void initialize() {
         climber.setMotorStop();
-        climber.setClimberLocked();
+        climber.setLocked();
     }
 }
