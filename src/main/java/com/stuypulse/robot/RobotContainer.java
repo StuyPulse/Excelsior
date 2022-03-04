@@ -84,7 +84,6 @@ public class RobotContainer {
 
         operator.getBottomButton().whenPressed(new ClimberBrakeCommand(climber));
 
-
         /*************************/
         /*** Conveyor Control ***/
         /*************************/

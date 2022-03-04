@@ -60,7 +60,6 @@ public class LEDController extends SubsystemBase {
 
         private final double color;
         private final boolean pulse;
-    
 
         LEDColor(double color, boolean pulse) {
             this.color = color;
@@ -128,11 +127,11 @@ public class LEDController extends SubsystemBase {
         if (robot.colorSensor.hasBall()) {
             if (blueBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
                 return LEDColor.BLUE_SOLID;
-            } 
-            
+            }
+
             if (redBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.RED_BALL)) {
                 return LEDColor.ORANGE_SOLID;
-            } 
+            }
         }
 
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 100) {
@@ -151,7 +150,7 @@ public class LEDController extends SubsystemBase {
 
         return LEDColor.OFF;
     }
-        
+
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value

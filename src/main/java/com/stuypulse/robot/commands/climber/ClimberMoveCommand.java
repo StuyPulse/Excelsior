@@ -54,6 +54,8 @@ public class ClimberMoveCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (movingUp) ? climber.getTopHeightLimitReached() : climber.getBottomHeightLimitReached();
+        return (movingUp)
+                ? climber.getTopHeightLimitReached()
+                : climber.getBottomHeightLimitReached();
     }
 }

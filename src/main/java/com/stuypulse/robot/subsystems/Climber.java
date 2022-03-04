@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -16,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 /*-
  * Climbs at end of match
@@ -54,7 +55,7 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    private final RelativeEncoder climberEncoder; 
+    private final RelativeEncoder climberEncoder;
     // encoder on neo sensor
 
     private final CANSparkMax climber;
@@ -76,7 +77,6 @@ public class Climber extends SubsystemBase {
                         PneumaticsModuleType.CTREPCM,
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
-        
     }
 
     /*** MOTOR CONTROL ***/
@@ -85,15 +85,13 @@ public class Climber extends SubsystemBase {
         if (getLocked()) {
             Settings.reportWarning("Climber attempted to run while lock was enabled!");
             setMotorStop();
-        } else if(speed > 0.0 && getTopHeightLimitReached()) {
+        } else if (speed > 0.0 && getTopHeightLimitReached()) {
             Settings.reportWarning("Climber attempted to run past top height limit!");
             setMotorStop();
-        } else if(speed < 0.0 && getBottomHeightLimitReached()) {
+        } else if (speed < 0.0 && getBottomHeightLimitReached()) {
             Settings.reportWarning("Climber attempted to run past bottom height limit!");
             setMotorStop();
-        }
-        
-        else {
+        } else {
             climber.set(speed);
         }
     }
@@ -134,11 +132,12 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getTopHeightLimitReached() {
-        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() >= Settings.Climber.CLIMBER_HEIGHT_LIMIT.get();
+        return Settings.Climber.ENABLE_ENCODERS.get()
+                && getPosition() >= Settings.Climber.CLIMBER_HEIGHT_LIMIT.get();
     }
 
     public boolean getBottomHeightLimitReached() {
-        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() <= 0; 
+        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() <= 0;
     }
 
     /*** DEBUG INFORMATION ***/

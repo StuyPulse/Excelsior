@@ -45,7 +45,7 @@ public interface Settings {
 
     public interface Climber {
         SmartBoolean ENABLE_ENCODERS = new SmartBoolean("Climber/Enable Encoders", true);
-        
+
         SmartNumber CLIMBER_DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber CLIMBER_SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
@@ -54,10 +54,11 @@ public interface Settings {
         SmartNumber CLIMBER_HEIGHT_LIMIT = new SmartNumber("Climber/Height Limit", -1);
 
         double CLIMBER_GEAR_RATIO = 1.0 / 36.0;
-        double CLIMBER_WINCH_DIAMATER = Units.inchesToMeters(1.0); //inches
+        double CLIMBER_WINCH_DIAMATER = Units.inchesToMeters(1.0); // inches
         double CLIMBER_ENCODER_RATIO = CLIMBER_GEAR_RATIO * CLIMBER_WINCH_DIAMATER * Math.PI;
 
-        SmartNumber MAX_EXTENSION = new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+        SmartNumber MAX_EXTENSION =
+                new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
     }
 
     public interface ColorSensor {

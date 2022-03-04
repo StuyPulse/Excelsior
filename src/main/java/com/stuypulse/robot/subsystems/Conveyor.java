@@ -99,7 +99,8 @@ public class Conveyor extends SubsystemBase {
                 topBeltMotor.set(+Settings.Conveyor.TOP_BELT_SPEED.get());
                 break;
             case FORWARD_SLOW:
-                topBeltMotor.set(Settings.Conveyor.TOP_BELT_SPEED.get() * Settings.Conveyor.SLOW_MUL.get());
+                topBeltMotor.set(
+                        Settings.Conveyor.TOP_BELT_SPEED.get() * Settings.Conveyor.SLOW_MUL.get());
                 break;
             case STOPPED:
                 topBeltMotor.stopMotor();
@@ -117,7 +118,8 @@ public class Conveyor extends SubsystemBase {
                 gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get());
                 break;
             case FORWARD_SLOW:
-                gandalfMotor.set(Settings.Conveyor.ACCEPT_SPEED.get() * Settings.Conveyor.SLOW_MUL.get());
+                gandalfMotor.set(
+                        Settings.Conveyor.ACCEPT_SPEED.get() * Settings.Conveyor.SLOW_MUL.get());
                 break;
             case STOPPED:
                 gandalfMotor.stopMotor();
