@@ -11,7 +11,7 @@ public class DrivetrainTuneCommand {
     
     public static class Angle extends DrivetrainAlignCommand {
         public Angle(Drivetrain drivetrain, Number targetDistance) {
-            super(drivetrain, targetDistance, new PIDCalculator(Alignment.Angle.BANG_BANG), Alignment.Speed.getController());
+            super(drivetrain, targetDistance, new PIDCalculator(Alignment.Angle.BANG_BANG), new PIDController());
         }
 
         @Override

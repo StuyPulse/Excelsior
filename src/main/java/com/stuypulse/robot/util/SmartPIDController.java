@@ -16,7 +16,7 @@ import com.stuypulse.stuylib.network.SmartNumber;
  * @author Myles Pasetsky
  */
 public class SmartPIDController extends Controller {
-    private final String id;
+    // private final String id;
 
     // PID Controller
     private final SmartNumber p;
@@ -33,7 +33,7 @@ public class SmartPIDController extends Controller {
     private Function<PIDCalculator, PIDController> calculatorOutput;
 
     public SmartPIDController(String id) {
-        this.id = id.endsWith("/") ? id.substring(0, id.length()-1) : id;
+        /*this.*/id = id.endsWith("/") ? id.substring(0, id.length()-1) : id;
 
         // controller
         p = new SmartNumber(id + "/kP", 0.0);
@@ -81,13 +81,6 @@ public class SmartPIDController extends Controller {
         return this;
     }
 
-    /**
-     * if this class could override all the set methods from Controller
-     * it could apply them to pidcontroller and this becomes easier to use 
-     * 
-     * the usage rn is getting a reference to the underlying pid controller which
-     * isnt that bad
-     */
     public PIDController getController() {
         return controller;
     }

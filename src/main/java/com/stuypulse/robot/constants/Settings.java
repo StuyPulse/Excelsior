@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.robot.util.SmartPIDController;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -261,7 +260,7 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
             SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
 
-            double BANG_BANG = 0.1;
+            double BANG_BANG = 0.8;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
@@ -280,13 +279,7 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
             SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0035);
 
-            // pid gain on startup. smart pid controller puts it on the network
-            // double kP = 0.03;
-            // double kI = 0;
-            // double kD = 0.0035;
-
-            // bang bang gain on startup. smart pid controller puts it on the network
-            double BANG_BANG = 0.1;
+            double BANG_BANG = 0.6;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
@@ -294,22 +287,6 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
 
             static Controller getController() {
-                if (false) {
-                    // create smart pid controller 
-                    SmartPIDController smartController = new SmartPIDController("Drivetrain/Alignment/Angle")
-                        .setGains(kP, kI, kD)
-                        .setTuneSpeed(BANG_BANG)
-                        .setCalculatorOutput(x -> x.getPDController());
-
-
-                    // modify reference to underlying controller
-                    smartController.getController()
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
-                    
-                    return smartController;
-                }
-
                 return new PIDController(kP, kI, kD)
                     .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                     .setOutputFilter(new LowPassFilter(OUT_FILTER));
