@@ -85,7 +85,15 @@ public class Climber extends SubsystemBase {
         if (stopper.get()) {
             Settings.reportWarning("Climber attempted to run while lock was enabled!");
             setMotorStop();
-        } else {
+        } else if(speed > 0.0 && getTopHeightLimitReached()) {
+            Settings.reportWarning("Climber attempted to run past top height limit!");
+            setMotorStop();
+        } else if(speed < 0.0 && getBottomHeightLimitReached()) {
+            Settings.reportWarning("Climber attempted to run past bottom height limit!");
+            setMotorStop();
+        }
+        
+        else {
             climber.set(speed);
         }
     }
