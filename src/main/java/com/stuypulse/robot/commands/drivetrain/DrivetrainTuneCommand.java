@@ -41,9 +41,9 @@ public class DrivetrainTuneCommand {
             PIDCalculator distanceCalculator = (PIDCalculator)distanceController;
             PIDController distanceOutput = distanceCalculator.getPDController();
 
-            SmartDashboard.putNumber("Drivetrain/Alignment/Angle/Tuned/P", distanceOutput.getP());
-            SmartDashboard.putNumber("Drivetrain/Alignment/Angle/Tuned/I", distanceOutput.getI());
-            SmartDashboard.putNumber("Drivetrain/Alignment/Angle/Tuned/D", distanceOutput.getD());
+            SmartDashboard.putNumber("Drivetrain/Alignment/Speed/Tuned/P", distanceOutput.getP());
+            SmartDashboard.putNumber("Drivetrain/Alignment/Speed/Tuned/I", distanceOutput.getI());
+            SmartDashboard.putNumber("Drivetrain/Alignment/Speed/Tuned/D", distanceOutput.getD());
         }
 
         public boolean isFinished() {
