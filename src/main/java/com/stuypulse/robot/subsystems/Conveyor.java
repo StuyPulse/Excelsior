@@ -11,7 +11,6 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -146,7 +145,7 @@ public class Conveyor extends SubsystemBase {
 
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
     public boolean getTopBeltHasBall() {
-        return Settings.Conveyor.DISABLE_IR_SENSOR.get() || !topIRSensor.get();
+        return !topIRSensor.get();
     }
 
     public boolean hasOpponentBall() {
@@ -161,10 +160,6 @@ public class Conveyor extends SubsystemBase {
 
     public boolean isFull() {
         return getTopBeltHasBall() && hasAllianceBall();
-    }
-
-    public boolean shouldRetractIntake() {
-        return Settings.Conveyor.AUTO_RETRACT.get() && DriverStation.isTeleopEnabled() && isFull();
     }
 
     /*** PERIODIC COMMAND ***/

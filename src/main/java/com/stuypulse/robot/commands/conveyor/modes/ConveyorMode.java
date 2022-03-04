@@ -53,6 +53,12 @@ public enum ConveyorMode {
                 }
             }),
 
+    FORCE_INTAKE(
+            (Conveyor conveyor) -> {
+                conveyor.setTopBelt(Direction.STOPPED);
+                conveyor.setGandalf(Direction.FORWARD);
+            }),
+
     SHOOT(
             (Conveyor conveyor) -> {
                 conveyor.setTopBelt(Direction.FORWARD);

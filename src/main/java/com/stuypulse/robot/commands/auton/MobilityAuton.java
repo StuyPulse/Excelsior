@@ -21,11 +21,11 @@ public class MobilityAuton {
 
         public NoEncoders(RobotContainer robot) {
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                    new LEDSetCommand(robot.leds, LEDColor.RED),
                     new WaitCommand(START_DELAY));
 
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                    new LEDSetCommand(robot.leds, LEDColor.GREEN),
                     new DrivetrainDriveForeverCommand(robot.drivetrain, 0.3).withTimeout(3));
 
             addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
@@ -39,11 +39,11 @@ public class MobilityAuton {
 
         public WithEncoders(RobotContainer robot) {
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.RED_SOLID),
+                    new LEDSetCommand(robot.leds, LEDColor.RED),
                     new WaitCommand(START_DELAY));
 
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                    new LEDSetCommand(robot.leds, LEDColor.GREEN),
                     new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING));
 
             addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));

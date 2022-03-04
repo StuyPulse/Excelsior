@@ -27,8 +27,6 @@ public class TeleopInitCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        robot.colorSensor.getUpdateFromDriverStation();
-
         robot.intake.stop();
 
         robot.climber.setTilt(Tilt.NO_TILT);

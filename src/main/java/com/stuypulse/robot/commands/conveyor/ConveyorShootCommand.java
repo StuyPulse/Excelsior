@@ -6,12 +6,12 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorModeCommand;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /*
  * @author Ivan Wei (ivanw8288@gmail.com)
@@ -33,32 +33,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-public class ConveyorShootCommand extends CommandBase {
+public class ConveyorShootCommand extends ConveyorModeCommand {
 
     private final Debouncer finished;
-    private final Conveyor conveyor;
 
     /** Creates a new ConveyorShootCommand. */
     public ConveyorShootCommand(Conveyor conveyor) {
-        this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
-        this.conveyor = conveyor;
+        super(conveyor, ConveyorMode.SHOOT);
 
-        addRequirements(conveyor);
+        this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
     }
 
     @Override
     public void initialize() {
         this.finished.calculate(false);
-    }
-
-    @Override
-    public void execute() {
-        conveyor.setMode(ConveyorMode.SHOOT);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        conveyor.setMode(ConveyorMode.DEFAULT);
     }
 
     private boolean hasBall() {

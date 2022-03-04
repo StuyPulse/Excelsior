@@ -68,13 +68,9 @@ public interface Settings {
             Color RED = new Color(0.42, 0.39, 0.19);
             Color BLUE = new Color(0.22, 0.43, 0.35);
         }
-
-        SmartNumber PROXIMITY_THRESHOLD = new SmartNumber("Color Sensor/Proximity Threshold", 110);
     }
 
     public interface Conveyor {
-        boolean TOP_IR_INVERTED = true;
-
         double DEBOUNCE_TIME = 0.2;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
@@ -82,12 +78,6 @@ public interface Settings {
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
-
-        SmartBoolean DISABLE_IR_SENSOR = new SmartBoolean("Conveyor/Disable IR Sensor", false);
-
-        SmartBoolean AUTO_RETRACT = new SmartBoolean("Conveyor/Auto Retract", true);
-
-        SmartBoolean EJECTIONLESS = new SmartBoolean("Conveyor/Ejectionless", false);
     }
 
     public interface Drivetrain {
@@ -189,6 +179,8 @@ public interface Settings {
             double GRAYHILL_DISTANCE_PER_PULSE =
                     (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
                             * GearRatio.GRAYHILL_TO_WHEEL;
+
+            boolean GRAYHILL_INVERTED = true;
         }
     }
 
@@ -235,17 +227,17 @@ public interface Settings {
     }
 
     public interface Limelight {
-        double LIMELIGHT_HEIGHT = Units.inchesToMeters(39.135042);
+        double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
-        double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(40);
+        double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(20);
         double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 35.0);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
 
         // Bounds for Distance

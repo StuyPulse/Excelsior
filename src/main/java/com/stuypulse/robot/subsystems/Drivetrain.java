@@ -143,12 +143,14 @@ public class Drivetrain extends SubsystemBase {
      ***********************/
 
     private void setMotorConfig(Motors.Config left, Motors.Config right) {
-        leftGrayhill.setReverseDirection(Motors.Drivetrain.GRAYHILL_INVERTED ^ left.INVERTED);
+        leftGrayhill.setReverseDirection(
+                Settings.Drivetrain.Encoders.GRAYHILL_INVERTED ^ left.INVERTED);
         for (CANSparkMax motor : leftMotors) {
             left.configure(motor);
         }
 
-        rightGrayhill.setReverseDirection(Motors.Drivetrain.GRAYHILL_INVERTED ^ right.INVERTED);
+        rightGrayhill.setReverseDirection(
+                Settings.Drivetrain.Encoders.GRAYHILL_INVERTED ^ right.INVERTED);
         for (CANSparkMax motor : rightMotors) {
             right.configure(motor);
         }

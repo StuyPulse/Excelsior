@@ -48,11 +48,11 @@ public class TwoBallAuton extends SequentialCommandGroup {
     public TwoBallAuton(RobotContainer robot) {
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED_SOLID), new WaitCommand(START_DELAY));
+                new LEDSetCommand(robot.leds, LEDColor.RED), new WaitCommand(START_DELAY));
 
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.YELLOW),
                 new ShooterRingShotCommand(robot.shooter),
                 new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeExtendCommand(robot.intake),
@@ -60,7 +60,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new WaitCommand(SHOOTER_INITIALIZE_DELAY));
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN_SOLID),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN),
                 new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),

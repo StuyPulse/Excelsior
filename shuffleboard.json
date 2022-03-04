@@ -155,37 +155,15 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "2,3": {
+          "4,3": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Color Sensor/Proximity Threshold",
-              "_title": "SmartDashboard/Color Sensor/Proximity Threshold"
-            }
-          },
-          "5,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Current Ball",
-              "_title": "SmartDashboard/Debug/Color Sensor/Current Ball"
-            }
-          },
-          "7,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Target Ball",
-              "_title": "SmartDashboard/Debug/Color Sensor/Target Ball"
+              "_title": "Prox Thresh"
             }
           },
           "5,3": {
@@ -196,9 +174,9 @@
             "content": {
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Has Alliance Ball",
-              "_title": "SmartDashboard/Debug/Color Sensor/Has Alliance Ball",
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
+              "_title": "Has Alliance Ball",
+              "Colors/Color when true": "#FF0000FF",
+              "Colors/Color when false": "#000000FF"
             }
           },
           "5,2": {
@@ -209,7 +187,7 @@
             "content": {
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Has Any Ball",
-              "_title": "SmartDashboard/Debug/Color Sensor/Has Any Ball",
+              "_title": "Has Any Ball",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
@@ -222,34 +200,12 @@
             "content": {
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Has Opponent Ball",
-              "_title": "SmartDashboard/Debug/Color Sensor/Has Opponent Ball",
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
+              "_title": "Has Opponent Ball",
+              "Colors/Color when true": "#0000FFFF",
+              "Colors/Color when false": "#000000FF"
             }
           },
-          "9,4": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Matched Color",
-              "_title": "SmartDashboard/Debug/Color Sensor/Matched Color"
-            }
-          },
-          "9,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Raw Color",
-              "_title": "SmartDashboard/Debug/Color Sensor/Raw Color"
-            }
-          },
-          "9,1": {
+          "5,1": {
             "size": [
               2,
               1
@@ -257,20 +213,20 @@
             "content": {
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Is Connected",
-              "_title": "SmartDashboard/Debug/Color Sensor/Is Connected",
+              "_title": "Is Connected",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "2,2": {
+          "4,2": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Color Sensor/Enabled",
-              "_title": "SmartDashboard/Color Sensor/Enabled"
+              "_title": "Enabled"
             }
           },
           "4,4": {
@@ -281,7 +237,55 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Proximity",
-              "_title": "SmartDashboard/Debug/Color Sensor/Proximity"
+              "_title": "Proximity"
+            }
+          },
+          "8,2": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Number Bar",
+              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Color R",
+              "_title": "Color R",
+              "Range/Min": -0.0,
+              "Range/Max": 1.0,
+              "Range/Center": 0.0,
+              "Visuals/Num tick marks": 5,
+              "Visuals/Show text": true
+            }
+          },
+          "8,3": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Number Bar",
+              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Color G",
+              "_title": "Color G",
+              "Range/Min": 0.0,
+              "Range/Max": 1.0,
+              "Range/Center": 0.0,
+              "Visuals/Num tick marks": 5,
+              "Visuals/Show text": true
+            }
+          },
+          "8,4": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Number Bar",
+              "_source0": "network_table:///SmartDashboard/Debug/Color Sensor/Color B",
+              "_title": "Color B",
+              "Range/Min": 0.0,
+              "Range/Max": 1.0,
+              "Range/Center": 0.0,
+              "Visuals/Num tick marks": 5,
+              "Visuals/Show text": true
             }
           }
         }
@@ -996,7 +1000,7 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "3,1": {
+          "4,1": {
             "size": [
               1,
               1
@@ -1015,7 +1019,7 @@
             "content": {
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Debug/Intake/Extended",
-              "_title": "SmartDashboard/Debug/Intake/Extended",
+              "_title": "Extended",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
@@ -1028,40 +1032,18 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Debug/Intake/Motor Speed",
-              "_title": "SmartDashboard/Debug/Intake/Motor Speed"
+              "_title": "Output Speed"
             }
           },
-          "5,3": {
+          "4,2": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Debug/Intake/Solenoid",
-              "_title": "SmartDashboard/Debug/Intake/Solenoid"
-            }
-          },
-          "3,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Intake/Locked Mul",
-              "_title": "Locked Mul"
-            }
-          },
-          "0,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Intake/Locked Multiplier",
-              "_title": "Locked Multiplier"
+              "_source0": "network_table:///SmartDashboard/Intake/Locked Speed",
+              "_title": "Locked Speed"
             }
           },
           "1,0": {
@@ -1080,9 +1062,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -7.333333492279053,
-    "y": -7.333333492279053,
-    "width": 1294.6666259765625,
-    "height": 814.6666870117188
+    "x": 60.0,
+    "y": 25.0,
+    "width": 1620.0,
+    "height": 1025.0
   }
 }

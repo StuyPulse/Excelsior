@@ -41,16 +41,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class Intake extends SubsystemBase {
 
-    private double speed;
-
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
 
     private final Conveyor conveyor;
 
+    private double speed;
+
     public Intake(Conveyor conveyor) {
         this.motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        this.motor.setOpenLoopRampRate(0.0);
         Motors.INTAKE.configure(motor);
 
         this.solenoid =

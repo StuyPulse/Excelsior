@@ -29,9 +29,9 @@ import com.stuypulse.robot.subsystems.Conveyor;
  * @author Edmund Chin (edmundc421@gmail.com)
  */
 
-public class ConveyorForceEjectCommand extends ConveyorModeCommand {
+public class ConveyorForceIntakeCommand extends ConveyorModeCommand {
 
-    public ConveyorForceEjectCommand(Conveyor conveyor) {
-        super(conveyor, ConveyorMode.EJECT);
+    public ConveyorForceIntakeCommand(Conveyor conveyor) {
+        super(conveyor, ConveyorMode.FORCE_INTAKE);
     }
 }

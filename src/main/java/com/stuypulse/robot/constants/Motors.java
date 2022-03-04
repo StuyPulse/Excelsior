@@ -31,8 +31,6 @@ public interface Motors {
 
         Config LEFT = new Config(true, IDLE_MODE, CURRENT_LIMIT_AMPS);
         Config RIGHT = new Config(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
-
-        boolean GRAYHILL_INVERTED = true;
     }
 
     Config INTAKE = new Config(true, IdleMode.kBrake, 40);
