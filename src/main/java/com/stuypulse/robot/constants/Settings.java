@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.robot.util.SmartPIDController;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -273,9 +274,13 @@ public interface Settings {
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.03);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0035);
+            // pid gains on startup, smart pid controller puts them on the network
+            double kP = 0.03;
+            double kI = 0;
+            double kD = 0.0035;
+
+            // bang bang gain on startup. smart pid controller puts it on the network
+            double BANG_BANG = 0.1;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
@@ -283,9 +288,25 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                // create smart pid controller 
+                SmartPIDController smartController = new SmartPIDController("Drivetrain/Alignment/Angle")
+                    .setGains(kP, kI, kD)
+                    .setTuneSpeed(BANG_BANG)
+                    .setCalculatorOutput(x -> x.getPDController());
+
+
+                // modify reference to underlying controller
+                smartController.getController()
+                    .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                    .setOutputFilter(new LowPassFilter(OUT_FILTER));
+
+                return smartController;
+
+                // CANT DO THIS (see fixme in smart pid controller)
+                // return new SmartPIDController("Drivetrain/Alignment/Angle")
+                //     .setGains(kP, kI, kD)
+                //     .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                //     .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
         }
     }
