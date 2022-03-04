@@ -88,6 +88,16 @@ public class Climber extends SubsystemBase {
 
     /*** MOTOR CONTROL ***/
 
+    public void forceLowerClimber() {
+        if (getLocked()) {
+            Settings.reportWarning("Climber attempted to run while lock was enabled!");
+            setMotorStop();
+        } else {
+            climber.set(-Settings.Climber.SLOW_SPEED.get());
+            resetEncoder();
+        }
+    }
+
     public void setMotor(double speed) {
         if (speed != 0.0 && isStalling()) {
             DriverStation.reportError(
