@@ -44,21 +44,26 @@ public interface Settings {
     }
 
     public interface Climber {
-        SmartBoolean ENABLE_ENCODERS = new SmartBoolean("Climber/Enable Encoders", true);
 
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
 
         SmartNumber BRAKE_DELAY = new SmartNumber("Climber/Delay", 0.1);
 
-        SmartNumber MAX_EXTENSION =
-                new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+        public interface Encoders {
+            SmartBoolean ENABLED = new SmartBoolean("Climber/Enable Encoders", false);
 
-        double GEAR_RATIO = 1.0 / 36.0;
-        double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
-        double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
+            double GEAR_RATIO = 1.0 / 20.0;
+            double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
+            double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
+
+            SmartNumber MAX_EXTENSION =
+                    new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+        }
 
         public interface Stalling {
+            SmartBoolean ENABLED = new SmartBoolean("Climber/Stall Detection", false);
+
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = Motors.CLIMBER.CURRENT_LIMIT_AMPS - 10;
 
@@ -309,8 +314,8 @@ public interface Settings {
 
             static Controller getController() {
                 return new PIDController(kP, kI, kD)
-                    .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                    .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
         }
     }
