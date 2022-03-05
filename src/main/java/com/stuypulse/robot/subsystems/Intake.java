@@ -91,7 +91,7 @@ public class Intake extends SubsystemBase {
 
     /*** Color Sensor Information ***/
     private boolean getShouldStop() {
-        return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.isFull();
+        return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.hasAnyBall();
     }
 
     /*** Debug Information ***/

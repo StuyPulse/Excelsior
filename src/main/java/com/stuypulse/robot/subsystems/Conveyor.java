@@ -148,6 +148,10 @@ public class Conveyor extends SubsystemBase {
         return !topIRSensor.get();
     }
 
+    public boolean hasAnyBall() {
+        return colorSensor.hasBall();
+    }
+
     public boolean hasOpponentBall() {
         return colorSensor.hasOpponentBall();
     }

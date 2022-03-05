@@ -43,8 +43,6 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // Initial delay for the auton
     private static final double START_DELAY = 1.0;
 
-    // Time it takes for the intake to go down
-    private static final double INTAKE_FALL_DOWN = 0.1;
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
@@ -52,7 +50,11 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final double DRIVE_DISTANCE =  1.5; // meters to back up at the end
+    
+    private static final String START =
+            "TwoBallAuton/output/TwoBallGetSecondBall.wpilib.json";
+    private static final String EVACUATE =
+            "TwoBallAuton/output/TwoBallEvacuate.wpilib.json";
 
     public TwoBallAuton(RobotContainer robot) {
 
@@ -70,14 +72,14 @@ public class TwoBallAuton extends SequentialCommandGroup {
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                new DrivetrainDriveDistanceCommand(robot.drivetrain, DRIVE_DISTANCE),
+                new DrivetrainRamseteCommand(robot.drivetrain, START).robotRelative(),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE),
-                new DrivetrainDriveDistanceCommand(robot.drivetrain, DRIVE_DISTANCE)
+                new DrivetrainRamseteCommand(robot.drivetrain, EVACUATE).fieldRelative()
         );
 
         addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
