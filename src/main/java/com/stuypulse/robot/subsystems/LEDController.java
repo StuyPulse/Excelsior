@@ -10,7 +10,7 @@ import com.stuypulse.stuylib.util.StopWatch;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.ColorSensor.CurrentBall;
+import com.stuypulse.robot.subsystems.ColorSensor.BallColor;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
@@ -175,11 +175,11 @@ public class LEDController extends SubsystemBase {
         if (robot.conveyor.isFull()) return LEDColor.GREEN;
 
         if (robot.colorSensor.hasBall()) {
-            if (blueBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.BLUE_BALL)) {
+            if (blueBall.calculate(robot.colorSensor.getCurrentBall() == BallColor.BLUE_BALL)) {
                 return LEDColor.BLUE;
             }
 
-            if (redBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.RED_BALL)) {
+            if (redBall.calculate(robot.colorSensor.getCurrentBall() == BallColor.RED_BALL)) {
                 return LEDColor.RED_ORANGE;
             }
         }

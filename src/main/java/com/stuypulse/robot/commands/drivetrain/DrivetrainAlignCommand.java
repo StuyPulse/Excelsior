@@ -59,7 +59,7 @@ public class DrivetrainAlignCommand extends CommandBase {
         this.distanceController = distanceController;
 
         // finish optimally
-        finished = new Debouncer(Limelight.DEBOUNCER_TIME, DebounceType.kRising);
+        finished = new Debouncer(Limelight.DEBOUNCE_TIME, DebounceType.kRising);
 
         addRequirements(drivetrain);
     }

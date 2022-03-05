@@ -7,7 +7,7 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
+import com.stuypulse.robot.constants.Settings.ColorSensor.BallRGB;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
@@ -60,13 +60,12 @@ public class ColorSensor extends SubsystemBase {
         }
     }
 
-    public enum CurrentBall {
+    public enum BallColor {
         RED_BALL,
-        BLUE_BALL,
-        NO_BALL;
+        BLUE_BALL
     }
 
-    private CurrentBall target;
+    private BallColor target;
     private final Sensor sensor;
     private final DigitalInput ballIR;
 
@@ -83,12 +82,6 @@ public class ColorSensor extends SubsystemBase {
         getTargetBallUpdate();
     }
 
-    /*** IS CONNECTED ***/
-
-    public boolean isConnected() {
-        return sensor.connected;
-    }
-
     /*** PROXIMITY DETERMINATION ***/
 
     public boolean hasBall() {
@@ -97,19 +90,18 @@ public class ColorSensor extends SubsystemBase {
 
     /*** TARGET BALL DETERMINATION ***/
 
-    public CurrentBall getTargetBallUpdate() {
+    public BallColor getTargetBallUpdate() {
         switch (DriverStation.getAlliance()) {
-            case Blue:
-                return target = CurrentBall.BLUE_BALL;
-            case Red:
-                return target = CurrentBall.RED_BALL;
             default:
-                Settings.reportWarning("DriverStation.getAlliance() returned invalid!");
-                return target = CurrentBall.NO_BALL;
+                Settings.reportWarning("DriverStation.getAlliance() returned invalid Color!");
+            case Red:
+                return target = BallColor.RED_BALL;
+            case Blue:
+                return target = BallColor.BLUE_BALL;
         }
     }
 
-    public CurrentBall getTargetBall() {
+    public BallColor getTargetBall() {
         return target;
     }
 
@@ -126,18 +118,29 @@ public class ColorSensor extends SubsystemBase {
         return sensor.color;
     }
 
-    public CurrentBall getCurrentBall() {
-        double redError = getColorDistance(getRawColor(), BallColor.RED);
-        double blueError = getColorDistance(getRawColor(), BallColor.BLUE);
+    public BallColor getCurrentBall() {
+        // Get the error to each of the target colors
+        double redError = getColorDistance(getRawColor(), BallRGB.RED);
+        double blueError = getColorDistance(getRawColor(), BallRGB.BLUE);
 
-        if (redError < blueError) {
-            return CurrentBall.RED_BALL;
-        } else {
-            return CurrentBall.BLUE_BALL;
+        // Bias the error towards the alliance color
+        if (getTargetBall() == BallColor.RED_BALL) {
+            redError /= Settings.ColorSensor.TARGET_BIAS.get();
         }
+
+        if (getTargetBall() == BallColor.BLUE_BALL) {
+            blueError /= Settings.ColorSensor.TARGET_BIAS.get();
+        }
+
+        // Return the color that the sensor is sensing
+        return redError < blueError ? BallColor.RED_BALL : BallColor.BLUE_BALL;
     }
 
     /*** PUBLIC BALL DETERMINATION ***/
+
+    private boolean isConnected() {
+        return sensor.connected;
+    }
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {

@@ -83,9 +83,11 @@ public interface Settings {
     public interface ColorSensor {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
-        double DEBOUNCE_TIME = 0.1;
+        SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
-        public interface BallColor {
+        double DEBOUNCE_TIME = 0.25;
+
+        public interface BallRGB {
             Color RED = new Color(0.42, 0.39, 0.19);
             Color BLUE = new Color(0.22, 0.43, 0.35);
         }
@@ -268,7 +270,7 @@ public interface Settings {
         SmartNumber MAX_VELOCITY =
                 new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
 
-        double DEBOUNCER_TIME = 0.25;
+        double DEBOUNCE_TIME = 0.25;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
