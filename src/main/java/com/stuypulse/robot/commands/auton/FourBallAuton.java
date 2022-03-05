@@ -92,9 +92,6 @@ public class FourBallAuton extends SequentialCommandGroup {
         );
 
         addCommands(
-            new DrivetrainDriveDistanceCommand(robot.drivetrain, Units.feetToMeters(-1))
-                .fieldRelative(),
-
             new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
 
             new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull())
