@@ -120,6 +120,11 @@ public class RobotContainer {
                 .whenPressed(new IntakeExtendCommand(intake))
                 .whileHeld(new IntakeAcquireCommand(intake));
 
+        operator.getRightBumper()
+                .whenPressed(new IntakeExtendCommand(intake))
+                .whileHeld(new IntakeAcquireCommand(intake))
+                .whileHeld(new ConveyorForceIntakeCommand(conveyor));
+
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
         operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));

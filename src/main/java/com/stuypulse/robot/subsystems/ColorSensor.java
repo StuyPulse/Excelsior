@@ -9,6 +9,8 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.ColorSensor.BallColor;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -68,9 +70,16 @@ public class ColorSensor extends SubsystemBase {
     private final Sensor sensor;
     private final DigitalInput ballIR;
 
+    private final Debouncer alliance;
+    private final Debouncer opponent;
+
     public ColorSensor() {
         sensor = new Sensor();
         ballIR = new DigitalInput(Ports.ColorSensor.BALL_IR_SENSOR);
+
+        alliance = new Debouncer(Settings.ColorSensor.DEBOUNCE_TIME, DebounceType.kRising);
+        opponent = new Debouncer(Settings.ColorSensor.DEBOUNCE_TIME, DebounceType.kRising);
+
         getTargetBallUpdate();
     }
 
@@ -135,7 +144,7 @@ public class ColorSensor extends SubsystemBase {
             return hasBall();
         }
 
-        return hasBall() && getCurrentBall() == getTargetBall();
+        return alliance.calculate(hasBall() && getCurrentBall() == getTargetBall());
     }
 
     public boolean hasOpponentBall() {
@@ -143,7 +152,7 @@ public class ColorSensor extends SubsystemBase {
             return false;
         }
 
-        return hasBall() && !hasAllianceBall();
+        return opponent.calculate(hasBall() && getCurrentBall() != getTargetBall());
     }
 
     /*** DEBUG INFORMATION ***/

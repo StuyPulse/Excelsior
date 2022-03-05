@@ -21,7 +21,7 @@ public enum ConveyorMode {
                 }
 
                 // Stop if you already have ball
-                else if (conveyor.getTopBeltHasBall()) {
+                else if (conveyor.hasTopBeltBall()) {
                     conveyor.setGandalf(Direction.STOPPED);
                 }
 
@@ -38,7 +38,7 @@ public enum ConveyorMode {
                 /*** Top belt logic ***/
 
                 // Stop if you already have ball
-                if (conveyor.getTopBeltHasBall()) {
+                if (conveyor.hasTopBeltBall()) {
                     conveyor.setTopBelt(Direction.STOPPED);
                 }
 
@@ -55,7 +55,8 @@ public enum ConveyorMode {
 
     FORCE_INTAKE(
             (Conveyor conveyor) -> {
-                conveyor.setTopBelt(Direction.STOPPED);
+                conveyor.setTopBelt(
+                        conveyor.hasTopBeltBall() ? Direction.STOPPED : Direction.FORWARD);
                 conveyor.setGandalf(Direction.FORWARD);
             }),
 
