@@ -199,6 +199,7 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Climber/Stalling", isStalling());
             SmartDashboard.putNumber("Debug/Climber/Current Amps", getCurrentAmps());
             SmartDashboard.putNumber("Debug/Climber/Velocity", getVelocity());
+            SmartDashboard.putNumber("Debug/Climber/Position", encoder.getPosition());
 
             SmartDashboard.putBoolean(
                     "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));

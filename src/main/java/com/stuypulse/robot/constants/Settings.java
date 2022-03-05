@@ -96,7 +96,7 @@ public interface Settings {
 
     public interface Drivetrain {
         // If speed is below this, use quick turn
-        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.25);
+        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.3);
 
         // Low Pass Filter and deadband for Driver Controls
         SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.05);
@@ -245,7 +245,7 @@ public interface Settings {
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
-        double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(20);
+        double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
         double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
@@ -273,7 +273,7 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.15);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.2);
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
@@ -281,12 +281,12 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
             SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
 
-            double BANG_BANG = 0.8;
+            double BANG_BANG = 1.0;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.15);
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
 
             static Controller getController() {
                 return new PIDController(kP, kI, kD)
@@ -296,16 +296,16 @@ public interface Settings {
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.03);
+            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.0366);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0035);
+            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0034);
 
-            double BANG_BANG = 0.6;
+            double BANG_BANG = 0.75;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.03);
+                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.02);
 
             static Controller getController() {
                 return new PIDController(kP, kI, kD)

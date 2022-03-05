@@ -29,6 +29,8 @@ public class TeleopInitCommand extends InstantCommand {
     public void initialize() {
         robot.intake.stop();
 
+        robot.colorSensor.getTargetBallUpdate();
+
         robot.climber.setTilt(Tilt.NO_TILT);
         robot.climber.resetEncoder();
 

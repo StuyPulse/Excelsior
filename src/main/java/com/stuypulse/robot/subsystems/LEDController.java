@@ -180,7 +180,7 @@ public class LEDController extends SubsystemBase {
             }
 
             if (redBall.calculate(robot.colorSensor.getCurrentBall() == CurrentBall.RED_BALL)) {
-                return LEDColor.ORANGE;
+                return LEDColor.RED_ORANGE;
             }
         }
 
