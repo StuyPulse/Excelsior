@@ -5,17 +5,26 @@
 
 package com.stuypulse.robot.commands.auton;
 
+import java.util.List;
+
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.stuylib.math.Vector2D;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -41,9 +50,9 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // Time it takes for the conveyor to give the shooter the ball
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
-    private static final double DRIVETRAIN_ALIGN_TIME = 2.0;
-    // Distance from start point to Ring (in meters)
-    private static final double DISTANCE_TO_RING = 3.0;
+    private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
+
+    private static final double DRIVE_DISTANCE =  1.5; // meters to back up at the end
 
     public TwoBallAuton(RobotContainer robot) {
 
@@ -52,19 +61,24 @@ public class TwoBallAuton extends SequentialCommandGroup {
 
         // Starting up subsystems
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.YELLOW),
-                new ShooterRingShotCommand(robot.shooter),
-                new WaitCommand(INTAKE_FALL_DOWN),
-                new IntakeExtendCommand(robot.intake),
-                new IntakeAcquireForeverCommand(robot.intake),
-                new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW),
+            new IntakeExtendCommand(robot.intake),
+            new IntakeAcquireForeverCommand(robot.intake),
+            new ShooterRingShotCommand(robot.shooter),
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING),
+                new DrivetrainDriveDistanceCommand(robot.drivetrain, DRIVE_DISTANCE),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.BLUE),
+                new DrivetrainDriveDistanceCommand(robot.drivetrain, DRIVE_DISTANCE)
+        );
 
         addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
     }

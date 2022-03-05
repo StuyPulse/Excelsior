@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  
 public class FiveBallAuton extends SequentialCommandGroup {
     // Time it takes for the shooter to reach the target speed
-    private static final double SHOOTER_INITIALIZE_DELAY = 0.7;
+    private static final double SHOOTER_INITIALIZE_DELAY = 0.3;
     // Time it takes for the conveyor to give the shooter the ball
     private static final double CONVEYOR_TO_SHOOTER = 3.0;
     // Time we want to give the drivetrain to align
