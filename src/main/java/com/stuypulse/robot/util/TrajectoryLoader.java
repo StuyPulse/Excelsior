@@ -63,13 +63,12 @@ public final class TrajectoryLoader {
     // Is centered at (0,0), so relativity must be handled by calling command,
     // which can be done by setting robot odometry or by doing trajectory.relativeTo
     public static Trajectory getLine(double distance) {
-        boolean reversed = distance < 0;
-        Rotation2d heading = Rotation2d.fromDegrees(reversed ? 180.0 : 0.0);
-
         return TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, heading),
-                List.of(),
-                new Pose2d(distance, 0, heading),
-                MAX_SPEED_TRAJECTORY.setReversed(reversed));
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+            List.of(),
+            new Pose2d(distance, 0, Rotation2d.fromDegrees(0)),
+            MAX_SPEED_TRAJECTORY.setReversed(distance < 0)
+        );
     }
+
 }
