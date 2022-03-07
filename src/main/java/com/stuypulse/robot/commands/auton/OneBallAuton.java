@@ -14,7 +14,7 @@ import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
 import com.stuypulse.robot.constants.Settings.Limelight;
-import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -65,6 +65,6 @@ public class OneBallAuton extends SequentialCommandGroup {
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
     }
 }

@@ -18,7 +18,7 @@ import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Limelight;
-import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.LEDColor;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -82,6 +82,6 @@ public class TwoBallAuton extends SequentialCommandGroup {
                 new DrivetrainRamseteCommand(robot.drivetrain, EVACUATE).fieldRelative()
         );
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
     }
 }
