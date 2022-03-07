@@ -49,14 +49,16 @@ public class ColorSensor extends SubsystemBase {
 
         public Sensor() {
             colorSensor = new ColorSensorV3(Ports.ColorSensor.COLOR_SENSOR);
+            connected = false;
+            color = Color.kBlack;
         }
 
         public void update() {
             this.connected = Settings.ColorSensor.ENABLED.get();
-            this.connected &= !DriverStation.isAutonomous();
-            this.connected &= colorSensor.isConnected();
+            if (this.connected) this.connected &= !DriverStation.isAutonomous();
+            if (this.connected) this.connected &= colorSensor.isConnected();
 
-            this.color = colorSensor.getColor();
+            if (this.connected) this.color = colorSensor.getColor();
         }
     }
 

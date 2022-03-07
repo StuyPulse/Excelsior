@@ -64,11 +64,9 @@ public final class TrajectoryLoader {
     // which can be done by setting robot odometry or by doing trajectory.relativeTo
     public static Trajectory getLine(double distance) {
         return TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            List.of(),
-            new Pose2d(distance, 0, Rotation2d.fromDegrees(0)),
-            MAX_SPEED_TRAJECTORY.setReversed(distance < 0)
-        );
+                new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                List.of(),
+                new Pose2d(distance, 0, Rotation2d.fromDegrees(0)),
+                MAX_SPEED_TRAJECTORY.setReversed(distance < 0));
     }
-
 }
