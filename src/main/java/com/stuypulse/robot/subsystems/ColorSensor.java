@@ -126,12 +126,13 @@ public class ColorSensor extends SubsystemBase {
         double blueError = getColorDistance(getRawColor(), BallRGB.BLUE);
 
         // Bias the error towards the alliance color
-        if (getTargetBall() == BallColor.RED_BALL) {
-            redError /= Settings.ColorSensor.TARGET_BIAS.get();
-        }
-
-        if (getTargetBall() == BallColor.BLUE_BALL) {
-            blueError /= Settings.ColorSensor.TARGET_BIAS.get();
+        switch (getTargetBall()) {
+            case RED_BALL:
+                redError /= Settings.ColorSensor.TARGET_BIAS.get();
+                break;
+            case BLUE_BALL:
+                blueError /= Settings.ColorSensor.TARGET_BIAS.get();
+                break;
         }
 
         // Return the color that the sensor is sensing
