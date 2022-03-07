@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -72,12 +73,12 @@ public class Climber extends SubsystemBase {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
 
         encoder = climber.getEncoder();
-        encoder.setPositionConversionFactor(Settings.Climber.ENCODER_RATIO);
-        encoder.setVelocityConversionFactor(Settings.Climber.ENCODER_RATIO / 60.0);
+        encoder.setPositionConversionFactor(Encoders.ENCODER_RATIO);
+        encoder.setVelocityConversionFactor(Encoders.ENCODER_RATIO / 60.0);
 
         Motors.CLIMBER.configure(climber);
 
-        stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);   
+        stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
         tilter =
@@ -146,6 +147,10 @@ public class Climber extends SubsystemBase {
 
     /*** ENCODER ***/
 
+    public double getVelocity() {
+        return encoder.getVelocity();
+    }
+
     public double getPosition() {
         return encoder.getPosition();
     }
@@ -155,12 +160,11 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getTopHeightLimitReached() {
-        return Settings.Climber.ENABLE_ENCODERS.get()
-                && getPosition() >= Settings.Climber.MAX_EXTENSION.get();
+        return Encoders.ENABLED.get() && getPosition() >= Encoders.MAX_EXTENSION.get();
     }
 
     public boolean getBottomHeightLimitReached() {
-        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() <= 0;
+        return Encoders.ENABLED.get() && getPosition() <= 0;
     }
 
     /*** STALL PROTECTION ***/
@@ -173,15 +177,11 @@ public class Climber extends SubsystemBase {
         return Math.abs(climber.getOutputCurrent());
     }
 
-    private double getVelocity() {
-        return encoder.getVelocity();
-    }
-
     public boolean isStalling() {
         boolean current = getCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(getDutyCycle()) > Stalling.DUTY_CYCLE_THRESHOLD;
         boolean velocity = Math.abs(getVelocity()) < Stalling.VELOCITY_THESHOLD;
-        return stalling.calculate((current || output) && velocity);
+        return Stalling.ENABLED.get() && stalling.calculate(output && current && velocity);
     }
 
     /*** DEBUG INFORMATION ***/

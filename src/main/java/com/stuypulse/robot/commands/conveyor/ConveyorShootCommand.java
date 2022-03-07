@@ -50,7 +50,7 @@ public class ConveyorShootCommand extends ConveyorModeCommand {
     }
 
     private boolean hasBall() {
-        return conveyor.getTopBeltHasBall() || conveyor.hasAllianceBall();
+        return conveyor.hasTopBeltBall() || conveyor.hasAllianceBall();
     }
 
     @Override

@@ -103,9 +103,14 @@ public class RobotContainer {
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
                                 .perpetually());
 
-        driver.getDPadLeft().whileHeld(new DrivetrainTuneCommand.Angle(drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
-        driver.getDPadRight().whileHeld(new DrivetrainTuneCommand.Speed(drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
-        
+        driver.getDPadLeft()
+                .whileHeld(
+                        new DrivetrainTuneCommand.Angle(
+                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
+        driver.getDPadRight()
+                .whileHeld(
+                        new DrivetrainTuneCommand.Speed(
+                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
 
         /**********************/
         /*** Intake Control ***/
@@ -114,6 +119,11 @@ public class RobotContainer {
         operator.getRightTriggerButton()
                 .whenPressed(new IntakeExtendCommand(intake))
                 .whileHeld(new IntakeAcquireCommand(intake));
+
+        operator.getRightBumper()
+                .whenPressed(new IntakeExtendCommand(intake))
+                .whileHeld(new IntakeAcquireCommand(intake))
+                .whileHeld(new ConveyorForceIntakeCommand(conveyor));
 
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
