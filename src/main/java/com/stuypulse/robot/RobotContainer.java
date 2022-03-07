@@ -84,8 +84,6 @@ public class RobotContainer {
 
         operator.getSelectButton().whileHeld(new ClimberForceLowerCommand(climber));
 
-        operator.getBottomButton().whenPressed(new ClimberBrakeCommand(climber));
-
         /*************************/
         /*** Conveyor Control ***/
         /*************************/

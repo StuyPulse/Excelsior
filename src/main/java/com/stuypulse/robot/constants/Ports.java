@@ -21,8 +21,6 @@ public interface Ports {
         int MOTOR = 50;
 
         // Solenoids
-        int STOPPER = 4;
-
         int TILTER_FORWARD = 6;
         int TILTER_REVERSE = 7;
     }

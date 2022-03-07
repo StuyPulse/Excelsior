@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -65,8 +64,6 @@ public class Climber extends SubsystemBase {
 
     private final Debouncer stalling;
 
-    private final Solenoid stopper;
-
     private final DoubleSolenoid tilter;
 
     public Climber() {
@@ -80,7 +77,6 @@ public class Climber extends SubsystemBase {
 
         stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
-        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
         tilter =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
@@ -91,13 +87,8 @@ public class Climber extends SubsystemBase {
     /*** MOTOR CONTROL ***/
 
     public void forceLowerClimber() {
-        if (getLocked()) {
-            Settings.reportWarning("Climber attempted to run while lock was enabled!");
-            setMotorStop();
-        } else {
-            climber.set(-Settings.Climber.SLOW_SPEED.get());
-            resetEncoder();
-        }
+        climber.set(-Settings.Climber.SLOW_SPEED.get());
+        resetEncoder();
     }
 
     public void setMotor(double speed) {
@@ -105,9 +96,6 @@ public class Climber extends SubsystemBase {
             DriverStation.reportError(
                     "[CRITICAL] Climber is stalling when attempting to move!", false);
             stalling.calculate(true);
-            setMotorStop();
-        } else if (speed != 0.0 && getLocked()) {
-            Settings.reportWarning("Climber attempted to run while lock was enabled!");
             setMotorStop();
         } else if (speed > 0.0 && getTopHeightLimitReached()) {
             Settings.reportWarning("Climber attempted to run past top height limit!");
@@ -122,21 +110,6 @@ public class Climber extends SubsystemBase {
 
     public void setMotorStop() {
         climber.stopMotor();
-    }
-
-    /*** BRAKE CONTROL ***/
-
-    public void setLocked() {
-        setMotorStop();
-        stopper.set(false);
-    }
-
-    public void setUnlocked() {
-        stopper.set(true);
-    }
-
-    public boolean getLocked() {
-        return stopper.get();
     }
 
     /*** TILT CONTROL ***/
@@ -203,7 +176,6 @@ public class Climber extends SubsystemBase {
 
             SmartDashboard.putBoolean(
                     "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
-            SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
         }
     }

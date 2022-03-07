@@ -46,9 +46,7 @@ public interface Settings {
     public interface Climber {
 
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
-        SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
-
-        SmartNumber BRAKE_DELAY = new SmartNumber("Climber/Delay", 0.1);
+        SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.8);
 
         public interface Encoders {
             SmartBoolean ENABLED = new SmartBoolean("Climber/Enable Encoders", false);
