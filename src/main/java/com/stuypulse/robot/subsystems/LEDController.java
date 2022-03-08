@@ -8,13 +8,13 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.stuylib.util.StopWatch;
 
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.ColorSensor.BallColor;
 import com.stuypulse.robot.util.LEDColor;
+import com.stuypulse.robot.util.TeleopButton;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,6 +34,7 @@ public class LEDController extends SubsystemBase {
 
     // Stopwatch to check when to start overriding manual updates
     private final StopWatch lastUpdate;
+    private double manualTime;
 
     // The robot container to get information from
     private final RobotContainer robot;
@@ -41,23 +42,32 @@ public class LEDController extends SubsystemBase {
     // The current color to set the LEDs to
     private LEDColor manualColor;
 
-    // Debouncer for led persist delay
-    private final Debouncer redBall;
-    private final Debouncer blueBall;
-
     public LEDController(RobotContainer container) {
         this.controller = new PWMSparkMax(Ports.LEDController.PWM_PORT);
         this.lastUpdate = new StopWatch();
-        this.redBall = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kFalling);
-        this.blueBall = new Debouncer(Settings.LED.DEBOUNCE_TIME, DebounceType.kFalling);
         this.robot = container;
 
+        setLEDConditions();
         setColor(LEDColor.OFF);
     }
 
-    public void setColor(LEDColor color) {
+    public void setColor(LEDColor color, double time) {
         manualColor = color;
+        manualTime = time;
         lastUpdate.reset();
+    }
+
+    public void setColor(LEDColor color) {
+        setColor(color, Settings.LED.MANUAL_UPDATE_TIME);
+    }
+
+    private void setLEDConditions() {
+        new TeleopButton(robot.conveyor::isFull)
+                .whenPressed(new LEDSetCommand(this, LEDColor.GREEN));
+        new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.RED_BALL))
+                .whenPressed(new LEDSetCommand(this, LEDColor.RED_ORANGE));
+        new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.BLUE_BALL))
+                .whenPressed(new LEDSetCommand(this, LEDColor.BLUE));
     }
 
     public LEDColor getDefaultColor() {
@@ -69,29 +79,17 @@ public class LEDController extends SubsystemBase {
          * finished green .75 second - Pick up a ball and sensed in the color sensor flash color of
          * ball .75 second blue/orange - Two correct ball green
          */
-        if (robot.pump.getCompressing()) return LEDColor.BREATH;
-
-        if (robot.conveyor.isFull()) return LEDColor.GREEN;
-
-        if (robot.colorSensor.hasBall()) {
-            if (blueBall.calculate(robot.colorSensor.getCurrentBall() == BallColor.BLUE_BALL)) {
-                return LEDColor.BLUE;
-            }
-
-            if (redBall.calculate(robot.colorSensor.getCurrentBall() == BallColor.RED_BALL)) {
-                return LEDColor.RED_ORANGE;
-            }
-        }
+        if (robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
 
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 100) {
-            return LEDColor.FIRE;
+            return LEDColor.RED;
         }
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 100) {
             return LEDColor.WHITE;
         }
 
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.RING_RPM.get()) < 500) {
-            return LEDColor.FIRE.pulse();
+            return LEDColor.RED.pulse();
         }
         if (Math.abs(robot.shooter.getShooterRPM() - Settings.Shooter.FENDER_RPM.get()) < 500) {
             return LEDColor.WHITE.pulse();
@@ -103,8 +101,7 @@ public class LEDController extends SubsystemBase {
     @Override
     public void periodic() {
         // If we called .setColor() recently, use that value
-        if (DriverStation.isAutonomous()
-                || lastUpdate.getTime() < Settings.LED.MANUAL_UPDATE_TIME) {
+        if (DriverStation.isAutonomous() || lastUpdate.getTime() < manualTime) {
             controller.set(manualColor.get());
         }
 

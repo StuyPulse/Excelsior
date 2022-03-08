@@ -161,6 +161,14 @@ public class ColorSensor extends SubsystemBase {
         return opponent.calculate(hasBall() && getCurrentBall() != getTargetBall());
     }
 
+    public boolean hasBall(BallColor target) {
+        if (target == getTargetBall()) {
+            return hasAllianceBall();
+        } else {
+            return hasOpponentBall();
+        }
+    }
+
     /*** DEBUG INFORMATION ***/
 
     @Override

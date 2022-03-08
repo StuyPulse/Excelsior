@@ -13,9 +13,11 @@ import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.drivetrain.*;
 import com.stuypulse.robot.commands.intake.*;
+import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.constants.*;
 import com.stuypulse.robot.subsystems.*;
+import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -91,7 +93,8 @@ public class RobotContainer {
                 .whileHeld(
                         new DrivetrainAlignCommand(
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
-                                .perpetually());
+                                .perpetually())
+                .whenReleased(new LEDSetCommand(leds, LEDColor.GREEN));
 
         driver.getDPadLeft()
                 .whileHeld(
