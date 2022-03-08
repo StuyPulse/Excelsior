@@ -83,7 +83,8 @@ public interface Settings {
 
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
-        double DEBOUNCE_TIME = 0.25;
+        // How long it takes to accept / reject balls
+        double DEBOUNCE_TIME = 1.0 / 8.0;
 
         public interface BallRGB {
             Color RED = new Color(0.42, 0.39, 0.19);
@@ -92,6 +93,7 @@ public interface Settings {
     }
 
     public interface Conveyor {
+        // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
@@ -250,6 +252,8 @@ public interface Settings {
 
     public interface Limelight {
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
@@ -258,17 +262,11 @@ public interface Settings {
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
-        // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
-
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
-        SmartNumber MAX_VELOCITY =
-                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
-
+        // How long it takes to stop aligning
         double DEBOUNCE_TIME = 0.25;
 
         // What angle error should make us start distance alignment
@@ -276,7 +274,10 @@ public interface Settings {
                 new SmartNumber("Limelight/Max Angle For Distance", 3.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
+        SmartNumber MAX_DISTANCE_ERROR =
+                new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
+        SmartNumber MAX_VELOCITY =
+                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
     }
 
     public interface Alignment {
