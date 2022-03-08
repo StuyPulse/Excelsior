@@ -90,7 +90,7 @@ public class Intake extends SubsystemBase {
         this.speed = -Settings.Intake.MOTOR_SPEED.get();
     }
 
-    /*** Color Sensor Information ***/
+    /*** Automated Intake Actions ***/
     private boolean getShouldStop() {
         return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.hasAnyBall();
     }
