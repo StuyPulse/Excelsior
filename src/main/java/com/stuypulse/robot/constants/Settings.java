@@ -207,7 +207,6 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 0.0);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }

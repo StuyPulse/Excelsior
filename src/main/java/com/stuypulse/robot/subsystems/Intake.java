@@ -106,7 +106,7 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (0.0 <= speed && getShouldStop()) {
-            motor.set(speed * Settings.Intake.LOCKED_SPEED.get());
+            motor.stopMotor();
         } else {
             motor.set(speed);
         }
