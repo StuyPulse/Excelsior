@@ -21,7 +21,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
  */
 public interface Motors {
 
-    Config CLIMBER = new Config(false, kBrake, 80, 1.0 / 8.0);
+    Config CLIMBER = new Config(true, kBrake, 80, 1.0 / 8.0);
 
     public interface Conveyor {
         Config GANDALF = new Config(true, kBrake, 60);
