@@ -93,6 +93,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
         robot.pump.periodic();
+        robot.leds.periodic();
     }
 
     @Override
