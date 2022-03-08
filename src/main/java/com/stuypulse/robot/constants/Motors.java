@@ -5,9 +5,10 @@
 
 package com.stuypulse.robot.constants;
 
+import static com.revrobotics.CANSparkMax.IdleMode.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import static com.revrobotics.CANSparkMax.IdleMode.*;
 
 /*-
  * File containing all of the configurations that different motors require.
@@ -50,7 +51,11 @@ public interface Motors {
         public final int CURRENT_LIMIT_AMPS;
         public final double OPEN_LOOP_RAMP_RATE;
 
-        public Config(boolean inverted, IdleMode idleMode, int currentLimitAmps, double openLoopRampRate) {
+        public Config(
+                boolean inverted,
+                IdleMode idleMode,
+                int currentLimitAmps,
+                double openLoopRampRate) {
             this.INVERTED = inverted;
             this.IDLE_MODE = idleMode;
             this.CURRENT_LIMIT_AMPS = currentLimitAmps;
