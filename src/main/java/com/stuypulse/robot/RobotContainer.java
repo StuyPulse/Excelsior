@@ -127,7 +127,7 @@ public class RobotContainer {
 
         operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
 
-        // new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
+        new Button(intake::getShouldRetract).whenPressed(new IntakeRetractCommand(intake));
 
         /***********************/
         /*** Shooter Control ***/

@@ -12,6 +12,7 @@ import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -92,6 +93,13 @@ public class Intake extends SubsystemBase {
     /*** Color Sensor Information ***/
     private boolean getShouldStop() {
         return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.hasAnyBall();
+    }
+
+    public boolean getShouldRetract() {
+        return Settings.Intake.AUTO_RETRACT.get()
+                && DriverStation.isTeleop()
+                && conveyor.hasTopBeltBall()
+                && conveyor.hasAllianceBall();
     }
 
     /*** Debug Information ***/

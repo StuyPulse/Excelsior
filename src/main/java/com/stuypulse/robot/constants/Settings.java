@@ -33,7 +33,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
+    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
 
     SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
 
@@ -208,6 +208,8 @@ public interface Settings {
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
         SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 0.0);
+
+        SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }
 
     public interface LED {
