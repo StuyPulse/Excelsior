@@ -63,7 +63,7 @@ public interface Motors {
         }
 
         public Config(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
-            this(inverted, idleMode, currentLimitAmps, 80);
+            this(inverted, idleMode, currentLimitAmps, 0.0);
         }
 
         public Config(boolean inverted, IdleMode idleMode) {
