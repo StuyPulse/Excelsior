@@ -57,6 +57,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {}
 
+    @Override
+    public void autonomousExit() {}
+
     /*******************/
     /*** TELEOP MODE ***/
     /*******************/
@@ -73,6 +76,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {}
 
+    @Override
+    public void teleopExit() {}
+
     /*****************/
     /*** TEST MODE ***/
     /*****************/
@@ -80,9 +86,15 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         LiveWindow.setEnabled(false);
+        CommandScheduler.getInstance().cancelAll();
         robot.pump.compress();
     }
 
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+        robot.pump.periodic();
+    }
+
+    @Override
+    public void testExit() {}
 }
