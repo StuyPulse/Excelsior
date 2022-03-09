@@ -6,23 +6,17 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.commands.conveyor.ConveyorForceEjectCommand;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
 import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.util.LEDColor;
-import com.stuypulse.stuylib.math.Vector2D;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -37,10 +31,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Samuel Chen(samchen1738@gmail.com)
  */
 
-public class TwoBallAuton extends SequentialCommandGroup {
+public class TwoBallOneMeanAuton extends SequentialCommandGroup {
     // Initial delay for the auton
     private static final double START_DELAY = 1.0;
-
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
@@ -48,13 +41,12 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    
-    private static final String START =
-            "TwoBallAuton/output/TwoBallGetSecondBall.wpilib.json";
-    private static final String EVACUATE =
-            "TwoBallAuton/output/TwoBallEvacuate.wpilib.json";
+    private static final String TWO_BALL_TO_SECOND_BALL = "TwoBallOneMeanAuton/output/TwoBallGetSecondBall.wpilib.json";
+    private static final String TWO_BALL_GET_WALL_BALL = "TwoBallOneMeanAuton/output/TwoBallGetWallBall.wpilib.json";
+    private static final String TWO_BALL_EJECT_WALL_BALL = "TwoBallOneMeanAuton/output/TwoBallEjectWallBall.wpilib.json";
+    private static final String TWO_BALL_TO_TELEOP_STARTING_POSITION = "TwoBallOneMeanAuton/output/TwoBallTeleopStart.wpilib.json";
 
-    public TwoBallAuton(RobotContainer robot) {
+    public TwoBallOneMeanAuton(RobotContainer robot) {
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.RED), new WaitCommand(START_DELAY));
@@ -65,20 +57,29 @@ public class TwoBallAuton extends SequentialCommandGroup {
             new IntakeExtendCommand(robot.intake),
             new IntakeAcquireForeverCommand(robot.intake),
             new ShooterRingShotCommand(robot.shooter),
-            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
-        );
-
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+        // Shoot Two Balls
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                new DrivetrainRamseteCommand(robot.drivetrain, START).robotRelative(),
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_SECOND_BALL),
+                new LEDSetCommand(robot.leds, LEDColor.GREEN.pulse()),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
+                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
                 new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
-
+        // Get Wall Blue Ball
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE),
-                new DrivetrainRamseteCommand(robot.drivetrain, EVACUATE).fieldRelative()
-        );
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_WALL_BALL));
+
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.PURPLE),
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL),
+                new ConveyorForceEjectCommand(robot.conveyor));
+
+        addCommands(
+                new LEDSetCommand(robot.leds, LEDColor.PINK),
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_TELEOP_STARTING_POSITION));
 
         addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
     }
