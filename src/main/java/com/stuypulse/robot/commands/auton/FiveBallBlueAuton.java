@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Samuel Chen(samchen1738@gmail.com)
  */
  
-public class FiveBallAuton extends SequentialCommandGroup {
+public class FiveBallBlueAuton extends SequentialCommandGroup {
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 0.3;
     // Time it takes for the conveyor to give the shooter the ball
@@ -42,13 +42,13 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
     private static final double HUMAN_WAIT_TIME = 0;
 
-    private static final String FIVE_BALL_TO_SECOND_BALL = "FiveBallAuton/output/FiveBallAcquireSecondBall.wpilib.json";
-    private static final String FIVE_BALL_TO_TERMINAL = "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";
-    private static final String FIVE_BALL_TERMINAL_TO_SHOOT = "FiveBallAuton/output/FiveBallShootTerminalBalls.wpilib.json";
-    private static final String FIVE_BALL_TO_WALL_BALL = "FiveBallAuton/output/FiveBallGetWallBall.wpilib.json";
+    private static final String FIVE_BALL_TO_SECOND_BALL = "FiveBallBlueAuton/output/FiveBallAcquireSecondBall.wpilib.json";
+    private static final String FIVE_BALL_TO_TERMINAL = "FiveBallBlueAuton/output/FiveBallGetTerminalBalls.wpilib.json";
+    private static final String FIVE_BALL_TERMINAL_TO_SHOOT = "FiveBallBlueAuton/output/FiveBallShootTerminalBalls.wpilib.json";
+    private static final String FIVE_BALL_TO_WALL_BALL = "FiveBallBlueAuton/output/FiveBallGetWallBall.wpilib.json";
 
     /** Creates a new FiveBallAuton. */
-    public FiveBallAuton(RobotContainer robot) {
+    public FiveBallBlueAuton(RobotContainer robot) {
 
         // Starting up subsystems
         addCommands(
