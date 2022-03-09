@@ -139,7 +139,8 @@ public class RobotContainer {
         // autonChooser.addOption("1 Ball", new OneBallAuton(this));
         autonChooser.addOption("2 Ball", new TwoBallAuton(this));
         autonChooser.addOption("4 Ball", new FourBallAuton(this));
-        autonChooser.setDefaultOption("5 Ball", new FiveBallRedAuton(this));
+        autonChooser.setDefaultOption("5 Ball Red", new FiveBallRedAuton(this));
+        autonChooser.addOption("5 Ball Blue", new FiveBallBlueAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
