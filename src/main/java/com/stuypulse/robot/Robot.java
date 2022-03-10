@@ -88,14 +88,14 @@ public class Robot extends TimedRobot {
         LiveWindow.setEnabled(false);
         CommandScheduler.getInstance().cancelAll();
         robot.pump.compress();
+        teleopInit();
     }
 
     @Override
-    public void testPeriodic() {
-        robot.pump.periodic();
-        robot.leds.periodic();
-    }
+    public void testPeriodic() {}
 
     @Override
-    public void testExit() {}
+    public void testExit() {
+        robot.pump.stop();
+    }
 }
