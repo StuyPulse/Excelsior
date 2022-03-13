@@ -1,5 +1,6 @@
 package com.stuypulse.robot.util;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.stuypulse.stuylib.control.Controller;
@@ -28,9 +29,9 @@ public class SmartPIDController extends Controller {
     // PID Calculator (Auto Tuner)
     private final SmartBoolean autoTuning;
     private final SmartNumber tuningSpeed;
+    private Function<PIDCalculator, PIDController> calculatorOutput;
     
     private final PIDCalculator calculator;
-    private Function<PIDCalculator, PIDController> calculatorOutput;
 
     public SmartPIDController(String id) {
         /*this.*/id = id.endsWith("/") ? id.substring(0, id.length()-1) : id;
@@ -45,9 +46,9 @@ public class SmartPIDController extends Controller {
         // tuner
         autoTuning = new SmartBoolean(id + "/Auto Tuning?", false);
         tuningSpeed = new SmartNumber(id + "/Tune Speed", 0.0);
-        
+        calculatorOutput = x -> x.getPIDController();
+
         calculator = new PIDCalculator(tuningSpeed);
-        calculatorOutput = x -> x.getPIDController(); // make an enum for this?
     }
     
     @Override
@@ -76,16 +77,25 @@ public class SmartPIDController extends Controller {
      * CONFIGURE BEHAVIOR *
      **********************/
 
-    public SmartPIDController setCalculatorOutput(Function<PIDCalculator, PIDController> method) {
-        this.calculatorOutput = method;
-        return this;
-    }
-
     public PIDController getController() {
         return controller;
     }
 
+    public PIDCalculator getCalculator() {
+        return calculator;
+    }
 
+    public SmartPIDController configure(Consumer<Controller> method) {
+        method.accept(getController());
+        method.accept(getCalculator());
+        return this;
+    }
+
+    public SmartPIDController setCalculatorOutput(Function<PIDCalculator, PIDController> method) {
+        this.calculatorOutput = method;
+        return this;
+    }
+    
     /********************
      * CALCULATE OUTPUT *
      ********************/
