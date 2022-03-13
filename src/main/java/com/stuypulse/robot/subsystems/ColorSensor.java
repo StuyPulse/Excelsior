@@ -58,7 +58,7 @@ public class ColorSensor extends SubsystemBase {
             if (this.connected) this.connected &= DriverStation.isTeleopEnabled();
             if (this.connected) this.connected &= colorSensor.isConnected();
 
-            if (this.connected) this.color = colorSensor.getColor();
+            if (this.connected || DriverStation.isDisabled()) this.color = colorSensor.getColor();
             else this.color = Color.kBlack;
         }
     }
