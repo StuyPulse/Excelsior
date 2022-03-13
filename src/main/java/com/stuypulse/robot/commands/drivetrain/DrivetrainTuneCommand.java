@@ -20,8 +20,8 @@ public class DrivetrainTuneCommand {
             super(
                     drivetrain,
                     targetDistance,
-                    new PIDCalculator(Alignment.Angle.BANG_BANG),
-                    new PIDController());
+                    Alignment.Angle.getTuner(),
+                    new PIDController()); // do not move during auto angle tuning
         }
 
         @Override
@@ -46,7 +46,7 @@ public class DrivetrainTuneCommand {
                     drivetrain,
                     targetDistance,
                     Alignment.Angle.getController(),
-                    new PIDCalculator(Alignment.Speed.BANG_BANG));
+                    Alignment.Speed.getTuner());
         }
 
         @Override

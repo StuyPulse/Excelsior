@@ -6,9 +6,12 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.control.PIDCalculator;
 import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -55,8 +58,7 @@ public interface Settings {
             double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
             double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
 
-            SmartNumber MAX_EXTENSION =
-                    new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+            SmartNumber MAX_EXTENSION = new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
         }
 
         public interface Stalling {
@@ -126,8 +128,8 @@ public interface Settings {
 
             DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
 
-            SimpleMotorFeedforward MOTOR_FEED_FORWARD =
-                    new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
+            SimpleMotorFeedforward MOTOR_FEED_FORWARD = new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV,
+                    FeedForward.kA);
 
             double MAX_VELOCITY = 2.0;
             double MAX_ACCELERATION = 3.0;
@@ -154,8 +156,7 @@ public interface Settings {
 
         public interface Stalling {
             // Enable / Disable the Stall Detection
-            SmartBoolean STALL_DETECTION =
-                    new SmartBoolean("Driver Settings/Stall Detection", false);
+            SmartBoolean STALL_DETECTION = new SmartBoolean("Driver Settings/Stall Detection", false);
 
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = Motors.Drivetrain.CURRENT_LIMIT_AMPS - 10;
@@ -191,17 +192,15 @@ public interface Settings {
                 }
 
                 /** = 0.22666 */
-                double GRAYHILL_TO_WHEEL =
-                        Stages.GRAYHILL_STAGE * Stages.THIRD_STAGE * Stages.EXTERNAL_STAGE;
+                double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.THIRD_STAGE * Stages.EXTERNAL_STAGE;
             }
 
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
             double GRAYHILL_PULSES_PER_REVOLUTION = 256;
-            double GRAYHILL_DISTANCE_PER_PULSE =
-                    (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
-                            * GearRatio.GRAYHILL_TO_WHEEL;
+            double GRAYHILL_DISTANCE_PER_PULSE = (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
+                    * GearRatio.GRAYHILL_TO_WHEEL;
 
             boolean GRAYHILL_INVERTED = true;
         }
@@ -270,14 +269,11 @@ public interface Settings {
         double DEBOUNCE_TIME = 0.25;
 
         // What angle error should make us start distance alignment
-        SmartNumber MAX_ANGLE_FOR_MOVEMENT =
-                new SmartNumber("Limelight/Max Angle For Distance", 3.0);
+        SmartNumber MAX_ANGLE_FOR_MOVEMENT = new SmartNumber("Limelight/Max Angle For Distance", 3.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
-        SmartNumber MAX_DISTANCE_ERROR =
-                new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
-        SmartNumber MAX_VELOCITY =
-                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
+        SmartNumber MAX_VELOCITY = new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
     }
 
     public interface Alignment {
@@ -292,15 +288,23 @@ public interface Settings {
 
             double BANG_BANG = 1.0;
 
-            SmartNumber ERROR_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
-            SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+            SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
+            SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+
+            static Controller configureController(Controller controller) {
+                return controller
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(new IFilterGroup(
+                                SLMath::clamp,
+                                new LowPassFilter(OUT_FILTER)));
+            }
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                return configureController(new PIDController(kP, kI, kD));
+            }
+
+            static Controller getTuner() {
+                return configureController(new PIDCalculator(BANG_BANG));
             }
         }
 
@@ -311,15 +315,23 @@ public interface Settings {
 
             double BANG_BANG = 0.75;
 
-            SmartNumber ERROR_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
-            SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.02);
+            SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
+            SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.02);
+
+            static Controller configureController(Controller controller) {
+                return controller
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(new IFilterGroup(
+                                SLMath::clamp,
+                                new LowPassFilter(OUT_FILTER)));
+            }
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                return configureController(new PIDController(kP, kI, kD));
+            }
+
+            static Controller getTuner() {
+                return configureController(new PIDCalculator(BANG_BANG));
             }
         }
     }
