@@ -9,6 +9,18 @@ import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+/**
+ * A utility class meant for controlling a flywheel system
+ * (shooter, feeder, etc.) by driving it to a reference 
+ * rotations per minute.
+ * 
+ * Stores a simple feedforward model of the shooter based on the
+ * voltage-balance equation and a PID controller to correct for 
+ * any error. 
+ * 
+ * @author Myles Pasetsky (@selym3)
+ * @author Sam Belliveau (sam.belliveau@gmail.com)
+ */
 public class PIDFlywheel /* extends SubsystemBase */ {
     
     private final CANSparkMax motor;
