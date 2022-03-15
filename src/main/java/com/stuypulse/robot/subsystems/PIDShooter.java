@@ -12,6 +12,20 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Shooter subsystem for shooting balls out of the robot.
+ * 
+ * Uses feedforward to control two flywheels -- one for shooting
+ * and one for feeding. This drives the wheels to a desired RPM.
+ * 
+ * Feedforward models (and feedback gains) are obtained through
+ * system identification.  
+ * 
+ * Also contains an adjustable hood, which physically
+ * allows for two shooting angles.
+ * 
+ * @author Myles Pasetsky (@selym3)
+ */
 public class PIDShooter extends SubsystemBase {
 
     private final SmartNumber targetRPM;
