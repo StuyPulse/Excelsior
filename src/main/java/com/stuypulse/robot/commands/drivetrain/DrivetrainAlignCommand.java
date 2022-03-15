@@ -88,12 +88,12 @@ public class DrivetrainAlignCommand extends CommandBase {
         return speedAdjFilter.get(Math.exp(-error * error));
     }
 
-    public double getSpeed() {
+    private double getSpeed() {
         double speed = distanceController.update(distanceError.get());
         return speed * getSpeedAdjustment();
     }
 
-    public double getTurn() {
+    private double getTurn() {
         return angleController.update(angleError.get());
     }
 
