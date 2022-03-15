@@ -1,25 +1,29 @@
+/************************ PROJECT DORCAS ************************/
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
+/* This work is licensed under the terms of the MIT license.    */
+/****************************************************************/
+
 package com.stuypulse.robot.util;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.stuypulse.stuylib.control.Controller;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 /**
- * A utility class meant for controlling a flywheel system
- * (shooter, feeder, etc.) by driving it to a reference 
- * rotations per minute.
- * 
- * Stores a simple feedforward model of the shooter based on the
- * voltage-balance equation and a PID controller to correct for 
- * any error. 
- * 
+ * A utility class meant for controlling a flywheel system (shooter, feeder, etc.) by driving it to
+ * a reference rotations per minute.
+ *
+ * <p>Stores a simple feedforward model of the shooter based on the voltage-balance equation and a
+ * PID controller to correct for any error.
+ *
  * @author Myles Pasetsky (@selym3)
  * @author Sam Belliveau (sam.belliveau@gmail.com)
  */
 public class PIDFlywheel /* extends SubsystemBase implements Sendable */ {
-    
+
     private final CANSparkMax motor;
     private final RelativeEncoder encoder;
 
@@ -57,5 +61,4 @@ public class PIDFlywheel /* extends SubsystemBase implements Sendable */ {
     public void stop() {
         motor.setVoltage(0.0);
     }
-
 }

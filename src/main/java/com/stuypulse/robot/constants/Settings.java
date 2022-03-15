@@ -5,13 +5,14 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.robot.util.IntegratorFilter;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+
+import com.stuypulse.robot.util.IntegratorFilter;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -216,6 +217,7 @@ public interface Settings {
     public interface Shooter {
 
         double MIN_RPM = 100.0;
+        double MAX_TARGET_RPM_CHANGE = 800.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
@@ -233,11 +235,14 @@ public interface Settings {
             double kD = 0.0;
 
             static Controller getController() {
-                // SmartPIDController networkController = new SmartPIDController("Shooter/Shooter PID");
+                // SmartPIDController networkController = new SmartPIDController("Shooter/Shooter
+                // PID");
                 // networkController.setGains(kP, kI, kD);
 
                 PIDController controller = new PIDController(kP, kI, kD);
-                controller.setIntegratorFilter(new IntegratorFilter(controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
+                controller.setIntegratorFilter(
+                        new IntegratorFilter(
+                                controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
                 controller.setOutputFilter(x -> SLMath.clamp(x, MIN_PID_OUTPUT, MAX_PID_OUTPUT));
 
                 return controller;
@@ -251,11 +256,12 @@ public interface Settings {
             double kS = 0.0;
             // (input voltage / shooter rpm), assumes we tuned on 12 volts,
             // replace with characterization
-            double kV = (0.6 * 12.0) / (0.6/ShooterPID.kF); 
+            double kV = (0.6 * 12.0) / (0.6 / ShooterPID.kF);
             double kA = 0.0;
         }
 
-        SimpleMotorFeedforward SHOOTER_FEED_FORWARD = new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+        SimpleMotorFeedforward SHOOTER_FEED_FORWARD =
+                new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
 
         public interface FeederPID {
             double kP = 0.00015;
@@ -264,7 +270,9 @@ public interface Settings {
 
             static Controller getController() {
                 PIDController controller = new PIDController(kP, kI, kD);
-                controller.setIntegratorFilter(new IntegratorFilter(controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
+                controller.setIntegratorFilter(
+                        new IntegratorFilter(
+                                controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
                 controller.setOutputFilter(x -> SLMath.clamp(x, MIN_PID_OUTPUT, MAX_PID_OUTPUT));
 
                 return controller;
@@ -278,11 +286,12 @@ public interface Settings {
             double kS = 0.0;
             // (input voltage / shooter rpm), assumes we tuned on 12 volts,
             // replace with characterization
-            double kV = (0.6 * 12.0) / (0.6/ShooterPID.kF);
+            double kV = (0.6 * 12.0) / (0.6 / ShooterPID.kF);
             double kA = 0.0;
         }
 
-        SimpleMotorFeedforward FEEDER_FEED_FORWARD = new SimpleMotorFeedforward(FeederFF.kS, FeederFF.kV, FeederFF.kA);
+        SimpleMotorFeedforward FEEDER_FEED_FORWARD =
+                new SimpleMotorFeedforward(FeederFF.kS, FeederFF.kV, FeederFF.kA);
     }
 
     public interface Limelight {
@@ -354,8 +363,8 @@ public interface Settings {
 
             static Controller getController() {
                 return new PIDController(kP, kI, kD)
-                    .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                    .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
         }
     }
