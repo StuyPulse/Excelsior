@@ -5,8 +5,10 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.robot.util.IntegratorFilter;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
@@ -229,15 +231,58 @@ public interface Settings {
             double kP = 0.00025;
             double kI = 0.0000005;
             double kD = 0.0;
+
+            static Controller getController() {
+                // SmartPIDController networkController = new SmartPIDController("Shooter/Shooter PID");
+                // networkController.setGains(kP, kI, kD);
+
+                PIDController controller = new PIDController(kP, kI, kD);
+                controller.setIntegratorFilter(new IntegratorFilter(controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
+                controller.setOutputFilter(x -> SLMath.clamp(x, MIN_PID_OUTPUT, MAX_PID_OUTPUT));
+
+                return controller;
+            }
+
             double kF = 0.000175;
         }
+
+        // TODO: characterize
+        public interface ShooterFF {
+            double kS = 0.0;
+            // (input voltage / shooter rpm), assumes we tuned on 12 volts,
+            // replace with characterization
+            double kV = (0.6 * 12.0) / (0.6/ShooterPID.kF); 
+            double kA = 0.0;
+        }
+
+        SimpleMotorFeedforward SHOOTER_FEED_FORWARD = new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
 
         public interface FeederPID {
             double kP = 0.00015;
             double kI = 0.0000005;
             double kD = 0.0;
+
+            static Controller getController() {
+                PIDController controller = new PIDController(kP, kI, kD);
+                controller.setIntegratorFilter(new IntegratorFilter(controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
+                controller.setOutputFilter(x -> SLMath.clamp(x, MIN_PID_OUTPUT, MAX_PID_OUTPUT));
+
+                return controller;
+            }
+
             double kF = 0.0001825;
         }
+
+        // TODO: characterize
+        public interface FeederFF {
+            double kS = 0.0;
+            // (input voltage / shooter rpm), assumes we tuned on 12 volts,
+            // replace with characterization
+            double kV = (0.6 * 12.0) / (0.6/ShooterPID.kF);
+            double kA = 0.0;
+        }
+
+        SimpleMotorFeedforward FEEDER_FEED_FORWARD = new SimpleMotorFeedforward(FeederFF.kS, FeederFF.kV, FeederFF.kA);
     }
 
     public interface Limelight {

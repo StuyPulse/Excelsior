@@ -2,10 +2,7 @@ package com.stuypulse.robot.util;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.stuylib.control.PIDController;
-import com.stuypulse.stuylib.math.SLMath;
-import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+import com.stuypulse.stuylib.control.Controller;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
@@ -21,33 +18,20 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
  * @author Myles Pasetsky (@selym3)
  * @author Sam Belliveau (sam.belliveau@gmail.com)
  */
-public class PIDFlywheel /* extends SubsystemBase */ {
+public class PIDFlywheel /* extends SubsystemBase implements Sendable */ {
     
     private final CANSparkMax motor;
     private final RelativeEncoder encoder;
 
-    private final SmartPIDController pidController;
     private final SimpleMotorFeedforward feedforward;
+    private final Controller feedback;
 
-    public PIDFlywheel(String id, CANSparkMax motor, SimpleMotorFeedforward feedforward) {
+    public PIDFlywheel(CANSparkMax motor, SimpleMotorFeedforward feedforward, Controller feedback) {
         this.motor = motor;
         this.encoder = motor.getEncoder();
 
-        // configure base controllers
-        pidController = new SmartPIDController(id);
-            // .configure(controller -> {
-            //     controller.setOutputFilter(x -> SLMath.clamp(x, 0, 1));
-            // });
-
-        // configure PID controller
-        PIDController controller = pidController.getController();
-        controller.setIntegratorFilter(new IntegratorFilter(
-            controller, 
-            Settings.Shooter.INTEGRAL_MAX_RPM_ERROR, 
-            Settings.Shooter.INTEGRAL_MAX_ADJUST
-        ));
-
         this.feedforward = feedforward;
+        this.feedback = feedback;
     }
 
     public PIDFlywheel addFollower(CANSparkMax follower, boolean inverted) {
@@ -55,20 +39,19 @@ public class PIDFlywheel /* extends SubsystemBase */ {
         return this;
     }
 
-    public double getVelocity() {
+    public double getVelocity() { // getMeasurement()
         return encoder.getVelocity(); // TODO: make sure this reads positive values?
     }
 
     private double getOutput(double setpoint) {
-        double ff = feedforward.calculate(setpoint, 0);
-        double fb = pidController.update(setpoint, getVelocity());
+        double ff = feedforward.calculate(setpoint, 0); // 0 acceleration for now
+        double fb = feedback.update(setpoint, getVelocity());
 
         return ff + fb;
     }
 
     public void periodic(double setpoint) {
-        double output = getOutput(setpoint);
-        motor.setVoltage(output);
+        motor.setVoltage(getOutput(setpoint));
     }
 
     public void stop() {
