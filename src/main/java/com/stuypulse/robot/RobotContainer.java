@@ -105,6 +105,14 @@ public class RobotContainer {
                         new DrivetrainTuneCommand.Speed(
                                 drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
 
+        // TODO: change buttons
+        driver.getDPadUp().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
+
+        driver.getTopButton()
+                .toggleWhenActive(
+                        new DrivetrainAlignToShootCommand(
+                                drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
+
         /*** Intake ***/
         operator.getRightTriggerButton()
                 .whenPressed(new IntakeExtendCommand(intake))

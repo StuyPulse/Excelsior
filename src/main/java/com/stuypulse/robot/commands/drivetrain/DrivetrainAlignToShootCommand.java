@@ -12,13 +12,15 @@ import com.stuypulse.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
+/** @author Myles Pasetsky (@selym3) */
 public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
     private final Conveyor conveyor;
     private final Debouncer emptied;
 
-    public DrivetrainAlignToShootCommand(Drivetrain drivetrain, Conveyor conveyor, Number targetDistance) {
+    public DrivetrainAlignToShootCommand(
+            Drivetrain drivetrain, Conveyor conveyor, Number targetDistance) {
         super(drivetrain, targetDistance);
-        
+
         this.conveyor = conveyor;
         this.emptied = new Debouncer(0.2, DebounceType.kRising);
         addRequirements(conveyor);
@@ -34,7 +36,7 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
     public void execute() {
         if (shouldShoot()) {
             // mode is shoot until command ends
-            conveyor.setMode(ConveyorMode.SHOOT); 
+            conveyor.setMode(ConveyorMode.SHOOT);
         } else {
             super.execute(); // <-- align
         }
@@ -49,12 +51,10 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
     public boolean isFinished() {
         return emptied.calculate(conveyor.isEmpty());
     }
-    
+
     @Override
     public void end(boolean i) {
         super.end(i);
         conveyor.setMode(ConveyorMode.DEFAULT);
     }
-
-
 }
