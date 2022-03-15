@@ -2,6 +2,7 @@ package com.stuypulse.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Shooter;
@@ -42,13 +43,18 @@ public class PIDShooter extends SubsystemBase {
         CANSparkMax shooterMotor = new CANSparkMax(Ports.Shooter.LEFT_SHOOTER, MotorType.kBrushless);
         CANSparkMax shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT_SHOOTER, MotorType.kBrushless);
 
+        Motors.Shooter.LEFT.configure(shooterMotor);
+        Motors.Shooter.RIGHT.configure(shooterFollower);
+
         shooter = new PIDFlywheel(shooterMotor, Shooter.SHOOTER_FEED_FORWARD, Shooter.ShooterPID.getController());
         shooter.addFollower(shooterFollower, true);
 
         // Setup feeder flywheel
         CANSparkMax feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
+        Motors.Shooter.FEEDER.configure(feederMotor);
+
         feeder = new PIDFlywheel(feederMotor, Shooter.FEEDER_FEED_FORWARD, Settings.Shooter.FeederPID.getController());
-    
+
         // Create hood solenoid
         hood = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
     }
