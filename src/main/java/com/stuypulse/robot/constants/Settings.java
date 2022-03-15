@@ -285,6 +285,9 @@ public interface Settings {
         SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.2);
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
+        // how long the intake has to empty to stop aligning
+        double DEBOUNCE_TIME = 0.25;
+
         public interface Speed {
             SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 2.7);
             SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);

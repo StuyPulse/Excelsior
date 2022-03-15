@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
@@ -22,7 +23,7 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
         super(drivetrain, targetDistance);
 
         this.conveyor = conveyor;
-        this.emptied = new Debouncer(0.2, DebounceType.kRising);
+        this.emptied = new Debouncer(Settings.Alignment.DEBOUNCE_TIME, DebounceType.kRising);
         addRequirements(conveyor);
     }
 
