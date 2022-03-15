@@ -286,7 +286,7 @@ public interface Settings {
             double kS = 0.0;
             // (input voltage / shooter rpm), assumes we tuned on 12 volts,
             // replace with characterization
-            double kV = (0.6 * 12.0) / (0.6 / ShooterPID.kF);
+            double kV = (0.6 * 12.0) / (0.6 / FeederPID.kF);
             double kA = 0.0;
         }
 
