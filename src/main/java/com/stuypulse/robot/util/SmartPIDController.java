@@ -16,7 +16,7 @@ import com.stuypulse.stuylib.network.SmartNumber;
  * 
  * @author Myles Pasetsky
  */
-public class SmartPIDController extends Controller {
+public class SmartPIDController extends Controller /* TODO: extend PIDController? */ {
     // private final String id;
 
     // PID Controller
