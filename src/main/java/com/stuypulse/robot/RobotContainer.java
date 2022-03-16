@@ -13,11 +13,9 @@ import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.drivetrain.*;
 import com.stuypulse.robot.commands.intake.*;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.constants.*;
 import com.stuypulse.robot.subsystems.*;
-import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -89,12 +87,17 @@ public class RobotContainer {
         operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /*** Drivetrain ***/
+        driver.getLeftButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
         driver.getBottomButton()
+                .whileHeld(
+                        new DrivetrainAlignToShootCommand(
+                                drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
+
+        driver.getTopButton()
                 .whileHeld(
                         new DrivetrainAlignCommand(
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
-                                .perpetually())
-                .whenReleased(new LEDSetCommand(leds, LEDColor.GREEN));
+                                .perpetually());
 
         driver.getDPadLeft()
                 .whileHeld(
@@ -104,14 +107,6 @@ public class RobotContainer {
                 .whileHeld(
                         new DrivetrainTuneCommand.Speed(
                                 drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
-
-        // TODO: change buttons
-        driver.getDPadUp().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
-
-        driver.getTopButton()
-                .toggleWhenActive(
-                        new DrivetrainAlignToShootCommand(
-                                drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
 
         /*** Intake ***/
         operator.getRightTriggerButton()

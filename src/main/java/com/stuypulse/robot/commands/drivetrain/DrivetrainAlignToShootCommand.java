@@ -15,15 +15,17 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 /** @author Myles Pasetsky (@selym3) */
 public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
+
     private final Conveyor conveyor;
     private final Debouncer emptied;
 
     public DrivetrainAlignToShootCommand(
-            Drivetrain drivetrain, Conveyor conveyor, Number targetDistance) {
-        super(drivetrain, targetDistance);
+            Drivetrain drivetrain, Conveyor conveyor, Number distance) {
+        super(drivetrain, distance);
 
         this.conveyor = conveyor;
-        this.emptied = new Debouncer(Settings.Alignment.DEBOUNCE_TIME, DebounceType.kRising);
+        this.emptied = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
+
         addRequirements(conveyor);
     }
 
@@ -35,17 +37,13 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
 
     @Override
     public void execute() {
-        if (shouldShoot()) {
-            // mode is shoot until command ends
+        super.execute();
+
+        if (super.isFinished()) {
             conveyor.setMode(ConveyorMode.SHOOT);
         } else {
-            super.execute(); // <-- align
+            conveyor.setMode(ConveyorMode.DEFAULT);
         }
-    }
-
-    private boolean shouldShoot() {
-        // the align command will finish when we are aligned
-        return super.isFinished();
     }
 
     @Override
@@ -54,8 +52,8 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
     }
 
     @Override
-    public void end(boolean i) {
-        super.end(i);
+    public void end(boolean interrupted) {
+        super.end(interrupted);
         conveyor.setMode(ConveyorMode.DEFAULT);
     }
 }
