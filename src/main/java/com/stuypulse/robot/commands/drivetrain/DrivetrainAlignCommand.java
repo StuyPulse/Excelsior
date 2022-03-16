@@ -33,7 +33,15 @@ public class DrivetrainAlignCommand extends CommandBase {
     protected final Controller angleController;
     protected final Controller distanceController;
 
+<<<<<<< HEAD
     public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
+=======
+    protected DrivetrainAlignCommand(
+            Drivetrain drivetrain,
+            Number targetDistance,
+            Controller angleController,
+            Controller distanceController) {
+>>>>>>> mp/align-to-shoot
         this.drivetrain = drivetrain;
 
         // find errors
@@ -55,11 +63,26 @@ public class DrivetrainAlignCommand extends CommandBase {
         this.distanceController = Alignment.Speed.getController();
 
         // finish optimally
+<<<<<<< HEAD
         finished = new Debouncer(Limelight.DEBOUNCER_TIME, DebounceType.kRising);
+=======
+        finished = new Debouncer(Limelight.DEBOUNCE_TIME, DebounceType.kRising);
+>>>>>>> mp/align-to-shoot
 
         addRequirements(drivetrain);
     }
 
+<<<<<<< HEAD
+=======
+    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
+        this(
+                drivetrain,
+                targetDistance,
+                Alignment.Angle.getController(),
+                Alignment.Speed.getController());
+    }
+
+>>>>>>> mp/align-to-shoot
     @Override
     public void initialize() {
         Target.enable();
@@ -76,12 +99,12 @@ public class DrivetrainAlignCommand extends CommandBase {
         return speedAdjFilter.get(Math.exp(-error * error));
     }
 
-    public double getSpeed() {
+    private double getSpeed() {
         double speed = distanceController.update(distanceError.get());
         return speed * getSpeedAdjustment();
     }
 
-    public double getTurn() {
+    private double getTurn() {
         return angleController.update(angleError.get());
     }
 

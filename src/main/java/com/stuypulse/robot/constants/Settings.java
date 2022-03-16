@@ -34,7 +34,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
+    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
 
     SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
 
@@ -45,21 +45,24 @@ public interface Settings {
     }
 
     public interface Climber {
-        SmartBoolean ENABLE_ENCODERS = new SmartBoolean("Climber/Enable Encoders", true);
 
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
-        SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.2);
+        SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.8);
 
-        SmartNumber BRAKE_DELAY = new SmartNumber("Climber/Delay", 0.1);
+        public interface Encoders {
+            SmartBoolean ENABLED = new SmartBoolean("Climber/Enable Encoders", false);
 
-        SmartNumber MAX_EXTENSION =
-                new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+            double GEAR_RATIO = 1.0 / 20.0;
+            double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
+            double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
 
-        double GEAR_RATIO = 1.0 / 36.0;
-        double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
-        double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
+            SmartNumber MAX_EXTENSION =
+                    new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+        }
 
         public interface Stalling {
+            SmartBoolean ENABLED = new SmartBoolean("Climber/Stall Detection", false);
+
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = Motors.CLIMBER.CURRENT_LIMIT_AMPS - 10;
 
@@ -79,13 +82,19 @@ public interface Settings {
     public interface ColorSensor {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
 
-        public interface BallColor {
+        SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
+
+        // How long it takes to accept / reject balls
+        double DEBOUNCE_TIME = 1.0 / 8.0;
+
+        public interface BallRGB {
             Color RED = new Color(0.42, 0.39, 0.19);
             Color BLUE = new Color(0.22, 0.43, 0.35);
         }
     }
 
     public interface Conveyor {
+        // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
@@ -121,8 +130,8 @@ public interface Settings {
             SimpleMotorFeedforward MOTOR_FEED_FORWARD =
                     new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
 
-            double MAX_VELOCITY = Units.feetToMeters(16.0);
-            double MAX_ACCELERATION = Units.feetToMeters(8.0);
+            double MAX_VELOCITY = 2.0;
+            double MAX_ACCELERATION = 3.0;
 
             public interface FeedForward {
                 double kS = 0.20094;
@@ -201,11 +210,12 @@ public interface Settings {
 
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
-        SmartNumber LOCKED_SPEED = new SmartNumber("Intake/Locked Speed", 0.0);
+
+        SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }
 
     public interface LED {
-        double MANUAL_UPDATE_TIME = 0.65;
+        double MANUAL_UPDATE_TIME = 0.75;
 
         double BLINK_TIME = 0.5;
 
@@ -274,6 +284,8 @@ public interface Settings {
 
     public interface Limelight {
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
+        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
@@ -282,25 +294,22 @@ public interface Settings {
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
-        // TODO: Measure with ???
-        SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
-
         // Bounds for Distance
         double MIN_VALID_DISTANCE = Units.feetToMeters(2);
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
-        SmartNumber MAX_VELOCITY =
-                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
-
-        double DEBOUNCER_TIME = 0.25;
+        // How long it takes to stop aligning
+        double DEBOUNCE_TIME = 0.25;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
                 new SmartNumber("Limelight/Max Angle For Distance", 3.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
-        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", 0.15);
+        SmartNumber MAX_DISTANCE_ERROR =
+                new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
+        SmartNumber MAX_VELOCITY =
+                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
     }
 
     public interface Alignment {

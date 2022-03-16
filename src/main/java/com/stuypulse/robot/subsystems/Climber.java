@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -16,7 +17,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -64,22 +64,19 @@ public class Climber extends SubsystemBase {
 
     private final Debouncer stalling;
 
-    private final Solenoid stopper;
-
     private final DoubleSolenoid tilter;
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
 
         encoder = climber.getEncoder();
-        encoder.setPositionConversionFactor(Settings.Climber.ENCODER_RATIO);
-        encoder.setVelocityConversionFactor(Settings.Climber.ENCODER_RATIO / 60.0);
+        encoder.setPositionConversionFactor(Encoders.ENCODER_RATIO);
+        encoder.setVelocityConversionFactor(Encoders.ENCODER_RATIO / 60.0);
 
         Motors.CLIMBER.configure(climber);
 
         stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
-        stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
         tilter =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
@@ -90,13 +87,8 @@ public class Climber extends SubsystemBase {
     /*** MOTOR CONTROL ***/
 
     public void forceLowerClimber() {
-        if (getLocked()) {
-            Settings.reportWarning("Climber attempted to run while lock was enabled!");
-            setMotorStop();
-        } else {
-            climber.set(-Settings.Climber.SLOW_SPEED.get());
-            resetEncoder();
-        }
+        climber.set(-Settings.Climber.SLOW_SPEED.get());
+        resetEncoder();
     }
 
     public void setMotor(double speed) {
@@ -104,9 +96,6 @@ public class Climber extends SubsystemBase {
             DriverStation.reportError(
                     "[CRITICAL] Climber is stalling when attempting to move!", false);
             stalling.calculate(true);
-            setMotorStop();
-        } else if (speed != 0.0 && getLocked()) {
-            Settings.reportWarning("Climber attempted to run while lock was enabled!");
             setMotorStop();
         } else if (speed > 0.0 && getTopHeightLimitReached()) {
             Settings.reportWarning("Climber attempted to run past top height limit!");
@@ -123,21 +112,6 @@ public class Climber extends SubsystemBase {
         climber.stopMotor();
     }
 
-    /*** BRAKE CONTROL ***/
-
-    public void setLocked() {
-        setMotorStop();
-        stopper.set(false);
-    }
-
-    public void setUnlocked() {
-        stopper.set(true);
-    }
-
-    public boolean getLocked() {
-        return stopper.get();
-    }
-
     /*** TILT CONTROL ***/
 
     public void setTilt(Tilt tilt) {
@@ -145,6 +119,10 @@ public class Climber extends SubsystemBase {
     }
 
     /*** ENCODER ***/
+
+    public double getVelocity() {
+        return encoder.getVelocity();
+    }
 
     public double getPosition() {
         return encoder.getPosition();
@@ -155,12 +133,11 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getTopHeightLimitReached() {
-        return Settings.Climber.ENABLE_ENCODERS.get()
-                && getPosition() >= Settings.Climber.MAX_EXTENSION.get();
+        return Encoders.ENABLED.get() && getPosition() >= Encoders.MAX_EXTENSION.get();
     }
 
     public boolean getBottomHeightLimitReached() {
-        return Settings.Climber.ENABLE_ENCODERS.get() && getPosition() <= 0;
+        return Encoders.ENABLED.get() && getPosition() <= 0;
     }
 
     /*** STALL PROTECTION ***/
@@ -173,15 +150,11 @@ public class Climber extends SubsystemBase {
         return Math.abs(climber.getOutputCurrent());
     }
 
-    private double getVelocity() {
-        return encoder.getVelocity();
-    }
-
     public boolean isStalling() {
         boolean current = getCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(getDutyCycle()) > Stalling.DUTY_CYCLE_THRESHOLD;
         boolean velocity = Math.abs(getVelocity()) < Stalling.VELOCITY_THESHOLD;
-        return stalling.calculate((current || output) && velocity);
+        return Stalling.ENABLED.get() && stalling.calculate(output && current && velocity);
     }
 
     /*** DEBUG INFORMATION ***/
@@ -203,7 +176,6 @@ public class Climber extends SubsystemBase {
 
             SmartDashboard.putBoolean(
                     "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
-            SmartDashboard.putBoolean("Debug/Climber/Stopper Active", stopper.get());
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
         }
     }

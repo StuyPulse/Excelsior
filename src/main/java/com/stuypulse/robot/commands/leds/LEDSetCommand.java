@@ -6,7 +6,7 @@
 package com.stuypulse.robot.commands.leds;
 
 import com.stuypulse.robot.subsystems.LEDController;
-import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 

@@ -9,7 +9,7 @@ import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForeverCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
-import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -28,7 +28,7 @@ public class MobilityAuton {
                     new LEDSetCommand(robot.leds, LEDColor.GREEN),
                     new DrivetrainDriveForeverCommand(robot.drivetrain, 0.3).withTimeout(3));
 
-            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
         }
     }
 
@@ -46,7 +46,7 @@ public class MobilityAuton {
                     new LEDSetCommand(robot.leds, LEDColor.GREEN),
                     new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING));
 
-            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE));
+            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
         }
     }
 }

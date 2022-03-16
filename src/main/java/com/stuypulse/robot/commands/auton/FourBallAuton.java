@@ -16,7 +16,7 @@ import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
 import com.stuypulse.robot.commands.leds.LEDSetCommand;
 import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
 import com.stuypulse.robot.constants.Settings.Limelight;
-import com.stuypulse.robot.subsystems.LEDController.LEDColor;
+import com.stuypulse.robot.util.LEDColor;
 import com.stuypulse.robot.util.TrajectoryLoader;
 
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -60,7 +60,7 @@ public class FourBallAuton extends SequentialCommandGroup {
 
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW_PULSE),
+            new LEDSetCommand(robot.leds, LEDColor.YELLOW.pulse()),
 
             new ShooterRingShotCommand(robot.shooter),
             new IntakeExtendCommand(robot.intake),
@@ -75,7 +75,7 @@ public class FourBallAuton extends SequentialCommandGroup {
             new DrivetrainRamseteCommand(robot.drivetrain, FOUR_BALL_START).robotRelative());
 
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN_PULSE),
+            new LEDSetCommand(robot.leds, LEDColor.GREEN.pulse()),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                 .withTimeout(DRIVETRAIN_ALIGN_TIME));
         addCommands(
@@ -92,7 +92,7 @@ public class FourBallAuton extends SequentialCommandGroup {
         );
 
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.WHITE_PULSE),
+            new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()),
 
             new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull())
         );
@@ -104,7 +104,7 @@ public class FourBallAuton extends SequentialCommandGroup {
                     .fieldRelative());
     
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.PURPLE_PULSE),
+            new LEDSetCommand(robot.leds, LEDColor.PURPLE.pulse()),
             new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                     .withTimeout(DRIVETRAIN_ALIGN_TIME)
         );

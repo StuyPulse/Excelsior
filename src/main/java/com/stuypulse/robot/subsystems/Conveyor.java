@@ -139,27 +139,31 @@ public class Conveyor extends SubsystemBase {
 
     /*** SENSOR INFORMATION ***/
 
-    public boolean getColorSensorConnected() {
-        return colorSensor.isConnected();
-    }
-
     /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
-    public boolean getTopBeltHasBall() {
+    public boolean hasTopBeltBall() {
         return !topIRSensor.get();
     }
 
-    public boolean hasOpponentBall() {
-        return colorSensor.hasOpponentBall();
+    public boolean hasAnyBall() {
+        return colorSensor.hasBall();
     }
 
     public boolean hasAllianceBall() {
         return colorSensor.hasAllianceBall();
     }
 
+    public boolean hasOpponentBall() {
+        return colorSensor.hasOpponentBall();
+    }
+
     /*** AUTOMATIC RETRACTION ***/
 
+    public boolean isEmpty() {
+        return !(hasTopBeltBall() || hasAllianceBall());
+    }
+
     public boolean isFull() {
-        return getTopBeltHasBall() && hasAllianceBall();
+        return hasTopBeltBall() && hasAllianceBall();
     }
 
     /*** PERIODIC COMMAND ***/
@@ -171,7 +175,7 @@ public class Conveyor extends SubsystemBase {
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putNumber("Debug/Conveyor/Top Belt", topBeltMotor.get());
             SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor", gandalfMotor.get());
-            SmartDashboard.putBoolean("Debug/Conveyor/Top IR", getTopBeltHasBall());
+            SmartDashboard.putBoolean("Debug/Conveyor/Top IR", hasTopBeltBall());
         }
     }
 }

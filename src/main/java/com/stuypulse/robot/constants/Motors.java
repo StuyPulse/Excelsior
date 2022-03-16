@@ -5,6 +5,8 @@
 
 package com.stuypulse.robot.constants;
 
+import static com.revrobotics.CANSparkMax.IdleMode.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -15,30 +17,31 @@ import com.revrobotics.CANSparkMax.IdleMode;
  *  - If it is Inverted
  *  - The Idle Mode of the Motor
  *  - The Current Limit
+ *  - The Open Loop Ramp Rate
  */
 public interface Motors {
 
-    Config CLIMBER = new Config(false, IdleMode.kBrake, 80);
+    Config CLIMBER = new Config(true, kBrake, 80, 1.0 / 8.0);
 
     public interface Conveyor {
-        Config GANDALF = new Config(true, IdleMode.kBrake, 50);
-        Config TOP_BELT = new Config(false, IdleMode.kBrake, 50);
+        Config GANDALF = new Config(true, kBrake, 60);
+        Config TOP_BELT = new Config(false, kBrake, 60);
     }
 
     public interface Drivetrain {
         int CURRENT_LIMIT_AMPS = 60;
-        IdleMode IDLE_MODE = IdleMode.kBrake;
+        IdleMode IDLE_MODE = kBrake;
 
         Config LEFT = new Config(true, IDLE_MODE, CURRENT_LIMIT_AMPS);
         Config RIGHT = new Config(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
     }
 
-    Config INTAKE = new Config(true, IdleMode.kBrake, 40);
+    Config INTAKE = new Config(true, kBrake, 60);
 
     public interface Shooter {
-        Config LEFT = new Config(false, IdleMode.kCoast, 80);
-        Config RIGHT = new Config(true, IdleMode.kCoast, 80);
-        Config FEEDER = new Config(false, IdleMode.kCoast, 80);
+        Config LEFT = new Config(false, kCoast, 80);
+        Config RIGHT = new Config(true, kCoast, 80);
+        Config FEEDER = new Config(false, kCoast, 80);
     }
 
     /** Class to store all of the values a motor needs */
@@ -46,17 +49,32 @@ public interface Motors {
         public final boolean INVERTED;
         public final IdleMode IDLE_MODE;
         public final int CURRENT_LIMIT_AMPS;
+        public final double OPEN_LOOP_RAMP_RATE;
 
-        public Config(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
+        public Config(
+                boolean inverted,
+                IdleMode idleMode,
+                int currentLimitAmps,
+                double openLoopRampRate) {
             this.INVERTED = inverted;
             this.IDLE_MODE = idleMode;
             this.CURRENT_LIMIT_AMPS = currentLimitAmps;
+            this.OPEN_LOOP_RAMP_RATE = openLoopRampRate;
+        }
+
+        public Config(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
+            this(inverted, idleMode, currentLimitAmps, 0.0);
+        }
+
+        public Config(boolean inverted, IdleMode idleMode) {
+            this(inverted, idleMode, 80);
         }
 
         public void configure(CANSparkMax motor) {
             motor.setInverted(INVERTED);
             motor.setIdleMode(IDLE_MODE);
             motor.setSmartCurrentLimit(CURRENT_LIMIT_AMPS);
+            motor.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE);
             motor.burnFlash();
         }
     }

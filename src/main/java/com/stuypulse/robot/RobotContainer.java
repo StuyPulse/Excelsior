@@ -24,12 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
 
     // Subsystems
@@ -60,20 +54,24 @@ public class RobotContainer {
         configureAutons();
     }
 
+    /****************/
+    /*** DEFAULTS ***/
+    /****************/
+
     private void configureDefaultCommands() {
-        // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
         drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
         conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
     }
 
-    private void configureButtonBindings() {
-        /***********************/
-        /*** Climber Control ***/
-        /***********************/
+    /***************/
+    /*** BUTTONS ***/
+    /***************/
 
-        new Button(() -> operator.getRightY() >= +0.75)
+    private void configureButtonBindings() {
+        /*** Climber ***/
+        new Button(() -> -operator.getRightY() >= +0.75)
                 .whileHeld(new ClimberMoveUpCommand(climber));
-        new Button(() -> operator.getRightY() <= -0.75)
+        new Button(() -> -operator.getRightY() <= -0.75)
                 .whenPressed(new IntakeRetractCommand(intake))
                 .whileHeld(new ClimberMoveDownCommand(climber));
 
@@ -84,43 +82,40 @@ public class RobotContainer {
 
         operator.getSelectButton().whileHeld(new ClimberForceLowerCommand(climber));
 
-        operator.getBottomButton().whenPressed(new ClimberBrakeCommand(climber));
-
-        /*************************/
-        /*** Conveyor Control ***/
-        /*************************/
-
+        /*** Conveyor ***/
         operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
         operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
-        /**************************/
-        /*** Drivetrain Control ***/
-        /**************************/
-
+        /*** Drivetrain ***/
+        driver.getLeftButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
         driver.getBottomButton()
+                .whileHeld(
+                        new DrivetrainAlignToShootCommand(
+                                drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
+
+        driver.getTopButton()
                 .whileHeld(
                         new DrivetrainAlignCommand(
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
                                 .perpetually());
 
-        /**********************/
-        /*** Intake Control ***/
-        /**********************/
-
+        /*** Intake ***/
         operator.getRightTriggerButton()
                 .whenPressed(new IntakeExtendCommand(intake))
                 .whileHeld(new IntakeAcquireCommand(intake));
+
+        operator.getRightBumper()
+                .whenPressed(new IntakeExtendCommand(intake))
+                .whileHeld(new IntakeAcquireCommand(intake))
+                .whileHeld(new ConveyorForceIntakeCommand(conveyor));
 
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
         operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
 
-        // new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
+        new Button(intake::getShouldRetract).whenPressed(new IntakeRetractCommand(intake));
 
-        /***********************/
-        /*** Shooter Control ***/
-        /***********************/
-
+        /*** Shooter ***/
         operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
 
@@ -129,24 +124,23 @@ public class RobotContainer {
         operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }
 
-    public void configureAutons() {
-        autonChooser.addOption("Do Nothing", new DoNothingAuton());
+    /**************/
+    /*** AUTONS ***/
+    /**************/
 
-        autonChooser.addOption("No Encoders (moby)", new MobilityAuton.NoEncoders(this));
-        autonChooser.setDefaultOption("With Encoders (moby)", new MobilityAuton.WithEncoders(this));
-        autonChooser.addOption("One Ball", new OneBallAuton(this));
-        autonChooser.addOption("Two Ball", new TwoBallAuton(this));
-        autonChooser.addOption("Four Ball", new FourBallAuton(this));
-        autonChooser.addOption("Five Ball", new FiveBallAuton(this));
+    public void configureAutons() {
+        // autonChooser.addOption("Do Nothing", new DoNothingAuton());
+
+        autonChooser.addOption("0 Ball [TIMED]", new MobilityAuton.NoEncoders(this));
+        // autonChooser.addOption("0 Ball [ENCODER]", new MobilityAuton.WithEncoders(this));
+        // autonChooser.addOption("1 Ball", new OneBallAuton(this));
+        autonChooser.addOption("2 Ball", new TwoBallAuton(this));
+        autonChooser.addOption("4 Ball", new FourBallAuton(this));
+        autonChooser.setDefaultOption("5 Ball", new FiveBallAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
     public Command getAutonomousCommand() {
         return autonChooser.getSelected();
     }
