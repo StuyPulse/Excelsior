@@ -332,7 +332,7 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
 
             static Controller getController() {
-                return new SmartPIDController("Drivetrain/Alignment/Angle")
+                return new SmartPIDController("Drivetrain/Alignment/Speed")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))

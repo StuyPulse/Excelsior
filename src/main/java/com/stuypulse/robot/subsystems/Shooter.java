@@ -93,16 +93,16 @@ public class Shooter extends SubsystemBase {
     /*** ENCODER READINGS ***/
 
     public double getShooterRPM() {
-        return Math.abs(shooter.getVelocity());
+        return shooter.getVelocity();
     }
 
     public double getFeederRPM() {
-        return Math.abs(feeder.getVelocity());
+        return feeder.getVelocity();
     }
 
     /*** TARGET RPM READING ***/
 
-    private double getTargetRPM() {
+    public double getTargetRPM() {
         return targetFilter.get(targetRPM.get());
     }
 

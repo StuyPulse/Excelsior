@@ -39,17 +39,11 @@ public class SmartPIDController extends PIDController {
     protected double calculate(double error) {
         if (tuningPID.get()) {
             tuningPD.set(false);
-            PIDController result = calculator.getPIDController();
-            setP(result.getP());
-            setI(result.getI());
-            setD(result.getD());
+            setPID(calculator.getPIDController());
             return calculator.update(error);
         } else if (tuningPD.get()) {
             tuningPID.set(false);
-            PIDController result = calculator.getPDController();
-            setP(result.getP());
-            setI(result.getI());
-            setD(result.getD());
+            setPID(calculator.getPDController());
             return calculator.update(error);
         } else {
             return super.calculate(error);
