@@ -6,8 +6,10 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.util.SmartPIDController;
@@ -334,7 +336,8 @@ public interface Settings {
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
         }
 
@@ -355,7 +358,8 @@ public interface Settings {
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
         }
     }

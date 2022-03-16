@@ -25,9 +25,9 @@ public class SmartPIDController extends PIDController {
                 new SmartNumber(join(id, "I"), 0.0),
                 new SmartNumber(join(id, "D"), 0.0));
 
-        tuningPID = new SmartBoolean(join(id, "Auto Tuning PID"), false);
-        tuningPD = new SmartBoolean(join(id, "Auto Tuning PD"), false);
-        calculator = new PIDCalculator(new SmartNumber(join(id, "Tuning/Control Speed"), 1.0));
+        tuningPID = new SmartBoolean(join(id, "Tuning PID"), false);
+        tuningPD = new SmartBoolean(join(id, "Tuning PD"), false);
+        calculator = new PIDCalculator(new SmartNumber(join(id, "Tuning Speed"), 1.0));
     }
 
     public SmartPIDController setControlSpeed(Number speed) {
