@@ -227,8 +227,8 @@ public interface Settings {
         double INTEGRAL_MAX_RPM_ERROR = 500;
         double INTEGRAL_MAX_ADJUST = 0.1;
 
-        // double MIN_PID_OUTPUT = 0.0;
-        // double MAX_PID_OUTPUT = RobotController.getBatteryVoltage();
+        double MIN_PID_OUTPUT = 0.0;
+        double MAX_PID_OUTPUT = RobotController.getBatteryVoltage();
 
         public interface ShooterPID {
             double kP = 0.0025;
