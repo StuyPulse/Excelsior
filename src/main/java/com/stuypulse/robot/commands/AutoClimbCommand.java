@@ -20,30 +20,29 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class AutoClimbCommand extends SequentialCommandGroup {
     public AutoClimbCommand(RobotContainer robot) {
 
+        // Stage 1 (robot setup for climb)
         addCommands(
-                // robot setup
-                new ShooterStopCommand(robot.shooter),
-                new IntakeDeacquireForeverCommand(robot.intake),
-                new IntakeRetractCommand(robot.intake),
+            // robot setup
+            new ShooterStopCommand(robot.shooter),
+            new IntakeDeacquireForeverCommand(robot.intake),
+            new IntakeRetractCommand(robot.intake)
+        );
 
-                // fully collapse climber
-                new WaitCommand(0.0),
-                new ClimberMoveDownCommand(robot.climber),
+        // Stage 2 (climber to mid and hook onto passive hooks)
+        addCommands(
+            // fully extend climber
+            new ClimberMoveUpCommand(robot.climber),
 
-                // fully extend climber
-                new WaitCommand(0.0),
-                new ClimberMoveUpCommand(robot.climber),
+            // fully collapse climber
+            new WaitCommand(0.1),
+            new ClimberMoveDownCommand(robot.climber)
+        );
 
-                // fully collapse piston
-                new WaitCommand(0.0),
-                new ClimberMaxTiltCommand(robot.climber),
+        // Stage 3 (climber to high and hook onto passive hooks)
+        addCommands(
+            // Tilt
 
-                // fully collapse climber
-                new WaitCommand(0.0),
-                new ClimberMoveDownCommand(robot.climber),
+        );
 
-                // full extend piston
-                new WaitCommand(0.0),
-                new ClimberNoTiltCommand(robot.climber));
     }
 }

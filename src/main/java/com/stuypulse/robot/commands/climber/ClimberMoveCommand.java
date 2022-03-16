@@ -3,47 +3,16 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot.commands.climber;
-
 import com.stuypulse.robot.subsystems.Climber;
+
+import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ClimberMoveCommand extends CommandBase {
+public class ClimberMoveCommand extends ClimberMoveToPositionCommand {
 
-    private final Climber climber;
-    private final Number number;
-    private final boolean movingUp;
-
-    public ClimberMoveCommand(Climber climber, Number speed, boolean movingUp) {
-        this.climber = climber;
-        this.number = speed;
-        this.movingUp = movingUp;
-
-        addRequirements(climber);
+    public ClimberMoveCommand(Climber climber, double speed, boolean movingUp) {
+        super(climber, speed, (movingUp ? Encoders.MAX_EXTENSION.get() : 0));
     }
 
-    @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
-        if (movingUp) {
-            climber.setMotor(+this.number.doubleValue());
-        } else {
-            climber.setMotor(-this.number.doubleValue());
-        }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        climber.setMotorStop();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return (movingUp)
-                ? climber.getTopHeightLimitReached()
-                : climber.getBottomHeightLimitReached();
-    }
 }
