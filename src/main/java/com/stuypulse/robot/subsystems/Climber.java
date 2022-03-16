@@ -77,7 +77,7 @@ public class Climber extends SubsystemBase {
 
         Motors.CLIMBER.configure(climber);
 
-        stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);   
+        stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
         stopper = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Climber.STOPPER);
         tilter =

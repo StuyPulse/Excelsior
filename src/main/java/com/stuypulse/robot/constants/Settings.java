@@ -6,13 +6,11 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDController;
-import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
-import com.stuypulse.robot.util.IntegratorFilter;
+import com.stuypulse.robot.util.SmartPIDController;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,7 +20,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.util.Color;
 
 import java.nio.file.Path;
@@ -236,33 +233,21 @@ public interface Settings {
             double kD = 0.0;
 
             static Controller getController() {
-                // SmartPIDController networkController = new SmartPIDController("Shooter/Shooter
-                // PID");
-                // networkController.setGains(kP, kI, kD);
-
-                PIDController controller = new PIDController(kP, kI, kD);
-                controller.setIntegratorFilter(
-                        new IntegratorFilter(
-                                controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
-                controller.setOutputFilter(x -> SLMath.clamp(x, 0, RobotController.getBatteryVoltage()));
-
-                return controller;
+                return new SmartPIDController("Shooter/Shooter")
+                        .setPID(kP, kI, kD)
+                        .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
             }
-
-            double kF = 0.000175;
         }
 
-        // TODO: characterize
         public interface ShooterFF {
             double kS = 0.0;
-            // (input voltage / shooter rpm), assumes we tuned on 12 volts,
-            // replace with characterization
-            double kV = (0.6 * 12.0) / (0.6 / ShooterPID.kF);
+            double kV = 0.002;
             double kA = 0.0;
-        }
 
-        SimpleMotorFeedforward SHOOTER_FEED_FORWARD =
-                new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            static SimpleMotorFeedforward getController() {
+                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            }
+        }
 
         public interface FeederPID {
             double kP = 0.0015;
@@ -270,29 +255,21 @@ public interface Settings {
             double kD = 0.0;
 
             static Controller getController() {
-                PIDController controller = new PIDController(kP, kI, kD);
-                controller.setIntegratorFilter(
-                        new IntegratorFilter(
-                                controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
-                controller.setOutputFilter(x -> SLMath.clamp(x, 0, RobotController.getBatteryVoltage()));
-
-                return controller;
+                return new SmartPIDController("Shooter/Feeder")
+                        .setPID(kP, kI, kD)
+                        .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
             }
-
-            double kF = 0.0001825;
         }
 
-        // TODO: characterize
         public interface FeederFF {
             double kS = 0.0;
-            // (input voltage / shooter rpm), assumes we tuned on 12 volts,
-            // replace with characterization
-            double kV = (0.6 * 12.0) / (0.6 / FeederPID.kF);
+            double kV = 0.002;
             double kA = 0.0;
-        }
 
-        SimpleMotorFeedforward FEEDER_FEED_FORWARD =
-                new SimpleMotorFeedforward(FeederFF.kS, FeederFF.kV, FeederFF.kA);
+            static SimpleMotorFeedforward getController() {
+                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            }
+        }
     }
 
     public interface Limelight {
@@ -332,11 +309,11 @@ public interface Settings {
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 2.7);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
+            double kP = 2.7;
+            double kI = 0;
+            double kD = 0.3;
 
-            double BANG_BANG = 1.0;
+            double BANG_BANG = 0.7;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
@@ -344,16 +321,18 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
+                return new SmartPIDController("Drivetrain/Alignment/Angle")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.0366);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0034);
+            double kP = 0.0366;
+            double kI = 0;
+            double kD = 0.0034;
 
             double BANG_BANG = 0.75;
 
@@ -363,7 +342,9 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.02);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
+                return new SmartPIDController("Drivetrain/Alignment/Angle")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(new LowPassFilter(OUT_FILTER));
             }

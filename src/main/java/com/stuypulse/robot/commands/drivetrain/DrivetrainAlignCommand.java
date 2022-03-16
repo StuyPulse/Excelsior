@@ -6,13 +6,13 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Drivetrain;
-import com.stuypulse.robot.util.IFuser;
 import com.stuypulse.robot.util.Target;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -33,7 +33,7 @@ public class DrivetrainAlignCommand extends CommandBase {
     protected final Controller angleController;
     protected final Controller distanceController;
 
-    protected DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance, Controller angleController, Controller distanceController) {
+    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
         this.drivetrain = drivetrain;
 
         // find errors
@@ -51,17 +51,13 @@ public class DrivetrainAlignCommand extends CommandBase {
 
         // handle errors
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
-        this.angleController = angleController;
-        this.distanceController = distanceController;
+        this.angleController = Alignment.Angle.getController();
+        this.distanceController = Alignment.Speed.getController();
 
-        // finish optimally 
+        // finish optimally
         finished = new Debouncer(Limelight.DEBOUNCER_TIME, DebounceType.kRising);
 
         addRequirements(drivetrain);
-    }
-
-    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
-        this(drivetrain, targetDistance, Alignment.Angle.getController(), Alignment.Speed.getController());
     }
 
     @Override
