@@ -22,6 +22,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.util.Color;
 
 import java.nio.file.Path;
@@ -226,12 +227,12 @@ public interface Settings {
         double INTEGRAL_MAX_RPM_ERROR = 500;
         double INTEGRAL_MAX_ADJUST = 0.1;
 
-        double MIN_PID_OUTPUT = 0.0;
-        double MAX_PID_OUTPUT = 1.0;
+        // double MIN_PID_OUTPUT = 0.0;
+        // double MAX_PID_OUTPUT = RobotController.getBatteryVoltage();
 
         public interface ShooterPID {
-            double kP = 0.00025;
-            double kI = 0.0000005;
+            double kP = 0.0025;
+            double kI = 0.000005;
             double kD = 0.0;
 
             static Controller getController() {
@@ -243,7 +244,7 @@ public interface Settings {
                 controller.setIntegratorFilter(
                         new IntegratorFilter(
                                 controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
-                controller.setOutputFilter(x -> SLMath.clamp(x, MIN_PID_OUTPUT, MAX_PID_OUTPUT));
+                controller.setOutputFilter(x -> SLMath.clamp(x, 0, RobotController.getBatteryVoltage()));
 
                 return controller;
             }
@@ -264,8 +265,8 @@ public interface Settings {
                 new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
 
         public interface FeederPID {
-            double kP = 0.00015;
-            double kI = 0.0000005;
+            double kP = 0.0015;
+            double kI = 0.000005;
             double kD = 0.0;
 
             static Controller getController() {
@@ -273,7 +274,7 @@ public interface Settings {
                 controller.setIntegratorFilter(
                         new IntegratorFilter(
                                 controller, INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST));
-                controller.setOutputFilter(x -> SLMath.clamp(x, MIN_PID_OUTPUT, MAX_PID_OUTPUT));
+                controller.setOutputFilter(x -> SLMath.clamp(x, 0, RobotController.getBatteryVoltage()));
 
                 return controller;
             }
