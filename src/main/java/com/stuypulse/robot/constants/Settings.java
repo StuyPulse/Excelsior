@@ -234,27 +234,28 @@ public interface Settings {
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 0.1;
+        double INTEGRAL_MAX_ADJUST = 1.0;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
         public interface ShooterPID {
-            double kP = 0.0025;
-            double kI = 0.000005;
-            double kD = 0.0;
+            double kP = 0.004272660884538;
+            double kI = 0.016408468755308;
+            double kD = 0.000278143428654;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Shooter")
+                        .setControlSpeed(2.0)
                         .setPID(kP, kI, kD)
                         .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
             }
         }
 
         public interface ShooterFF {
-            double kS = 0.0;
-            double kV = 0.002;
-            double kA = 0.0;
+            double kS = 0.17118;
+            double kV = 0.0020763;
+            double kA = 0.00011861;
 
             static SimpleMotorFeedforward getController() {
                 return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
@@ -262,21 +263,22 @@ public interface Settings {
         }
 
         public interface FeederPID {
-            double kP = 0.0015;
-            double kI = 0.000005;
-            double kD = 0.0;
+            double kP = 0.003633180281996;
+            double kI = 0.014468601484238;
+            double kD = 0.000228080076984;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Feeder")
+                        .setControlSpeed(2.0)
                         .setPID(kP, kI, kD)
                         .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
             }
         }
 
         public interface FeederFF {
-            double kS = 0.0;
-            double kV = 0.002;
-            double kA = 0.0;
+            double kS = 0.18892;
+            double kV = 0.0021256;
+            double kA = 8.9074E-05;
 
             static SimpleMotorFeedforward getController() {
                 return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
