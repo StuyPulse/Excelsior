@@ -234,7 +234,7 @@ public interface Settings {
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 1.0;
+        double INTEGRAL_MAX_ADJUST = 2.0;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
