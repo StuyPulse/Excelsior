@@ -93,8 +93,7 @@ public class RobotContainer {
                 .whileHeld(
                         new DrivetrainAlignCommand(
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
-                                .perpetually())
-                .whenReleased(new LEDSetCommand(leds, LEDColor.GREEN));
+                                .perpetually());
 
         driver.getDPadLeft()
                 .whileHeld(
