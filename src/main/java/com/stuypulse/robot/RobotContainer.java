@@ -87,20 +87,17 @@ public class RobotContainer {
         operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /*** Drivetrain ***/
+        driver.getLeftButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
         driver.getBottomButton()
+                .whileHeld(
+                        new DrivetrainAlignToShootCommand(
+                                drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
+
+        driver.getTopButton()
                 .whileHeld(
                         new DrivetrainAlignCommand(
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
                                 .perpetually());
-
-        driver.getDPadLeft()
-                .whileHeld(
-                        new DrivetrainTuneCommand.Angle(
-                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
-        driver.getDPadRight()
-                .whileHeld(
-                        new DrivetrainTuneCommand.Speed(
-                                drivetrain, Settings.Limelight.RING_SHOT_DISTANCE));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
