@@ -6,9 +6,13 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.math.SLMath;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -27,15 +31,16 @@ public class PIDFlywheel extends SubsystemBase {
 
     private double targetRPM;
 
-    private final CANSparkMax motor;
-    private final RelativeEncoder encoder;
+    private final List<CANSparkMax> motors;
+    private final List<RelativeEncoder> encoders;
 
     private final SimpleMotorFeedforward feedforward;
     private final Controller feedback;
 
     public PIDFlywheel(CANSparkMax motor, SimpleMotorFeedforward feedforward, Controller feedback) {
-        this.motor = motor;
-        this.encoder = motor.getEncoder();
+        this.motors = new ArrayList<>();
+        this.encoders = new ArrayList<>();
+        addFollower(motor);
 
         this.targetRPM = 0.0;
 
@@ -43,8 +48,9 @@ public class PIDFlywheel extends SubsystemBase {
         this.feedback = feedback;
     }
 
-    public PIDFlywheel addFollower(CANSparkMax follower, boolean inverted) {
-        this.motor.follow(follower, inverted);
+    public PIDFlywheel addFollower(CANSparkMax follower) {
+        this.motors.add(follower);
+        this.encoders.add(follower.getEncoder());
         return this;
     }
 
@@ -57,13 +63,25 @@ public class PIDFlywheel extends SubsystemBase {
     }
 
     public double getVelocity() {
-        return encoder.getVelocity();
+        double velocity = 0.0;
+
+        for(RelativeEncoder encoder : this.encoders) {
+            velocity += encoder.getVelocity();
+        }
+
+        return velocity / this.encoders.size();
+    }
+
+    private static double clamp(double voltage) {
+        return SLMath.clamp(voltage, 0, 16);
     }
 
     public void periodic() {
         double ff = feedforward.calculate(this.targetRPM, 0);
         double fb = feedback.update(this.targetRPM, getVelocity());
 
-        this.motor.setVoltage(ff + fb);
+        for (CANSparkMax motor : this.motors) {
+            motor.setVoltage(clamp(ff + fb));
+        }
     }
 }

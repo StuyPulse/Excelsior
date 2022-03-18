@@ -60,7 +60,7 @@ public class Shooter extends SubsystemBase {
                         shooterMotor,
                         Settings.Shooter.ShooterFF.getController(),
                         Settings.Shooter.ShooterPID.getController());
-        shooter.addFollower(shooterFollower, true);
+        shooter.addFollower(shooterFollower);
 
         /** FEEDER * */
         CANSparkMax feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
