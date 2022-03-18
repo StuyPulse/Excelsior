@@ -65,7 +65,7 @@ public class PIDFlywheel extends SubsystemBase {
     public double getVelocity() {
         double velocity = 0.0;
 
-        for(RelativeEncoder encoder : this.encoders) {
+        for (RelativeEncoder encoder : this.encoders) {
             velocity += encoder.getVelocity();
         }
 
