@@ -83,8 +83,8 @@ public interface Ports {
 
     public interface Shooter {
         // Motors
-        int LEFT_SHOOTER = 20;
-        int RIGHT_SHOOTER = 21;
+        int LEFT = 20;
+        int RIGHT = 21;
         int FEEDER = 22;
 
         // Solenoids

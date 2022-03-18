@@ -6,10 +6,13 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+
+import com.stuypulse.robot.util.SmartPIDController;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -224,29 +227,62 @@ public interface Settings {
     public interface Shooter {
 
         double MIN_RPM = 100.0;
+        double MAX_TARGET_RPM_CHANGE = 800.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 0.1;
+        double INTEGRAL_MAX_ADJUST = 2.0;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
         public interface ShooterPID {
-            double kP = 0.00025;
-            double kI = 0.0000005;
-            double kD = 0.0;
-            double kF = 0.000175;
+            double kP = 0.004272660884538;
+            double kI = 0.016408468755308;
+            double kD = 0.000278143428654;
+
+            static Controller getController() {
+                return new SmartPIDController("Shooter/Shooter")
+                        .setControlSpeed(2.0)
+                        .setPID(kP, kI, kD)
+                        .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
+            }
+        }
+
+        public interface ShooterFF {
+            double kS = 0.17118;
+            double kV = 0.0020763;
+            double kA = 0.00011861;
+
+            static SimpleMotorFeedforward getController() {
+                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            }
         }
 
         public interface FeederPID {
-            double kP = 0.00015;
-            double kI = 0.0000005;
-            double kD = 0.0;
-            double kF = 0.0001825;
+            double kP = 0.003633180281996;
+            double kI = 0.014468601484238;
+            double kD = 0.000228080076984;
+
+            static Controller getController() {
+                return new SmartPIDController("Shooter/Feeder")
+                        .setControlSpeed(2.0)
+                        .setPID(kP, kI, kD)
+                        .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
+            }
+        }
+
+        public interface FeederFF {
+            double kS = 0.18892;
+            double kV = 0.0021256;
+            double kA = 8.9074E-05;
+
+            static SimpleMotorFeedforward getController() {
+                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            }
         }
     }
 
@@ -286,11 +322,11 @@ public interface Settings {
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 2.7);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
+            double kP = 2.7;
+            double kI = 0;
+            double kD = 0.3;
 
-            double BANG_BANG = 1.0;
+            double BANG_BANG = 0.7;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
@@ -298,16 +334,19 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
+                return new SmartPIDController("Drivetrain/Alignment/Speed")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.0366);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0034);
+            double kP = 0.0366;
+            double kI = 0;
+            double kD = 0.0034;
 
             double BANG_BANG = 0.75;
 
@@ -317,9 +356,12 @@ public interface Settings {
                     new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.02);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
+                return new SmartPIDController("Drivetrain/Alignment/Angle")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
         }
     }
