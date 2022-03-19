@@ -7,6 +7,7 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorModeCommand;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotMode;
 import com.stuypulse.robot.subsystems.Conveyor;
 
 /*
@@ -31,7 +32,7 @@ import com.stuypulse.robot.subsystems.Conveyor;
 
 public class ConveyorIndexCommand extends ConveyorModeCommand {
 
-    public ConveyorIndexCommand(Conveyor conveyor) {
-        super(conveyor, ConveyorMode.INDEX);
+    public ConveyorIndexCommand(Conveyor conveyor, ConveyorShotMode shotMode) {
+        super(conveyor, ConveyorMode.INDEX, shotMode);
     }
 }

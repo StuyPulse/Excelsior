@@ -52,7 +52,7 @@ public class OneBallAuton extends SequentialCommandGroup {
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.YELLOW),
-                new ShooterRingShotCommand(robot.shooter),
+                new ShooterRingShotCommand(robot.shooter, robot.conveyor),
                 new IntakeExtendCommand(robot.intake),
                 new WaitCommand(INTAKE_FALL_DOWN),
                 new IntakeAcquireForeverCommand(robot.intake),

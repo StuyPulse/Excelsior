@@ -140,6 +140,43 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Climber/Stall Detection",
+              "_title": "Stall Detection",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Climber/Enable Encoders",
+              "_title": "Enable Encoders",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Max Extension",
+              "_title": "Max Extension"
+            }
           }
         }
       }
@@ -390,6 +427,30 @@
               "_title": "SmartDashboard/Debug/Conveyor/Top IR",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "11,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Debug/Conveyor/inFenderShot",
+              "_title": "/SmartDashboard/Debug/Conveyor/inFenderShot",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "10,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Debug/Conveyor/Top Belt",
+              "_title": "/SmartDashboard/Debug/Conveyor/Top Belt"
             }
           }
         }
@@ -1056,15 +1117,28 @@
               "_source0": "network_table:///SmartDashboard/Intake/Locked Speed",
               "_title": "Locked Speed"
             }
+          },
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Intake/Auto Retract",
+              "_title": "Auto Retract",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": 60.0,
-    "y": 25.0,
-    "width": 1620.0,
-    "height": 1025.0
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1616.0,
+    "height": 868.0
   }
 }

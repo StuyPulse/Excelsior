@@ -96,7 +96,7 @@ public interface Settings {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.2);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);

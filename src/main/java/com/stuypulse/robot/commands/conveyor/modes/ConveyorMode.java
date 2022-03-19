@@ -27,7 +27,11 @@ public enum ConveyorMode {
 
                 // Accept Alliance Ball if no ball on top
                 else if (conveyor.hasAllianceBall()) {
-                    conveyor.setGandalf(Direction.FORWARD);
+                    if (conveyor.getFenderShot()) {
+                        conveyor.setGandalf(Direction.FORWARD_SLOW);
+                    } else {
+                        conveyor.setGandalf(Direction.FORWARD);
+                    }
                 }
 
                 // If you were ejecting and there is no longer a ball, stop

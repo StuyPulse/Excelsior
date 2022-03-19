@@ -7,6 +7,7 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorModeCommand;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotMode;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 
@@ -39,7 +40,7 @@ public class ConveyorShootCommand extends ConveyorModeCommand {
 
     /** Creates a new ConveyorShootCommand. */
     public ConveyorShootCommand(Conveyor conveyor) {
-        super(conveyor, ConveyorMode.SHOOT);
+        super(conveyor, ConveyorMode.SHOOT, ConveyorShotMode.NOTHING);
 
         this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
     }

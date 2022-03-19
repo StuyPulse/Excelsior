@@ -7,6 +7,7 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorModeCommand;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotMode;
 import com.stuypulse.robot.subsystems.Conveyor;
 
 /*
@@ -32,6 +33,6 @@ import com.stuypulse.robot.subsystems.Conveyor;
 public class ConveyorStopCommand extends ConveyorModeCommand {
 
     public ConveyorStopCommand(Conveyor conveyor) {
-        super(conveyor, ConveyorMode.STOPPED);
+        super(conveyor, ConveyorMode.STOPPED, ConveyorShotMode.NOTHING);
     }
 }

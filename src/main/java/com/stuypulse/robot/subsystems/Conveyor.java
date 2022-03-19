@@ -48,6 +48,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Conveyor extends SubsystemBase {
 
+    public static boolean fenderShot;
+
     public enum Direction {
         FORWARD,
         FORWARD_SLOW,
@@ -80,12 +82,22 @@ public class Conveyor extends SubsystemBase {
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
         setMode(ConveyorMode.DEFAULT);
+
+        this.fenderShot = false;
     }
 
     /*** MODE CONTROL ***/
 
     public void setMode(ConveyorMode mode) {
         this.mode = mode;
+    }
+
+    public void setFender(boolean isCurrentFender) {
+        this.fenderShot = isCurrentFender;
+    }
+
+    public boolean getFenderShot() {
+        return this.fenderShot;
     }
 
     /*** MOTOR CONTROL ***/
@@ -172,6 +184,7 @@ public class Conveyor extends SubsystemBase {
             SmartDashboard.putNumber("Debug/Conveyor/Top Belt", topBeltMotor.get());
             SmartDashboard.putNumber("Debug/Conveyor/Gandalf Motor", gandalfMotor.get());
             SmartDashboard.putBoolean("Debug/Conveyor/Top IR", hasTopBeltBall());
+            SmartDashboard.putBoolean("Debug/Conveyor/inFenderShot", getFenderShot());
         }
     }
 }

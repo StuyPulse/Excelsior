@@ -11,6 +11,6 @@ import com.stuypulse.robot.subsystems.Climber;
 public class ClimberSlowMoveUpCommand extends ClimberMoveCommand {
 
     public ClimberSlowMoveUpCommand(Climber climber) {
-        super(climber, Settings.Climber.SLOW_SPEED, true);
+        super(climber, Settings.Climber.SLOW_SPEED.get(), true);
     }
 }

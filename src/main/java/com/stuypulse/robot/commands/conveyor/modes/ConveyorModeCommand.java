@@ -31,19 +31,28 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorModeCommand extends CommandBase {
 
+
+
     protected final ConveyorMode mode;
     protected final Conveyor conveyor;
+    protected final ConveyorShotMode shotMode;
 
     /** Creates a new ConveyorIndexCommand. */
-    protected ConveyorModeCommand(Conveyor conveyor, ConveyorMode mode) {
+    protected ConveyorModeCommand(Conveyor conveyor, ConveyorMode mode, ConveyorShotMode shotMode) {
         this.conveyor = conveyor;
         this.mode = mode;
+        this.shotMode = shotMode;
 
         addRequirements(conveyor);
     }
 
     @Override
     public final void execute() {
+        if (this.shotMode == ConveyorShotMode.FENDER) {
+            conveyor.setFender(false); 
+        } else if (this.shotMode == ConveyorShotMode.RING) {
+            conveyor.setFender(true);
+        }
         conveyor.setMode(this.mode);
     }
 

@@ -55,7 +55,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
             new LEDSetCommand(robot.leds, LEDColor.YELLOW),
             new IntakeExtendCommand(robot.intake),
             new IntakeAcquireForeverCommand(robot.intake),
-            new ShooterRingShotCommand(robot.shooter),
+            new ShooterRingShotCommand(robot.shooter, robot.conveyor),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 

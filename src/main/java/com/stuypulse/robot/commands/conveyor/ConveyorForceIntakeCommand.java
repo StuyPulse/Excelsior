@@ -7,6 +7,7 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorModeCommand;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotMode;
 import com.stuypulse.robot.subsystems.Conveyor;
 
 /*
@@ -32,6 +33,6 @@ import com.stuypulse.robot.subsystems.Conveyor;
 public class ConveyorForceIntakeCommand extends ConveyorModeCommand {
 
     public ConveyorForceIntakeCommand(Conveyor conveyor) {
-        super(conveyor, ConveyorMode.FORCE_INTAKE);
+        super(conveyor, ConveyorMode.FORCE_INTAKE, ConveyorShotMode.NOTHING);
     }
 }

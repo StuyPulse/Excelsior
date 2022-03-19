@@ -41,6 +41,9 @@
         "name": "drivetrain bottom right"
       },
       "SPARK MAX [20]": {
+        "header": {
+          "open": true
+        },
         "name": "shooter"
       },
       "SPARK MAX [21]": {
@@ -62,6 +65,9 @@
         "name": "intake motor"
       },
       "SPARK MAX [50]": {
+        "header": {
+          "open": true
+        },
         "name": "climber"
       },
       "navX-Sensor[0]": {
