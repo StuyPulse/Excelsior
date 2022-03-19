@@ -24,7 +24,7 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
         super(drivetrain, distance);
 
         this.conveyor = conveyor;
-        this.emptied = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
+        this.emptied = new Debouncer(Settings.Conveyor.MANUAL_DEBOUNCE_TIME, DebounceType.kRising);
 
         addRequirements(conveyor);
     }
