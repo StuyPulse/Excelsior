@@ -138,6 +138,7 @@ public class RobotContainer {
         // autonChooser.addOption("0 Ball [ENCODER]", new MobilityAuton.WithEncoders(this));
         // autonChooser.addOption("1 Ball", new OneBallAuton(this));
         autonChooser.addOption("2 Ball", new TwoBallAuton(this));
+        autonChooser.addOption("2 Ball Mean", new TwoBallTwoMeanAuton(this));
         autonChooser.addOption("4 Ball", new FourBallAuton(this));
         autonChooser.setDefaultOption("5 Ball", new FiveBallAuton(this));
 

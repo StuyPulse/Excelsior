@@ -32,8 +32,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  */
 
 public class TwoBallTwoMeanAuton extends SequentialCommandGroup {
-    // Initial delay for the auton
-    private static final double START_DELAY = 1.0;
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
@@ -41,17 +39,16 @@ public class TwoBallTwoMeanAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final String TWO_BALL_TO_SECOND_BALL = "TwoBallOneMeanAuton/output/TwoBallGetSecondBall.wpilib.json";
-    private static final String TWO_BALL_GET_OTHER_OPPONENT_BALL = "TwoBallOneMeanAuton/output/TwoBallGetOtherOpponentBall.wpilib.json";
-    private static final String TWO_BALL_GET_WALL_BALL = "TwoBallOneMeanAuton/output/TwoBallGetWallBall.wpilib.json";
-    private static final String TWO_BALL_EJECT_WALL_BALL = "TwoBallOneMeanAuton/output/TwoBallEjectWallBall.wpilib.json";
-    private static final String TWO_BALL_TO_TELEOP_STARTING_POSITION = "TwoBallOneMeanAuton/output/TwoBallTeleopStart.wpilib.json";
-
+    private static final String TWO_BALL_TO_SECOND_BALL = "TwoBallTwoMeanAuton/output/TwoBallGetSecondBall.wpilib.json";
+    private static final String TWO_BALL_GET_OTHER_OPPONENT_BALL = "TwoBallTwoMeanAuton/output/TwoBallGetOtherOpponentBall.wpilib.json";
+    private static final String TWO_BALL_GET_WALL_BALL = "TwoBallTwoMeanAuton/output/TwoBallGetWallBall.wpilib.json";
+    private static final String TWO_BALL_EJECT_WALL_BALL = "TwoBallTwoMeanAuton/output/TwoBallEjectWallBall.wpilib.json";
+    private static final String TWO_BALL_TO_TELEOP_STARTING_POSITION = "TwoBallTwoMeanAuton/output/TwoBallEjectWallBallInverse.wpilib.json";
 
     public TwoBallTwoMeanAuton(RobotContainer robot) {
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED), new WaitCommand(START_DELAY));
+                new LEDSetCommand(robot.leds, LEDColor.RED));
 
         // Starting up subsystems
         addCommands(
@@ -60,10 +57,12 @@ public class TwoBallTwoMeanAuton extends SequentialCommandGroup {
             new IntakeAcquireForeverCommand(robot.intake),
             new ShooterRingShotCommand(robot.shooter),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+
         // Shoot Two Balls
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_SECOND_BALL),
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_SECOND_BALL)
+                        .robotRelative(),
                 new LEDSetCommand(robot.leds, LEDColor.GREEN.pulse()),
                 new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
@@ -72,19 +71,22 @@ public class TwoBallTwoMeanAuton extends SequentialCommandGroup {
         // Get Wall Blue Ball
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.BLUE),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_WALL_BALL));
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_OTHER_OPPONENT_BALL)
+                        .fieldRelative());
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.PURPLE),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_OTHER_OPPONENT_BALL)
-        );
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_WALL_BALL)
+                        .fieldRelative());
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.PINK),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL),
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL)
+                        .fieldRelative(),
                 new IntakeDeacquireCommand(robot.intake));
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.AQUA),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_TELEOP_STARTING_POSITION));
+                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_TELEOP_STARTING_POSITION)
+                        .fieldRelative());
 
         addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
     }
