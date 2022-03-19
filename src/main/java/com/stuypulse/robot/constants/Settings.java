@@ -96,7 +96,7 @@ public interface Settings {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.75);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -226,7 +226,7 @@ public interface Settings {
         double MIN_RPM = 100.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
