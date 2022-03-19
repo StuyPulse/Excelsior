@@ -98,10 +98,11 @@ public interface Settings {
     public interface Conveyor {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
+        double MANUAL_DEBOUNCE_TIME = 1.0 / 4.0;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
 
-        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
+        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
     }
@@ -111,13 +112,13 @@ public interface Settings {
         SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.3);
 
         // Low Pass Filter and deadband for Driver Controls
-        SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.05);
-        SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.05);
+        SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.00);
+        SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.00);
 
-        SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 1.0);
-        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
+        SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
+        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 2.0);
 
-        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.25);
+        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.2);
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.02);
 
         // Width of the robot
@@ -222,15 +223,17 @@ public interface Settings {
         double BLINK_TIME = 0.5;
 
         double DEBOUNCE_TIME = 0.75;
+
+        double RPM_ERROR_STEP = 75;
     }
 
     public interface Shooter {
 
         double MIN_RPM = 100.0;
-        double MAX_TARGET_RPM_CHANGE = 800.0;
+        double MAX_TARGET_RPM_CHANGE = 1200.0;
 
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;

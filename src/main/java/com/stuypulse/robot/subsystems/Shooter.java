@@ -52,9 +52,6 @@ public class Shooter extends SubsystemBase {
         CANSparkMax shooterMotor = new CANSparkMax(Ports.Shooter.LEFT, MotorType.kBrushless);
         CANSparkMax shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT, MotorType.kBrushless);
 
-        Motors.Shooter.LEFT.configure(shooterMotor);
-        Motors.Shooter.RIGHT.configure(shooterFollower);
-
         shooter =
                 new PIDFlywheel(
                         shooterMotor,
@@ -64,7 +61,6 @@ public class Shooter extends SubsystemBase {
 
         /** FEEDER * */
         CANSparkMax feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
-        Motors.Shooter.FEEDER.configure(feederMotor);
 
         feeder =
                 new PIDFlywheel(
@@ -74,6 +70,11 @@ public class Shooter extends SubsystemBase {
 
         /** HOOD * */
         hood = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);
+
+        /** CONFIG MOTORS */
+        Motors.Shooter.LEFT.configure(shooterMotor);
+        Motors.Shooter.RIGHT.configure(shooterFollower);
+        Motors.Shooter.FEEDER.configure(feederMotor);
     }
 
     /*** SHOOTER CONTROL ***/
@@ -102,8 +103,12 @@ public class Shooter extends SubsystemBase {
 
     /*** TARGET RPM READING ***/
 
+    public double getRawTargetRPM() {
+        return targetRPM.get();
+    }
+
     public double getTargetRPM() {
-        return targetFilter.get(targetRPM.get());
+        return targetFilter.get(getRawTargetRPM());
     }
 
     @Override
