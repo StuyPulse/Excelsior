@@ -66,7 +66,11 @@ public enum ConveyorMode {
 
     SHOOT(
             (Conveyor conveyor) -> {
-                conveyor.setTopBelt(Direction.FORWARD);
+                if (conveyor.getShotMode() == ConveyorShotMode.FENDER) {
+                    conveyor.setTopBelt(Direction.FORWARD_SLOW);
+                } else {
+                    conveyor.setTopBelt(Direction.FORWARD);
+                }
                 conveyor.setGandalf(
                         conveyor.hasOpponentBall() ? Direction.REVERSE : Direction.FORWARD);
             }),
