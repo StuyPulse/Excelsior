@@ -775,8 +775,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
+              "Y-axis/Unit": "rpm"
             }
           },
           "2,1": {
@@ -827,8 +826,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
+              "Y-axis/Unit": "rpm"
             }
           }
         }
@@ -1300,9 +1298,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -7.199999809265137,
-    "y": -7.199999809265137,
-    "width": 1550.4000244140625,
-    "height": 838.4000244140625
+    "x": -7.0,
+    "y": -7.0,
+    "width": 1551.0,
+    "height": 839.0
   }
 }

@@ -11,6 +11,8 @@ import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotMode;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotModeCommand;
 import com.stuypulse.robot.commands.drivetrain.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.shooter.*;
@@ -116,8 +118,8 @@ public class RobotContainer {
         new Button(intake::getShouldRetract).whenPressed(new IntakeRetractCommand(intake));
 
         /*** Shooter ***/
-        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
-        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
+        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter)).whenPressed(new ConveyorShotModeCommand(conveyor, ConveyorShotMode.FENDER));
+        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter)).whenPressed(new ConveyorShotModeCommand(conveyor, ConveyorShotMode.RING));;
 
         operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
 

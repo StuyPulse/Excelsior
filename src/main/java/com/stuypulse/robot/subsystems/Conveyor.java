@@ -6,6 +6,7 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorShotMode;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -56,6 +57,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     private ConveyorMode mode;
+    private static ConveyorShotMode shotMode;
 
     private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;
@@ -80,12 +82,21 @@ public class Conveyor extends SubsystemBase {
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
         setMode(ConveyorMode.DEFAULT);
+
     }
 
     /*** MODE CONTROL ***/
 
     public void setMode(ConveyorMode mode) {
         this.mode = mode;
+    }
+
+    public void setShotMode(ConveyorShotMode shotModeChoice) {
+        shotMode = shotModeChoice;
+    }
+
+    public ConveyorShotMode getShotMode() {
+        return shotMode;
     }
 
     /*** MOTOR CONTROL ***/

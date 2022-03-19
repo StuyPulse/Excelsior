@@ -44,7 +44,11 @@ public enum ConveyorMode {
 
                 // Run upwards if you have an alliance ball
                 else if (conveyor.hasAllianceBall()) {
-                    conveyor.setTopBelt(Direction.FORWARD);
+                    if (conveyor.getShotMode() == ConveyorShotMode.FENDER) {
+                        conveyor.setTopBelt(Direction.FORWARD_SLOW);
+                    } else {
+                        conveyor.setTopBelt(Direction.FORWARD);
+                    }
                 }
 
                 // Stop Ejecting Once Done
