@@ -83,7 +83,7 @@ public class Conveyor extends SubsystemBase {
         setGandalf(Direction.STOPPED);
         setMode(ConveyorMode.DEFAULT);
 
-        this.fenderShot = false;
+        fenderShot = false;
     }
 
     /*** MODE CONTROL ***/
@@ -92,12 +92,12 @@ public class Conveyor extends SubsystemBase {
         this.mode = mode;
     }
 
-    public void setFender(boolean isCurrentFender) {
-        this.fenderShot = isCurrentFender;
+    public static void setFender(boolean isCurrentFender) {
+        fenderShot = isCurrentFender;
     }
 
     public boolean getFenderShot() {
-        return this.fenderShot;
+        return fenderShot;
     }
 
     /*** MOTOR CONTROL ***/

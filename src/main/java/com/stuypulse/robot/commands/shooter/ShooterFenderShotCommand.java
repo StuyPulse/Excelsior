@@ -18,6 +18,6 @@ public class ShooterFenderShotCommand extends SequentialCommandGroup {
     public ShooterFenderShotCommand(Shooter shooter, Conveyor conveyor) {
         addCommands(new ShooterExtendHoodCommand(shooter));
         addCommands(new ShooterSetRPMCommand(shooter, Settings.Shooter.FENDER_RPM));
-        addCommands(new ConveyorIndexCommand(conveyor, ConveyorShotMode.FENDER));
+        addCommands(new ConveyorIndexCommand(conveyor, ConveyorShotMode.RING));
     }
 }
