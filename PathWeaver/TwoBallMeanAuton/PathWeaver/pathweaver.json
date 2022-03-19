@@ -5,5 +5,5 @@
   "maxAcceleration": 3.0,
   "trackWidth": 0.68,
   "gameName": "Rapid React",
-  "outputDir": "../../../src/main/deploy/TwoBallOneMeanAuton"
+  "outputDir": "../../../src/main/deploy/TwoBallMeanAuton"
 }

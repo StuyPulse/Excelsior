@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * @author Samuel Chen(samchen1738@gmail.com)
  */
 
-public class TwoBallTwoMeanAuton extends SequentialCommandGroup {
+public class TwoBallMeanAuton extends SequentialCommandGroup {
     // Time it takes for the shooter to reach the target speed
     private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
     // Time it takes for the conveyor to give the shooter the ball
@@ -39,13 +39,13 @@ public class TwoBallTwoMeanAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final String TWO_BALL_TO_SECOND_BALL = "TwoBallTwoMeanAuton/output/TwoBallGetSecondBall.wpilib.json";
-    private static final String TWO_BALL_GET_OTHER_OPPONENT_BALL = "TwoBallTwoMeanAuton/output/TwoBallGetOtherOpponentBall.wpilib.json";
-    private static final String TWO_BALL_GET_WALL_BALL = "TwoBallTwoMeanAuton/output/TwoBallGetWallBall.wpilib.json";
-    private static final String TWO_BALL_EJECT_WALL_BALL = "TwoBallTwoMeanAuton/output/TwoBallEjectWallBall.wpilib.json";
-    private static final String TWO_BALL_TO_TELEOP_STARTING_POSITION = "TwoBallTwoMeanAuton/output/TwoBallEjectWallBallInverse.wpilib.json";
+    private static final String TWO_BALL_TO_SECOND_BALL = "TwoBallMeanAuton/output/TwoBallGetSecondBall.wpilib.json";
+    private static final String TWO_BALL_GET_OTHER_OPPONENT_BALL = "TwoBallMeanAuton/output/TwoBallGetOtherOpponentBall.wpilib.json";
+    private static final String TWO_BALL_GET_WALL_BALL = "TwoBallMeanAuton/output/TwoBallGetWallBall.wpilib.json";
+    private static final String TWO_BALL_EJECT_WALL_BALL = "TwoBallMeanAuton/output/TwoBallEjectWallBall.wpilib.json";
+    private static final String TWO_BALL_TO_TELEOP_STARTING_POSITION = "TwoBallMeanAuton/output/TwoBallEjectWallBallInverse.wpilib.json";
 
-    public TwoBallTwoMeanAuton(RobotContainer robot) {
+    public TwoBallMeanAuton(RobotContainer robot) {
 
         addCommands(
                 new LEDSetCommand(robot.leds, LEDColor.RED));
