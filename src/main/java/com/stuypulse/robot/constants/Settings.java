@@ -223,8 +223,6 @@ public interface Settings {
         double BLINK_TIME = 0.5;
 
         double DEBOUNCE_TIME = 0.75;
-
-        double RPM_EPSILON = 75;
     }
 
     public interface Shooter {

@@ -84,8 +84,8 @@ public class LEDController extends SubsystemBase {
         double shooterError =
                 Math.abs(robot.shooter.getRawTargetRPM() - robot.shooter.getShooterRPM());
 
-        if (robot.shooter.getRawTargetRPM() <= Settings.LED.RPM_EPSILON) return LEDColor.OFF;
-        else if (shooterError <= Settings.LED.RPM_EPSILON) return LEDColor.WHITE;
+        if (robot.shooter.getRawTargetRPM() <= Settings.Shooter.MIN_RPM) return LEDColor.OFF;
+        else if (shooterError <= Settings.Shooter.MIN_RPM) return LEDColor.WHITE;
         else return LEDColor.WHITE.pulse();
     }
 
