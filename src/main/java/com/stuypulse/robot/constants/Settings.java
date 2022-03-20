@@ -224,7 +224,7 @@ public interface Settings {
 
         double DEBOUNCE_TIME = 0.75;
 
-        double RPM_ERROR_STEP = 75;
+        double RPM_EPSILON = 75;
     }
 
     public interface Shooter {
