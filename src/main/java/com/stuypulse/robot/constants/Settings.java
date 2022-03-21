@@ -298,6 +298,7 @@ public interface Settings {
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
         double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double FENDER_SHOT_DISTANCE = CENTER_TO_HUB + LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
