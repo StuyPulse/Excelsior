@@ -40,8 +40,6 @@ public class FiveBallAuton extends SequentialCommandGroup {
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
 
-    private static final double HUMAN_WAIT_TIME = 0;
-
     private static final String FIVE_BALL_TO_SECOND_BALL = "FiveBallAuton/output/FiveBallAcquireSecondBall.wpilib.json";
     private static final String FIVE_BALL_TO_TERMINAL = "FiveBallAuton/output/FiveBallGetTerminalBalls.wpilib.json";
     private static final String FIVE_BALL_TERMINAL_TO_SHOOT = "FiveBallAuton/output/FiveBallShootTerminalBalls.wpilib.json";
@@ -86,10 +84,7 @@ public class FiveBallAuton extends SequentialCommandGroup {
                 new DrivetrainDriveDistanceCommand(robot.drivetrain, Units.feetToMeters(-1))
                 .fieldRelative(),
 
-                new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()),
-
-                // new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull()),
-                new WaitCommand(HUMAN_WAIT_TIME).withInterrupt(() -> robot.conveyor.isFull()));
+                new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
 
         // Return to Ring to shoot
         addCommands(
