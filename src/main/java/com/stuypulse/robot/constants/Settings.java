@@ -100,7 +100,7 @@ public interface Settings {
         double DEBOUNCE_TIME = 0.2;
         double MANUAL_DEBOUNCE_TIME = 1.0 / 4.0;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
