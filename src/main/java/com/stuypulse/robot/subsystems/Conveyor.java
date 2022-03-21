@@ -62,12 +62,13 @@ public class Conveyor extends SubsystemBase {
 
     private final ColorSensor colorSensor;
     private final DigitalInput topIRSensor;
+    private final Shooter shooter;
 
     private Direction topBeltDirection;
     private Direction gandalfDirection;
 
     /** Creates a Conveyor subsystem */
-    public Conveyor(ColorSensor colorSensor) {
+    public Conveyor(ColorSensor colorSensor, Shooter shooter) {
         this.topBeltMotor = new CANSparkMax(Ports.Conveyor.TOP_BELT_MOTOR, MotorType.kBrushless);
         Motors.Conveyor.TOP_BELT.configure(topBeltMotor);
 
@@ -76,6 +77,7 @@ public class Conveyor extends SubsystemBase {
 
         this.colorSensor = colorSensor;
         this.topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
+        this.shooter = shooter;
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
@@ -135,6 +137,11 @@ public class Conveyor extends SubsystemBase {
 
     public Direction getGandalfDirection() {
         return gandalfDirection;
+    }
+
+    /** Used for adjusting conveyor belt speeds in shooting */
+    public boolean isTopBeltSlow() {
+        return shooter.getRawTargetRPM() == Settings.Shooter.FENDER_RPM.get();
     }
 
     /*** SENSOR INFORMATION ***/

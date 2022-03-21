@@ -27,14 +27,15 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class RobotContainer {
 
     // Subsystems
-    public final Climber climber = new Climber();
     public final ColorSensor colorSensor = new ColorSensor();
-    public final Conveyor conveyor = new Conveyor(colorSensor);
+    public final Shooter shooter = new Shooter();
+    public final Conveyor conveyor = new Conveyor(colorSensor, shooter);
+
+    public final Climber climber = new Climber();
     public final Drivetrain drivetrain = new Drivetrain();
     public final Intake intake = new Intake(conveyor);
     public final LEDController leds = new LEDController(this);
     public final Pump pump = new Pump();
-    public final Shooter shooter = new Shooter();
 
     // Gamepads
     public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
