@@ -57,7 +57,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     private ConveyorMode mode;
-    private static ConveyorShotMode shotMode;
+    private ConveyorShotMode shotMode;
 
     private final CANSparkMax topBeltMotor;
     private final CANSparkMax gandalfMotor;
@@ -82,6 +82,7 @@ public class Conveyor extends SubsystemBase {
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
         setMode(ConveyorMode.DEFAULT);
+        setShotMode(ConveyorShotMode.RING);
 
     }
 
@@ -92,11 +93,11 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void setShotMode(ConveyorShotMode shotModeChoice) {
-        shotMode = shotModeChoice;
+        this.shotMode = shotModeChoice;
     }
 
     public ConveyorShotMode getShotMode() {
-        return shotMode;
+        return this.shotMode;
     }
 
     /*** MOTOR CONTROL ***/
