@@ -31,16 +31,31 @@ public class Target {
     }
 
     public static Angle getXAngle() {
+        if (!hasTarget()) {
+            Settings.reportWarning("Unable To Find Target! [getXAngle() was called]");
+            return Angle.kZero;
+        }
+
         return Angle.fromDegrees(
                 kLimelight.getTargetXAngle() + Settings.Limelight.LIMELIGHT_YAW.get());
     }
 
     public static Angle getYAngle() {
+        if (!hasTarget()) {
+            Settings.reportWarning("Unable To Find Target! [getYAngle() was called]");
+            return Angle.kZero;
+        }
+
         return Angle.fromDegrees(
                 kLimelight.getTargetYAngle() + Settings.Limelight.LIMELIGHT_PITCH.get());
     }
 
     public static double getDistance() {
+        if (!hasTarget()) {
+            Settings.reportWarning("Unable To Find Target! [getDistance() was called]");
+            return Settings.Limelight.RING_SHOT_DISTANCE;
+        }
+
         return Settings.Limelight.HEIGHT_DIFFERENCE / getYAngle().tan();
     }
 }
