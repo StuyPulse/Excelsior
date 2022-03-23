@@ -102,7 +102,7 @@ public interface Settings {
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
 
-        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.6);
+        SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.75);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
         SmartNumber REJECT_SPEED = new SmartNumber("Conveyor/Reject Speed", -1.0);
     }
@@ -224,7 +224,7 @@ public interface Settings {
 
         double DEBOUNCE_TIME = 0.75;
 
-        double RPM_ERROR_STEP = 75;
+        double RPM_ERROR_STEP = 50;
     }
 
     public interface Shooter {
@@ -233,19 +233,19 @@ public interface Settings {
         double MAX_TARGET_RPM_CHANGE = 1200.0;
 
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2600);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
-
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2750);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
+        
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 2.0;
+        double INTEGRAL_MAX_ADJUST = 1.0;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
         public interface ShooterPID {
-            double kP = 0.004272660884538;
-            double kI = 0.016408468755308;
-            double kD = 0.000278143428654;
+            double kP = 0.0045;
+            double kI = 0.002;
+            double kD = 0.0003;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Shooter")
@@ -266,9 +266,9 @@ public interface Settings {
         }
 
         public interface FeederPID {
-            double kP = 0.003633180281996;
-            double kI = 0.014468601484238;
-            double kD = 0.000228080076984;
+            double kP = 0.00375;
+            double kI = 0.0015;
+            double kD = 0.00025;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Feeder")

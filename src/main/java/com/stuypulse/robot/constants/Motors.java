@@ -39,9 +39,9 @@ public interface Motors {
     Config INTAKE = new Config(true, kBrake, 60);
 
     public interface Shooter {
-        Config LEFT = new Config(false, kCoast, 80);
-        Config RIGHT = new Config(true, kCoast, 80);
-        Config FEEDER = new Config(false, kCoast, 80);
+        Config LEFT = new Config(false, kCoast, 60);
+        Config RIGHT = new Config(true, kCoast, 60);
+        Config FEEDER = new Config(false, kCoast, 60);
     }
 
     /** Class to store all of the values a motor needs */
