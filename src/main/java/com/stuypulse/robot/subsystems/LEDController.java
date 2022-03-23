@@ -86,10 +86,10 @@ public class LEDController extends SubsystemBase {
 
         if (robot.shooter.getRawTargetRPM() <= Settings.LED.RPM_ERROR_STEP) return LEDColor.OFF;
         else if (shooterError <= 1.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.GREEN;
-        else if (shooterError <= 3.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.LIME;
-        else if (shooterError <= 5.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.YELLOW;
-        else if (shooterError <= 7.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.ORANGE;
-        else if (shooterError <= 9.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.RED;
+        else if (shooterError <= 2.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.LIME;
+        else if (shooterError <= 3.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.YELLOW;
+        else if (shooterError <= 4.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.ORANGE;
+        else if (shooterError <= 5.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.RED;
         else return LEDColor.RED.pulse();
     }
 
