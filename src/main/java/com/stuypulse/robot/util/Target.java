@@ -24,14 +24,18 @@ public class Target {
         kLimelight.setLEDMode(LEDMode.FORCE_ON);
     }
 
+    public static boolean hasAnyTarget() {
+        return kLimelight.getValidTarget();
+    }
+
     public static boolean hasTarget() {
-        return kLimelight.getValidTarget()
+        return hasAnyTarget()
                 && Settings.Limelight.MIN_VALID_DISTANCE < getDistance()
                 && getDistance() < Settings.Limelight.MAX_VALID_DISTANCE;
     }
 
     public static Angle getXAngle() {
-        if (!hasTarget()) {
+        if (!hasAnyTarget()) {
             Settings.reportWarning("Unable To Find Target! [getXAngle() was called]");
             return Angle.kZero;
         }
@@ -41,7 +45,7 @@ public class Target {
     }
 
     public static Angle getYAngle() {
-        if (!hasTarget()) {
+        if (!hasAnyTarget()) {
             Settings.reportWarning("Unable To Find Target! [getYAngle() was called]");
             return Angle.kZero;
         }
@@ -51,7 +55,7 @@ public class Target {
     }
 
     public static double getDistance() {
-        if (!hasTarget()) {
+        if (!hasAnyTarget()) {
             Settings.reportWarning("Unable To Find Target! [getDistance() was called]");
             return Settings.Limelight.RING_SHOT_DISTANCE;
         }

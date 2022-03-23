@@ -21,10 +21,10 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
 
     public DrivetrainAlignToShootCommand(
             Drivetrain drivetrain, Conveyor conveyor, Number distance) {
-        super(drivetrain, distance);
+        super(drivetrain, distance, 1.0 / 3.0);
 
         this.conveyor = conveyor;
-        this.emptied = new Debouncer(Settings.Conveyor.MANUAL_DEBOUNCE_TIME, DebounceType.kRising);
+        this.emptied = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
 
         addRequirements(conveyor);
     }
@@ -48,7 +48,7 @@ public class DrivetrainAlignToShootCommand extends DrivetrainAlignCommand {
 
     @Override
     public boolean isFinished() {
-        return emptied.calculate(conveyor.isEmpty());
+        return super.isFinished() && emptied.calculate(conveyor.isEmpty());
     }
 
     @Override

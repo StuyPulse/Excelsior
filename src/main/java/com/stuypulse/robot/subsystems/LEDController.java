@@ -62,10 +62,8 @@ public class LEDController extends SubsystemBase {
     }
 
     private void setLEDConditions() {
-        new TeleopButton(robot.conveyor::isFull)
-                .whenPressed(new LEDSetCommand(this, LEDColor.GREEN));
         new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.RED_BALL))
-                .whenPressed(new LEDSetCommand(this, LEDColor.RED_ORANGE));
+                .whenPressed(new LEDSetCommand(this, LEDColor.RED));
         new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.BLUE_BALL))
                 .whenPressed(new LEDSetCommand(this, LEDColor.BLUE));
     }
@@ -81,15 +79,17 @@ public class LEDController extends SubsystemBase {
          */
         if (robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
 
+        if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
+
         double shooterError =
                 Math.abs(robot.shooter.getRawTargetRPM() - robot.shooter.getShooterRPM());
 
         if (robot.shooter.getRawTargetRPM() <= Settings.LED.RPM_ERROR_STEP) return LEDColor.OFF;
-        else if (shooterError <= 1.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.GREEN;
-        else if (shooterError <= 2.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.LIME;
-        else if (shooterError <= 3.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.YELLOW;
-        else if (shooterError <= 4.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.ORANGE;
-        else if (shooterError <= 5.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.RED;
+        if (shooterError <= 1.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.GREEN;
+        if (shooterError <= 2.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.LIME;
+        if (shooterError <= 3.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.YELLOW;
+        if (shooterError <= 4.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.ORANGE;
+        if (shooterError <= 5.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.RED;
         else return LEDColor.RED.pulse();
     }
 
