@@ -158,6 +158,10 @@ public class Conveyor extends SubsystemBase {
 
     /*** AUTOMATIC RETRACTION ***/
 
+    public boolean isEmpty() {
+        return !(hasTopBeltBall() || hasAllianceBall());
+    }
+
     public boolean isFull() {
         return hasTopBeltBall() && hasAllianceBall();
     }

@@ -5,111 +5,48 @@
 
 package com.stuypulse.robot.util;
 
-import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDCalculator;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
-import java.util.function.Function;
+public class SmartPIDController extends PIDController {
+    private static String join(String... strings) {
+        return String.join("/", strings);
+    }
 
-/**
- * A PID Controller intended to go on SmartDashboard / Shuffleboard.
- *
- * <p>The PID gains exist on the network as well as an auto alignment mode.
- *
- * @author Myles Pasetsky
- */
-public class SmartPIDController extends Controller {
-    // private final String id;
-
-    // PID Controller
-    private final SmartNumber p;
-    private final SmartNumber i;
-    private final SmartNumber d;
-
-    private final PIDController controller;
-
-    // PID Calculator (Auto Tuner)
-    private final SmartBoolean autoTuning;
-    private final SmartNumber tuningSpeed;
-
+    private final SmartBoolean tuningPID;
+    private final SmartBoolean tuningPD;
     private final PIDCalculator calculator;
-    private Function<PIDCalculator, PIDController> calculatorOutput;
 
     public SmartPIDController(String id) {
-        /*this.*/ id = id.endsWith("/") ? id.substring(0, id.length() - 1) : id;
+        super(
+                new SmartNumber(join(id, "P"), 0.0),
+                new SmartNumber(join(id, "I"), 0.0),
+                new SmartNumber(join(id, "D"), 0.0));
 
-        // controller
-        p = new SmartNumber(id + "/kP", 0.0);
-        i = new SmartNumber(id + "/kI", 0.0);
-        d = new SmartNumber(id + "/kD", 0.0);
-
-        controller = new PIDController(p, i, d);
-
-        // tuner
-        autoTuning = new SmartBoolean(id + "/Auto Tuning?", false);
-        tuningSpeed = new SmartNumber(id + "/Tune Speed", 0.0);
-
-        calculator = new PIDCalculator(tuningSpeed);
-        calculatorOutput = x -> x.getPIDController(); // make an enum for this?
+        tuningPID = new SmartBoolean(join(id, "Tuning PID"), false);
+        tuningPD = new SmartBoolean(join(id, "Tuning PD"), false);
+        calculator = new PIDCalculator(new SmartNumber(join(id, "Tuning Speed"), 1.0));
     }
 
-    @Override
-    public String toString() {
-        return autoTuning.get() ? calculator.toString() : controller.toString();
-    }
-
-    /*******************
-     * CONFIGURE GAINS *
-     *******************/
-
-    public SmartPIDController setGains(Number p, Number i, Number d) {
-        this.p.set(p);
-        this.i.set(i);
-        this.d.set(d);
-
+    public SmartPIDController setControlSpeed(Number speed) {
+        calculator.setControlSpeed(speed);
         return this;
     }
-
-    public SmartPIDController setTuneSpeed(Number speed) {
-        this.tuningSpeed.set(speed);
-        return this;
-    }
-
-    /**********************
-     * CONFIGURE BEHAVIOR *
-     **********************/
-
-    public SmartPIDController setCalculatorOutput(Function<PIDCalculator, PIDController> method) {
-        this.calculatorOutput = method;
-        return this;
-    }
-
-    public PIDController getController() {
-        return controller;
-    }
-
-    /********************
-     * CALCULATE OUTPUT *
-     ********************/
 
     @Override
     protected double calculate(double error) {
-        if (autoTuning.get()) {
-            // run bang-bang loop to find amplitude & calculate PID gains
-            double output = calculator.update(error);
-
-            // put tuned controller on smart dashboard
-            PIDController tunedController = calculatorOutput.apply(calculator);
-            p.set(tunedController.getP());
-            i.set(tunedController.getI());
-            d.set(tunedController.getD());
-
-            return output;
+        if (tuningPID.get()) {
+            tuningPD.set(false);
+            setPID(calculator.getPIDController());
+            return calculator.update(error);
+        } else if (tuningPD.get()) {
+            tuningPID.set(false);
+            setPID(calculator.getPDController());
+            return calculator.update(error);
         } else {
-            // just use the controller
-            return controller.update(error);
+            return super.calculate(error);
         }
     }
 }
