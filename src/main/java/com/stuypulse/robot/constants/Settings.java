@@ -224,6 +224,8 @@ public interface Settings {
         double DEBOUNCE_TIME = 0.75;
 
         double RPM_ERROR_STEP = 50;
+
+        double CLIMB_TIME = 30;
     }
 
     public interface Shooter {

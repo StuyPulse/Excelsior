@@ -16,6 +16,7 @@ import com.stuypulse.robot.util.LEDColor;
 import com.stuypulse.robot.util.TeleopButton;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -78,6 +79,8 @@ public class LEDController extends SubsystemBase {
          * ball .75 second blue/orange - Two correct ball green
          */
         if (robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
+
+        if (DriverStation.getMatchTime() < Settings.LED.CLIMB_TIME) return LEDColor.RAINBOW.pulse();
 
         if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
 
