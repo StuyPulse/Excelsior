@@ -6,6 +6,7 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.*;
+import com.stuypulse.robot.util.Target;
 
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -28,7 +29,7 @@ public class Robot extends TimedRobot {
         robot = new RobotContainer();
         
         DataLogManager.start();
-        PortForwarder.add(5801, "limelight.local", 5801);
+        Target.forward();
     }
 
     @Override

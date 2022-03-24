@@ -9,11 +9,23 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.limelight.Limelight;
 import com.stuypulse.stuylib.network.limelight.Limelight.LEDMode;
 
+import edu.wpi.first.util.net.PortForwarder;
+
 import com.stuypulse.robot.constants.Settings;
 
 public class Target {
 
     private static final Limelight kLimelight = Limelight.getInstance();
+
+    private static void forward(int... ports) {
+        for (int port : ports) {
+            PortForwarder.add(port, "limelight.local", port);
+        }
+    }
+
+    public static void forward() {
+        forward(5800, 5801, 5802, 5803, 5804, 5805);
+    }
 
     public static void enable() {
         kLimelight.setLEDMode(LEDMode.FORCE_ON);
