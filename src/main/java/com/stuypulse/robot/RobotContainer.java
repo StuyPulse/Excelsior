@@ -87,7 +87,7 @@ public class RobotContainer {
         operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /*** Drivetrain ***/
-        driver.getLeftButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
+        driver.getLeftButton().whileHeld(new ConveyorShootSlowCommand(conveyor).perpetually());
         driver.getBottomButton()
                 .whileHeld(
                         new DrivetrainAlignToShootCommand(

@@ -33,7 +33,7 @@ public class DrivetrainAlignCommand extends CommandBase {
     protected final Controller angleController;
     protected final Controller distanceController;
 
-    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
+    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance, double debounceTime) {
         this.drivetrain = drivetrain;
 
         // find errors
@@ -55,9 +55,13 @@ public class DrivetrainAlignCommand extends CommandBase {
         this.distanceController = Alignment.Speed.getController();
 
         // finish optimally
-        finished = new Debouncer(Limelight.DEBOUNCE_TIME, DebounceType.kRising);
+        finished = new Debouncer(debounceTime, DebounceType.kRising);
 
         addRequirements(drivetrain);
+    }
+
+    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance) {
+        this(drivetrain, targetDistance, Limelight.DEBOUNCE_TIME);
     }
 
     @Override
