@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
         robot = new RobotContainer();
         
         DataLogManager.start();
+        PortForwarder.add(5801, "limelight.local", 5801);
     }
 
     @Override
