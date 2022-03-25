@@ -227,7 +227,7 @@ public interface Settings {
 
         double RPM_ERROR_STEP = 50;
 
-        double CLIMB_TIME = 30;
+        double CLIMB_TIME = 45;
     }
 
     public interface Shooter {
