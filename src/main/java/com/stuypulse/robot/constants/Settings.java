@@ -227,6 +227,7 @@ public interface Settings {
 
         double RPM_ERROR_STEP = 50;
 
+        double MIN_MATCH_TIME = 1; // non-game modes return 0 for remaning match time
         double CLIMB_TIME = 45;
         double END_GAME_TIME = 20;
     }
