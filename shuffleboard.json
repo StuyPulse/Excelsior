@@ -786,7 +786,8 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm"
+              "Y-axis/Unit": "rpm",
+              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
             }
           },
           "2,1": {
@@ -837,7 +838,8 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm"
+              "Y-axis/Unit": "rpm",
+              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
             }
           }
         }
