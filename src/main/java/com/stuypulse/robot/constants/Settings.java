@@ -87,7 +87,7 @@ public interface Settings {
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
         // How long it takes to accept / reject balls
-        double DEBOUNCE_TIME = 1.0 / 8.0;
+        double DEBOUNCE_TIME = 1.0 / 6.0;
 
         public interface BallRGB {
             Color RED = new Color(0.42, 0.39, 0.19);
