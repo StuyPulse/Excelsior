@@ -83,11 +83,11 @@ public class LEDController extends SubsystemBase {
         if (DriverStation.getMatchTime() > 5) {
             final double timeRemaining = DriverStation.getMatchTime();
             
-            if (timeRemaining < Settings.LED.CLIMB_TIME) {
-                return LEDColor.RAINBOW.pulse();
-            }
             if (timeRemaining < Settings.LED.END_GAME_TIME) {
                 return LEDColor.RED;
+            }
+            if (timeRemaining < Settings.LED.CLIMB_TIME) {
+                return LEDColor.RAINBOW.pulse();
             }
         }
 
