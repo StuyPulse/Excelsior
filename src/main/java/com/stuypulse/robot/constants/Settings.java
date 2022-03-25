@@ -217,6 +217,8 @@ public interface Settings {
     }
 
     public interface LED {
+        SmartBoolean SWAP_RAINBOW = new SmartBoolean("Swap Rainbow", false);
+
         double MANUAL_UPDATE_TIME = 0.75;
 
         double BLINK_TIME = 0.5;

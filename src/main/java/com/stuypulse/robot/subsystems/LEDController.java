@@ -83,7 +83,11 @@ public class LEDController extends SubsystemBase {
                 && DriverStation.getMatchTime() < Settings.LED.CLIMB_TIME)
             return LEDColor.RAINBOW.pulse();
 
-        if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
+        if (Settings.LED.SWAP_RAINBOW.get()) {
+            if (!robot.conveyor.isFull()) return LEDColor.RAINBOW;
+        } else {
+            if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
+        }
 
         double shooterError =
                 Math.abs(robot.shooter.getRawTargetRPM() - robot.shooter.getShooterRPM());
