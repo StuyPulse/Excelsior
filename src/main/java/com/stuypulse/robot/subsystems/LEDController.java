@@ -79,9 +79,17 @@ public class LEDController extends SubsystemBase {
          */
         if (DriverStation.isTest() && robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
 
-        if (DriverStation.getMatchTime() > 5
-                && DriverStation.getMatchTime() < Settings.LED.CLIMB_TIME)
-            return LEDColor.RAINBOW.pulse();
+        // time based LEDs
+        if (DriverStation.getMatchTime() > 5) {
+            final double timeRemaining = DriverStation.getMatchTime();
+            
+            if (timeRemaining < Settings.LED.CLIMB_TIME) {
+                return LEDColor.RAINBOW.pulse();
+            }
+            if (timeRemaining < Settings.LED.END_GAME_TIME) {
+                return LEDColor.RED;
+            }
+        }
 
         if (Settings.LED.SWAP_RAINBOW.get()) {
             if (!robot.conveyor.isFull()) return LEDColor.RAINBOW;
