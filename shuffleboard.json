@@ -43,6 +43,17 @@
               "_source0": "network_table:///SmartDashboard/Pump/Compressor Enabled",
               "_title": "SmartDashboard/Pump/Compressor Enabled"
             }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Swap Rainbow",
+              "_title": "Rainbow Swap?"
+            }
           }
         }
       }
@@ -775,8 +786,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
+              "Y-axis/Unit": "rpm"
             }
           },
           "2,1": {
@@ -827,8 +837,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
+              "Y-axis/Unit": "rpm"
             }
           }
         }
