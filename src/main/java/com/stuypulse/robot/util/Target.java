@@ -9,9 +9,9 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.limelight.Limelight;
 import com.stuypulse.stuylib.network.limelight.Limelight.LEDMode;
 
-import edu.wpi.first.util.net.PortForwarder;
-
 import com.stuypulse.robot.constants.Settings;
+
+import edu.wpi.first.util.net.PortForwarder;
 
 public class Target {
 
