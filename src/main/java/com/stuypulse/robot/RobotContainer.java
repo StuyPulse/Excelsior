@@ -73,6 +73,7 @@ public class RobotContainer {
                 .whileHeld(new ClimberMoveUpCommand(climber));
         new Button(() -> -operator.getRightY() <= -0.75)
                 .whenPressed(new IntakeRetractCommand(intake))
+                .whenPressed(new ShooterRetractHoodCommand(shooter))
                 .whileHeld(new ClimberMoveDownCommand(climber));
 
         new Button(() -> operator.getLeftX() >= +0.75)
@@ -89,11 +90,13 @@ public class RobotContainer {
         /*** Drivetrain ***/
         driver.getLeftButton().whileHeld(new ConveyorShootSlowCommand(conveyor).perpetually());
         driver.getBottomButton()
+                .whenPressed(new ShooterRingShotCommand(shooter))
                 .whileHeld(
                         new DrivetrainAlignToShootCommand(
                                 drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
 
         driver.getTopButton()
+                // shooter ring shot here?
                 .whileHeld(
                         new DrivetrainAlignCommand(
                                         drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
