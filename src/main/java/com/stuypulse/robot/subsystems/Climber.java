@@ -13,6 +13,7 @@ import com.stuypulse.robot.constants.Settings.Climber.Stalling;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -66,6 +67,11 @@ public class Climber extends SubsystemBase {
 
     private final DoubleSolenoid tilter;
 
+    private final DigitalInput topLeftSwitch;
+    private final DigitalInput bottomLeftSwitch;
+    private final DigitalInput topRightSwitch;
+    private final DigitalInput bottomRightSwitch;
+
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
 
@@ -82,6 +88,11 @@ public class Climber extends SubsystemBase {
                         PneumaticsModuleType.CTREPCM,
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
+
+        topLeftSwitch = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT_SWITCH);
+        bottomLeftSwitch = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT_SWITCH);
+        topRightSwitch = new DigitalInput(Ports.Climber.TOP_RIGHT_LIMIT_SWITCH);
+        bottomRightSwitch = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT_SWITCH);
     }
 
     /*** MOTOR CONTROL ***/
@@ -116,6 +127,20 @@ public class Climber extends SubsystemBase {
 
     public void setTilt(Tilt tilt) {
         tilter.set(tilt.extended);
+    }
+
+    /*** LIMIT SWITCHES ***/
+
+    public boolean getHooksSecure() {
+        return topLeftSwitch.get() && topRightSwitch.get();
+    }
+
+    public boolean getLeftHookFlipped() {
+        return bottomLeftSwitch.get();
+    }
+
+    public boolean getRightHookFlipped() {
+        return bottomRightSwitch.get();
     }
 
     /*** ENCODER ***/

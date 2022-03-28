@@ -23,6 +23,12 @@ public interface Ports {
         // Solenoids
         int TILTER_FORWARD = 6;
         int TILTER_REVERSE = 7;
+
+        // Limit Switches
+        int TOP_LEFT_LIMIT_SWITCH = -1;
+        int BOTTOM_LEFT_LIMIT_SWITCH = -1;
+        int TOP_RIGHT_LIMIT_SWITCH = -1;
+        int BOTTOM_RIGHT_LIMIT_SWITCH = -1;
     }
 
     public interface ColorSensor {
