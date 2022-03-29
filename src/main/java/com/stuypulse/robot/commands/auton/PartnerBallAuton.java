@@ -21,14 +21,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /*-
- * @author Vincent Wang (vinowang921@gmail.com)
- * @author Ivan Wei (ivanw8288@gmail.com)
- * @author Ivan Chen (ivanchen07@gmail.com)
- * @author Eric Lin (ericlin071906@gmail.com)
- * @author Marc Jiang (mjiang05@gmail.com)
- * @author Ian Jiang (ijiang05@gmail.com)
- * @author Carmin Vuong (carminvuong@gmail.com)
- * @author Samuel Chen(samchen1738@gmail.com)
+ * @author Vincent Wang
+ * @author Shaurya Sen
  */
  
 public class PartnerBallAuton extends SequentialCommandGroup {
