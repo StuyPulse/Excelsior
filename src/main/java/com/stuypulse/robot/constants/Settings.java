@@ -247,6 +247,8 @@ public interface Settings {
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
+        double MAX_RPM_ERROR = 100;
+
         public interface ShooterPID {
             double kP = 0.0045;
             double kI = 0.002;
@@ -295,6 +297,8 @@ public interface Settings {
     }
 
     public interface Limelight {
+        int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
+
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.5);

@@ -8,7 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.stuylib.util.StopWatch;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
+import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.ColorSensor.BallColor;
@@ -63,9 +63,9 @@ public class LEDController extends SubsystemBase {
 
     private void setLEDConditions() {
         new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.RED_BALL))
-                .whenPressed(new LEDSetCommand(this, LEDColor.RED));
+                .whenPressed(new LEDSet(this, LEDColor.RED));
         new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.BLUE_BALL))
-                .whenPressed(new LEDSetCommand(this, LEDColor.BLUE));
+                .whenPressed(new LEDSet(this, LEDColor.BLUE));
     }
 
     public LEDColor getDefaultColor() {
@@ -81,11 +81,9 @@ public class LEDController extends SubsystemBase {
 
         // time based LEDs
         double time = DriverStation.getMatchTime(); // time remaining in a game
-        if (time > Settings.LED.MIN_MATCH_TIME) { 
-            if (time < Settings.LED.END_GAME_TIME) 
-                return LEDColor.RED;
-            if (time < Settings.LED.CLIMB_TIME) 
-                return LEDColor.RAINBOW.pulse();
+        if (time > Settings.LED.MIN_MATCH_TIME) {
+            if (time < Settings.LED.END_GAME_TIME) return LEDColor.RED;
+            if (time < Settings.LED.CLIMB_TIME) return LEDColor.RAINBOW.pulse();
         }
 
         if (Settings.LED.SWAP_RAINBOW.get()) {

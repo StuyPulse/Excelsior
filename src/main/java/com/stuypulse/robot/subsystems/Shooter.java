@@ -101,6 +101,10 @@ public class Shooter extends SubsystemBase {
         return feeder.getVelocity();
     }
 
+    public boolean isFenderMode() {
+        return hood.get();
+    }
+
     /*** TARGET RPM READING ***/
 
     public double getRawTargetRPM() {

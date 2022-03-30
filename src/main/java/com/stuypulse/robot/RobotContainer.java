@@ -36,6 +36,8 @@ public class RobotContainer {
     public final Pump pump = new Pump();
     public final Shooter shooter = new Shooter();
 
+    public final Camera camera = new Camera(shooter);
+
     // Gamepads
     public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
@@ -59,8 +61,8 @@ public class RobotContainer {
     /****************/
 
     private void configureDefaultCommands() {
-        drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
-        conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
+        drivetrain.setDefaultCommand(new DrivetrainDrive(drivetrain, driver));
+        conveyor.setDefaultCommand(new ConveyorIndex(conveyor));
     }
 
     /***************/
@@ -69,59 +71,53 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         /*** Climber ***/
-        new Button(() -> -operator.getRightY() >= +0.75)
-                .whileHeld(new ClimberMoveUpCommand(climber));
+        new Button(() -> -operator.getRightY() >= +0.75).whileHeld(new ClimberMoveUp(climber));
         new Button(() -> -operator.getRightY() <= -0.75)
-                .whenPressed(new IntakeRetractCommand(intake))
-                .whileHeld(new ClimberMoveDownCommand(climber));
+                .whenPressed(new IntakeRetract(intake))
+                .whileHeld(new ClimberMoveDown(climber));
 
-        new Button(() -> operator.getLeftX() >= +0.75)
-                .whenPressed(new ClimberMaxTiltCommand(climber));
-        new Button(() -> operator.getLeftX() <= -0.75)
-                .whenPressed(new ClimberNoTiltCommand(climber));
+        new Button(() -> operator.getLeftX() >= +0.75).whenPressed(new ClimberMaxTilt(climber));
+        new Button(() -> operator.getLeftX() <= -0.75).whenPressed(new ClimberNoTilt(climber));
 
-        operator.getSelectButton().whileHeld(new ClimberForceLowerCommand(climber));
+        operator.getSelectButton().whileHeld(new ClimberForceLower(climber));
 
         /*** Conveyor ***/
-        operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
-        operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
+        operator.getTopButton().whileHeld(new ConveyorStop(conveyor));
+        operator.getLeftButton().whileHeld(new ConveyorForceEject(conveyor));
 
         /*** Drivetrain ***/
-        driver.getLeftButton().whileHeld(new ConveyorShootSlowCommand(conveyor).perpetually());
+        driver.getLeftButton().whileHeld(new ConveyorShootSlow(conveyor).perpetually());
         driver.getBottomButton()
-                .whileHeld(
-                        new DrivetrainAlignToShootCommand(
-                                drivetrain, conveyor, Settings.Limelight.RING_SHOT_DISTANCE));
+                .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
-        driver.getTopButton()
-                .whileHeld(
-                        new DrivetrainAlignCommand(
-                                        drivetrain, Settings.Limelight.RING_SHOT_DISTANCE)
-                                .perpetually());
+        driver.getLeftBumper()
+                .whileHeld(new DrivetrainLaunchpadAlign(drivetrain, camera).thenShoot(conveyor));
+                
+        driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
 
         /*** Intake ***/
         operator.getRightTriggerButton()
-                .whenPressed(new IntakeExtendCommand(intake))
-                .whileHeld(new IntakeAcquireCommand(intake));
+                .whenPressed(new IntakeExtend(intake))
+                .whileHeld(new IntakeAcquire(intake));
 
         operator.getRightBumper()
-                .whenPressed(new IntakeExtendCommand(intake))
-                .whileHeld(new IntakeAcquireCommand(intake))
-                .whileHeld(new ConveyorForceIntakeCommand(conveyor));
+                .whenPressed(new IntakeExtend(intake))
+                .whileHeld(new IntakeAcquire(intake))
+                .whileHeld(new ConveyorForceIntake(conveyor));
 
-        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
+        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquire(intake));
 
-        operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
+        operator.getDPadUp().whenPressed(new IntakeRetract(intake));
 
-        new Button(intake::getShouldRetract).whenPressed(new IntakeRetractCommand(intake));
+        new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
 
         /*** Shooter ***/
-        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
-        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
+        operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
+        operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
 
-        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor).perpetually());
+        operator.getRightButton().whileHeld(new ConveyorShoot(conveyor).perpetually());
 
-        operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
+        operator.getLeftBumper().whenPressed(new ShooterStop(shooter));
     }
 
     /**************/

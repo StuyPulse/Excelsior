@@ -77,16 +77,12 @@ public class PIDFlywheel extends SubsystemBase {
         return velocity / this.encoders.size();
     }
 
-    private static double clamp(double voltage) {
-        return SLMath.clamp(voltage, 0, 16);
-    }
-
     public void periodic() {
         double ff = feedforward.calculate(this.lastTargetRPM, this.targetRPM, timer.reset());
         double fb = feedback.update(this.targetRPM, getVelocity());
 
         for (CANSparkMax motor : this.motors) {
-            motor.setVoltage(clamp(ff + fb));
+            motor.setVoltage(SLMath.clamp(ff + fb, 0, 16));
         }
 
         this.lastTargetRPM = this.targetRPM;
