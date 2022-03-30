@@ -32,7 +32,7 @@ public class TeleopInitCommand extends InstantCommand {
         robot.colorSensor.getTargetBallUpdate();
 
         robot.climber.setTilt(Tilt.NO_TILT);
-        robot.climber.resetEncoder();
+        robot.climber.reset();
 
         robot.conveyor.setMode(ConveyorMode.DEFAULT);
         robot.conveyor.setTopBelt(Direction.STOPPED);

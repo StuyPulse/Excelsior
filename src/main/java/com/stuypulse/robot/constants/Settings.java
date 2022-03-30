@@ -79,6 +79,13 @@ public interface Settings {
             // Debounce Time
             double DEBOUNCE_TIME = 1.0;
         }
+
+        public interface Auto {
+            double PASSIVE_TO_TILT = -1.0;
+            double TILT_TO_HIGH = -1.0;
+            double PASSIVE_TO_TRAVERSAL = -1.0;
+            double HOOK_TRAVERSAL = -1.0;
+        }
     }
 
     public interface ColorSensor {

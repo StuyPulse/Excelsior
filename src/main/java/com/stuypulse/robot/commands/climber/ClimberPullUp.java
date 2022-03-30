@@ -10,37 +10,40 @@ import com.stuypulse.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ClimberTransitionCommand extends CommandBase {
+/**
+ * pulls (active hook) climber up until passive hooks are 
+ * above rung so that active hook can extend up to next rung
+ */
+public class ClimberPullUp extends CommandBase {
     
     private final Climber climber;
 
     private boolean leftHookFlipped;
     private boolean rightHookFlipped;
 
-    public ClimberTransitionCommand(Climber climber) {
+    public ClimberPullUp(Climber climber) {
         this.climber = climber;
-
-        leftHookFlipped = false;
-        rightHookFlipped = false;
 
         addRequirements(climber);
     }
 
     @Override
-    public void execute() {
-        if (!leftHookFlipped || !rightHookFlipped) {
-            climber.setMotor(-Settings.Climber.DEFAULT_SPEED.get());
+    public void initialize() {
+        leftHookFlipped = false;
+        rightHookFlipped = false;
+    }
 
-            leftHookFlipped |= climber.getLeftHookFlipped();
-            rightHookFlipped |= climber.getRightHookFlipped();
-        } else {
-            climber.setMotor(Settings.Climber.DEFAULT_SPEED.get());
-        }
+    @Override
+    public void execute() {
+        climber.setMotor(-Settings.Climber.DEFAULT_SPEED.get());
+
+        leftHookFlipped |= climber.getLeftHookFlipped();
+        rightHookFlipped |= climber.getRightHookFlipped();
     }
 
     @Override
     public boolean isFinished() {
-        return leftHookFlipped && rightHookFlipped && climber.getHooksSecure();
+        return leftHookFlipped && rightHookFlipped;
     }
 
     @Override

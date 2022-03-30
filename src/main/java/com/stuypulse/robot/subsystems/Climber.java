@@ -67,9 +67,7 @@ public class Climber extends SubsystemBase {
 
     private final DoubleSolenoid tilter;
 
-    private final DigitalInput topLeftSwitch;
     private final DigitalInput bottomLeftSwitch;
-    private final DigitalInput topRightSwitch;
     private final DigitalInput bottomRightSwitch;
 
     public Climber() {
@@ -89,9 +87,7 @@ public class Climber extends SubsystemBase {
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
 
-        topLeftSwitch = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT_SWITCH);
         bottomLeftSwitch = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT_SWITCH);
-        topRightSwitch = new DigitalInput(Ports.Climber.TOP_RIGHT_LIMIT_SWITCH);
         bottomRightSwitch = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT_SWITCH);
     }
 
@@ -99,7 +95,7 @@ public class Climber extends SubsystemBase {
 
     public void forceLowerClimber() {
         climber.set(-Settings.Climber.SLOW_SPEED.get());
-        resetEncoder();
+        reset();
     }
 
     public void setMotor(double speed) {
@@ -131,10 +127,6 @@ public class Climber extends SubsystemBase {
 
     /*** LIMIT SWITCHES ***/
 
-    public boolean getHooksSecure() {
-        return topLeftSwitch.get() && topRightSwitch.get();
-    }
-
     public boolean getLeftHookFlipped() {
         return bottomLeftSwitch.get();
     }
@@ -153,7 +145,7 @@ public class Climber extends SubsystemBase {
         return encoder.getPosition();
     }
 
-    public void resetEncoder() {
+    public void reset() {
         encoder.setPosition(0);
     }
 
