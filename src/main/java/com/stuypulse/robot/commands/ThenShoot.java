@@ -19,13 +19,13 @@ public class ThenShoot extends CommandBase {
     private final Command aligner;
     private final Conveyor conveyor;
 
-    private final Debouncer emptied;
+    private final Debouncer finished;
 
     public ThenShoot(Command aligner, Conveyor conveyor) {
         this.aligner = aligner;
         this.conveyor = conveyor;
 
-        this.emptied = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
+        this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
 
         m_requirements.addAll(this.aligner.getRequirements());
     }
@@ -34,7 +34,7 @@ public class ThenShoot extends CommandBase {
     public void initialize() {
         aligner.initialize();
 
-        emptied.calculate(false);
+        finished.calculate(false);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ThenShoot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return aligner.isFinished() && emptied.calculate(conveyor.isEmpty());
+        return aligner.isFinished() && finished.calculate(conveyor.isEmpty());
     }
 
     @Override

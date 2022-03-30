@@ -49,12 +49,8 @@ public class ConveyorShootSlow extends ConveyorSetMode {
         this.finished.calculate(false);
     }
 
-    private boolean hasBall() {
-        return conveyor.hasTopBeltBall() || conveyor.hasAllianceBall();
-    }
-
     @Override
     public boolean isFinished() {
-        return this.finished.calculate(!hasBall());
+        return this.finished.calculate(conveyor.isEmpty());
     }
 }
