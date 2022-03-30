@@ -95,10 +95,6 @@ public class DrivetrainAlign extends CommandBase {
         drivetrain.arcadeDrive(getSpeed(), getTurn());
     }
 
-    public Command thenShoot(Conveyor conveyor) {
-        return new ThenShoot(this, conveyor);
-    }
-
     @Override
     public boolean isFinished() {
         return finished.calculate(
@@ -106,5 +102,9 @@ public class DrivetrainAlign extends CommandBase {
                         && drivetrain.getVelocity() < Limelight.MAX_VELOCITY.get()
                         && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
                         && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get()));
+    }
+
+    public Command thenShoot(Conveyor conveyor) {
+        return new ThenShoot(this, conveyor);
     }
 }

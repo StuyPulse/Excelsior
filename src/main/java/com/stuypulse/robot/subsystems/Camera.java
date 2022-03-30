@@ -37,6 +37,7 @@ public class Camera extends SubsystemBase {
 
     public boolean hasTarget() {
         return hasAnyTarget()
+                && shooter.isReady()
                 && Settings.Limelight.MIN_VALID_DISTANCE < getDistance()
                 && getDistance() < Settings.Limelight.MAX_VALID_DISTANCE;
     }

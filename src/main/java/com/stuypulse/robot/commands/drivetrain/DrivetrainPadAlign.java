@@ -20,7 +20,7 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DrivetrainLaunchpadAlign extends CommandBase {
+public class DrivetrainPadAlign extends CommandBase {
 
     private final Drivetrain drivetrain;
     private final Camera camera;
@@ -30,7 +30,7 @@ public class DrivetrainLaunchpadAlign extends CommandBase {
     private final IFuser angleError;
     protected final Controller angleController;
 
-    public DrivetrainLaunchpadAlign(Drivetrain drivetrain, Camera camera) {
+    public DrivetrainPadAlign(Drivetrain drivetrain, Camera camera) {
         this.drivetrain = drivetrain;
         this.camera = camera;
 
@@ -63,7 +63,7 @@ public class DrivetrainLaunchpadAlign extends CommandBase {
 
     @Override
     public void execute() {
-        double turn = getTurn();
+        double turn = 2.0 * getTurn();
 
         if (turn < 0) {
             drivetrain.tankDrive(turn, 0);
@@ -72,13 +72,13 @@ public class DrivetrainLaunchpadAlign extends CommandBase {
         }
     }
 
-    public Command thenShoot(Conveyor conveyor) {
-        return new ThenShoot(this, conveyor);
-    }
-
     @Override
     public boolean isFinished() {
         return finished.calculate(
                 camera.hasTarget() && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()));
+    }
+
+    public Command thenShoot(Conveyor conveyor) {
+        return new ThenShoot(this, conveyor);
     }
 }

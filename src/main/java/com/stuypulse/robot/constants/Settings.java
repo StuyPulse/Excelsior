@@ -235,8 +235,9 @@ public interface Settings {
     public interface Shooter {
 
         double MIN_RPM = 100.0;
-        double MAX_TARGET_RPM_CHANGE = 1200.0;
+        double MAX_TARGET_RPM_CHANGE = 2000.0;
 
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 4000);
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
@@ -247,7 +248,7 @@ public interface Settings {
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
-        double MAX_RPM_ERROR = 100;
+        double MAX_RPM_ERROR = 120;
 
         public interface ShooterPID {
             double kP = 0.0045;

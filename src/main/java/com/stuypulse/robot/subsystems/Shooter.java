@@ -115,6 +115,10 @@ public class Shooter extends SubsystemBase {
         return targetFilter.get(getRawTargetRPM());
     }
 
+    public boolean isReady() {
+        return Math.abs(getShooterRPM() - getRawTargetRPM()) < Settings.Shooter.MAX_RPM_ERROR;
+    }
+
     @Override
     public void periodic() {
         double setpoint = getTargetRPM();
