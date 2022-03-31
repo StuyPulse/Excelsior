@@ -14,6 +14,6 @@ public class ShooterPadShot extends SequentialCommandGroup {
 
     public ShooterPadShot(Shooter shooter) {
         addCommands(new ShooterRetractHood(shooter));
-        addCommands(new ShooterSetRPM(shooter, Settings.Shooter.RING_RPM));
+        addCommands(new ShooterSetRPM(shooter, Settings.Shooter.PAD_RPM));
     }
 }
