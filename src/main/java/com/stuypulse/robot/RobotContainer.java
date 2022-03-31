@@ -74,6 +74,7 @@ public class RobotContainer {
         new Button(() -> -operator.getRightY() >= +0.75).whileHeld(new ClimberMoveUp(climber));
         new Button(() -> -operator.getRightY() <= -0.75)
                 .whenPressed(new IntakeRetract(intake))
+                .whenPressed(new ShooterRetractHood(shooter))
                 .whileHeld(new ClimberMoveDown(climber));
 
         new Button(() -> operator.getLeftX() >= +0.75).whenPressed(new ClimberMaxTilt(climber));
