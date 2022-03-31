@@ -14,6 +14,17 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * A command to shoot while another command "is finished." This 
+ * command can start up again and continue running (shooting stops)
+ * so that it can be "finished" again. 
+ * 
+ * The entire command is over when the robot has shot all its cargo
+ * while the command was "finished"
+ *
+ * @author Sam Belliveau (sam.belliveau@gmail.com)
+ * @author Myles Pasetsky (@selym3)
+ */
 public class ThenShoot extends CommandBase {
 
     private final Command aligner;
