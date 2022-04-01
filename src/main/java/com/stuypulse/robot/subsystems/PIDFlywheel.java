@@ -7,7 +7,6 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.math.SLMath;
-import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
