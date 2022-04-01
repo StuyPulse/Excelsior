@@ -106,11 +106,11 @@ public class Intake extends SubsystemBase {
     /*** Debug Information ***/
     @Override
     public void periodic() {
-        if (0.0 <= speed && getShouldStop()) {
-            speedFilter.get(0.0);
+        double motorSpeed = speedFilter.get(speed);
+        if (0.0 <= motorSpeed && getShouldStop()) {
             motor.stopMotor();
         } else {
-            motor.set(speedFilter.get(speed));
+            motor.set(motorSpeed);
         }
 
         if (Settings.DEBUG_MODE.get()) {
