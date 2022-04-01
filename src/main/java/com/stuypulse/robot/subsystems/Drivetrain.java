@@ -405,7 +405,7 @@ public class Drivetrain extends SubsystemBase {
         rSpeed /= scale;
 
         // Feed the inputs to the drivetrain
-        drivetrain.tankDrive(lSpeed, rSpeed, false);
+        tankDrive(lSpeed, rSpeed);
     }
 
     // Drives using curvature drive algorithm with automatic quick turn
