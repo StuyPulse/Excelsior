@@ -1,9 +1,9 @@
 {
   "lengthUnit": "Meter",
   "exportUnit": "Always Meters",
-  "maxVelocity": 3.25,
+  "maxVelocity": 2.0,
   "maxAcceleration": 3.0,
-  "trackWidth": 0.68,
+  "trackWidth": 1.0,
   "gameName": "Rapid React",
   "outputDir": "../../../src/main/deploy/TwoBallMeanAuton"
 }
