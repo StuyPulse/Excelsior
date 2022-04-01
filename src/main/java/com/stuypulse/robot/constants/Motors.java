@@ -24,7 +24,7 @@ public interface Motors {
     Config CLIMBER = new Config(true, kBrake, 80, 1.0 / 5.0);
 
     public interface Conveyor {
-        Config GANDALF = new Config(true, kBrake, 30, 1.0 / 25.0);
+        Config GANDALF = new Config(true, kBrake, 30);
         Config TOP_BELT = new Config(false, kBrake, 20);
     }
 
@@ -36,7 +36,7 @@ public interface Motors {
         Config RIGHT = new Config(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
     }
 
-    Config INTAKE = new Config(true, kBrake, 30, 1.0 / 25.0);
+    Config INTAKE = new Config(true, kBrake, 30);
 
     public interface Shooter {
         Config LEFT = new Config(false, kCoast, 50);
