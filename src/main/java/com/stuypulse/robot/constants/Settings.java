@@ -213,6 +213,8 @@ public interface Settings {
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
 
+        SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.16);
+
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }
 
