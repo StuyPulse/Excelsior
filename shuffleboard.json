@@ -43,6 +43,17 @@
               "_source0": "network_table:///SmartDashboard/Pump/Compressor Enabled",
               "_title": "SmartDashboard/Pump/Compressor Enabled"
             }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Swap Rainbow",
+              "_title": "Rainbow Swap?"
+            }
           }
         }
       }
@@ -1300,9 +1311,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -7.199999809265137,
-    "y": -7.199999809265137,
-    "width": 1550.4000244140625,
-    "height": 838.4000244140625
+    "x": -6.400000095367432,
+    "y": 1.600000023841858,
+    "width": 1547.199951171875,
+    "height": 828.7999877929688
   }
 }

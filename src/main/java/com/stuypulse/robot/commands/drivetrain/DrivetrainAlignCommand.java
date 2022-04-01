@@ -33,7 +33,8 @@ public class DrivetrainAlignCommand extends CommandBase {
     protected final Controller angleController;
     protected final Controller distanceController;
 
-    public DrivetrainAlignCommand(Drivetrain drivetrain, Number targetDistance, double debounceTime) {
+    public DrivetrainAlignCommand(
+            Drivetrain drivetrain, Number targetDistance, double debounceTime) {
         this.drivetrain = drivetrain;
 
         // find errors

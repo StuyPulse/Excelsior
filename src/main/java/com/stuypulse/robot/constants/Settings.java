@@ -87,7 +87,7 @@ public interface Settings {
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
         // How long it takes to accept / reject balls
-        double DEBOUNCE_TIME = 1.0 / 8.0;
+        double DEBOUNCE_TIME = 1.0 / 6.0;
 
         public interface BallRGB {
             Color RED = new Color(0.42, 0.39, 0.19);
@@ -217,6 +217,8 @@ public interface Settings {
     }
 
     public interface LED {
+        SmartBoolean SWAP_RAINBOW = new SmartBoolean("Swap Rainbow", false);
+
         double MANUAL_UPDATE_TIME = 0.75;
 
         double BLINK_TIME = 0.5;
@@ -224,6 +226,10 @@ public interface Settings {
         double DEBOUNCE_TIME = 0.75;
 
         double RPM_ERROR_STEP = 50;
+
+        double MIN_MATCH_TIME = 1; // non-game modes return 0 for remaning match time
+        double CLIMB_TIME = 45;
+        double END_GAME_TIME = 20;
     }
 
     public interface Shooter {
@@ -234,7 +240,7 @@ public interface Settings {
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
-        
+
         double INTEGRAL_MAX_RPM_ERROR = 500;
         double INTEGRAL_MAX_ADJUST = 1.0;
 
@@ -296,7 +302,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(140) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 

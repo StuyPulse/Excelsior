@@ -77,9 +77,22 @@ public class LEDController extends SubsystemBase {
          * finished green .75 second - Pick up a ball and sensed in the color sensor flash color of
          * ball .75 second blue/orange - Two correct ball green
          */
-        if (robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
+        if (DriverStation.isTest() && robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
 
-        if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
+        // time based LEDs
+        double time = DriverStation.getMatchTime(); // time remaining in a game
+        if (time > Settings.LED.MIN_MATCH_TIME) { 
+            if (time < Settings.LED.END_GAME_TIME) 
+                return LEDColor.RED;
+            if (time < Settings.LED.CLIMB_TIME) 
+                return LEDColor.RAINBOW.pulse();
+        }
+
+        if (Settings.LED.SWAP_RAINBOW.get()) {
+            if (!robot.conveyor.isFull()) return LEDColor.RAINBOW;
+        } else {
+            if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
+        }
 
         double shooterError =
                 Math.abs(robot.shooter.getRawTargetRPM() - robot.shooter.getShooterRPM());

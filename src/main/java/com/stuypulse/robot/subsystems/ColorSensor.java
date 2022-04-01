@@ -55,10 +55,10 @@ public class ColorSensor extends SubsystemBase {
 
         public void update() {
             this.connected = Settings.ColorSensor.ENABLED.get();
-            if (this.connected) this.connected &= DriverStation.isTeleopEnabled();
+            if (this.connected) this.connected &= !DriverStation.isAutonomous();
             if (this.connected) this.connected &= colorSensor.isConnected();
 
-            if (this.connected || DriverStation.isDisabled()) this.color = colorSensor.getColor();
+            if (this.connected) this.color = colorSensor.getColor();
             else this.color = Color.kBlack;
         }
     }
