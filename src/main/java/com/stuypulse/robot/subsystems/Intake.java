@@ -100,7 +100,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean getShouldRetract() {
-        return Settings.Intake.AUTO_RETRACT.get() && DriverStation.isTeleop() && conveyor.isFull();
+        return Settings.Intake.AUTO_RETRACT.get() && !DriverStation.isAutonomous() && conveyor.isFull();
     }
 
     /*** Debug Information ***/
