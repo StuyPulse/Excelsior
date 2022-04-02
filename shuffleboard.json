@@ -760,17 +760,6 @@
               "_title": "SmartDashboard/Shooter/Ring RPM"
             }
           },
-          "2,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Shooter/Target",
-              "_title": "SmartDashboard/Shooter/Target"
-            }
-          },
           "6,0": {
             "size": [
               5,
@@ -840,6 +829,28 @@
               "Y-axis/Lower bound": 0.0,
               "Y-axis/Unit": "rpm",
               "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Target RPM",
+              "_title": "SmartDashboard/Shooter/Target RPM"
+            }
+          },
+          "2,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Pad RPM",
+              "_title": "SmartDashboard/Shooter/Pad RPM"
             }
           }
         }
@@ -1115,6 +1126,17 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Speed Filtering",
+              "_title": "Speed Filtering"
+            }
           }
         }
       }
@@ -1141,7 +1163,7 @@
               "_title": "Feeder/Tuning Speed"
             }
           },
-          "5,3": {
+          "5,4": {
             "size": [
               3,
               1
@@ -1163,7 +1185,7 @@
               "_title": "Shooter/Tuning PID"
             }
           },
-          "5,4": {
+          "5,5": {
             "size": [
               3,
               1
@@ -1304,6 +1326,17 @@
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Shooter/Feeder/Tuning PID",
               "_title": "Feeder/Tuning PID"
+            }
+          },
+          "5,2": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Pad RPM",
+              "_title": "Pad RPM"
             }
           }
         }
