@@ -146,7 +146,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new TwoBallMeanAuton(this);
+        // return new TwoBallMeanAuton(this);
+        return new PartnerBallAuton(this);
         // return autonChooser.getSelected();
     }
 }
