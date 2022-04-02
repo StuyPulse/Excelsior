@@ -52,7 +52,7 @@ public class ThenShoot extends CommandBase {
     public void execute() {
         aligner.execute();
 
-        if (super.isFinished()) {
+        if (aligner.isFinished()) {
             conveyor.setMode(ConveyorMode.SHOOT);
         } else {
             conveyor.setMode(ConveyorMode.DEFAULT);
