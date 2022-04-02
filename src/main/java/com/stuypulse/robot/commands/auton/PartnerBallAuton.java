@@ -37,7 +37,7 @@ public class PartnerBallAuton extends SequentialCommandGroup {
     // Time to acquire partner auton ball
     private static final double ACQUIRE_PARTNER_BALL_TIME = 5.0;
 
-    private static final String PARTNER_BALL_TO_RING_BALL = "PartnerBallAuton/output/PartnerBallGetRingBall.wpilib.json";
+    private static final String PARTNER_BALL_TO_RING_BALL = "ThreeBallPartnerAuton/output/acquire_first_ball.wpilib.json";
 
     /** Creates a new FiveBallAuton. */
     public PartnerBallAuton(RobotContainer robot) {
@@ -55,11 +55,10 @@ public class PartnerBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSet(robot.leds, LEDColor.GREEN),
             new WaitCommand(ACQUIRE_PARTNER_BALL_TIME).withInterrupt(() -> robot.conveyor.isFull()),
-            new DrivetrainAlign(robot.drivetrain, robot.camera),
-            new ConveyorShoot(robot.conveyor));
-            addCommands(
-            new ShooterRingShot(robot.shooter),
-            new DrivetrainRamsete(robot.drivetrain, PARTNER_BALL_TO_RING_BALL)
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+        addCommands(
+            new ShooterRingShotCommand(robot.shooter),
+            new DrivetrainRamseteCommand(robot.drivetrain, PARTNER_BALL_TO_RING_BALL)
                     .robotRelative(),
             new WaitCommand(SHOOTER_TO_RING_DELAY));
             addCommands(
