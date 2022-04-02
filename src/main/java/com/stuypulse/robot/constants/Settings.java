@@ -242,7 +242,7 @@ public interface Settings {
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.8);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
         double INTEGRAL_MAX_ADJUST = 1.0;
@@ -309,7 +309,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(150) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(155) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
