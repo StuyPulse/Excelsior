@@ -14,7 +14,6 @@ import com.stuypulse.robot.commands.intake.IntakeExtend;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterFenderShot;
 import com.stuypulse.robot.commands.shooter.ShooterRingShot;
-import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -54,22 +53,28 @@ public class PartnerBallAuton extends SequentialCommandGroup {
         // Tarmac to first ball
         addCommands(
             new LEDSet(robot.leds, LEDColor.GREEN),
-            new WaitCommand(ACQUIRE_PARTNER_BALL_TIME).withInterrupt(() -> robot.conveyor.isFull()),
-            new DrivetrainAlign(robot.drivetrain, robot.camera),
-            new ConveyorShoot(robot.conveyor));
-            addCommands(
+            new WaitCommand(ACQUIRE_PARTNER_BALL_TIME).withInterrupt(robot.conveyor::isFull),
+            new ConveyorShoot(robot.conveyor)
+        );
+
+        addCommands(
             new ShooterRingShot(robot.shooter),
             new DrivetrainRamsete(robot.drivetrain, PARTNER_BALL_TO_RING_BALL)
                     .robotRelative(),
-            new WaitCommand(SHOOTER_TO_RING_DELAY));
-            addCommands(
+            new WaitCommand(SHOOTER_TO_RING_DELAY)
+        );
+        
+        addCommands(
             new LEDSet(robot.leds, LEDColor.GREEN.pulse()),
             new DrivetrainAlign(robot.drivetrain, robot.camera)
-                    .withTimeout(DRIVETRAIN_ALIGN_TIME));
-                    addCommands(
-                new LEDSet(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                    .withTimeout(DRIVETRAIN_ALIGN_TIME)
+        );
+        
+        addCommands(
+            new LEDSet(robot.leds, LEDColor.RAINBOW),
+            new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
 
-                addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
+        addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
     }
 }
