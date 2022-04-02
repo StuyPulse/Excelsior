@@ -44,9 +44,6 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
 
     public TwoBallMeanAuton(RobotContainer robot) {
 
-        addCommands(
-                new LEDSet(robot.leds, LEDColor.RED));
-
         // Starting up subsystems
         addCommands(
             new LEDSet(robot.leds, LEDColor.YELLOW),
