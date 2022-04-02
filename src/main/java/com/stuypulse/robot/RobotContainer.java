@@ -127,7 +127,7 @@ public class RobotContainer {
         operator.getLeftBumper().whenPressed(new ShooterStop(shooter));
     }
 
-    /**************/
+    /**************/ 
     /*** AUTONS ***/
     /**************/
 
@@ -139,8 +139,11 @@ public class RobotContainer {
         // autonChooser.addOption("1 Ball", new OneBallAuton(this));
         autonChooser.addOption("2 Ball", new TwoBallAuton(this));
         autonChooser.addOption("2 Ball Mean", new TwoBallMeanAuton(this));
+        autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
+
         autonChooser.addOption("4 Ball", new FourBallAuton(this));
         autonChooser.setDefaultOption("5 Ball", new FiveBallAuton(this));
+        autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
