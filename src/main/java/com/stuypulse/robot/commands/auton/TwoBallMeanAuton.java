@@ -11,6 +11,7 @@ import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
 import com.stuypulse.robot.commands.intake.IntakeDeacquire;
+import com.stuypulse.robot.commands.intake.IntakeDeacquireForever;
 import com.stuypulse.robot.commands.intake.IntakeExtend;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterRingShot;
@@ -83,7 +84,7 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
                 new DrivetrainRamsete(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL)
                         .fieldRelative(),
           
-                new IntakeDeacquireForeverCommand(robot.intake).withTimeout(INTAKE_DEACQUIRE_TIME));
+                new IntakeDeacquireForever(robot.intake).withTimeout(INTAKE_DEACQUIRE_TIME));
                 
         addCommands(
                 new LEDSet(robot.leds, LEDColor.AQUA),
