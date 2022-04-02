@@ -1,0 +1,9 @@
+{
+  "lengthUnit": "Meter",
+  "exportUnit": "Always Meters",
+  "maxVelocity": 10.0,
+  "maxAcceleration": 60.0,
+  "trackWidth": 2.0,
+  "gameName": "Rapid React",
+  "outputDir": "../../src/main/deploy/TwoBigBallAuton/output"
+}
