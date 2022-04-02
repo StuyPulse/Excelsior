@@ -21,13 +21,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /*-
  * @author Vincent Wang (vinowang921@gmail.com)
- * @author Ivan Wei (ivanw8288@gmail.com)
- * @author Ivan Chen (ivanchen07@gmail.com)
  * @author Eric Lin (ericlin071906@gmail.com)
- * @author Marc Jiang (mjiang05@gmail.com)
- * @author Ian Jiang (ijiang05@gmail.com)
- * @author Carmin Vuong (carminvuong@gmail.com)
- * @author Samuel Chen(samchen1738@gmail.com)
+ * @author Shaurya Sen (shauryasen12@gmail.com)
  */
 
 public class TwoBallMeanAuton extends SequentialCommandGroup {
@@ -37,6 +32,8 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
+    // Time it takes for the robot to deacquire two balls
+    private static final double INTAKE_DEACQUIRE_TIME = 3.0;
 
     private static final String TWO_BALL_TO_SECOND_BALL = "TwoBallMeanAuton/output/TwoBallGetSecondBall.wpilib.json";
     private static final String TWO_BALL_GET_OTHER_OPPONENT_BALL = "TwoBallMeanAuton/output/TwoBallGetOtherOpponentBall.wpilib.json";
@@ -85,8 +82,9 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
                 new LEDSet(robot.leds, LEDColor.PINK),
                 new DrivetrainRamsete(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL)
                         .fieldRelative(),
-                new IntakeDeacquire(robot.intake));
-
+          
+                new IntakeDeacquireForeverCommand(robot.intake).withTimeout(INTAKE_DEACQUIRE_TIME));
+                
         addCommands(
                 new LEDSet(robot.leds, LEDColor.AQUA),
                 new DrivetrainRamsete(robot.drivetrain, TWO_BALL_TO_TELEOP_STARTING_POSITION)
