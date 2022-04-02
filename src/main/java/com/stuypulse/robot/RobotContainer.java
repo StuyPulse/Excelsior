@@ -87,7 +87,9 @@ public class RobotContainer {
         operator.getLeftButton().whileHeld(new ConveyorForceEject(conveyor));
 
         /*** Drivetrain ***/
-        driver.getLeftButton().whileHeld(new ConveyorShootSlow(conveyor).perpetually());
+        driver.getLeftButton()
+                .whileHeld(new ShooterFenderShot(shooter))
+                .whileHeld(new ConveyorShootSlow(conveyor).perpetually());
 
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
@@ -118,6 +120,7 @@ public class RobotContainer {
         /*** Shooter ***/
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
+        operator.getDPadDown().whenPressed(new ShooterPadShot(shooter));
 
         operator.getRightButton().whileHeld(new ConveyorShoot(conveyor).perpetually());
 
