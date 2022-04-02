@@ -14,7 +14,6 @@ import com.stuypulse.robot.commands.intake.IntakeDeacquire;
 import com.stuypulse.robot.commands.intake.IntakeExtend;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterRingShot;
-import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -56,18 +55,23 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
             new IntakeExtend(robot.intake),
             new IntakeAcquireForever(robot.intake),
             new ShooterRingShot(robot.shooter),
-            new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         // Shoot Two Balls
         addCommands(
                 new LEDSet(robot.leds, LEDColor.GREEN),
                 new DrivetrainRamsete(robot.drivetrain, TWO_BALL_TO_SECOND_BALL)
                         .robotRelative(),
+
                 new LEDSet(robot.leds, LEDColor.GREEN.pulse()),
                 new DrivetrainAlign(robot.drivetrain, robot.camera)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
+
                 new LEDSet(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
+
         // Get Wall Blue Ball
         addCommands(
                 new LEDSet(robot.leds, LEDColor.BLUE),
