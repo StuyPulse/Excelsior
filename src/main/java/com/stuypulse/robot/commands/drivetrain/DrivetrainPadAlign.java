@@ -58,14 +58,14 @@ public class DrivetrainPadAlign extends CommandBase {
     }
 
     private double getTurn() {
-        return angleController.update(angleError.get());
+        return angleController.update(angleError.get() - 0.5 * Limelight.LIMELIGHT_YAW.get());
     }
 
     @Override
     public void execute() {
         double turn = 2.0 * getTurn();
 
-        if (turn < 0) {
+        if (0 < turn) {
             drivetrain.tankDrive(turn, 0);
         } else {
             drivetrain.tankDrive(0, -turn);
