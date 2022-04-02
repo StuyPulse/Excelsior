@@ -63,13 +63,7 @@ public class DrivetrainPadAlign extends CommandBase {
 
     @Override
     public void execute() {
-        double turn = 2.0 * getTurn();
-
-        if (0 < turn) {
-            drivetrain.tankDrive(turn, 0);
-        } else {
-            drivetrain.tankDrive(0, -turn);
-        }
+        drivetrain.arcadeDrive(0, getTurn());
     }
 
     @Override
