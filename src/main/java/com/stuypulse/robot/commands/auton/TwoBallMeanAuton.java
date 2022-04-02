@@ -6,11 +6,11 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.commands.conveyor.ConveyorForceEject;
 import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
-import com.stuypulse.robot.commands.intake.IntakeDeacquire;
 import com.stuypulse.robot.commands.intake.IntakeDeacquireForever;
 import com.stuypulse.robot.commands.intake.IntakeExtend;
 import com.stuypulse.robot.commands.leds.LEDSet;
@@ -83,8 +83,11 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
                 new LEDSet(robot.leds, LEDColor.PINK),
                 new DrivetrainRamsete(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL)
                         .fieldRelative(),
-          
-                new IntakeDeacquireForever(robot.intake).withTimeout(INTAKE_DEACQUIRE_TIME));
+
+                new IntakeDeacquireForever(robot.intake)
+                        .alongWith(new ConveyorForceEject(robot.conveyor))
+                        .withTimeout(INTAKE_DEACQUIRE_TIME)
+        );
                 
         addCommands(
                 new LEDSet(robot.leds, LEDColor.AQUA),
