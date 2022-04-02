@@ -28,13 +28,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class TwoBallMeanerAuton extends SequentialCommandGroup {
     // Time it takes for the shooter to reach the target speed
-    private static final double SHOOTER_INITIALIZE_DELAY = 1.0;
+    private static final double SHOOTER_INITIALIZE_DELAY = 0.7;
     // Time it takes for the conveyor to give the shooter the ball
     private static final double CONVEYOR_TO_SHOOTER = 1.0;
     // Time we want to give the drivetrain to align
     private static final double DRIVETRAIN_ALIGN_TIME = 3.0;
     // Time it takes for the robot to deacquire two balls
-    private static final double INTAKE_DEACQUIRE_TIME = 3.0;
+    private static final double INTAKE_DEACQUIRE_TIME = 0.75;
 
     private static final String GET_SECOND_BALL = "TwoBallMeanerAuton/output/GetSecondBall.wpilib.json";
     private static final String FIRST_OPPONENT_BALL = "TwoBallMeanerAuton/output/FirstOpponentBall.wpilib.json";
