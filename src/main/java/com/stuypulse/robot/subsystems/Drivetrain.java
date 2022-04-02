@@ -322,7 +322,7 @@ public class Drivetrain extends SubsystemBase {
      * STALL DETECTION *
      *******************/
 
-    private double getLeftCurrentAmps() {
+    public double getLeftCurrentAmps() {
         double amps = 0.0;
 
         for (CANSparkMax motor : leftMotors) {
@@ -332,7 +332,7 @@ public class Drivetrain extends SubsystemBase {
         return amps / leftMotors.length;
     }
 
-    private double getRightCurrentAmps() {
+    public double getRightCurrentAmps() {
         double amps = 0.0;
 
         for (CANSparkMax motor : rightMotors) {
@@ -342,7 +342,11 @@ public class Drivetrain extends SubsystemBase {
         return amps / rightMotors.length;
     }
 
-    private boolean isLeftStalling() {
+    public double getCurrentAmps() {
+        return (getLeftCurrentAmps() + getRightCurrentAmps()) / 2.0;
+    }
+
+    public boolean isLeftStalling() {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(leftMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
@@ -350,7 +354,7 @@ public class Drivetrain extends SubsystemBase {
         return highGear && (current || output) && velocity;
     }
 
-    private boolean isRightStalling() {
+    public boolean isRightStalling() {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(rightMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
@@ -405,7 +409,7 @@ public class Drivetrain extends SubsystemBase {
         rSpeed /= scale;
 
         // Feed the inputs to the drivetrain
-        drivetrain.tankDrive(lSpeed, rSpeed, false);
+        tankDrive(lSpeed, rSpeed);
     }
 
     // Drives using curvature drive algorithm with automatic quick turn

@@ -7,6 +7,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.*;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +25,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         robot = new RobotContainer();
+
+        DataLogManager.start();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        new TeleopInitCommand(robot).schedule(false);
+        new TeleopInit(robot).schedule(false);
 
         if (auto != null) {
             auto.cancel();
@@ -88,14 +91,14 @@ public class Robot extends TimedRobot {
         LiveWindow.setEnabled(false);
         CommandScheduler.getInstance().cancelAll();
         robot.pump.compress();
+        teleopInit();
     }
 
     @Override
-    public void testPeriodic() {
-        robot.pump.periodic();
-        robot.leds.periodic();
-    }
+    public void testPeriodic() {}
 
     @Override
-    public void testExit() {}
+    public void testExit() {
+        robot.pump.stop();
+    }
 }

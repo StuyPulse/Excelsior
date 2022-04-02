@@ -43,6 +43,17 @@
               "_source0": "network_table:///SmartDashboard/Pump/Compressor Enabled",
               "_title": "SmartDashboard/Pump/Compressor Enabled"
             }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Swap Rainbow",
+              "_title": "Rainbow Swap?"
+            }
           }
         }
       }
@@ -137,6 +148,43 @@
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Debug/Climber/Top Limit Switch",
               "_title": "SmartDashboard/Debug/Climber/Top Limit Switch",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Max Extension",
+              "_title": "Max Extension"
+            }
+          },
+          "1,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Climber/Stall Detection",
+              "_title": "Stall Detection",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "9,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Climber/Enable Encoders",
+              "_title": "Enable Encoders",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
@@ -712,17 +760,6 @@
               "_title": "SmartDashboard/Shooter/Ring RPM"
             }
           },
-          "2,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Shooter/Target",
-              "_title": "SmartDashboard/Shooter/Target"
-            }
-          },
           "6,0": {
             "size": [
               5,
@@ -739,8 +776,7 @@
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
               "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true,
-              "Visible data/SmartDashboard/Shooter/Target": true
+              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
             }
           },
           "2,1": {
@@ -792,8 +828,29 @@
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
               "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true,
-              "Visible data/SmartDashboard/Shooter/Target": true
+              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Target RPM",
+              "_title": "SmartDashboard/Shooter/Target RPM"
+            }
+          },
+          "2,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Pad RPM",
+              "_title": "SmartDashboard/Shooter/Pad RPM"
             }
           }
         }
@@ -1056,15 +1113,240 @@
               "_source0": "network_table:///SmartDashboard/Intake/Locked Speed",
               "_title": "Locked Speed"
             }
+          },
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Intake/Auto Retract",
+              "_title": "Auto Retract",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Speed Filtering",
+              "_title": "Speed Filtering"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Shooter",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "network_table:///SmartDashboard/Shooter/",
+      "widgetPane": {
+        "gridSize": 100.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "10,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder/Tuning Speed",
+              "_title": "Feeder/Tuning Speed"
+            }
+          },
+          "5,4": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Target RPM",
+              "_title": "Target RPM"
+            }
+          },
+          "1,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter/Tuning PID",
+              "_title": "Shooter/Tuning PID"
+            }
+          },
+          "5,5": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder Multipler",
+              "_title": "Feeder Multipler"
+            }
+          },
+          "5,0": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Ring RPM",
+              "_title": "Ring RPM"
+            }
+          },
+          "1,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter/Tuning Speed",
+              "_title": "Shooter/Tuning Speed"
+            }
+          },
+          "5,1": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Fender RPM",
+              "_title": "Fender RPM"
+            }
+          },
+          "9,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder/D",
+              "_title": "Feeder/D"
+            }
+          },
+          "9,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder/I",
+              "_title": "Feeder/I"
+            }
+          },
+          "10,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder/Tuning PD",
+              "_title": "Feeder/Tuning PD"
+            }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder/P",
+              "_title": "Feeder/P"
+            }
+          },
+          "3,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter/D",
+              "_title": "Shooter/D"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter/I",
+              "_title": "Shooter/I"
+            }
+          },
+          "1,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter/Tuning PD",
+              "_title": "Shooter/Tuning PD"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter/P",
+              "_title": "Shooter/P"
+            }
+          },
+          "10,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder/Tuning PID",
+              "_title": "Feeder/Tuning PID"
+            }
+          },
+          "5,2": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Pad RPM",
+              "_title": "Pad RPM"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": 60.0,
-    "y": 25.0,
-    "width": 1620.0,
-    "height": 1025.0
+    "x": -6.400000095367432,
+    "y": 1.600000023841858,
+    "width": 1547.199951171875,
+    "height": 828.7999877929688
   }
 }

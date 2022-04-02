@@ -9,6 +9,8 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
+import com.stuypulse.stuylib.streams.filters.IFilter;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -47,6 +49,7 @@ public class Intake extends SubsystemBase {
 
     private final Conveyor conveyor;
 
+    private final IFilter speedFilter;
     private double speed;
 
     public Intake(Conveyor conveyor) {
@@ -61,6 +64,7 @@ public class Intake extends SubsystemBase {
 
         this.conveyor = conveyor;
 
+        this.speedFilter = new LowPassFilter(Settings.Intake.SPEED_FILTERING);
         this.speed = 0.0;
     }
 
@@ -96,19 +100,17 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean getShouldRetract() {
-        return Settings.Intake.AUTO_RETRACT.get()
-                && DriverStation.isTeleop()
-                && conveyor.hasTopBeltBall()
-                && conveyor.hasAllianceBall();
+        return Settings.Intake.AUTO_RETRACT.get() && !DriverStation.isAutonomous() && conveyor.isFull();
     }
 
     /*** Debug Information ***/
     @Override
     public void periodic() {
-        if (0.0 <= speed && getShouldStop()) {
+        double motorSpeed = speedFilter.get(speed);
+        if (0.0 <= motorSpeed && getShouldStop()) {
             motor.stopMotor();
         } else {
-            motor.set(speed);
+            motor.set(motorSpeed);
         }
 
         if (Settings.DEBUG_MODE.get()) {

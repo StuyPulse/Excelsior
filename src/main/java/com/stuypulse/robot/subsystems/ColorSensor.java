@@ -59,6 +59,7 @@ public class ColorSensor extends SubsystemBase {
             if (this.connected) this.connected &= colorSensor.isConnected();
 
             if (this.connected) this.color = colorSensor.getColor();
+            else this.color = Color.kBlack;
         }
     }
 
@@ -147,6 +148,7 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
+            opponent.calculate(false);
             return hasBall();
         }
 
@@ -155,10 +157,19 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
+            opponent.calculate(false);
             return false;
         }
 
         return opponent.calculate(hasBall() && getCurrentBall() != getTargetBall());
+    }
+
+    public boolean hasBall(BallColor target) {
+        if (target == getTargetBall()) {
+            return hasAllianceBall();
+        } else {
+            return hasOpponentBall();
+        }
     }
 
     /*** DEBUG INFORMATION ***/
@@ -166,6 +177,10 @@ public class ColorSensor extends SubsystemBase {
     @Override
     public void periodic() {
         sensor.update();
+
+        // Update Debouncers
+        hasAllianceBall();
+        hasOpponentBall();
 
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());

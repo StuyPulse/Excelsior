@@ -6,10 +6,13 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+
+import com.stuypulse.robot.util.SmartPIDController;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -84,7 +87,7 @@ public interface Settings {
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
         // How long it takes to accept / reject balls
-        double DEBOUNCE_TIME = 1.0 / 8.0;
+        double DEBOUNCE_TIME = 1.0 / 6.0;
 
         public interface BallRGB {
             Color RED = new Color(0.42, 0.39, 0.19);
@@ -96,7 +99,7 @@ public interface Settings {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 1.0);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -105,17 +108,17 @@ public interface Settings {
 
     public interface Drivetrain {
         // If speed is below this, use quick turn
-        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.3);
+        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.5);
 
         // Low Pass Filter and deadband for Driver Controls
-        SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.05);
-        SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.05);
+        SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.00);
+        SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.00);
 
-        SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 1.0);
-        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
+        SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
+        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 2.0);
 
         SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.25);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.02);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.03);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
@@ -210,55 +213,104 @@ public interface Settings {
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
 
+        SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.08);
+
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }
 
     public interface LED {
-        double MANUAL_UPDATE_TIME = 0.65;
+        SmartBoolean SWAP_RAINBOW = new SmartBoolean("Swap Rainbow", false);
+
+        double MANUAL_UPDATE_TIME = 0.75;
 
         double BLINK_TIME = 0.5;
 
         double DEBOUNCE_TIME = 0.75;
+
+        double RPM_ERROR_STEP = 50;
+
+        double MIN_MATCH_TIME = 1; // non-game modes return 0 for remaning match time
+        double CLIMB_TIME = 45;
+        double END_GAME_TIME = 20;
     }
 
     public interface Shooter {
 
         double MIN_RPM = 100.0;
+        double MAX_TARGET_RPM_CHANGE = 2000.0;
 
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3200);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 1.1);
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
-        double INTEGRAL_MAX_ADJUST = 0.1;
+        double INTEGRAL_MAX_ADJUST = 1.0;
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
+        double MAX_RPM_ERROR = 250;
+
         public interface ShooterPID {
-            double kP = 0.00025;
-            double kI = 0.0000005;
-            double kD = 0.0;
-            double kF = 0.000175;
+            double kP = 0.0045;
+            double kI = 0.002;
+            double kD = 0.0003;
+
+            static Controller getController() {
+                return new SmartPIDController("Shooter/Shooter")
+                        .setControlSpeed(2.0)
+                        .setPID(kP, kI, kD)
+                        .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
+            }
+        }
+
+        public interface ShooterFF {
+            double kS = 0.17118;
+            double kV = 0.0020763;
+            double kA = 0.00011861;
+
+            static SimpleMotorFeedforward getController() {
+                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            }
         }
 
         public interface FeederPID {
-            double kP = 0.00015;
-            double kI = 0.0000005;
-            double kD = 0.0;
-            double kF = 0.0001825;
+            double kP = 0.00375;
+            double kI = 0.0015;
+            double kD = 0.00025;
+
+            static Controller getController() {
+                return new SmartPIDController("Shooter/Feeder")
+                        .setControlSpeed(2.0)
+                        .setPID(kP, kI, kD)
+                        .setIntegratorFilter(INTEGRAL_MAX_RPM_ERROR, INTEGRAL_MAX_ADJUST);
+            }
+        }
+
+        public interface FeederFF {
+            double kS = 0.18892;
+            double kV = 0.0021256;
+            double kA = 8.9074E-05;
+
+            static SimpleMotorFeedforward getController() {
+                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
+            }
         }
     }
 
     public interface Limelight {
+        int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
+
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 5);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.5);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
         double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double FENDER_SHOT_DISTANCE = CENTER_TO_HUB + LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
@@ -282,44 +334,50 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.2);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.1);
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Speed/P", 2.7);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Speed/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Speed/D", 0.3);
+            double kP = 2.7;
+            double kI = 0;
+            double kD = 0.3;
 
-            double BANG_BANG = 1.0;
+            double BANG_BANG = 0.7;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.2);
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.1);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
+                return new SmartPIDController("Drivetrain/Alignment/Speed")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
         }
 
         public interface Angle {
-            SmartNumber kP = new SmartNumber("Drivetrain/Alignment/Angle/P", 0.0366);
-            SmartNumber kI = new SmartNumber("Drivetrain/Alignment/Angle/I", 0);
-            SmartNumber kD = new SmartNumber("Drivetrain/Alignment/Angle/D", 0.0034);
+            double kP = 0.0366;
+            double kI = 0;
+            double kD = 0.0034;
 
             double BANG_BANG = 0.75;
 
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.02);
+                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.01);
 
             static Controller getController() {
-                return new PIDController(kP, kI, kD)
+                return new SmartPIDController("Drivetrain/Alignment/Angle")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
-                        .setOutputFilter(new LowPassFilter(OUT_FILTER));
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
         }
     }

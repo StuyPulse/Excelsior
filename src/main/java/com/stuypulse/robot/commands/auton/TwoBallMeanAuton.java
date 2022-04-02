@@ -6,17 +6,14 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
-import com.stuypulse.robot.commands.intake.IntakeDeacquireCommand;
-import com.stuypulse.robot.commands.intake.IntakeDeacquireForeverCommand;
-import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
-import com.stuypulse.robot.commands.intake.IntakeStopForeverCommand;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
-import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
-import com.stuypulse.robot.constants.Settings.Limelight;
+import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
+import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
+import com.stuypulse.robot.commands.intake.IntakeDeacquire;
+import com.stuypulse.robot.commands.intake.IntakeExtend;
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.shooter.ShooterRingShot;
 import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -47,49 +44,52 @@ public class TwoBallMeanAuton extends SequentialCommandGroup {
     public TwoBallMeanAuton(RobotContainer robot) {
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED));
+                new LEDSet(robot.leds, LEDColor.RED));
 
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW),
-            new IntakeExtendCommand(robot.intake),
-            new IntakeAcquireForeverCommand(robot.intake),
-            new ShooterRingShotCommand(robot.shooter),
-            new WaitCommand(SHOOTER_INITIALIZE_DELAY));
+            new LEDSet(robot.leds, LEDColor.YELLOW),
+            new IntakeExtend(robot.intake),
+            new IntakeAcquireForever(robot.intake),
+            new ShooterRingShot(robot.shooter),
+            new WaitCommand(SHOOTER_INITIALIZE_DELAY)
+        );
 
         // Shoot Two Balls
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_SECOND_BALL)
+                new LEDSet(robot.leds, LEDColor.GREEN),
+                new DrivetrainRamsete(robot.drivetrain, TWO_BALL_TO_SECOND_BALL)
                         .robotRelative(),
-                new LEDSetCommand(robot.leds, LEDColor.GREEN.pulse()),
-                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+
+                new LEDSet(robot.leds, LEDColor.GREEN.pulse()),
+                new DrivetrainAlign(robot.drivetrain, robot.camera)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+
+                new LEDSet(robot.leds, LEDColor.RAINBOW),
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER)
+        );
+
         // Get Wall Blue Ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_OTHER_OPPONENT_BALL)
+                new LEDSet(robot.leds, LEDColor.BLUE),
+                new DrivetrainRamsete(robot.drivetrain, TWO_BALL_GET_OTHER_OPPONENT_BALL)
                         .fieldRelative());
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PURPLE),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_GET_WALL_BALL)
+                new LEDSet(robot.leds, LEDColor.PURPLE),
+                new DrivetrainRamsete(robot.drivetrain, TWO_BALL_GET_WALL_BALL)
                         .fieldRelative());
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PINK),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL)
+                new LEDSet(robot.leds, LEDColor.PINK),
+                new DrivetrainRamsete(robot.drivetrain, TWO_BALL_EJECT_WALL_BALL)
                         .fieldRelative(),
-                // new IntakeDeacquireForeverCommand(robot.intake).withTimeout(INTAKE_DEACQUIRE_TIME));
-                new IntakeDeacquireForeverCommand(robot.intake),
-                new WaitCommand(INTAKE_DEACQUIRE_TIME),
-                new IntakeStopForeverCommand(robot.intake));
-
+          
+                new IntakeDeacquireForeverCommand(robot.intake).withTimeout(INTAKE_DEACQUIRE_TIME));
+                
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.AQUA),
-                new DrivetrainRamseteCommand(robot.drivetrain, TWO_BALL_TO_TELEOP_STARTING_POSITION)
+                new LEDSet(robot.leds, LEDColor.AQUA),
+                new DrivetrainRamsete(robot.drivetrain, TWO_BALL_TO_TELEOP_STARTING_POSITION)
                         .fieldRelative());
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+        addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
     }
 }
