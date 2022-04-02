@@ -55,8 +55,7 @@ public class PartnerBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSetCommand(robot.leds, LEDColor.GREEN),
             new WaitCommand(ACQUIRE_PARTNER_BALL_TIME).withInterrupt(() -> robot.conveyor.isFull()),
-            new DrivetrainAlignCommand(robot.drivetrain, Limelight.FENDER_SHOT_DISTANCE),
-            new ConveyorShootCommand(robot.conveyor));
+            new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
         addCommands(
             new ShooterRingShotCommand(robot.shooter),
             new DrivetrainRamseteCommand(robot.drivetrain, PARTNER_BALL_TO_RING_BALL)
