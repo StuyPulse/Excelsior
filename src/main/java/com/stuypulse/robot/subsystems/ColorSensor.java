@@ -55,10 +55,10 @@ public class ColorSensor extends SubsystemBase {
 
         public void update() {
             this.connected = Settings.ColorSensor.ENABLED.get();
-            if (this.connected) this.connected &= DriverStation.isTeleopEnabled();
+            if (this.connected) this.connected &= !DriverStation.isAutonomous();
             if (this.connected) this.connected &= colorSensor.isConnected();
 
-            if (this.connected || DriverStation.isDisabled()) this.color = colorSensor.getColor();
+            if (this.connected) this.color = colorSensor.getColor();
             else this.color = Color.kBlack;
         }
     }
@@ -148,6 +148,7 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
+            opponent.calculate(false);
             return hasBall();
         }
 
@@ -156,6 +157,7 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
+            opponent.calculate(false);
             return false;
         }
 
@@ -175,6 +177,10 @@ public class ColorSensor extends SubsystemBase {
     @Override
     public void periodic() {
         sensor.update();
+
+        // Update Debouncers
+        hasAllianceBall();
+        hasOpponentBall();
 
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());

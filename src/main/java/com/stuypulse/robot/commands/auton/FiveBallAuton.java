@@ -6,15 +6,14 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
-import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
-import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
-import com.stuypulse.robot.constants.Settings.Limelight;
+import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistance;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
+import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
+import com.stuypulse.robot.commands.intake.IntakeExtend;
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.shooter.ShooterRingShot;
 import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.math.util.Units;
@@ -50,72 +49,72 @@ public class FiveBallAuton extends SequentialCommandGroup {
 
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW),
-            new IntakeExtendCommand(robot.intake),
-            new IntakeAcquireForeverCommand(robot.intake),
-            new ShooterRingShotCommand(robot.shooter),
+            new LEDSet(robot.leds, LEDColor.YELLOW),
+            new IntakeExtend(robot.intake),
+            new IntakeAcquireForever(robot.intake),
+            new ShooterRingShot(robot.shooter),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 
         // Tarmac to first ball
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN),
-            new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
+            new LEDSet(robot.leds, LEDColor.GREEN),
+            new DrivetrainRamsete(robot.drivetrain, FIVE_BALL_TO_SECOND_BALL)
                     .robotRelative());
         addCommands(
         );
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN.pulse()),
-            new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+            new LEDSet(robot.leds, LEDColor.GREEN.pulse()),
+            new DrivetrainAlign(robot.drivetrain, robot.camera)
                     .withTimeout(DRIVETRAIN_ALIGN_TIME)
         );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new LEDSet(robot.leds, LEDColor.RAINBOW),
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         // First ball to terminal to RingShot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_TERMINAL)
+                new LEDSet(robot.leds, LEDColor.BLUE),
+                new DrivetrainRamsete(robot.drivetrain, FIVE_BALL_TO_TERMINAL)
                         .fieldRelative());
 
         addCommands(
-                new DrivetrainDriveDistanceCommand(robot.drivetrain, Units.feetToMeters(-1))
+                new DrivetrainDriveDistance(robot.drivetrain, Units.feetToMeters(-1))
                 .fieldRelative(),
 
-                new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+                new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
 
         // Return to Ring to shoot
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PURPLE),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT)
+                new LEDSet(robot.leds, LEDColor.PURPLE),
+                new DrivetrainRamsete(robot.drivetrain, FIVE_BALL_TERMINAL_TO_SHOOT)
                         .fieldRelative());
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PURPLE.pulse()),
-                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+                new LEDSet(robot.leds, LEDColor.PURPLE.pulse()),
+                new DrivetrainAlign(robot.drivetrain, robot.camera)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME)
         );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new LEDSet(robot.leds, LEDColor.RAINBOW),
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         // Pick up and shoot fifth ball
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.PINK),
-                new DrivetrainRamseteCommand(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
+                new LEDSet(robot.leds, LEDColor.PINK),
+                new DrivetrainRamsete(robot.drivetrain, FIVE_BALL_TO_WALL_BALL)
                         .fieldRelative());
         addCommands(  
-                new LEDSetCommand(robot.leds, LEDColor.PINK.pulse()),
-                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+                new LEDSet(robot.leds, LEDColor.PINK.pulse()),
+                new DrivetrainAlign(robot.drivetrain, robot.camera)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME)
         );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new LEDSet(robot.leds, LEDColor.RAINBOW),
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+        addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
     }
 }

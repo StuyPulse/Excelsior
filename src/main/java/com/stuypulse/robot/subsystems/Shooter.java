@@ -101,6 +101,10 @@ public class Shooter extends SubsystemBase {
         return feeder.getVelocity();
     }
 
+    public boolean isFenderMode() {
+        return hood.get();
+    }
+
     /*** TARGET RPM READING ***/
 
     public double getRawTargetRPM() {
@@ -109,6 +113,10 @@ public class Shooter extends SubsystemBase {
 
     public double getTargetRPM() {
         return targetFilter.get(getRawTargetRPM());
+    }
+
+    public boolean isReady() {
+        return Math.abs(getShooterRPM() - getRawTargetRPM()) < Settings.Shooter.MAX_RPM_ERROR;
     }
 
     @Override

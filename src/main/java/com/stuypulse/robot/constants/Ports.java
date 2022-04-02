@@ -26,7 +26,7 @@ public interface Ports {
     }
 
     public interface ColorSensor {
-        I2C.Port COLOR_SENSOR = I2C.Port.kOnboard;
+        I2C.Port COLOR_SENSOR = I2C.Port.kMXP;
         int BALL_IR_SENSOR = 4;
     }
 

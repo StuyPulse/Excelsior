@@ -6,14 +6,14 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
-import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
-import com.stuypulse.robot.commands.shooter.ShooterFenderShotCommand;
-import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
+import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
+import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
+import com.stuypulse.robot.commands.intake.IntakeExtend;
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.shooter.ShooterFenderShot;
+import com.stuypulse.robot.commands.shooter.ShooterRingShot;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.util.LEDColor;
 
@@ -44,16 +44,16 @@ public class PartnerBallAuton extends SequentialCommandGroup {
 
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW),
-            new IntakeExtendCommand(robot.intake),
-            new IntakeAcquireForeverCommand(robot.intake),
-            new ShooterFenderShotCommand(robot.shooter),
+            new LEDSet(robot.leds, LEDColor.YELLOW),
+            new IntakeExtend(robot.intake),
+            new IntakeAcquireForever(robot.intake),
+            new ShooterFenderShot(robot.shooter),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 
         // Tarmac to first ball
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN),
+            new LEDSet(robot.leds, LEDColor.GREEN),
             new WaitCommand(ACQUIRE_PARTNER_BALL_TIME).withInterrupt(() -> robot.conveyor.isFull()),
             new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
         addCommands(
@@ -61,14 +61,14 @@ public class PartnerBallAuton extends SequentialCommandGroup {
             new DrivetrainRamseteCommand(robot.drivetrain, PARTNER_BALL_TO_RING_BALL)
                     .robotRelative(),
             new WaitCommand(SHOOTER_TO_RING_DELAY));
-        addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.GREEN.pulse()),
-            new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+            addCommands(
+            new LEDSet(robot.leds, LEDColor.GREEN.pulse()),
+            new DrivetrainAlign(robot.drivetrain, robot.camera)
                     .withTimeout(DRIVETRAIN_ALIGN_TIME));
-        addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RAINBOW),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                    addCommands(
+                new LEDSet(robot.leds, LEDColor.RAINBOW),
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+                addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
     }
 }
