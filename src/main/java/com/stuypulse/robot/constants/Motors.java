@@ -24,8 +24,8 @@ public interface Motors {
     Config CLIMBER = new Config(true, kBrake, 80, 1.0 / 5.0);
 
     public interface Conveyor {
-        Config GANDALF = new Config(true, kBrake, 30);
-        Config TOP_BELT = new Config(false, kBrake, 20);
+        Config GANDALF = new Config(true, kBrake, 40);
+        Config TOP_BELT = new Config(false, kBrake, 30);
     }
 
     public interface Drivetrain {
@@ -36,12 +36,12 @@ public interface Motors {
         Config RIGHT = new Config(false, IDLE_MODE, CURRENT_LIMIT_AMPS);
     }
 
-    Config INTAKE = new Config(true, kBrake, 30);
+    Config INTAKE = new Config(true, kBrake, 50);
 
     public interface Shooter {
-        Config LEFT = new Config(false, kCoast, 50);
-        Config RIGHT = new Config(true, kCoast, 50);
-        Config FEEDER = new Config(false, kCoast, 50);
+        Config LEFT = new Config(false, kCoast, 60);
+        Config RIGHT = new Config(true, kCoast, 60);
+        Config FEEDER = new Config(false, kCoast, 60);
     }
 
     /** Class to store all of the values a motor needs */
