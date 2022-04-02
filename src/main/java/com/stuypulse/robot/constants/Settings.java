@@ -213,7 +213,7 @@ public interface Settings {
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
 
-        SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.16);
+        SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.08);
 
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }
@@ -239,7 +239,7 @@ public interface Settings {
         double MIN_RPM = 100.0;
         double MAX_TARGET_RPM_CHANGE = 2000.0;
 
-        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 4000);
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
@@ -250,7 +250,7 @@ public interface Settings {
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
-        double MAX_RPM_ERROR = 120;
+        double MAX_RPM_ERROR = 250;
 
         public interface ShooterPID {
             double kP = 0.0045;
@@ -309,7 +309,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(140) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(145) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
@@ -333,7 +333,7 @@ public interface Settings {
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.2);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.1);
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
@@ -346,7 +346,7 @@ public interface Settings {
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.16);
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.1);
 
             static Controller getController() {
                 return new SmartPIDController("Drivetrain/Alignment/Speed")
