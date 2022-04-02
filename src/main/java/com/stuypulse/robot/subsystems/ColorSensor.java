@@ -148,6 +148,7 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasAllianceBall() {
         if (!isConnected()) {
+            opponent.calculate(false);
             return hasBall();
         }
 
@@ -156,6 +157,7 @@ public class ColorSensor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         if (!isConnected()) {
+            opponent.calculate(false);
             return false;
         }
 
@@ -175,6 +177,10 @@ public class ColorSensor extends SubsystemBase {
     @Override
     public void periodic() {
         sensor.update();
+
+        // Update Debouncers
+        hasAllianceBall();
+        hasOpponentBall();
 
         if (Settings.DEBUG_MODE.get()) {
             SmartDashboard.putBoolean("Debug/Color Sensor/Is Connected", isConnected());
