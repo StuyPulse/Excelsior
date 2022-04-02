@@ -146,7 +146,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new FiveBallAuton(this);
+        return new TwoBallMeanAuton(this);
         // return autonChooser.getSelected();
     }
 }
