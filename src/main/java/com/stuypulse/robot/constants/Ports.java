@@ -25,10 +25,8 @@ public interface Ports {
         int TILTER_REVERSE = 7;
 
         // Limit Switches
-        int TOP_LEFT_LIMIT_SWITCH = -1;
-        int BOTTOM_LEFT_LIMIT_SWITCH = -1;
-        int TOP_RIGHT_LIMIT_SWITCH = -1;
-        int BOTTOM_RIGHT_LIMIT_SWITCH = -1;
+        int RIGHT_LIMIT_SWITCH = 8;
+        int LEFT_LIMIT_SWITCH = 7;
     }
 
     public interface ColorSensor {

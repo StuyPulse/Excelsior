@@ -7,7 +7,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-
+import com.stuypulse.robot.commands.AutoClimbCommand;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
@@ -79,6 +79,9 @@ public class RobotContainer {
                 .whenPressed(new ClimberMaxTiltCommand(climber));
         new Button(() -> operator.getLeftX() <= -0.75)
                 .whenPressed(new ClimberNoTiltCommand(climber));
+
+        operator.getBottomButton().whileHeld(new ClimberPullUp(climber));
+        operator.getRightBumper().whileHeld(new AutoClimbCommand(this));
 
         operator.getSelectButton().whileHeld(new ClimberForceLowerCommand(climber));
 

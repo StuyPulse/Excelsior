@@ -87,8 +87,8 @@ public class Climber extends SubsystemBase {
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
 
-        bottomLeftSwitch = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT_SWITCH);
-        bottomRightSwitch = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT_SWITCH);
+        bottomLeftSwitch = new DigitalInput(Ports.Climber.LEFT_LIMIT_SWITCH);
+        bottomRightSwitch = new DigitalInput(Ports.Climber.RIGHT_LIMIT_SWITCH);
     }
 
     /*** MOTOR CONTROL ***/
@@ -128,11 +128,11 @@ public class Climber extends SubsystemBase {
     /*** LIMIT SWITCHES ***/
 
     public boolean getLeftHookFlipped() {
-        return bottomLeftSwitch.get();
+        return !bottomLeftSwitch.get();
     }
 
     public boolean getRightHookFlipped() {
-        return bottomRightSwitch.get();
+        return !bottomRightSwitch.get();
     }
 
     /*** ENCODER ***/
@@ -194,6 +194,9 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean(
                     "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));
             SmartDashboard.putNumber("Debug/Climber/Climber Speed", climber.get());
+
+            SmartDashboard.putBoolean("Debug/Climber/Left Limit Switch", getLeftHookFlipped());
+            SmartDashboard.putBoolean("Debug/Climber/Right Limit Switch", getRightHookFlipped());
         }
     }
 }
