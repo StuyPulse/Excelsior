@@ -36,7 +36,7 @@ public class AutoClimbCommand extends SequentialCommandGroup {
          * prepares robot for transition to high bar (reset encoder)
          */
         addCommands(
-            new ClimberPullUp(robot.climber),
+            new ClimberPullUp(robot.climber, robot.leds),
             new ClimberReset(robot.climber)
         );
 
@@ -58,7 +58,7 @@ public class AutoClimbCommand extends SequentialCommandGroup {
          * prepares robot for transition to traversal bar (reset encoder)
          */
         addCommands(
-            new ClimberPullUp(robot.climber),
+            new ClimberPullUp(robot.climber, robot.leds),
             new ClimberReset(robot.climber)
         );
 
