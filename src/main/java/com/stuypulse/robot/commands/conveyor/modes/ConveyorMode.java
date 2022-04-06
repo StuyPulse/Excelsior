@@ -18,7 +18,7 @@ public enum ConveyorMode {
                 // Eject if you have wrong ball
                 if (conveyor.hasOpponentBall()) {
                     conveyor.setGandalf(Direction.REVERSE);
-                } 
+                }
 
                 // Stop if you already have ball
                 else if (conveyor.hasTopBeltBall()) {
@@ -63,7 +63,7 @@ public enum ConveyorMode {
     SHOOT(
             (Conveyor conveyor) -> {
                 conveyor.setTopBelt(
-                    conveyor.hasTopBeltBall() ? Direction.FORWARD_SLOW : Direction.FORWARD);
+                        conveyor.hasTopBeltBall() ? Direction.FORWARD_SLOW : Direction.FORWARD);
                 conveyor.setGandalf(
                         conveyor.hasOpponentBall() ? Direction.REVERSE : Direction.FORWARD);
             }),

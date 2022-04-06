@@ -5,12 +5,13 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.stuylib.streams.filters.IFilter;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
+
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
-import com.stuypulse.stuylib.streams.filters.IFilter;
-import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -100,7 +101,9 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean getShouldRetract() {
-        return Settings.Intake.AUTO_RETRACT.get() && !DriverStation.isAutonomous() && conveyor.isFull();
+        return Settings.Intake.AUTO_RETRACT.get()
+                && !DriverStation.isAutonomous()
+                && conveyor.isFull();
     }
 
     /*** Debug Information ***/

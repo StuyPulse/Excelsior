@@ -240,9 +240,9 @@ public interface Settings {
         double MAX_TARGET_RPM_CHANGE = 2000.0;
 
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3100);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
-        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.8);
+        SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.825);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
         double INTEGRAL_MAX_ADJUST = 1.0;
@@ -309,7 +309,7 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(155) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(160) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
 
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
@@ -318,7 +318,7 @@ public interface Settings {
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
         // How long it takes to stop aligning
-        double DEBOUNCE_TIME = 0.25;
+        double DEBOUNCE_TIME = 0.125;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
@@ -327,8 +327,9 @@ public interface Settings {
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
         SmartNumber MAX_DISTANCE_ERROR =
                 new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
-        SmartNumber MAX_VELOCITY =
-                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
+        SmartNumber
+                MAX_VELOCITY = // THERE WAS AN ERROR WHERE THIS WOULD'NT CHECK WHEN MOVING BACKWARDS
+                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(4));
     }
 
     public interface Alignment {

@@ -7,6 +7,8 @@ package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.streams.IFuser;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
@@ -18,17 +20,14 @@ import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainAlign extends CommandBase {
 
     private final Drivetrain drivetrain;
-    private final Camera camera;
 
-    private final Debouncer finished;
+    private final BStream finished;
 
     private IFilter speedAdjFilter;
 
@@ -40,7 +39,6 @@ public class DrivetrainAlign extends CommandBase {
 
     public DrivetrainAlign(Drivetrain drivetrain, Camera camera) {
         this.drivetrain = drivetrain;
-        this.camera = camera;
 
         // find errors
         angleError =
@@ -61,7 +59,15 @@ public class DrivetrainAlign extends CommandBase {
         this.distanceController = Alignment.Speed.getController();
 
         // finish optimally
-        finished = new Debouncer(Limelight.DEBOUNCE_TIME, DebounceType.kRising);
+        finished =
+                BStream.create(camera::hasTarget)
+                        .and(
+                                () ->
+                                        Math.abs(drivetrain.getVelocity())
+                                                < Limelight.MAX_VELOCITY.get())
+                        .and(() -> angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()))
+                        .and(() -> distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get()))
+                        .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
 
         addRequirements(drivetrain);
     }
@@ -97,11 +103,7 @@ public class DrivetrainAlign extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return finished.calculate(
-                camera.hasTarget()
-                        && drivetrain.getVelocity() < Limelight.MAX_VELOCITY.get()
-                        && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get())
-                        && distanceController.isDone(Limelight.MAX_DISTANCE_ERROR.get()));
+        return finished.get();
     }
 
     public Command thenShoot(Conveyor conveyor) {

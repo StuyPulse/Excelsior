@@ -50,6 +50,8 @@ public class RobotContainer {
         LiveWindow.disableAllTelemetry();
         DriverStation.silenceJoystickConnectionWarning(true);
 
+        
+
         // Configure the button bindings
         configureDefaultCommands();
         configureButtonBindings();
@@ -127,7 +129,7 @@ public class RobotContainer {
         operator.getLeftBumper().whenPressed(new ShooterStop(shooter));
     }
 
-    /**************/ 
+    /**************/
     /*** AUTONS ***/
     /**************/
 

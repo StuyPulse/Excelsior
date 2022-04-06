@@ -6,11 +6,8 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -29,13 +26,9 @@ public class ThenShoot extends CommandBase {
     private final Command aligner;
     private final Conveyor conveyor;
 
-    private final Debouncer finished;
-
     public ThenShoot(Command aligner, Conveyor conveyor) {
         this.aligner = aligner;
         this.conveyor = conveyor;
-
-        this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
 
         m_requirements.addAll(this.aligner.getRequirements());
     }
@@ -43,8 +36,6 @@ public class ThenShoot extends CommandBase {
     @Override
     public void initialize() {
         aligner.initialize();
-
-        finished.calculate(false);
     }
 
     @Override
@@ -60,7 +51,7 @@ public class ThenShoot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return aligner.isFinished() && finished.calculate(conveyor.isEmpty());
+        return aligner.isFinished() && conveyor.isEmpty();
     }
 
     @Override

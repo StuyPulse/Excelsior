@@ -7,58 +7,58 @@ package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.SLMath;
-import com.stuypulse.stuylib.streams.filters.IFilter;
-import com.stuypulse.stuylib.streams.filters.IFilterGroup;
+import com.stuypulse.stuylib.streams.IStream;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.Stalling;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDrive extends CommandBase {
 
-    private Drivetrain drivetrain;
-    private Gamepad driver;
+    private final Drivetrain drivetrain;
+    private final Gamepad driver;
 
-    private Debouncer stallingFilter = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
-
-    private IFilter speedFilter =
-            new IFilterGroup(
-                    x -> SLMath.deadband(x, Settings.Drivetrain.SPEED_DEADBAND.get()),
-                    x -> SLMath.spow(x, Settings.Drivetrain.SPEED_POWER.get()),
-                    new LowPassFilter(Settings.Drivetrain.SPEED_FILTER));
-
-    private IFilter angleFilter =
-            new IFilterGroup(
-                    x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
-                    x -> SLMath.spow(x, Settings.Drivetrain.ANGLE_POWER.get()),
-                    new LowPassFilter(Settings.Drivetrain.ANGLE_FILTER));
+    private final BStream stalling;
+    private final IStream speed, angle;
 
     public DrivetrainDrive(Drivetrain drivetrain, Gamepad driver) {
         this.drivetrain = drivetrain;
         this.driver = driver;
 
+        this.stalling =
+                Stalling.STALL_DETECTION
+                        .and(drivetrain::isStalling)
+                        .filtered(new BDebounceRC.Both(Settings.Drivetrain.Stalling.DEBOUNCE_TIME));
+
+        this.speed =
+                IStream.create(() -> driver.getRightTrigger() - driver.getLeftTrigger())
+                        .filtered(
+                                x -> SLMath.deadband(x, Settings.Drivetrain.SPEED_DEADBAND.get()),
+                                x -> SLMath.spow(x, Settings.Drivetrain.SPEED_POWER.get()),
+                                new LowPassFilter(Settings.Drivetrain.SPEED_FILTER));
+
+        this.angle =
+                IStream.create(() -> driver.getLeftX())
+                        .filtered(
+                                x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
+                                x -> SLMath.spow(x, Settings.Drivetrain.ANGLE_POWER.get()),
+                                new LowPassFilter(Settings.Drivetrain.ANGLE_FILTER));
+
         addRequirements(drivetrain);
     }
 
-    private boolean isStalling() {
-        return stallingFilter.calculate(drivetrain.isStalling());
-    }
-
     public void execute() {
-        double speed = driver.getRightTrigger() - driver.getLeftTrigger();
-        double angle = driver.getLeftX();
-
-        if (driver.getRawRightButton() || (Stalling.STALL_DETECTION.get() && isStalling())) {
+        if (driver.getRawRightButton() || stalling.get()) {
             drivetrain.setLowGear();
-            drivetrain.arcadeDrive(speedFilter.get(speed), angleFilter.get(angle));
+            drivetrain.arcadeDrive(speed.get(), angle.get());
         } else {
             drivetrain.setHighGear();
-            drivetrain.curvatureDrive(speedFilter.get(speed), angleFilter.get(angle));
+            drivetrain.curvatureDrive(speed.get(), angle.get());
         }
     }
 

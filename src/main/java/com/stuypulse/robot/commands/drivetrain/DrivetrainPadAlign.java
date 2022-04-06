@@ -7,6 +7,8 @@ package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.streams.IFuser;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.commands.ThenShoot;
 import com.stuypulse.robot.constants.Settings.Alignment;
@@ -15,24 +17,20 @@ import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainPadAlign extends CommandBase {
 
     private final Drivetrain drivetrain;
-    private final Camera camera;
 
-    private final Debouncer finished;
+    private final BStream finished;
 
     private final IFuser angleError;
     protected final Controller angleController;
 
     public DrivetrainPadAlign(Drivetrain drivetrain, Camera camera) {
         this.drivetrain = drivetrain;
-        this.camera = camera;
 
         // find errors
         angleError =
@@ -45,7 +43,10 @@ public class DrivetrainPadAlign extends CommandBase {
         this.angleController = Alignment.Angle.getController();
 
         // finish optimally
-        finished = new Debouncer(Limelight.DEBOUNCE_TIME, DebounceType.kRising);
+        finished =
+                BStream.create(camera::hasTarget)
+                        .and(() -> angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()))
+                        .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
 
         addRequirements(drivetrain);
     }
@@ -68,8 +69,7 @@ public class DrivetrainPadAlign extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return finished.calculate(
-                camera.hasTarget() && angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()));
+        return finished.get();
     }
 
     public Command thenShoot(Conveyor conveyor) {

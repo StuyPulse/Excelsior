@@ -7,11 +7,7 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorSetMode;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Conveyor;
-
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 /*
  * @author Ivan Wei (ivanw8288@gmail.com)
@@ -35,22 +31,13 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 public class ConveyorShootSlow extends ConveyorSetMode {
 
-    private final Debouncer finished;
-
     /** Creates a new ConveyorShootCommand. */
     public ConveyorShootSlow(Conveyor conveyor) {
         super(conveyor, ConveyorMode.SHOOT_SLOW);
-
-        this.finished = new Debouncer(Settings.Conveyor.DEBOUNCE_TIME, DebounceType.kRising);
-    }
-
-    @Override
-    public void initialize() {
-        this.finished.calculate(false);
     }
 
     @Override
     public boolean isFinished() {
-        return this.finished.calculate(conveyor.isEmpty());
+        return conveyor.isEmpty();
     }
 }
