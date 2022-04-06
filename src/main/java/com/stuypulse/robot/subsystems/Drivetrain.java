@@ -248,6 +248,14 @@ public class Drivetrain extends SubsystemBase {
         return Settings.Drivetrain.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
 
+    public Angle getPitch() {
+        return Angle.fromDegrees(navx.getPitch());
+    }
+
+    public Angle getRoll() {
+        return Angle.fromDegrees(navx.getRoll());
+    }
+
     /**********************
      * ODOMETRY FUNCTIONS *
      **********************/
@@ -450,6 +458,10 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber("Debug/Drivetrain/Current Left (amps)", getLeftCurrentAmps());
             SmartDashboard.putNumber(
                     "Debug/Drivetrain/Current Right (amps)", getRightCurrentAmps());
+
+
+            SmartDashboard.putNumber("Debug/Drivetrain/Angle Pitch (deg)", getPitch().toDegrees());
+            SmartDashboard.putNumber("Debug/Drivetrain/Angle Roll (deg)", getRoll().toDegrees());
 
             SmartDashboard.putNumber("Debug/Drivetrain/Angle NavX (deg)", getAngle().toDegrees());
             SmartDashboard.putNumber(

@@ -127,12 +127,17 @@ public class Climber extends SubsystemBase {
 
     /*** LIMIT SWITCHES ***/
 
+    // TODO: rename
     public boolean getLeftHookFlipped() {
         return !bottomLeftSwitch.get();
     }
 
     public boolean getRightHookFlipped() {
         return !bottomRightSwitch.get();
+    }
+
+    public boolean getHooksFlipped() {
+        return getLeftHookFlipped() && getRightHookFlipped();
     }
 
     /*** ENCODER ***/
