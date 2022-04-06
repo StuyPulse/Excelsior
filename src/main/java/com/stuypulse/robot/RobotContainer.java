@@ -80,7 +80,7 @@ public class RobotContainer {
         new Button(() -> operator.getLeftX() <= -0.75)
                 .whenPressed(new ClimberNoTiltCommand(climber));
 
-        operator.getBottomButton().whileHeld(new ClimberPullUp(climber));
+        operator.getDPadDown().whileHeld(new ClimberPullUp(climber));
         operator.getRightBumper().whileHeld(new AutoClimbCommand(this));
 
         operator.getSelectButton().whileHeld(new ClimberForceLowerCommand(climber));
