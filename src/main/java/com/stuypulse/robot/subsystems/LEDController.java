@@ -68,6 +68,12 @@ public class LEDController extends SubsystemBase {
                 .whenPressed(new LEDSetCommand(this, LEDColor.BLUE));
     }
 
+    private boolean isEndGame() {
+        return  Settings.LED.END_GAME_MANUAL.get() || 
+            DriverStation.getMatchTime() > Settings.LED.MIN_MATCH_TIME || 
+            DriverStation.getMatchTime() < Settings.LED.END_GAME_TIME;
+    }
+
     public LEDColor getDefaultColor() {
         /**
          * - In fender shot mode led white - Ring shot red
@@ -78,6 +84,16 @@ public class LEDController extends SubsystemBase {
          * ball .75 second blue/orange - Two correct ball green
          */
         if (DriverStation.isTest() && robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
+        
+        if (robot.climber.getHooksFlipped()) return LEDColor.GREEN;
+
+        // only report leds from the gyroscope in endgame
+        if (isEndGame()) {
+            double roll = Math.abs(robot.drivetrain.getRoll().toDegrees());
+            if (roll < 10.0) return LEDColor.BLUE;
+            if (roll < 20.0) return LEDColor.PURPLE;
+            if (roll < 50.0) return LEDColor.RED;
+        }
 
         // time based LEDs
         double time = DriverStation.getMatchTime(); // time remaining in a game

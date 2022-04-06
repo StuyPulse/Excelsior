@@ -225,6 +225,7 @@ public interface Settings {
 
     public interface LED {
         SmartBoolean SWAP_RAINBOW = new SmartBoolean("Swap Rainbow", false);
+        SmartBoolean END_GAME_MANUAL = new SmartBoolean("End Game?", false);
 
         double MANUAL_UPDATE_TIME = 0.75;
 
