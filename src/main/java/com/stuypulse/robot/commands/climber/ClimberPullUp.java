@@ -7,8 +7,6 @@ package com.stuypulse.robot.commands.climber;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.Climber;
-import com.stuypulse.robot.subsystems.LEDController;
-import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -19,14 +17,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ClimberPullUp extends CommandBase {
     
     private final Climber climber;
-    private final LEDController ledController;
 
     private boolean leftHookFlipped;
     private boolean rightHookFlipped;
 
-    public ClimberPullUp(Climber climber, LEDController ledController) {
+    public ClimberPullUp(Climber climber) {
         this.climber = climber;
-        this.ledController = ledController;
         addRequirements(climber);
     }
 
@@ -52,6 +48,5 @@ public class ClimberPullUp extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         climber.setMotorStop();
-        ledController.setColor(LEDColor.SINELON);
     }
 }
