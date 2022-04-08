@@ -77,9 +77,9 @@
               "_title": "USB Camera 0",
               "Crosshair/Show crosshair": false,
               "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": false,
+              "Controls/Show controls": true,
               "Controls/Rotation": "NONE",
-              "compression": 40.0,
+              "compression": -1.0,
               "fps": 30,
               "imageWidth": 160,
               "imageHeight": 120
@@ -182,9 +182,9 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "0,0": {
+          "1,2": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -212,11 +212,20 @@
               2
             ],
             "content": {
-              "_type": "Boolean Box",
+              "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Climber/Enable Encoders",
-              "_title": "Enable Encoders",
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
+              "_title": "Enable Encoders"
+            }
+          },
+          "9,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Debug/Climber/Position",
+              "_title": "/SmartDashboard/Debug/Climber/Position"
             }
           }
         }
@@ -805,8 +814,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
+              "Y-axis/Unit": "rpm"
             }
           },
           "2,1": {
@@ -857,8 +865,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
+              "Y-axis/Unit": "rpm"
             }
           },
           "2,0": {
@@ -1375,8 +1382,8 @@
   ],
   "windowGeometry": {
     "x": 56.0,
-    "y": 0.0,
-    "width": 1486.4000244140625,
-    "height": 870.4000244140625
+    "y": 1.600000023841858,
+    "width": 1484.800048828125,
+    "height": 868.7999877929688
   }
 }
