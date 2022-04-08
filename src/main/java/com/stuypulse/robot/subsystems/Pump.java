@@ -58,10 +58,14 @@ public class Pump extends SubsystemBase {
 
     @Override
     public void periodic() {
-        final double time = DriverStation.getMatchTime();
-        boolean autoCompress = time > LED.MIN_MATCH_TIME && time < START_COMPRESSING;
 
-        if (enabled.get() || autoCompress) {
+        // set the compress to true at a certain time in the match
+        if (DriverStation.getMatchTime() > START_COMPRESSING + 0.5 && 
+            DriverStation.getMatchTime() < START_COMPRESSING - 0.5) {
+                compress();
+        }
+
+        if (enabled.get()) {
             compressor.enableDigital();
         } else {
             compressor.disable();
