@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         auto = robot.getAutonomousCommand();
+        robot.colorSensor.getTargetBallUpdate();
 
         if (auto != null) {
             auto.schedule();

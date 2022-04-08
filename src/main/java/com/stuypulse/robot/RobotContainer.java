@@ -50,8 +50,6 @@ public class RobotContainer {
         LiveWindow.disableAllTelemetry();
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        
-
         // Configure the button bindings
         configureDefaultCommands();
         configureButtonBindings();
@@ -151,7 +149,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autonChooser.getSelected();
+        // return autonChooser.getSelected();
+        return new FiveBallAuton(this);
         // return new TwoBallMeanAuton(this);
         // return new PartnerBallAuton(this);
         // return autonChooser.getSelected();
