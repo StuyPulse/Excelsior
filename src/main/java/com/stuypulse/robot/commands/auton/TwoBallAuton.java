@@ -5,26 +5,16 @@
 
 package com.stuypulse.robot.commands.auton;
 
-import java.util.List;
-
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainAlignCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainRamseteCommand;
-import com.stuypulse.robot.commands.intake.IntakeAcquireForeverCommand;
-import com.stuypulse.robot.commands.intake.IntakeExtendCommand;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
-import com.stuypulse.robot.commands.shooter.ShooterRingShotCommand;
-import com.stuypulse.robot.constants.Field;
-import com.stuypulse.robot.constants.Settings.Limelight;
+import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
+import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
+import com.stuypulse.robot.commands.intake.IntakeExtend;
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.shooter.ShooterRingShot;
 import com.stuypulse.robot.util.LEDColor;
-import com.stuypulse.stuylib.math.Vector2D;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -59,29 +49,29 @@ public class TwoBallAuton extends SequentialCommandGroup {
     public TwoBallAuton(RobotContainer robot) {
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.RED), new WaitCommand(START_DELAY));
+                new LEDSet(robot.leds, LEDColor.RED), new WaitCommand(START_DELAY));
 
         // Starting up subsystems
         addCommands(
-            new LEDSetCommand(robot.leds, LEDColor.YELLOW),
-            new IntakeExtendCommand(robot.intake),
-            new IntakeAcquireForeverCommand(robot.intake),
-            new ShooterRingShotCommand(robot.shooter),
+            new LEDSet(robot.leds, LEDColor.YELLOW),
+            new IntakeExtend(robot.intake),
+            new IntakeAcquireForever(robot.intake),
+            new ShooterRingShot(robot.shooter),
             new WaitCommand(SHOOTER_INITIALIZE_DELAY)
         );
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                new DrivetrainRamseteCommand(robot.drivetrain, START).robotRelative(),
-                new DrivetrainAlignCommand(robot.drivetrain, Limelight.RING_SHOT_DISTANCE)
+                new LEDSet(robot.leds, LEDColor.GREEN),
+                new DrivetrainRamsete(robot.drivetrain, START).robotRelative(),
+                new DrivetrainAlign(robot.drivetrain, robot.camera)
                         .withTimeout(DRIVETRAIN_ALIGN_TIME),
-                new ConveyorShootCommand(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
+                new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER));
 
         addCommands(
-                new LEDSetCommand(robot.leds, LEDColor.BLUE),
-                new DrivetrainRamseteCommand(robot.drivetrain, EVACUATE).fieldRelative()
+                new LEDSet(robot.leds, LEDColor.BLUE),
+                new DrivetrainRamsete(robot.drivetrain, EVACUATE).fieldRelative()
         );
 
-        addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+        addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
     }
 }

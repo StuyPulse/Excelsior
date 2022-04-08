@@ -6,9 +6,9 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistanceCommand;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForeverCommand;
-import com.stuypulse.robot.commands.leds.LEDSetCommand;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistance;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForever;
+import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -21,14 +21,14 @@ public class MobilityAuton {
 
         public NoEncoders(RobotContainer robot) {
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.RED),
+                    new LEDSet(robot.leds, LEDColor.RED),
                     new WaitCommand(START_DELAY));
 
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                    new DrivetrainDriveForeverCommand(robot.drivetrain, 0.3).withTimeout(3));
+                    new LEDSet(robot.leds, LEDColor.GREEN),
+                    new DrivetrainDriveForever(robot.drivetrain, 0.3).withTimeout(3));
 
-            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+            addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
         }
     }
 
@@ -39,14 +39,14 @@ public class MobilityAuton {
 
         public WithEncoders(RobotContainer robot) {
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.RED),
+                    new LEDSet(robot.leds, LEDColor.RED),
                     new WaitCommand(START_DELAY));
 
             addCommands(
-                    new LEDSetCommand(robot.leds, LEDColor.GREEN),
-                    new DrivetrainDriveDistanceCommand(robot.drivetrain, DISTANCE_TO_RING));
+                    new LEDSet(robot.leds, LEDColor.GREEN),
+                    new DrivetrainDriveDistance(robot.drivetrain, DISTANCE_TO_RING));
 
-            addCommands(new LEDSetCommand(robot.leds, LEDColor.WHITE.pulse()));
+            addCommands(new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
         }
     }
 }

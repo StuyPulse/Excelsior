@@ -6,7 +6,6 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.*;
-import com.stuypulse.robot.util.Target;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -28,7 +27,6 @@ public class Robot extends TimedRobot {
         robot = new RobotContainer();
 
         DataLogManager.start();
-        Target.forward();
     }
 
     @Override
@@ -71,7 +69,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        new TeleopInitCommand(robot).schedule(false);
+        new TeleopInit(robot).schedule(false);
 
         if (auto != null) {
             auto.cancel();
