@@ -10,9 +10,11 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
+import com.stuypulse.stuylib.streams.booleans.BStream;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -66,6 +68,8 @@ public class Climber extends SubsystemBase {
 
     private final DoubleSolenoid tilter;
 
+    private final BStream limit;
+
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
 
@@ -82,6 +86,11 @@ public class Climber extends SubsystemBase {
                         PneumaticsModuleType.CTREPCM,
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
+
+        DigitalInput left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
+        DigitalInput right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
+
+        limit = BStream.create(() -> !left.get()).or(() -> !right.get());
     }
 
     /*** MOTOR CONTROL ***/
@@ -141,6 +150,10 @@ public class Climber extends SubsystemBase {
     }
 
     /*** STALL PROTECTION ***/
+
+    public boolean getLimitSwitch() {
+        return limit.get();
+    }
 
     private double getDutyCycle() {
         return climber.get();

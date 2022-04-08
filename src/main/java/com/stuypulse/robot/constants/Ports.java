@@ -20,6 +20,10 @@ public interface Ports {
         // Motors
         int MOTOR = 50;
 
+        // Sensors
+        int LEFT_LIMIT = 7;
+        int RIGHT_LIMIT = 8;
+
         // Solenoids
         int TILTER_FORWARD = 6;
         int TILTER_REVERSE = 7;
