@@ -5,11 +5,15 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static com.stuypulse.robot.constants.Settings.Pump.*;
 
 /*-
  * Pumps the robot full of air
@@ -54,7 +58,10 @@ public class Pump extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (enabled.get()) {
+        final double time = DriverStation.getMatchTime();
+        boolean autoCompress = time > LED.MIN_MATCH_TIME && time < START_COMPRESSING;
+
+        if (enabled.get() || autoCompress) {
             compressor.enableDigital();
         } else {
             compressor.disable();
