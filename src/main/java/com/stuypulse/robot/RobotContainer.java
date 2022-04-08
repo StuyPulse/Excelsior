@@ -62,7 +62,7 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         // TODO: ADD DEFAULT SUBSYSTEM COMMANDS
         drivetrain.setDefaultCommand(new DrivetrainDriveCommand(drivetrain, driver));
-        conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
+        //conveyor.setDefaultCommand(new ConveyorIndexCommand(conveyor));
     }
 
     private void configureButtonBindings() {
@@ -70,18 +70,18 @@ public class RobotContainer {
         /*** Climber Control ***/
         /***********************/
 
-        new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
+        // new Button(() -> operator.getRightY() >= 0.75).whileHeld(new ClimberMoveUpCommand(climber));
 
-        new Button(() -> operator.getRightY() <= -0.75)
-                .whenPressed(new IntakeRetractCommand(intake))
-                .whileHeld(new ClimberMoveDownCommand(climber));
+        // new Button(() -> operator.getRightY() <= -0.75)
+        //         .whenPressed(new IntakeRetractCommand(intake))
+        //         .whileHeld(new ClimberMoveDownCommand(climber));
 
         /*************************/
         /*** Conveyor Control ***/
         /*************************/
 
-        operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
-        operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
+        // operator.getTopButton().whileHeld(new ConveyorStopCommand(conveyor));
+        // operator.getLeftButton().whileHeld(new ConveyorForceEjectCommand(conveyor));
 
         /**************************/
         /*** Drivetrain Control ***/
@@ -96,26 +96,26 @@ public class RobotContainer {
         /*** Intake Control ***/
         /**********************/
 
-        operator.getRightTriggerButton()
-                .whenPressed(new IntakeExtendCommand(intake))
-                .whileHeld(new IntakeAcquireCommand(intake));
+        // operator.getRightTriggerButton()
+                // .whenPressed(new IntakeExtendCommand(intake))
+                // .whileHeld(new IntakeAcquireCommand(intake));
 
-        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
+        // operator.getLeftTriggerButton().whileHeld(new IntakeDeacquireCommand(intake));
 
-        operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
+        // operator.getDPadUp().whenPressed(new IntakeRetractCommand(intake));
 
-        new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
+        // new Button(conveyor::shouldRetractIntake).whenPressed(new IntakeRetractCommand(intake));
 
         /***********************/
         /*** Shooter Control ***/
         /***********************/
 
-        operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
-        operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
+        // operator.getDPadLeft().whenPressed(new ShooterFenderShotCommand(shooter));
+        // operator.getDPadRight().whenPressed(new ShooterRingShotCommand(shooter));
 
-        operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
+        // operator.getRightButton().whileHeld(new ConveyorShootCommand(conveyor));
 
-        operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
+        // operator.getLeftBumper().whenPressed(new ShooterStopCommand(shooter));
     }
 
     public void configureAutons() {

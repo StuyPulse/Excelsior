@@ -157,7 +157,7 @@ public interface Constants {
         SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Current Limit for the motors
-        int CURRENT_LIMIT_AMPS = 80;
+        int CURRENT_LIMIT_AMPS = 60;
 
         // If the motors are inverted
         boolean IS_INVERTED = true;

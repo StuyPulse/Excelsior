@@ -172,6 +172,8 @@ public class Drivetrain extends SubsystemBase {
 
         // Save Motor Settings
         burnFlash();
+
+        SmartDashboard.putBoolean("Drivetrain/Tank Drive", false);
     }
 
     /***********************

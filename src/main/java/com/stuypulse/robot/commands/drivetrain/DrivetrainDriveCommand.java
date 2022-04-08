@@ -17,6 +17,7 @@ import com.stuypulse.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDriveCommand extends CommandBase {
@@ -60,7 +61,12 @@ public class DrivetrainDriveCommand extends CommandBase {
         double speed = driver.getRightTrigger() - driver.getLeftTrigger();
         double angle = driver.getLeftX();
 
-        drivetrain.curvatureDrive(speedFilter.get(speed), angleFilter.get(angle));
+        if (SmartDashboard.getBoolean("Drivetrain/Tank Drive", false)) {
+            drivetrain.tankDrive(driver.getLeftY(), driver.getRightY());
+        } else {
+            drivetrain
+            .curvatureDrive(speedFilter.get(speed), angleFilter.get(angle));
+        }
     }
 
     public boolean isFinished() {
