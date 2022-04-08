@@ -30,7 +30,9 @@ public class Camera extends SubsystemBase {
             PortForwarder.add(port, "limelight.local", port);
         }
 
-        CameraServer.startAutomaticCapture("Intake Camera", 0);
+        CameraServer.startAutomaticCapture();
+        // CameraServer.startAutomaticCapture("Intake Camera", 0);
+        // CameraServer.startAutomaticCapture("Intake Camera", 1);
     }
 
     /*** Has Target ***/

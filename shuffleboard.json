@@ -11,9 +11,9 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "4,3": {
+          "8,3": {
             "size": [
-              5,
+              4,
               2
             ],
             "content": {
@@ -22,9 +22,9 @@
               "_title": "SmartDashboard/Autonomous"
             }
           },
-          "4,1": {
+          "8,1": {
             "size": [
-              5,
+              4,
               1
             ],
             "content": {
@@ -33,9 +33,9 @@
               "_title": "SmartDashboard/Debug Mode"
             }
           },
-          "4,2": {
+          "8,2": {
             "size": [
-              5,
+              4,
               1
             ],
             "content": {
@@ -44,15 +44,45 @@
               "_title": "SmartDashboard/Pump/Compressor Enabled"
             }
           },
-          "9,1": {
+          "10,0": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Swap Rainbow",
               "_title": "Rainbow Swap?"
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Color Sensor/Auto",
+              "_title": "SmartDashboard/Color Sensor/Auto"
+            }
+          },
+          "1,0": {
+            "size": [
+              7,
+              5
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://USB Camera 0",
+              "_title": "USB Camera 0",
+              "Crosshair/Show crosshair": false,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": false,
+              "Controls/Rotation": "NONE",
+              "compression": 40.0,
+              "fps": 30,
+              "imageWidth": 160,
+              "imageHeight": 120
             }
           }
         }
@@ -1344,9 +1374,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -6.400000095367432,
-    "y": 1.600000023841858,
-    "width": 1547.199951171875,
-    "height": 828.7999877929688
+    "x": 56.0,
+    "y": 0.0,
+    "width": 1486.4000244140625,
+    "height": 870.4000244140625
   }
 }
