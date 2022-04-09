@@ -367,21 +367,6 @@ public class Drivetrain extends SubsystemBase {
         return isLeftStalling() || isRightStalling();
     }
 
-    public boolean leftGreyhillWorking() {
-        double error = -1.0; // for the future 
-        return !(getLeftVelocity() == 0) && !(getLeftVoltage() == 0) ;
-    }
-
-    public boolean rightGreyhillWorking() {
-        double error = -1.0; // for the future 
-        return !(getRightVelocity() == 0) && !(getRightVoltage() == 0);
-
-    }
-
-    public boolean encodersWorking() {
-        return rightGreyhillWorking() && leftGreyhillWorking();
-    }
-
     /********************
      * DRIVING COMMANDS *
      ********************/
@@ -441,9 +426,6 @@ public class Drivetrain extends SubsystemBase {
     public void periodic() {
         updateOdometry();
         field.setRobotPose(getPose());
-        // if (!encodersWorking()) {
-        //     DriverStation.reportWarning("[WARNING] encoders not updating:", false);
-        // }
 
         // Smart Dashboard Information
         if (Settings.DEBUG_MODE.get()) {
