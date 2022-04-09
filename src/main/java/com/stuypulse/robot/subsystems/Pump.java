@@ -61,6 +61,7 @@ public class Pump extends SubsystemBase {
 
         // set the compress to true at a certain time in the match
         if (AUTO_COMPRESSING.get() &&
+            DriverStation.isTeleopEnabled() &&
             DriverStation.getMatchTime() > 1 &&
             DriverStation.getMatchTime() < START_COMPRESSING) {
                 compress();
