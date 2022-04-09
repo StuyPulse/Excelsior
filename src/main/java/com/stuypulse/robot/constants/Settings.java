@@ -83,7 +83,7 @@ public interface Settings {
 
     public interface ColorSensor {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
-        SmartBoolean AUTO = new SmartBoolean("Color Sensor/Auto", true);
+        SmartBoolean AUTO = new SmartBoolean("Color Sensor/Auto", false);
 
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
