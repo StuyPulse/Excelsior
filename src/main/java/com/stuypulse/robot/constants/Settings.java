@@ -237,6 +237,7 @@ public interface Settings {
 
     public interface Pump {
         double START_COMPRESSING = 60.694;
+        SmartBoolean AUTO_COMPRESSING = new SmartBoolean("Pump/Auto Compress", true);
     }
 
     public interface Shooter {
