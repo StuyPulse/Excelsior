@@ -60,8 +60,8 @@ public class Pump extends SubsystemBase {
     public void periodic() {
 
         // set the compress to true at a certain time in the match
-        if (DriverStation.getMatchTime() > START_COMPRESSING + 0.5 && 
-            DriverStation.getMatchTime() < START_COMPRESSING - 0.5) {
+        if (DriverStation.getMatchTime() > START_COMPRESSING - 10.0 && 
+            DriverStation.getMatchTime() < START_COMPRESSING) {
                 compress();
         }
 
