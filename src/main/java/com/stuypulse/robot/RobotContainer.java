@@ -76,6 +76,7 @@ public class RobotContainer {
                 .whenPressed(new ShooterStop(shooter))
                 .whenPressed(new ShooterRetractHood(shooter))
                 .whileHeld(new ConveyorStop(conveyor))
+                .whileHeld(new IntakeStop(intake))
                 .whileHeld(new ClimberMoveUp(climber));
 
         operator.getRightStickUp()
@@ -83,6 +84,8 @@ public class RobotContainer {
             .whenPressed(new ShooterStop(shooter))
             .whenPressed(new ShooterRetractHood(shooter))
             .whileHeld(new ConveyorStop(conveyor))
+            .whileHeld(new IntakeStop(intake))
+            .whileHeld(new DrivetrainStop(drivetrain))
             .whileHeld(new ClimberMoveDown(climber));
 
         operator.getLeftStickRight().whenPressed(new ClimberMaxTilt(climber));
