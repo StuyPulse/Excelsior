@@ -71,11 +71,19 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         /*** Climber ***/
-        operator.getRightStickDown().whileHeld(new ClimberMoveUp(climber));
-        operator.getRightStickUp()
+        operator.getRightStickDown()
                 .whenPressed(new IntakeRetract(intake))
+                .whenPressed(new ShooterStop(shooter))
                 .whenPressed(new ShooterRetractHood(shooter))
-                .whileHeld(new ClimberMoveDown(climber));
+                .whileHeld(new ConveyorStop(conveyor))
+                .whileHeld(new ClimberMoveUp(climber));
+
+        operator.getRightStickUp()
+            .whenPressed(new IntakeRetract(intake))
+            .whenPressed(new ShooterStop(shooter))
+            .whenPressed(new ShooterRetractHood(shooter))
+            .whileHeld(new ConveyorStop(conveyor))
+            .whileHeld(new ClimberMoveDown(climber));
 
         operator.getLeftStickRight().whenPressed(new ClimberMaxTilt(climber));
         operator.getLeftStickLeft().whenPressed(new ClimberNoTilt(climber));
