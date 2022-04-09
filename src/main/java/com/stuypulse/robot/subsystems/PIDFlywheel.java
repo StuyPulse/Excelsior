@@ -73,11 +73,17 @@ public class PIDFlywheel extends SubsystemBase {
     }
 
     public void periodic() {
-        double ff = feedforward.calculate(this.targetRPM);
-        double fb = feedback.update(this.targetRPM, getVelocity());
-
-        for (CANSparkMax motor : this.motors) {
-            motor.setVoltage(SLMath.clamp(ff + fb, 0, 16));
+        if (this.targetRPM < 200) {
+            for (CANSparkMax motor : this.motors) {
+                motor.stopMotor();
+            }
+        } else {
+            double ff = feedforward.calculate(this.targetRPM);
+            double fb = feedback.update(this.targetRPM, getVelocity());
+    
+            for (CANSparkMax motor : this.motors) {
+                motor.setVoltage(SLMath.clamp(ff + fb, 0, 16));
+            }
         }
     }
 }
