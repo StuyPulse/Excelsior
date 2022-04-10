@@ -100,7 +100,7 @@ public interface Settings {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 5.0 / 8.0);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -246,7 +246,7 @@ public interface Settings {
         double MAX_TARGET_RPM_CHANGE = 2000.0;
 
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3080);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
@@ -256,7 +256,7 @@ public interface Settings {
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
 
-        double MAX_RPM_ERROR = 250;
+        double MAX_RPM_ERROR = 100.00694;
 
         public interface ShooterPID {
             double kP = 0.0045;
@@ -310,13 +310,13 @@ public interface Settings {
 
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.5);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.50694);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(155) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
-
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(159) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double PAD_SHOT_DISTANCE = Units.inchesToMeters(214) - CENTER_TO_HUB - LIMELIGHT_HEIGHT;
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance
