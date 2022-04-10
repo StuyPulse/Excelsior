@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.Compressor;
