@@ -77,7 +77,7 @@
               "_title": "USB Camera 0",
               "Crosshair/Show crosshair": false,
               "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
+              "Controls/Show controls": false,
               "Controls/Rotation": "NONE",
               "compression": -1.0,
               "fps": 30,
@@ -489,6 +489,17 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "7,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Conveyor/Slow Mul",
+              "_title": "/SmartDashboard/Conveyor/Slow Mul"
+            }
           }
         }
       }
@@ -825,7 +836,8 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm"
+              "Y-axis/Unit": "rpm",
+              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
             }
           },
           "2,1": {
@@ -876,7 +888,8 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm"
+              "Y-axis/Unit": "rpm",
+              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
             }
           },
           "2,0": {
