@@ -316,7 +316,7 @@ public interface Settings {
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
         double RING_SHOT_DISTANCE = Units.inchesToMeters(159) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
-        double PAD_SHOT_DISTANCE = Units.inchesToMeters(214) - CENTER_TO_HUB - LIMELIGHT_HEIGHT;
+        double PAD_SHOT_DISTANCE = Units.inchesToMeters(210) - CENTER_TO_HUB - LIMELIGHT_HEIGHT;
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance

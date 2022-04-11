@@ -100,6 +100,10 @@ public class Intake extends SubsystemBase {
         return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.hasAnyBall();
     }
 
+    private boolean getShouldSlow() {
+        return conveyor.getGandalfDirection() != Direction.STOPPED && conveyor.hasAnyBall();
+    }
+
     public boolean getShouldRetract() {
         return Settings.Intake.AUTO_RETRACT.get()
                 && !DriverStation.isAutonomous()
@@ -112,6 +116,8 @@ public class Intake extends SubsystemBase {
         double motorSpeed = speedFilter.get(speed);
         if (0.0 <= motorSpeed && getShouldStop()) {
             motor.stopMotor();
+        } else if (0.0 <= motorSpeed && getShouldSlow()) {
+            motor.set(motorSpeed * 0.75);
         } else {
             motor.set(motorSpeed);
         }
