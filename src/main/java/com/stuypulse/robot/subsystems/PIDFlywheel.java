@@ -7,7 +7,6 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.math.SLMath;
-import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,9 +29,7 @@ import com.revrobotics.RelativeEncoder;
  */
 public class PIDFlywheel extends SubsystemBase {
 
-    private final StopWatch timer;
     private double targetRPM;
-    private double lastTargetRPM;
 
     private final List<CANSparkMax> motors;
     private final List<RelativeEncoder> encoders;
@@ -45,9 +42,7 @@ public class PIDFlywheel extends SubsystemBase {
         this.encoders = new ArrayList<>();
         addFollower(motor);
 
-        timer = new StopWatch();
         this.targetRPM = 0.0;
-        this.lastTargetRPM = 0.0;
 
         this.feedforward = feedforward;
         this.feedback = feedback;
@@ -77,18 +72,18 @@ public class PIDFlywheel extends SubsystemBase {
         return velocity / this.encoders.size();
     }
 
-    private static double clamp(double voltage) {
-        return SLMath.clamp(voltage, 0, 16);
-    }
-
     public void periodic() {
-        double ff = feedforward.calculate(this.lastTargetRPM, this.targetRPM, timer.reset());
-        double fb = feedback.update(this.targetRPM, getVelocity());
-
-        for (CANSparkMax motor : this.motors) {
-            motor.setVoltage(clamp(ff + fb));
+        if (this.targetRPM < 200) {
+            for (CANSparkMax motor : this.motors) {
+                motor.stopMotor();
+            }
+        } else {
+            double ff = feedforward.calculate(this.targetRPM);
+            double fb = feedback.update(this.targetRPM, getVelocity());
+    
+            for (CANSparkMax motor : this.motors) {
+                motor.setVoltage(SLMath.clamp(ff + fb, 0, 16));
+            }
         }
-
-        this.lastTargetRPM = this.targetRPM;
     }
 }

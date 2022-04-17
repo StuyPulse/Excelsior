@@ -83,6 +83,7 @@ public interface Settings {
 
     public interface ColorSensor {
         SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
+        SmartBoolean AUTO = new SmartBoolean("Color Sensor/Auto", false);
 
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
 
@@ -99,7 +100,7 @@ public interface Settings {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
 
-        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 0.5);
+        SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 5.0 / 8.0);
 
         SmartNumber TOP_BELT_SPEED = new SmartNumber("Conveyor/Top Belt Speed", 0.8);
         SmartNumber ACCEPT_SPEED = new SmartNumber("Conveyor/Accept Speed", 1.0);
@@ -108,7 +109,7 @@ public interface Settings {
 
     public interface Drivetrain {
         // If speed is below this, use quick turn
-        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.3);
+        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.5);
 
         // Low Pass Filter and deadband for Driver Controls
         SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.00);
@@ -117,8 +118,8 @@ public interface Settings {
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
         SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 2.0);
 
-        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.2);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.02);
+        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.25);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.03);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
@@ -213,6 +214,8 @@ public interface Settings {
     public interface Intake {
         SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
 
+        SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.08);
+
         SmartBoolean AUTO_RETRACT = new SmartBoolean("Intake/Auto Retract", true);
     }
 
@@ -228,16 +231,22 @@ public interface Settings {
         double RPM_ERROR_STEP = 50;
 
         double MIN_MATCH_TIME = 1; // non-game modes return 0 for remaning match time
-        double CLIMB_TIME = 45;
-        double END_GAME_TIME = 20;
+        double CLIMB_TIME = 25;
+        double END_GAME_TIME = 17.694;
+    }
+
+    public interface Pump {
+        double START_COMPRESSING = 60.694;
+        SmartBoolean AUTO_COMPRESSING = new SmartBoolean("Pump/Auto Compress", true);
     }
 
     public interface Shooter {
 
         double MIN_RPM = 100.0;
-        double MAX_TARGET_RPM_CHANGE = 1200.0;
+        double MAX_TARGET_RPM_CHANGE = 2000.0;
 
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3080);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
@@ -246,6 +255,8 @@ public interface Settings {
 
         double MIN_PID_OUTPUT = 0.0;
         double MAX_PID_OUTPUT = 1.0;
+
+        double MAX_RPM_ERROR = 100.00694;
 
         public interface ShooterPID {
             double kP = 0.0045;
@@ -295,15 +306,17 @@ public interface Settings {
     }
 
     public interface Limelight {
+        int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
+
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.5);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.50694);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(140) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
-
+        double RING_SHOT_DISTANCE = Units.inchesToMeters(159) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
+        double PAD_SHOT_DISTANCE = Units.inchesToMeters(210) - CENTER_TO_HUB - LIMELIGHT_HEIGHT;
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance
@@ -311,7 +324,7 @@ public interface Settings {
         double MAX_VALID_DISTANCE = Field.LENGTH / 2.0;
 
         // How long it takes to stop aligning
-        double DEBOUNCE_TIME = 0.25;
+        double DEBOUNCE_TIME = 0.2;
 
         // What angle error should make us start distance alignment
         SmartNumber MAX_ANGLE_FOR_MOVEMENT =
@@ -320,13 +333,14 @@ public interface Settings {
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
         SmartNumber MAX_DISTANCE_ERROR =
                 new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
-        SmartNumber MAX_VELOCITY =
-                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(1));
+        SmartNumber
+                MAX_VELOCITY = // THERE WAS AN ERROR WHERE THIS WOULD'NT CHECK WHEN MOVING BACKWARDS
+                new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(3));
     }
 
     public interface Alignment {
 
-        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.2);
+        SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Drivetrain/Alignment/Speed Adj RC", 0.1);
         SmartNumber FUSION_FILTER = new SmartNumber("Drivetrain/Alignment/Fusion RC", 0.3);
 
         public interface Speed {
@@ -339,7 +353,7 @@ public interface Settings {
             SmartNumber ERROR_FILTER =
                     new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
             SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.16);
+                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.1);
 
             static Controller getController() {
                 return new SmartPIDController("Drivetrain/Alignment/Speed")

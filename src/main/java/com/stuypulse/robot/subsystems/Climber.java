@@ -10,9 +10,11 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
+import com.stuypulse.stuylib.streams.booleans.BStream;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -60,18 +62,20 @@ public class Climber extends SubsystemBase {
     }
 
     private final CANSparkMax climber;
-    private final RelativeEncoder encoder;
+    // private final RelativeEncoder encoder;
 
     private final Debouncer stalling;
 
     private final DoubleSolenoid tilter;
 
+    // private final BStream limit;
+
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
 
-        encoder = climber.getEncoder();
-        encoder.setPositionConversionFactor(Encoders.ENCODER_RATIO);
-        encoder.setVelocityConversionFactor(Encoders.ENCODER_RATIO / 60.0);
+        // encoder = climber.getEncoder();
+        // encoder.setPositionConversionFactor(Encoders.ENCODER_RATIO);
+        // encoder.setVelocityConversionFactor(Encoders.ENCODER_RATIO / 60.0);
 
         Motors.CLIMBER.configure(climber);
 
@@ -82,6 +86,11 @@ public class Climber extends SubsystemBase {
                         PneumaticsModuleType.CTREPCM,
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
+
+        // DigitalInput left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
+        // DigitalInput right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
+
+        // limit = BStream.create(() -> !left.get()).or(() -> !right.get());
     }
 
     /*** MOTOR CONTROL ***/
@@ -121,26 +130,30 @@ public class Climber extends SubsystemBase {
     /*** ENCODER ***/
 
     public double getVelocity() {
-        return encoder.getVelocity();
+        return 0.0; // encoder.getVelocity();
     }
 
     public double getPosition() {
-        return encoder.getPosition();
+        return 0.0; // encoder.getPosition();
     }
 
     public void resetEncoder() {
-        encoder.setPosition(0);
+        // encoder.setPosition(0);
     }
 
     public boolean getTopHeightLimitReached() {
-        return Encoders.ENABLED.get() && getPosition() >= Encoders.MAX_EXTENSION.get();
+        return false; // Encoders.ENABLED.get() && getPosition() >= Encoders.MAX_EXTENSION.get();
     }
 
     public boolean getBottomHeightLimitReached() {
-        return Encoders.ENABLED.get() && getPosition() <= 0;
+        return false; // Encoders.ENABLED.get() && getPosition() <= 0;
     }
 
     /*** STALL PROTECTION ***/
+
+    public boolean getLimitSwitch() {
+        return false; // limit.get();
+    }
 
     private double getDutyCycle() {
         return climber.get();
@@ -172,7 +185,7 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Climber/Stalling", isStalling());
             SmartDashboard.putNumber("Debug/Climber/Current Amps", getCurrentAmps());
             SmartDashboard.putNumber("Debug/Climber/Velocity", getVelocity());
-            SmartDashboard.putNumber("Debug/Climber/Position", encoder.getPosition());
+            //SmartDashboard.putNumber("Debug/Climber/Position", encoder.getPosition());
 
             SmartDashboard.putBoolean(
                     "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));

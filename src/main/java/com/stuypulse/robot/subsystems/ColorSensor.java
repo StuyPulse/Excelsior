@@ -5,12 +5,13 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
+
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.ColorSensor.BallRGB;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,8 +56,11 @@ public class ColorSensor extends SubsystemBase {
 
         public void update() {
             this.connected = Settings.ColorSensor.ENABLED.get();
-            if (this.connected) this.connected &= !DriverStation.isAutonomous();
-            if (this.connected) this.connected &= colorSensor.isConnected();
+            
+            if (this.connected)
+                this.connected &= Settings.ColorSensor.AUTO.get() || !DriverStation.isAutonomous();
+            if (this.connected) 
+                this.connected &= colorSensor.isConnected();
 
             if (this.connected) this.color = colorSensor.getColor();
             else this.color = Color.kBlack;
@@ -72,15 +76,24 @@ public class ColorSensor extends SubsystemBase {
     private final Sensor sensor;
     private final DigitalInput ballIR;
 
-    private final Debouncer alliance;
-    private final Debouncer opponent;
+    private final BStream alliance;
+    private final BStream opponent;
 
     public ColorSensor() {
         sensor = new Sensor();
         ballIR = new DigitalInput(Ports.ColorSensor.BALL_IR_SENSOR);
 
-        alliance = new Debouncer(Settings.ColorSensor.DEBOUNCE_TIME, DebounceType.kRising);
-        opponent = new Debouncer(Settings.ColorSensor.DEBOUNCE_TIME, DebounceType.kRising);
+        alliance =
+                BStream.create(() -> hasBall())
+                        .and(() -> getCurrentBall() == getTargetBall())
+                        .filtered(new BDebounce.Rising(Settings.ColorSensor.DEBOUNCE_TIME))
+                        .polling(0.01);
+
+        opponent =
+                BStream.create(() -> hasBall())
+                        .and(() -> getCurrentBall() != getTargetBall())
+                        .filtered(new BDebounce.Rising(Settings.ColorSensor.DEBOUNCE_TIME))
+                        .polling(0.01);
 
         getTargetBallUpdate();
     }
@@ -151,7 +164,7 @@ public class ColorSensor extends SubsystemBase {
             return hasBall();
         }
 
-        return alliance.calculate(hasBall() && getCurrentBall() == getTargetBall());
+        return alliance.get();
     }
 
     public boolean hasOpponentBall() {
@@ -159,7 +172,7 @@ public class ColorSensor extends SubsystemBase {
             return false;
         }
 
-        return opponent.calculate(hasBall() && getCurrentBall() != getTargetBall());
+        return opponent.get();
     }
 
     public boolean hasBall(BallColor target) {
