@@ -308,9 +308,14 @@ public interface Settings {
     public interface Limelight {
         int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
 
+        // characteristics of the limelight itself
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.50694);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0.0);
+
+        // additional offsets 
+        SmartNumber RING_YAW = new SmartNumber("Limelight/Ring Yaw", 6.50694);
+        SmartNumber PAD_YAW = new SmartNumber("Limelight/Pad Yaw", 4.69420);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
