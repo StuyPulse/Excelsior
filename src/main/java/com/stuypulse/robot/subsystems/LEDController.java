@@ -69,15 +69,16 @@ public class LEDController extends SubsystemBase {
     }
 
     public LEDColor getDefaultColor() {
-        /**
-         * - In fender shot mode led white - Ring shot red
-         *
-         * <p>All other behavior overides it - When shooter is getting to speed not yet the rpm
-         * flashing the color its suppose to be - When robot aligning solid yellow - When alignment
-         * finished green .75 second - Pick up a ball and sensed in the color sensor flash color of
-         * ball .75 second blue/orange - Two correct ball green
-         */
         if (DriverStation.isTest() && robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
+
+        // limit switches
+        boolean left = robot.climber.getLeftClear();
+        boolean right = robot.climber.getRightClear();
+        if (left && right) {
+            return LEDColor.PURPLE;
+        } else if (left || right) {
+            return LEDColor.PURPLE.pulse();
+        }
 
         // time based LEDs
         double time = DriverStation.getMatchTime(); // time remaining in a game
