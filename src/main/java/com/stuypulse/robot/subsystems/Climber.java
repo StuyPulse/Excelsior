@@ -166,7 +166,7 @@ public class Climber extends SubsystemBase {
     public boolean isStalling() {
         boolean current = getCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(getDutyCycle()) > Stalling.DUTY_CYCLE_THRESHOLD;
-        boolean velocity = Math.abs(getVelocity()) < Stalling.VELOCITY_THESHOLD;
+        boolean velocity = Math.abs(getVelocity()) < Stalling.SCIBORGS_THRESHOLD;
         return Stalling.ENABLED.get() && stalling.calculate(output && current && velocity);
     }
 
