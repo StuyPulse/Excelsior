@@ -74,7 +74,7 @@ public interface Settings {
 
             // This is about half the speed of low gear
             // High Gear should be able to reach this speed
-            double VELOCITY_THESHOLD = Units.inchesToMeters(1);
+            double SCIBORGS_THRESHOLD = Units.inchesToMeters(1);
 
             // Debounce Time
             double DEBOUNCE_TIME = 1.0;
@@ -170,7 +170,7 @@ public interface Settings {
 
             // This is about half the speed of low gear
             // High Gear should be able to reach this speed
-            double VELOCITY_THESHOLD = Units.feetToMeters(1.2);
+            double SCIBORGS_THRESHOLD = Units.feetToMeters(1.2);
 
             // Debounce Time
             double DEBOUNCE_TIME = 1.0;
