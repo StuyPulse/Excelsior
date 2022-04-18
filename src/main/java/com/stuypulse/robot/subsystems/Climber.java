@@ -68,7 +68,9 @@ public class Climber extends SubsystemBase {
 
     private final DoubleSolenoid tilter;
 
-    // private final BStream limit;
+    private final DigitalInput left;
+    private final DigitalInput right;
+
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
@@ -87,10 +89,8 @@ public class Climber extends SubsystemBase {
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
 
-        // DigitalInput left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
-        // DigitalInput right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
-
-        // limit = BStream.create(() -> !left.get()).or(() -> !right.get());
+        left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
+        right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
     }
 
     /*** MOTOR CONTROL ***/
@@ -149,11 +149,17 @@ public class Climber extends SubsystemBase {
         return false; // Encoders.ENABLED.get() && getPosition() <= 0;
     }
 
-    /*** STALL PROTECTION ***/
+    /*** HOOK CLEARANCE ***/
 
-    public boolean getLimitSwitch() {
-        return false; // limit.get();
+    public boolean getLeftClear() {
+        return !left.get();
     }
+
+    public boolean getRightClear() {
+        return !right.get();
+    }
+
+    /*** STALL PROTECTION ***/
 
     private double getDutyCycle() {
         return climber.get();
