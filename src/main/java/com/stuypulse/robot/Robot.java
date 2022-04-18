@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         auto = robot.getAutonomousCommand();
         robot.colorSensor.getTargetBallUpdate();
+        robot.pump.compress();
 
         if (auto != null) {
             auto.schedule();
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         new TeleopInit(robot).schedule(false);
+        robot.pump.compress();
 
         if (auto != null) {
             auto.cancel();
