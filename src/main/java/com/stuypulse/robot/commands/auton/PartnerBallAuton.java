@@ -8,11 +8,11 @@ package com.stuypulse.robot.commands.auton;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.ConveyorForceEject;
 import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
+import com.stuypulse.robot.commands.conveyor.ConveyorShootTop;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainAlign;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
 import com.stuypulse.robot.commands.intake.IntakeDeacquire;
-import com.stuypulse.robot.commands.intake.IntakeDeacquireForever;
 import com.stuypulse.robot.commands.intake.IntakeExtend;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterFenderShot;
@@ -63,7 +63,7 @@ public class PartnerBallAuton extends SequentialCommandGroup {
         addCommands(
             new LEDSet(robot.leds, LEDColor.GREEN),
             new WaitCommand(ACQUIRE_PARTNER_BALL_TIME).withInterrupt(robot.conveyor::isFull),
-            new ConveyorShoot(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
+            new ConveyorShootTop(robot.conveyor).withTimeout(CONVEYOR_TO_SHOOTER),
             new WaitCommand(PARTNER_MOVE_BACK_TIME));
 
         addCommands(
