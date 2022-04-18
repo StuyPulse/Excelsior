@@ -106,15 +106,15 @@ public class RobotContainer {
                 .whileHeld(new ShooterRingShot(shooter))
                 .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
-        driver.getLeftBumper()
-                .whileHeld(new ShooterPadShot(shooter))
-                .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
+        // driver.getLeftBumper()
+        //         .whileHeld(new ShooterPadShot(shooter))
+        //         .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
 
         driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
 
         driver.getRightBumper()
             .whileHeld(new ShooterPadShot(shooter))
-            .whileHeld(new OldPadAlign(drivetrain, camera).thenShoot(conveyor));
+            .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
