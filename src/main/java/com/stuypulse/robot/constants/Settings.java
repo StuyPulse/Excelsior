@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.IStream;
 import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
@@ -320,8 +321,10 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(159) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
-        double PAD_SHOT_DISTANCE = Units.inchesToMeters(210) - CENTER_TO_HUB - LIMELIGHT_HEIGHT;
+        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 159)
+                                    .filtered(Units::inchesToMeters);
+        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 210)
+                                    .filtered(Units::inchesToMeters);
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance

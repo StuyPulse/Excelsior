@@ -53,7 +53,7 @@ public class DrivetrainPadAlignV2 extends CommandBase {
         distanceError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> Settings.Limelight.PAD_SHOT_DISTANCE - camera.getDistance(),
+                        () -> Settings.Limelight.PAD_DISTANCE.get() - camera.getDistance(),
                         () -> drivetrain.getDistance());
 
         // handle errors

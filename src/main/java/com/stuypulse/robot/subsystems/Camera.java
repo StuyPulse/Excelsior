@@ -70,13 +70,16 @@ public class Camera extends SubsystemBase {
 
     /*** Distance ***/
 
+    /** returns distance from intake to center of hub */
     public double getDistance() {
         if (!hasAnyTarget()) {
             Settings.reportWarning("Unable To Find Target! [getDistance() was called]");
-            return Settings.Limelight.RING_SHOT_DISTANCE;
+            return Settings.Limelight.RING_DISTANCE.get();
         }
 
-        return Settings.Limelight.HEIGHT_DIFFERENCE / getYAngle().tan();
+        return Settings.Limelight.CENTER_TO_HUB +
+            Settings.Limelight.LIMELIGHT_TO_INTAKE +
+            Settings.Limelight.HEIGHT_DIFFERENCE / getYAngle().tan();
     }
 
     /*** Periodic ***/

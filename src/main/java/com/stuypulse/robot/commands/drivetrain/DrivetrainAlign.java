@@ -53,7 +53,7 @@ public class DrivetrainAlign extends CommandBase {
         distanceError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> Settings.Limelight.RING_SHOT_DISTANCE - camera.getDistance(),
+                        () -> Settings.Limelight.RING_DISTANCE.get() - camera.getDistance(),
                         () -> drivetrain.getDistance());
 
         // handle errors
