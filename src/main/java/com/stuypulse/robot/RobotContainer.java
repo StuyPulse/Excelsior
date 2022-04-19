@@ -132,7 +132,7 @@ public class RobotContainer {
 
         operator.getDPadUp().whenPressed(new IntakeRetract(intake));
 
-        new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
+        // new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
 
         /*** Shooter ***/
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
