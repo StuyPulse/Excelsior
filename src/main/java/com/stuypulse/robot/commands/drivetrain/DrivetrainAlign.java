@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
@@ -44,7 +45,9 @@ public class DrivetrainAlign extends CommandBase {
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> camera.getXAngle().toDegrees(),
+                        () -> camera.getXAngle()
+                                .add(Angle.fromDegrees(Limelight.RING_YAW.get()))
+                                .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
         distanceError =
