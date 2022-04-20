@@ -74,10 +74,8 @@ public class LEDController extends SubsystemBase {
         // limit switches
         boolean left = robot.climber.getLeftClear();
         boolean right = robot.climber.getRightClear();
-        if (left && right) {
-            return LEDColor.PURPLE;
-        } else if (left || right) {
-            return LEDColor.PURPLE.pulse();
+        if (left || right) {
+            return LEDColor.RED;
         }
 
         // time based LEDs
