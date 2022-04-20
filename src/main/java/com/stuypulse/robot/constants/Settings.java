@@ -242,7 +242,7 @@ public interface Settings {
         double MAX_TARGET_RPM_CHANGE = 2000.0;
 
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3600);
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
@@ -255,9 +255,9 @@ public interface Settings {
         double MAX_RPM_ERROR = 100.00694;
 
         public interface ShooterPID {
-            double kP = 0.0045;
-            double kI = 0.002;
-            double kD = 0.0003;
+            double kP = 0.005;
+            double kI = 0.0;
+            double kD = 0.00033;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Shooter")
@@ -278,9 +278,9 @@ public interface Settings {
         }
 
         public interface FeederPID {
-            double kP = 0.00375;
-            double kI = 0.0015;
-            double kD = 0.00025;
+            double kP = 0.004;
+            double kI = 0.0;
+            double kD = 0.000275;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Feeder")
@@ -291,9 +291,9 @@ public interface Settings {
         }
 
         public interface FeederFF {
-            double kS = 0.18892;
-            double kV = 0.0021256;
-            double kA = 8.9074E-05;
+            double kS = 0.16971;
+            double kV = 0.0021435;
+            double kA = 0.00012423;
 
             static SimpleMotorFeedforward getController() {
                 return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
