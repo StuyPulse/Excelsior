@@ -100,6 +100,7 @@ public interface Settings {
     public interface Conveyor {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
+        double SEMI_AUTO_TIME = 0.400694;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 5.0 / 8.0);
 

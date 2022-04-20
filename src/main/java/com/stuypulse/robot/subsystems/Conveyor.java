@@ -6,7 +6,8 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.streams.booleans.BStream;
-import com.stuypulse.stuylib.streams.booleans.filters.BButtonRC;
+import com.stuypulse.stuylib.streams.booleans.filters.BButton;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
@@ -94,7 +95,7 @@ public class Conveyor extends SubsystemBase {
                         
         this.newBall =
             BStream.create(this::hasTopBeltBall)
-                    .filtered(new BButtonRC.Pressed(Settings.Conveyor.DEBOUNCE_TIME))
+                    .filtered(new BButton.Pressed(), new BDebounce.Falling(Settings.Conveyor.SEMI_AUTO_TIME))
                     .polling(0.01);
 
         setTopBelt(Direction.STOPPED);
