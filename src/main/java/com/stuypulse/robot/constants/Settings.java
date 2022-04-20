@@ -236,11 +236,6 @@ public interface Settings {
         double END_GAME_TIME = 17.694;
     }
 
-    public interface Pump {
-        double START_COMPRESSING = 60.694;
-        SmartBoolean AUTO_COMPRESSING = new SmartBoolean("Pump/Auto Compress", true);
-    }
-
     public interface Shooter {
 
         double MIN_RPM = 100.0;
