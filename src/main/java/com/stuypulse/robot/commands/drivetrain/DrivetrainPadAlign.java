@@ -12,6 +12,7 @@ import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.commands.ThenShoot;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Camera;
@@ -76,6 +77,6 @@ public class DrivetrainPadAlign extends CommandBase {
     }
 
     public Command thenShoot(Conveyor conveyor) {
-        return new ThenShoot(this, conveyor);
+        return new ThenShoot(this, conveyor, ConveyorMode.SEMI_AUTO);
     }
 }

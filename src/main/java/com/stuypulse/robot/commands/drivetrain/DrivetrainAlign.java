@@ -14,6 +14,7 @@ import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.commands.ThenShoot;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
@@ -110,6 +111,6 @@ public class DrivetrainAlign extends CommandBase {
     }
 
     public Command thenShoot(Conveyor conveyor) {
-        return new ThenShoot(this, conveyor);
+        return new ThenShoot(this, conveyor, ConveyorMode.SHOOT);
     }
 }

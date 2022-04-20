@@ -6,6 +6,7 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BButtonRC;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
@@ -67,6 +68,7 @@ public class Conveyor extends SubsystemBase {
     private final DigitalInput topIRSensor;
 
     private final BStream empty;
+    private final BStream newBall;
 
     private Direction topBeltDirection;
     private Direction gandalfDirection;
@@ -88,6 +90,12 @@ public class Conveyor extends SubsystemBase {
                         .not()
                         .filtered(new BDebounceRC.Rising(Settings.Conveyor.DEBOUNCE_TIME))
                         .polling(0.01);
+        
+                        
+        this.newBall =
+            BStream.create(this::hasTopBeltBall)
+                    .filtered(new BButtonRC.Pressed(Settings.Conveyor.DEBOUNCE_TIME))
+                    .polling(0.01);
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
@@ -166,6 +174,10 @@ public class Conveyor extends SubsystemBase {
 
     public boolean hasOpponentBall() {
         return colorSensor.hasOpponentBall();
+    }
+
+    public boolean hasNewBall() {
+        return newBall.get();
     }
 
     /*** AUTOMATIC RETRACTION ***/
