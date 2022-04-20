@@ -1103,6 +1103,28 @@
               "_source0": "network_table:///SmartDashboard/Drivetrain/Alignment/Fusion RC",
               "_title": "SmartDashboard/Drivetrain/Alignment/Fusion RC"
             }
+          },
+          "5,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Limelight/Ring Yaw",
+              "_title": "/SmartDashboard/Limelight/Ring Yaw"
+            }
+          },
+          "6,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Limelight/Pad Yaw",
+              "_title": "/SmartDashboard/Limelight/Pad Yaw"
+            }
           }
         }
       }

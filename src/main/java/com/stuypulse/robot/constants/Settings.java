@@ -242,9 +242,9 @@ public interface Settings {
         double MIN_RPM = 100.0;
         double MAX_TARGET_RPM_CHANGE = 2000.0;
 
-        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3600);
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3650);
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;

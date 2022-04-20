@@ -100,7 +100,7 @@ public class RobotContainer {
         /*** Drivetrain ***/
         driver.getLeftButton()
                 .whileHeld(new ShooterFenderShot(shooter))
-                .whileHeld(new ConveyorShootSlow(conveyor).perpetually());
+                .whileHeld(new ConveyorShootSemi(conveyor).perpetually()); 
 
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
