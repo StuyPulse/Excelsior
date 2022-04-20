@@ -241,7 +241,7 @@ public interface Settings {
         double MIN_RPM = 100.0;
         double MAX_TARGET_RPM_CHANGE = 2000.0;
 
-        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3600);
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3000);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
@@ -311,14 +311,14 @@ public interface Settings {
 
         // additional offsets 
         SmartNumber RING_YAW = new SmartNumber("Limelight/Ring Yaw", 6.50694);
-        SmartNumber PAD_YAW = new SmartNumber("Limelight/Pad Yaw", 4.69420);
+        SmartNumber PAD_YAW = new SmartNumber("Limelight/Pad Yaw", 5.0);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 145)
+        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 150)
                                     .filtered(Units::inchesToMeters);
-        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 210)
+        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 217)
                                     .filtered(Units::inchesToMeters);
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
