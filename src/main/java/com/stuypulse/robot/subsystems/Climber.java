@@ -106,12 +106,12 @@ public class Climber extends SubsystemBase {
                     "[CRITICAL] Climber is stalling when attempting to move!", false);
             stalling.calculate(true);
             setMotorStop();
-        } else if (speed > 0.0 && getTopHeightLimitReached()) {
-            Settings.reportWarning("Climber attempted to run past top height limit!");
+        } else if (speed < 0.0 && getHookClear()) {
+            Settings.reportWarning("Climber attempted to run past bottom limit!");
             setMotorStop();
-        } else if (speed < 0.0 && getBottomHeightLimitReached()) {
-            Settings.reportWarning("Climber attempted to run past bottom height limit!");
-            setMotorStop();
+        } else if (speed < 0.0 && (getLeftClear() || getRightClear())) {
+            Settings.reportWarning("Climber running with only one hook cleared, running half speed");
+            climber.set(speed / 2.0);
         } else {
             climber.set(speed);
         }
@@ -157,6 +157,10 @@ public class Climber extends SubsystemBase {
 
     public boolean getRightClear() {
         return !right.get();
+    }
+
+    public boolean getHookClear() {
+        return getRightClear() && getLeftClear();
     }
 
     /*** STALL PROTECTION ***/
