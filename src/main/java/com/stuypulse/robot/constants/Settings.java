@@ -118,10 +118,10 @@ public interface Settings {
         SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.00);
 
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
-        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 2.0);
+        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
 
         SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.25);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.03);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.04);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
