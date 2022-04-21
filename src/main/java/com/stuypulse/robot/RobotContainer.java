@@ -151,25 +151,27 @@ public class RobotContainer {
     public void configureAutons() {
         // autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
-        autonChooser.addOption("0 Ball [TIMED]", new MobilityAuton.NoEncoders(this));
+        autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
         // autonChooser.addOption("0 Ball [ENCODER]", new MobilityAuton.WithEncoders(this));
         // autonChooser.addOption("1 Ball", new OneBallAuton(this));
         autonChooser.addOption("2 Ball", new TwoBallAuton(this));
-        autonChooser.addOption("2 Ball Mean", new TwoBallMeanAuton(this));
+        // autonChooser.addOption("2 Ball Mean", new TwoBallMeanAuton(this));
         autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
 
-        autonChooser.addOption("4 Ball", new FourBallAuton(this));
-        autonChooser.setDefaultOption("5 Ball", new FiveBallAuton(this));
+        // autonChooser.addOption("4 Ball", new FourBallAuton(this));
+        autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
         autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
+        autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
     public Command getAutonomousCommand() {
         // return autonChooser.getSelected();
-        return new FiveBallAuton(this);
-        // return new TwoBallMeanAuton(this);
+        // return new FiveBallAuton(this);
+        // return new TwoBallMeanerAuton(this);
         // return new PartnerBallAuton(this);
-        // return autonChooser.getSelected();
+        return autonChooser.getSelected();
     }
 }

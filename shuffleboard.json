@@ -19,7 +19,7 @@
             "content": {
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Autonomous",
-              "_title": "SmartDashboard/Autonomous"
+              "_title": "AUTON"
             }
           },
           "8,1": {
@@ -30,7 +30,7 @@
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Debug Mode",
-              "_title": "SmartDashboard/Debug Mode"
+              "_title": "Debug Mode"
             }
           },
           "8,2": {
@@ -41,7 +41,7 @@
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Pump/Compressor Enabled",
-              "_title": "SmartDashboard/Pump/Compressor Enabled"
+              "_title": "Compressing"
             }
           },
           "10,0": {
@@ -52,7 +52,7 @@
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Swap Rainbow",
-              "_title": "Rainbow Swap?"
+              "_title": "Swap LED Meaning"
             }
           },
           "8,0": {
@@ -63,7 +63,7 @@
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Color Sensor/Auto",
-              "_title": "SmartDashboard/Color Sensor/Auto"
+              "_title": "Color Sensor Auto"
             }
           },
           "1,0": {
@@ -74,9 +74,9 @@
             "content": {
               "_type": "Camera Stream",
               "_source0": "camera_server://USB Camera 0",
-              "_title": "USB Camera 0",
-              "Crosshair/Show crosshair": false,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "_title": "Intake",
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#00FF00FF",
               "Controls/Show controls": false,
               "Controls/Rotation": "NONE",
               "compression": -1.0,
@@ -93,7 +93,7 @@
             "content": {
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Pump/Auto Compress",
-              "_title": "SmartDashboard/Pump/Auto Compress"
+              "_title": "Automatic Compression"
             }
           }
         }
@@ -1124,6 +1124,28 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Limelight/Pad Yaw",
               "_title": "/SmartDashboard/Limelight/Pad Yaw"
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Limelight/Ring Distance",
+              "_title": "SmartDashboard/Limelight/Ring Distance"
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Limelight/Pad Distance",
+              "_title": "SmartDashboard/Limelight/Pad Distance"
             }
           }
         }
