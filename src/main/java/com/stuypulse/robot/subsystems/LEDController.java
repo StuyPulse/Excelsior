@@ -74,7 +74,9 @@ public class LEDController extends SubsystemBase {
         // limit switches
         boolean left = robot.climber.getLeftClear();
         boolean right = robot.climber.getRightClear();
-        if (left || right) {
+        if (left && right) {
+            return LEDColor.PURPLE;
+        } else if (left || right) {
             return LEDColor.RED;
         }
 
