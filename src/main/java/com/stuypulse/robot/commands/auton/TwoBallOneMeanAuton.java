@@ -60,8 +60,8 @@ public class TwoBallOneMeanAuton extends SequentialCommandGroup {
 
         // move for the start of teleop
         addCommands(
-            new LEDSet(robot.leds, LEDColor.WHITE),
-            new DrivetrainRamsete(robot.drivetrain, SETUP_TELEOP_PATH).fieldRelative()
+            new LEDSet(robot.leds, LEDColor.WHITE)
+            // new DrivetrainRamsete(robot.drivetrain, SETUP_TELEOP_PATH).fieldRelative()
          );
     }
 

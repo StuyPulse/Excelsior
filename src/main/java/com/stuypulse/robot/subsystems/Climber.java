@@ -109,9 +109,6 @@ public class Climber extends SubsystemBase {
         } else if (speed < 0.0 && getHookClear()) {
             Settings.reportWarning("Climber attempted to run past bottom limit!");
             setMotorStop();
-        } else if (speed < 0.0 && (getLeftClear() || getRightClear())) {
-            Settings.reportWarning("Climber running with only one hook cleared, running half speed");
-            climber.set(speed / 2.0);
         } else {
             climber.set(speed);
         }
