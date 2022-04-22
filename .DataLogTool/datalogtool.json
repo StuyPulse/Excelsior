@@ -1,0 +1,11 @@
+{
+  "download": {
+    "deleteAfter": false,
+    "localDir": "C:\\Users\\StuyPulse\\Desktop\\Dorcas\\LOGS",
+    "serverTeam": "694",
+    "username": "admin"
+  },
+  "output": {
+    "outputFolder": "C:\\Users\\StuyPulse\\Desktop\\tables"
+  }
+}
