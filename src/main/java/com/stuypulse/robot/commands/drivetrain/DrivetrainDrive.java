@@ -53,7 +53,10 @@ public class DrivetrainDrive extends CommandBase {
     }
 
     public void execute() {
-        if (driver.getRawRightButton() || stalling.get()) {
+        if (driver.getRawLeftButton()) {
+            drivetrain.setLowGear();
+            drivetrain.arcadeDrive(speed.get() - 0.1, angle.get());
+        } else if (driver.getRawRightButton() || stalling.get()) {
             drivetrain.setLowGear();
             drivetrain.arcadeDrive(speed.get(), angle.get());
         } else {

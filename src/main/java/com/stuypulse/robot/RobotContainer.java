@@ -100,7 +100,7 @@ public class RobotContainer {
         /*** Drivetrain ***/
         driver.getLeftButton()
                 .whileHeld(new ShooterFenderShot(shooter))
-                .whileHeld(new ConveyorShootSlow(conveyor).perpetually());
+                .whileHeld(new ConveyorShootSemi(conveyor).perpetually()); 
 
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
@@ -114,23 +114,25 @@ public class RobotContainer {
 
         driver.getRightBumper()
             .whileHeld(new ShooterPadShot(shooter))
-            .whileHeld(new OldPadAlign(drivetrain, camera).thenShoot(conveyor));
+            .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
                 .whenPressed(new IntakeExtend(intake))
-                .whileHeld(new IntakeAcquire(intake));
+                .whileHeld(new IntakeAcquire(intake))
+                .whenReleased(new IntakeRetract(intake));
 
         operator.getRightBumper()
                 .whenPressed(new IntakeExtend(intake))
                 .whileHeld(new IntakeAcquire(intake))
-                .whileHeld(new ConveyorForceIntake(conveyor));
+                .whileHeld(new ConveyorForceIntake(conveyor))
+                .whenReleased(new IntakeRetract(intake));
 
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquire(intake));
 
         operator.getDPadUp().whenPressed(new IntakeRetract(intake));
 
-        new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
+        // new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
 
         /*** Shooter ***/
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
@@ -149,25 +151,27 @@ public class RobotContainer {
     public void configureAutons() {
         // autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
-        autonChooser.addOption("0 Ball [TIMED]", new MobilityAuton.NoEncoders(this));
+        autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
         // autonChooser.addOption("0 Ball [ENCODER]", new MobilityAuton.WithEncoders(this));
         // autonChooser.addOption("1 Ball", new OneBallAuton(this));
         autonChooser.addOption("2 Ball", new TwoBallAuton(this));
-        autonChooser.addOption("2 Ball Mean", new TwoBallMeanAuton(this));
+        // autonChooser.addOption("2 Ball Mean", new TwoBallMeanAuton(this));
         autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
 
-        autonChooser.addOption("4 Ball", new FourBallAuton(this));
-        autonChooser.setDefaultOption("5 Ball", new FiveBallAuton(this));
+        // autonChooser.addOption("4 Ball", new FourBallAuton(this));
+        autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
         autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
+        autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
     public Command getAutonomousCommand() {
         // return autonChooser.getSelected();
-        //return new FiveBallAuton(this);
-        // return new TwoBallMeanAuton(this);
-        return new PartnerBallAuton(this);
-        // return autonChooser.getSelected();
+        // return new FiveBallAuton(this);
+        // return new TwoBallMeanerAuton(this);
+        // return new PartnerBallAuton(this);
+        return autonChooser.getSelected();
     }
 }

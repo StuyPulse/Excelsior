@@ -26,11 +26,19 @@ public class ThenShoot extends CommandBase {
     private final Command aligner;
     private final Conveyor conveyor;
 
-    public ThenShoot(Command aligner, Conveyor conveyor) {
+    private final ConveyorMode shootingMode;
+
+    public ThenShoot(Command aligner, Conveyor conveyor, ConveyorMode shootingMode) {
         this.aligner = aligner;
         this.conveyor = conveyor;
 
+        this.shootingMode = shootingMode;
+
         m_requirements.addAll(this.aligner.getRequirements());
+    }
+
+    public ThenShoot(Command aligner, Conveyor conveyor) {
+        this(aligner, conveyor, ConveyorMode.SHOOT);
     }
 
     @Override
@@ -43,7 +51,7 @@ public class ThenShoot extends CommandBase {
         aligner.execute();
 
         if (aligner.isFinished()) {
-            conveyor.setMode(ConveyorMode.SHOOT);
+            conveyor.setMode(shootingMode);
         } else {
             conveyor.setMode(ConveyorMode.DEFAULT);
         }
