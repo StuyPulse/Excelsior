@@ -93,7 +93,7 @@ public class Camera extends SubsystemBase {
         if (DriverStation.isDisabled()) {
             limelight.setLEDMode(LEDMode.PIPELINE);
         } else if (shooter.isFenderMode()) {
-            limelight.setLEDMode(LEDMode.FORCE_OFF);
+            limelight.setLEDMode(LEDMode.FORCE_ON);
         } else {
             limelight.setLEDMode(LEDMode.FORCE_ON);
         }
