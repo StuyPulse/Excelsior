@@ -47,6 +47,10 @@ public class ShootAnywhere extends CommandBase {
         new Vector2D(Limelight.RING_DISTANCE.get(), Settings.Shooter.RING_RPM.get()),
         new Vector2D(Limelight.PAD_DISTANCE.get(), Settings.Shooter.PAD_RPM.get())
     );
+    private final Interpolator distanceToAngleOffset = new NearestInterpolator(
+        new Vector2D(Limelight.RING_DISTANCE.get(), Limelight.RING_YAW.get()),
+        new Vector2D(Limelight.PAD_DISTANCE.get(), Limelight.PAD_YAW.get())
+    );
 
     public ShootAnywhere(RobotContainer robot) {
         this.conveyor = robot.conveyor;
@@ -58,7 +62,7 @@ public class ShootAnywhere extends CommandBase {
                 new IFuser(
                         Alignment.FUSION_FILTER,
                         () -> robot.camera.getXAngle()
-                                .add(Angle.fromDegrees(Limelight.RING_YAW.get()))
+                                .add(Angle.fromDegrees(distanceToAngleOffset.interpolate(robot.camera.getDistance())))
                                 .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
@@ -102,7 +106,7 @@ public class ShootAnywhere extends CommandBase {
         shooter.setShooterRPM(getTargetRPM());
 
         if(readyToShoot.get()) {
-            conveyor.setMode(ConveyorMode.SHOOT);
+            conveyor.setMode(ConveyorMode.SEMI_AUTO);
         } else {
             conveyor.setMode(ConveyorMode.DEFAULT);
         }
