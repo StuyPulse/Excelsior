@@ -18,6 +18,7 @@ import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.constants.RPMMap;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
@@ -43,15 +44,6 @@ public class ShootAnywhere extends CommandBase {
 
     protected final Controller angleController;
 
-    private final Interpolator distanceToRPM = new NearestInterpolator(
-        new Vector2D(Limelight.RING_DISTANCE.get(), Settings.Shooter.RING_RPM.get()),
-        new Vector2D(Limelight.PAD_DISTANCE.get(), Settings.Shooter.PAD_RPM.get())
-    );
-    private final Interpolator distanceToAngleOffset = new NearestInterpolator(
-        new Vector2D(Limelight.RING_DISTANCE.get(), Limelight.RING_YAW.get()),
-        new Vector2D(Limelight.PAD_DISTANCE.get(), Limelight.PAD_YAW.get())
-    );
-
     public ShootAnywhere(RobotContainer robot) {
         this.conveyor = robot.conveyor;
         this.drivetrain = robot.drivetrain;
@@ -62,7 +54,7 @@ public class ShootAnywhere extends CommandBase {
                 new IFuser(
                         Alignment.FUSION_FILTER,
                         () -> robot.camera.getXAngle()
-                                .add(Angle.fromDegrees(distanceToAngleOffset.interpolate(robot.camera.getDistance())))
+                                .add(Angle.fromDegrees(RPMMap.distanceToAngleOffset.interpolate(robot.camera.getDistance())))
                                 .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
@@ -97,7 +89,7 @@ public class ShootAnywhere extends CommandBase {
     }
 
     private double getTargetRPM() {
-        return distanceToRPM.get(distance.get());
+        return RPMMap.distanceToRPM.get(distance.get());
     }
 
     @Override

@@ -10,15 +10,21 @@ import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.math.interpolation.Interpolator;
 import com.stuypulse.stuylib.math.interpolation.NearestInterpolator;
 
-/** Class containing the measurements of every item on the field */
+/** Class containing the measurements of every item on the field **/
 public interface RPMMap {
 
-    static Vector2D[] POINTS = {
+    static Vector2D[] distanceToRPMPoints = {
         new Vector2D(Limelight.RING_DISTANCE.get(), Settings.Shooter.RING_RPM.get()),
         new Vector2D(Limelight.PAD_DISTANCE.get(), Settings.Shooter.PAD_RPM.get())
         
     };
-    NearestInterpolator NearestInterpolator = new NearestInterpolator(POINTS);
+    Interpolator distanceToRPM = new NearestInterpolator(distanceToRPMPoints);
+
+    static Vector2D[] distanceToAngleOffsetPoints = {
+        new Vector2D(Limelight.RING_DISTANCE.get(), Limelight.RING_YAW.get()),
+        new Vector2D(Limelight.PAD_DISTANCE.get(), Limelight.PAD_YAW.get())
+    };
+    Interpolator distanceToAngleOffset = new NearestInterpolator(distanceToAngleOffsetPoints);
     
 }
    
