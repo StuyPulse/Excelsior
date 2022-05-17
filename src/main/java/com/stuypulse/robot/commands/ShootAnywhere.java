@@ -7,28 +7,20 @@ package com.stuypulse.robot.commands;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.math.Vector2D;
-import com.stuypulse.stuylib.math.interpolation.CubicInterpolator;
-import com.stuypulse.stuylib.math.interpolation.Interpolator;
-import com.stuypulse.stuylib.math.interpolation.NearestInterpolator;
 import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
-import com.stuypulse.stuylib.streams.filters.IFilter;
-import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.constants.RPMMap;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
-import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ShootAnywhere extends CommandBase {
