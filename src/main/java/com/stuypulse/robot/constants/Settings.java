@@ -241,6 +241,7 @@ public interface Settings {
 
         double MIN_RPM = 100.0;
         double MAX_TARGET_RPM_CHANGE = 2000.0;
+        SmartNumber CHANGE_RC = new SmartNumber("Shooter/Change RC", 0.2);
 
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3650);
         SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
