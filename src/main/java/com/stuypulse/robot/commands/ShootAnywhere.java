@@ -18,14 +18,18 @@ import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistance;
+import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.constants.RPMMap;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Ports.LEDController;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.subsystems.Shooter;
+import com.stuypulse.robot.util.LEDColor;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +40,7 @@ public class ShootAnywhere extends CommandBase {
     private final Conveyor conveyor;
     private final Drivetrain drivetrain;
     private final Shooter shooter;
+    private final RobotContainer robot;
 
     private final IFuser angleError;
     private final IFuser distance;
@@ -44,10 +49,14 @@ public class ShootAnywhere extends CommandBase {
 
     protected final Controller angleController;
 
+    // private final double minDistance;
+    // private final double backoffSpeed;
+
     public ShootAnywhere(RobotContainer robot) {
         this.conveyor = robot.conveyor;
         this.drivetrain = robot.drivetrain;
         this.shooter = robot.shooter;
+        this.robot = robot;
 
         // find errors
         angleError =
@@ -71,6 +80,7 @@ public class ShootAnywhere extends CommandBase {
         readyToShoot =
                 BStream.create(() -> shooter.isReady())
                         .and(() -> angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()))
+                        .and(() -> distance.get() > RPMMap.minDistance)
                         .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
 
         addRequirements(drivetrain);
@@ -103,12 +113,16 @@ public class ShootAnywhere extends CommandBase {
             conveyor.setMode(ConveyorMode.DEFAULT);
         }
 
+        while(distance.get() > RPMMap.minDistance){
+            new LEDSet(robot.leds, LEDColor.PURPLE);
+        }
+
         // Debug Info
         if (Settings.DEBUG_MODE.get()) {
 
-            SmartDashboard.putNumber("Debug/ShootAnywhere/TargetRPM", getTargetRPM());
-            SmartDashboard.putNumber("Debug/ShootAnywhere/Distace", distance.get());
-            SmartDashboard.putNumber("Debug/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
+            SmartDashboard.putNumber("Shooter/ShootAnywhere/TargetRPM", getTargetRPM());
+            SmartDashboard.putNumber("Shooter/ShootAnywhere/Distace", distance.get());
+            SmartDashboard.putNumber("Shooter/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
 
         }
         

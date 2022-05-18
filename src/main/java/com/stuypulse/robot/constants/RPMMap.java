@@ -12,7 +12,7 @@ import com.stuypulse.stuylib.math.interpolation.NearestInterpolator;
 
 /** Class containing the measurements of every item on the field **/
 public interface RPMMap {
-
+    double minDistance = 0;
     static Vector2D[] distanceToRPMPoints = {
         new Vector2D(Limelight.RING_DISTANCE.get(), Settings.Shooter.RING_RPM.get()),
         new Vector2D(Limelight.PAD_DISTANCE.get(), Settings.Shooter.PAD_RPM.get())
