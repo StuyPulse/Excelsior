@@ -89,8 +89,7 @@ public class Drivetrain extends SubsystemBase {
     private final AHRS navx;
 
     // Odometry
-    private final DifferentialDriveOdometry odometry;
-    private final DifferentialDrivePoseEstimator poseEstimator;
+    private final DifferentialDrivePoseEstimator odometry;
     private final Field2d field;
 
     public Drivetrain() {
@@ -127,8 +126,13 @@ public class Drivetrain extends SubsystemBase {
         navx = new AHRS(SPI.Port.kMXP);
 
         // Initialize Odometry
-        odometry = new DifferentialDriveOdometry(getRotation2d());
-        poseEstimator = new DifferentialDrivePoseEstimator(getRawGyroAngle(), initialPoseMeters, stateStdDevs, localMeasurementStdDevs, visionMeasurementStdDevs)
+        // odometry = new DifferentialDriveOdometry(getRotation2d());
+        odometry = new DifferentialDrivePoseEstimator(
+                getRawGyroAngle(),
+                initialPoseMeters,
+                stateStdDevs,
+                localMeasurementStdDevs,
+                visionMeasurementStdDevs);
         field = new Field2d();
         reset(Odometry.STARTING_POSITION);
 
@@ -232,10 +236,6 @@ public class Drivetrain extends SubsystemBase {
         return Angle.fromDegrees(getRawGyroAngle());
     }
 
-    public void addVisionMeasurement(Pose2d visionPose, double time) {
-        poseEstimator.addVisionMeasurement(visionPose, time);
-    }
-
     // Gets current Angle of the Robot as a double [using encoders] (contiuous / not
     // +-180)
     private double getRawEncoderAngle() {
@@ -257,7 +257,11 @@ public class Drivetrain extends SubsystemBase {
      **********************/
 
     private void updateOdometry() {
-        odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
+        odometry.update(getRotation2d(), getWheelSpeeds(), getLeftDistance(), getRightDistance());
+    }
+
+    public void updateOdometry(Pose2d visionPose, double time) {
+        odometry.addVisionMeasurement(visionPose, time);
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -271,7 +275,7 @@ public class Drivetrain extends SubsystemBase {
 
     public Pose2d getPose() {
         updateOdometry();
-        return odometry.getPoseMeters();
+        return odometry.getEstimatedPosition();
     }
 
     public Field2d getField() {
