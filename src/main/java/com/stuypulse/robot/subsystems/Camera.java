@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.limelight.Limelight;
 import com.stuypulse.stuylib.network.limelight.Limelight.LEDMode;
 import com.stuypulse.stuylib.util.StopWatch;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Field.Hub;
 import com.stuypulse.robot.util.ComputerVisionUtil;
@@ -29,14 +30,14 @@ public class Camera extends SubsystemBase {
 
     private final Limelight limelight;
 
-    private final StopWatch stopWatch;
+    private final StopWatch timer;
 
     public Camera(Shooter shooter, Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         this.shooter = shooter;
         this.limelight = Limelight.getInstance();
 
-        stopWatch = new StopWatch();
+        this.timer = new StopWatch();
 
         for (int port : Settings.Limelight.PORTS) {
             PortForwarder.add(port, "limelight.local", port);
@@ -58,22 +59,16 @@ public class Camera extends SubsystemBase {
      * Transform2d cameraToRobot
      */
 
-    public Pose2d estimateFieldToRobot(){
-        double cameraPitchRadians = 0;
-        double targetPitchRadians = 0;
-        Rotation2d targetYaw = new Rotation2d();
-        Pose2d targetInField = new Pose2d();
-        Transform2d cameraOnRobot = new Transform2d();
+    public Pose2d getRobotPose() {
         return ComputerVisionUtil.estimateFieldToRobot(
-            Settings.Limelight.LIMELIGHT_HEIGHT,
-            Hub.HEIGHT, 
-            cameraPitchRadians,
-            targetPitchRadians,
-            targetYaw,
-            drivetrain.getRotation2d(),
-            drivetrain.getPose(),
-            cameraOnRobot
-            )
+                Settings.Limelight.LIMELIGHT_HEIGHT,
+                Hub.HEIGHT,
+                Math.toRadians(Settings.Limelight.LIMELIGHT_PITCH.get()),
+                Field.Hub.PITCH.toRadians(),
+                getXAngle().getRotation2d(),
+                drivetrain.getAngle().getRotation2d(),
+                Field.Hub.LOCATION,
+                Settings.Limelight.TO_ROBOT);
     }
     // Translation2d fieldPos = new Translation2d(getDistance(), new
     // Rotation2d(getXAngle().toRadians());
@@ -129,13 +124,17 @@ public class Camera extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // Disconnect warnings
         if (!limelight.isConnected()) {
             Settings.reportWarning("Limelight Disconnected!");
         }
-        if (hasTarget()) {
-            drivetrain.addVisionMeasurement(estimateFieldToRobot(), stopWatch.getTime());
+
+        // Robot odometry
+        if (hasAnyTarget()) {
+            drivetrain.updateOdometry(getRobotPose(), timer.reset());
         }
 
+        // LED Mode
         if (DriverStation.isDisabled()) {
             limelight.setLEDMode(LEDMode.PIPELINE);
         } else if (shooter.isFenderMode()) {
