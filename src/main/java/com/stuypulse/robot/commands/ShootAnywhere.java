@@ -12,7 +12,7 @@ import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
-import com.stuypulse.robot.constants.RPMMap;
+import com.stuypulse.robot.constants.ShotMap;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
@@ -46,7 +46,7 @@ public class ShootAnywhere extends CommandBase {
                 new IFuser(
                         Alignment.FUSION_FILTER,
                         () -> robot.camera.getXAngle()
-                                .add(Angle.fromDegrees(RPMMap.distanceToAngleOffset.interpolate(robot.camera.getDistance())))
+                                .add(Angle.fromDegrees(ShotMap.DISTANCE_TO_YAW.interpolate(robot.camera.getDistance())))
                                 .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
@@ -81,7 +81,7 @@ public class ShootAnywhere extends CommandBase {
     }
 
     private double getTargetRPM() {
-        return RPMMap.distanceToRPM.get(distance.get());
+        return ShotMap.DISTANCE_TO_RPM.interpolate(distance.get());
     }
 
     @Override

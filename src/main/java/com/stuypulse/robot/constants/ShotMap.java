@@ -10,21 +10,20 @@ import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.math.interpolation.Interpolator;
 import com.stuypulse.stuylib.math.interpolation.NearestInterpolator;
 
-/** Class containing the measurements of every item on the field **/
-public interface RPMMap {
+/** Contains interpolation tables for shooting and alignment */
+public interface ShotMap {
 
-    static Vector2D[] distanceToRPMPoints = {
+    // Converts a distance measurement to an RPM to shoot at
+    Interpolator DISTANCE_TO_RPM = new NearestInterpolator(    
         new Vector2D(Limelight.RING_DISTANCE.get(), Settings.Shooter.RING_RPM.get()),
         new Vector2D(Limelight.PAD_DISTANCE.get(), Settings.Shooter.PAD_RPM.get())
-        
-    };
-    Interpolator distanceToRPM = new NearestInterpolator(distanceToRPMPoints);
+    );
 
-    static Vector2D[] distanceToAngleOffsetPoints = {
+    // Converts a distance measurement to an angle offset to align to
+    Interpolator DISTANCE_TO_YAW = new NearestInterpolator(
         new Vector2D(Limelight.RING_DISTANCE.get(), Limelight.RING_YAW.get()),
         new Vector2D(Limelight.PAD_DISTANCE.get(), Limelight.PAD_YAW.get())
-    };
-    Interpolator distanceToAngleOffset = new NearestInterpolator(distanceToAngleOffsetPoints);
+    );
     
 }
    
