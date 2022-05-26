@@ -16,6 +16,7 @@ import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -89,36 +90,33 @@ public class Drivetrain extends SubsystemBase {
 
     // Odometry
     private final DifferentialDriveOdometry odometry;
+    private final DifferentialDrivePoseEstimator poseEstimator;
     private final Field2d field;
 
     public Drivetrain() {
         // Add Motors to list
-        leftMotors =
-                new CANSparkMax[] {
-                    new CANSparkMax(Ports.Drivetrain.LEFT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.LEFT_BOTTOM, MotorType.kBrushless)
-                };
+        leftMotors = new CANSparkMax[] {
+                new CANSparkMax(Ports.Drivetrain.LEFT_TOP, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.LEFT_BOTTOM, MotorType.kBrushless)
+        };
 
-        rightMotors =
-                new CANSparkMax[] {
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
-                };
+        rightMotors = new CANSparkMax[] {
+                new CANSparkMax(Ports.Drivetrain.RIGHT_TOP, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
+        };
 
         // Make differential drive object
-        drivetrain =
-                new DifferentialDrive(
-                        new MotorControllerGroup(leftMotors),
-                        new MotorControllerGroup(rightMotors));
+        drivetrain = new DifferentialDrive(
+                new MotorControllerGroup(leftMotors),
+                new MotorControllerGroup(rightMotors));
 
         // Add Gear Shifter
-        gearShift =
-                new DoubleSolenoid(
-                        PneumaticsModuleType.CTREPCM,
-                        Ports.Drivetrain.GEAR_SHIFT_FORWARD,
-                        Ports.Drivetrain.GEAR_SHIFT_REVERSE);
+        gearShift = new DoubleSolenoid(
+                PneumaticsModuleType.CTREPCM,
+                Ports.Drivetrain.GEAR_SHIFT_FORWARD,
+                Ports.Drivetrain.GEAR_SHIFT_REVERSE);
 
         // Create Encoders
         leftGrayhill = new Encoder(Ports.Grayhill.LEFT_A, Ports.Grayhill.LEFT_B);
@@ -130,6 +128,7 @@ public class Drivetrain extends SubsystemBase {
 
         // Initialize Odometry
         odometry = new DifferentialDriveOdometry(getRotation2d());
+        poseEstimator = new DifferentialDrivePoseEstimator(getRawGyroAngle(), initialPoseMeters, stateStdDevs, localMeasurementStdDevs, visionMeasurementStdDevs)
         field = new Field2d();
         reset(Odometry.STARTING_POSITION);
 
@@ -233,7 +232,12 @@ public class Drivetrain extends SubsystemBase {
         return Angle.fromDegrees(getRawGyroAngle());
     }
 
-    // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
+    public void addVisionMeasurement(Pose2d visionPose, double time) {
+        poseEstimator.addVisionMeasurement(visionPose, time);
+    }
+
+    // Gets current Angle of the Robot as a double [using encoders] (contiuous / not
+    // +-180)
     private double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
         return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
