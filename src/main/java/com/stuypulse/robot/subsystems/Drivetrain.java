@@ -16,6 +16,8 @@ import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -129,8 +131,8 @@ public class Drivetrain extends SubsystemBase {
         // odometry = new DifferentialDriveOdometry(getRotation2d());
         odometry = new DifferentialDrivePoseEstimator(
                 getRawGyroAngle(),
-                initialPoseMeters,
-                stateStdDevs,
+                Odometry.STARTING_POSITION,
+                new Matrix<5,1>(), 
                 localMeasurementStdDevs,
                 visionMeasurementStdDevs);
         field = new Field2d();
