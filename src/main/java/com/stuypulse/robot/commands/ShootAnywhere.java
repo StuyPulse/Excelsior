@@ -86,6 +86,12 @@ public class ShootAnywhere extends CommandBase {
         addRequirements(drivetrain);
     }
 
+    public void updateDistance(){
+        SmartDashboard.putNumber("Shooter/ShootAnywhere/TargetRPM", getTargetRPM());
+        SmartDashboard.putNumber("Shooter/ShootAnywhere/Distace", distance.get());
+        SmartDashboard.putNumber("Shooter/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
+    }
+
     @Override
     public void initialize() {
         drivetrain.setLowGear();
@@ -117,15 +123,7 @@ public class ShootAnywhere extends CommandBase {
             new LEDSet(robot.leds, LEDColor.PURPLE);
         }
 
-        // Debug Info
-        if (Settings.DEBUG_MODE.get()) {
-
-            SmartDashboard.putNumber("Shooter/ShootAnywhere/TargetRPM", getTargetRPM());
-            SmartDashboard.putNumber("Shooter/ShootAnywhere/Distace", distance.get());
-            SmartDashboard.putNumber("Shooter/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
-
-        }
-        
+        updateDistance();
     }
 
     @Override
