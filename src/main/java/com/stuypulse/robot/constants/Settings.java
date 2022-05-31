@@ -15,12 +15,18 @@ import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.util.SmartPIDController;
 
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -156,6 +162,10 @@ public interface Settings {
             Rotation2d STARTING_ANGLE = new Rotation2d();
 
             Pose2d STARTING_POSITION = new Pose2d(STARTING_TRANSLATION, STARTING_ANGLE);
+
+            Matrix<N5,N1> STATE_STD = new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0, 0, 0, 0, 0);
+            Matrix<N3, N1> LOCAL_MEASUREMENT_STD  = new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0);
+            Matrix<N3, N1> VISION_MEASUREMENT_STD = new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0);
         }
 
         public interface Stalling {
