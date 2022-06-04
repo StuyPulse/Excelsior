@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class RobotContainer {
 
@@ -120,8 +119,8 @@ public class RobotContainer {
         /*** Intake ***/
         operator.getRightTriggerButton()
                 .whenPressed(new IntakeExtend(intake))
-                .whileHeld(new IntakeAcquire(intake))
-                .whenReleased(new IntakeRetract(intake));
+                .whileHeld(new IntakeAcquire(intake));
+                // .whenReleased(new IntakeRetract(intake));
 
         operator.getRightBumper()
                 .whenPressed(new IntakeExtend(intake))
@@ -132,8 +131,6 @@ public class RobotContainer {
         operator.getLeftTriggerButton().whileHeld(new IntakeDeacquire(intake));
 
         operator.getDPadUp().whenPressed(new IntakeRetract(intake));
-
-        // new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
 
         /*** Shooter ***/
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));

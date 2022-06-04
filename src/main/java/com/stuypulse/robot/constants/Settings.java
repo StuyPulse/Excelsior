@@ -37,7 +37,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
+    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
 
