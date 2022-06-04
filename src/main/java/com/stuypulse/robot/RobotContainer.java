@@ -119,8 +119,8 @@ public class RobotContainer {
         /*** Intake ***/
         operator.getRightTriggerButton()
                 .whenPressed(new IntakeExtend(intake))
-                .whileHeld(new IntakeAcquire(intake));
-                // .whenReleased(new IntakeRetract(intake));
+                .whileHeld(new IntakeAcquire(intake))
+                .whenReleased(new IntakeRetract(intake));
 
         operator.getRightBumper()
                 .whenPressed(new IntakeExtend(intake))
