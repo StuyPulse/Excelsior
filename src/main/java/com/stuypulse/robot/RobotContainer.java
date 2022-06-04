@@ -160,6 +160,7 @@ public class RobotContainer {
         autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
         autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
         autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+        autonChooser.addOption("Four Ball", new FourBallAuton(this));
 
 
         SmartDashboard.putData("Autonomous", autonChooser);
