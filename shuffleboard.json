@@ -682,7 +682,7 @@
           },
           "7,1": {
             "size": [
-              6,
+              5,
               4
             ],
             "content": {
@@ -692,6 +692,17 @@
               "Game/Game": "A2021_Infinite_Recharge",
               "Visuals/Robot Icon Size": 50.0,
               "Visuals/Show Outside Circles": false
+            }
+          },
+          "4,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Debug/Drivetrain/Roll (deg)",
+              "_title": "/SmartDashboard/Debug/Drivetrain/Roll (deg)"
             }
           }
         }
