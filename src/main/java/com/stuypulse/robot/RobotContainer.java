@@ -161,6 +161,7 @@ public class RobotContainer {
         autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
         autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
+        autonChooser.addOption("Blue Balls", new BlueFiveBallAuton(this));
 
 
         SmartDashboard.putData("Autonomous", autonChooser);

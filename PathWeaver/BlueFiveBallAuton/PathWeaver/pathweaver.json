@@ -1,0 +1,9 @@
+{
+  "lengthUnit": "Meter",
+  "exportUnit": "Always Meters",
+  "maxVelocity": 3.3,
+  "maxAcceleration": 3.1,
+  "trackWidth": 0.7,
+  "gameName": "Rapid React",
+  "outputDir": "../../../src/main/deploy/FiveBallAuton"
+}
