@@ -59,7 +59,7 @@ public class DrivetrainDrive extends CommandBase {
                                 x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
                                 x -> x * kMaxAngularVelocity,
                                 new JerkLimit(
-                                    kMaxAcceleration,
+                                    kMaxAngularAcceleration,
                                     -1
                                 ));
 
