@@ -11,7 +11,6 @@ import com.stuypulse.stuylib.streams.IStream;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.filters.JerkLimit;
-import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.Stalling;
@@ -23,10 +22,11 @@ public class DrivetrainDrive extends CommandBase {
 
     private static final double kMaxVelocity = 4.0; // m/s
     private static final double kMaxAcceleration = 6.0; // m/s/s
-    private static final double kMaxJerk = 100.0; // m/s/s 
+    private static final double kMaxJerk = 200.0; // m/s/s/s 
 
     private static final double kMaxAngularVelocity = 3.0 * Math.PI; // rad/s
     private static final double kMaxAngularAcceleration = 30.0 * Math.PI; // rad/s/s
+    // Angular Jerk is stupid and doesnt exist
 
     private final Drivetrain drivetrain;
     private final Gamepad driver;
@@ -48,20 +48,14 @@ public class DrivetrainDrive extends CommandBase {
                         .filtered(
                                 x -> SLMath.deadband(x, Settings.Drivetrain.SPEED_DEADBAND.get()),
                                 x -> x * kMaxVelocity,
-                                new JerkLimit(
-                                    kMaxAcceleration,
-                                    kMaxJerk
-                                ));
+                                new JerkLimit(kMaxAcceleration, kMaxJerk));
 
         this.angle =
                 IStream.create(() -> driver.getLeftX())
                         .filtered(
                                 x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
                                 x -> x * kMaxAngularVelocity,
-                                new JerkLimit(
-                                    kMaxAngularAcceleration,
-                                    -1
-                                ));
+                                new JerkLimit(kMaxAngularAcceleration, -1));
 
         addRequirements(drivetrain);
     }
@@ -73,11 +67,7 @@ public class DrivetrainDrive extends CommandBase {
             drivetrain.setHighGear();
         }
 
-        drivetrain.arcadeDriveUnits(
-            speed.get(),
-            angle.get(),
-            kMaxVelocity
-        );
+        drivetrain.arcadeDriveUnits(speed.get(), angle.get(), kMaxVelocity);
     }
 
     public boolean isFinished() {

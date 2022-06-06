@@ -80,13 +80,13 @@ public class RobotContainer {
                 .whileHeld(new ClimberMoveUp(climber));
 
         operator.getRightStickUp()
-            .whenPressed(new IntakeRetract(intake))
-            .whenPressed(new ShooterStop(shooter))
-            .whenPressed(new ShooterRetractHood(shooter))
-            .whileHeld(new ConveyorStop(conveyor))
-            .whileHeld(new IntakeStop(intake))
-            .whileHeld(new DrivetrainStop(drivetrain))
-            .whileHeld(new ClimberMoveDown(climber));
+                .whenPressed(new IntakeRetract(intake))
+                .whenPressed(new ShooterStop(shooter))
+                .whenPressed(new ShooterRetractHood(shooter))
+                .whileHeld(new ConveyorStop(conveyor))
+                .whileHeld(new IntakeStop(intake))
+                .whileHeld(new DrivetrainStop(drivetrain))
+                .whileHeld(new ClimberMoveDown(climber));
 
         operator.getLeftStickRight().whenPressed(new ClimberMaxTilt(climber));
         operator.getLeftStickLeft().whenPressed(new ClimberNoTilt(climber));
@@ -113,8 +113,8 @@ public class RobotContainer {
         driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
 
         driver.getRightBumper()
-            .whileHeld(new ShooterPadShot(shooter))
-            .whileHeld(new OldPadAlign(drivetrain, camera).thenShoot(conveyor));
+                .whileHeld(new ShooterPadShot(shooter))
+                .whileHeld(new OldPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
@@ -165,7 +165,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         // return autonChooser.getSelected();
-        //return new FiveBallAuton(this);
+        // return new FiveBallAuton(this);
         // return new TwoBallMeanAuton(this);
         return new PartnerBallAuton(this);
         // return autonChooser.getSelected();

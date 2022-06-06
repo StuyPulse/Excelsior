@@ -5,14 +5,14 @@
 
 package com.stuypulse.robot.subsystems;
 
+import static com.stuypulse.robot.constants.Settings.Pump.*;
+
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static com.stuypulse.robot.constants.Settings.Pump.*;
 
 /*-
  * Pumps the robot full of air
@@ -59,11 +59,11 @@ public class Pump extends SubsystemBase {
     public void periodic() {
 
         // set the compress to true at a certain time in the match
-        if (AUTO_COMPRESSING.get() &&
-            DriverStation.isTeleopEnabled() &&
-            DriverStation.getMatchTime() > 1 &&
-            DriverStation.getMatchTime() < START_COMPRESSING) {
-                compress();
+        if (AUTO_COMPRESSING.get()
+                && DriverStation.isTeleopEnabled()
+                && DriverStation.getMatchTime() > 1
+                && DriverStation.getMatchTime() < START_COMPRESSING) {
+            compress();
         }
 
         if (enabled.get()) {

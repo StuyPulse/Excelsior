@@ -330,12 +330,13 @@ public class Drivetrain extends SubsystemBase {
         double left = velocity;
         double right = velocity;
 
-        left  += 0.5 * angular * Settings.Drivetrain.TRACK_WIDTH;
+        left += 0.5 * angular * Settings.Drivetrain.TRACK_WIDTH;
         right -= 0.5 * angular * Settings.Drivetrain.TRACK_WIDTH;
 
         double scale = maxVelocity / Math.max(maxVelocity, Math.max(left, right));
 
-        left *= scale; right *= scale;
+        left *= scale;
+        right *= scale;
 
         tankDriveUnits(left, right);
     }
