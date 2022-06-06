@@ -64,7 +64,9 @@ public class Climber extends SubsystemBase {
 
     private final DoubleSolenoid tilter;
 
-    // private final BStream limit;
+    private final DigitalInput left;
+    private final DigitalInput right;
+
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
@@ -83,10 +85,8 @@ public class Climber extends SubsystemBase {
                         Ports.Climber.TILTER_FORWARD,
                         Ports.Climber.TILTER_REVERSE);
 
-        // DigitalInput left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
-        // DigitalInput right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
-
-        // limit = BStream.create(() -> !left.get()).or(() -> !right.get());
+        left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
+        right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
     }
 
     /*** MOTOR CONTROL ***/
@@ -102,11 +102,8 @@ public class Climber extends SubsystemBase {
                     "[CRITICAL] Climber is stalling when attempting to move!", false);
             stalling.calculate(true);
             setMotorStop();
-        } else if (speed > 0.0 && getTopHeightLimitReached()) {
-            Settings.reportWarning("Climber attempted to run past top height limit!");
-            setMotorStop();
-        } else if (speed < 0.0 && getBottomHeightLimitReached()) {
-            Settings.reportWarning("Climber attempted to run past bottom height limit!");
+        } else if (speed < 0.0 && getHookClear()) {
+            Settings.reportWarning("Climber attempted to run past bottom limit!");
             setMotorStop();
         } else {
             climber.set(speed);
@@ -145,11 +142,21 @@ public class Climber extends SubsystemBase {
         return false; // Encoders.ENABLED.get() && getPosition() <= 0;
     }
 
-    /*** STALL PROTECTION ***/
+    /*** HOOK CLEARANCE ***/
 
-    public boolean getLimitSwitch() {
-        return false; // limit.get();
+    public boolean getLeftClear() {
+        return !left.get();
     }
+
+    public boolean getRightClear() {
+        return !right.get();
+    }
+
+    public boolean getHookClear() {
+        return getRightClear() && getLeftClear();
+    }
+
+    /*** STALL PROTECTION ***/
 
     private double getDutyCycle() {
         return climber.get();
@@ -162,7 +169,7 @@ public class Climber extends SubsystemBase {
     public boolean isStalling() {
         boolean current = getCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(getDutyCycle()) > Stalling.DUTY_CYCLE_THRESHOLD;
-        boolean velocity = Math.abs(getVelocity()) < Stalling.VELOCITY_THESHOLD;
+        boolean velocity = Math.abs(getVelocity()) < Stalling.SCIBORGS_THRESHOLD;
         return Stalling.ENABLED.get() && stalling.calculate(output && current && velocity);
     }
 

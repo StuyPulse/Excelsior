@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.IStream;
 import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
@@ -74,7 +75,7 @@ public interface Settings {
 
             // This is about half the speed of low gear
             // High Gear should be able to reach this speed
-            double VELOCITY_THESHOLD = Units.inchesToMeters(1);
+            double SCIBORGS_THRESHOLD = Units.inchesToMeters(1);
 
             // Debounce Time
             double DEBOUNCE_TIME = 1.0;
@@ -99,6 +100,7 @@ public interface Settings {
     public interface Conveyor {
         // How long it takes to until ConveyorShootCommand finishes
         double DEBOUNCE_TIME = 0.2;
+        double SEMI_AUTO_TIME = 0.400694;
 
         SmartNumber SLOW_MUL = new SmartNumber("Conveyor/Slow Mul", 5.0 / 8.0);
 
@@ -109,17 +111,17 @@ public interface Settings {
 
     public interface Drivetrain {
         // If speed is below this, use quick turn
-        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.5);
+        SmartNumber BASE_TURNING_SPEED = new SmartNumber("Driver Settings/Base Turn Speed", 0.45);
 
         // Low Pass Filter and deadband for Driver Controls
         SmartNumber SPEED_DEADBAND = new SmartNumber("Driver Settings/Speed Deadband", 0.00);
         SmartNumber ANGLE_DEADBAND = new SmartNumber("Driver Settings/Turn Deadband", 0.00);
 
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
-        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 2.0);
+        SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
 
-        SmartNumber SPEED_FILTER = new SmartNumber("Driver Settings/Speed Filtering", 0.25);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.03);
+        SmartNumber SPEED_FILTER = new SmartNumber("DriPver Settings/Speed Filtering", 0.175);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
@@ -170,7 +172,7 @@ public interface Settings {
 
             // This is about half the speed of low gear
             // High Gear should be able to reach this speed
-            double VELOCITY_THESHOLD = Units.feetToMeters(1.2);
+            double SCIBORGS_THRESHOLD = Units.feetToMeters(1.2);
 
             // Debounce Time
             double DEBOUNCE_TIME = 1.0;
@@ -235,19 +237,15 @@ public interface Settings {
         double END_GAME_TIME = 17.694;
     }
 
-    public interface Pump {
-        double START_COMPRESSING = 60.694;
-        SmartBoolean AUTO_COMPRESSING = new SmartBoolean("Pump/Auto Compress", true);
-    }
-
     public interface Shooter {
 
         double MIN_RPM = 100.0;
         double MAX_TARGET_RPM_CHANGE = 2000.0;
+        SmartNumber CHANGE_RC = new SmartNumber("Shooter/Change RC", 0.2);
 
-        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3500);
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 3080);
-        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2575);
+        SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3650);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
+        SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
         double INTEGRAL_MAX_RPM_ERROR = 500;
@@ -259,9 +257,9 @@ public interface Settings {
         double MAX_RPM_ERROR = 100.00694;
 
         public interface ShooterPID {
-            double kP = 0.0045;
-            double kI = 0.002;
-            double kD = 0.0003;
+            double kP = 0.005;
+            double kI = 0.0;
+            double kD = 0.00033;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Shooter")
@@ -282,9 +280,9 @@ public interface Settings {
         }
 
         public interface FeederPID {
-            double kP = 0.00375;
-            double kI = 0.0015;
-            double kD = 0.00025;
+            double kP = 0.004;
+            double kI = 0.0;
+            double kD = 0.000275;
 
             static Controller getController() {
                 return new SmartPIDController("Shooter/Feeder")
@@ -295,9 +293,9 @@ public interface Settings {
         }
 
         public interface FeederFF {
-            double kS = 0.18892;
-            double kV = 0.0021256;
-            double kA = 8.9074E-05;
+            double kS = 0.16971;
+            double kV = 0.0021435;
+            double kA = 0.00012423;
 
             static SimpleMotorFeedforward getController() {
                 return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
@@ -308,15 +306,22 @@ public interface Settings {
     public interface Limelight {
         int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
 
+        // characteristics of the limelight itself
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
-        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 6.50694);
+        SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0.0);
+
+        // additional offsets 
+        SmartNumber RING_YAW = new SmartNumber("Limelight/Ring Yaw", 6.50694);
+        SmartNumber PAD_YAW = new SmartNumber("Limelight/Pad Yaw", 5.0);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        double RING_SHOT_DISTANCE = Units.inchesToMeters(159) - CENTER_TO_HUB - LIMELIGHT_TO_INTAKE;
-        double PAD_SHOT_DISTANCE = Units.inchesToMeters(210) - CENTER_TO_HUB - LIMELIGHT_HEIGHT;
+        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 150)
+                                    .filtered(Units::inchesToMeters);
+        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 217)
+                                    .filtered(Units::inchesToMeters);
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance

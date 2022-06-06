@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
@@ -13,6 +14,7 @@ import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.commands.ThenShoot;
+import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
@@ -44,13 +46,15 @@ public class DrivetrainAlign extends CommandBase {
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> camera.getXAngle().toDegrees(),
+                        () -> camera.getXAngle()
+                                .add(Angle.fromDegrees(Limelight.RING_YAW.get()))
+                                .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
         distanceError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> Settings.Limelight.RING_SHOT_DISTANCE - camera.getDistance(),
+                        () -> Settings.Limelight.RING_DISTANCE.get() - camera.getDistance(),
                         () -> drivetrain.getDistance());
 
         // handle errors
@@ -107,6 +111,6 @@ public class DrivetrainAlign extends CommandBase {
     }
 
     public Command thenShoot(Conveyor conveyor) {
-        return new ThenShoot(this, conveyor);
+        return new ThenShoot(this, conveyor, ConveyorMode.SHOOT);
     }
 }

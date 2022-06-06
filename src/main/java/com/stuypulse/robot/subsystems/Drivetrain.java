@@ -373,7 +373,7 @@ public class Drivetrain extends SubsystemBase {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(leftMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
-        boolean velocity = Math.abs(getLeftVelocity()) < Stalling.VELOCITY_THESHOLD;
+        boolean velocity = Math.abs(getLeftVelocity()) < Stalling.SCIBORGS_THRESHOLD;
         return highGear && (current || output) && velocity;
     }
 
@@ -381,7 +381,7 @@ public class Drivetrain extends SubsystemBase {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(rightMotors[0].get()) > Stalling.DUTY_CYCLE_THRESHOLD;
-        boolean velocity = Math.abs(getRightVelocity()) < Stalling.VELOCITY_THESHOLD;
+        boolean velocity = Math.abs(getRightVelocity()) < Stalling.SCIBORGS_THRESHOLD;
         return highGear && (current || output) && velocity;
     }
 

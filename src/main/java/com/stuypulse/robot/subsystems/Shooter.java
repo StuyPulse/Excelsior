@@ -7,6 +7,7 @@ package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.IFilter;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.filters.TimedRateLimit;
 
 import com.stuypulse.robot.constants.Motors;
@@ -46,7 +47,8 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         /** TARGET RPM VARIABLES * */
         targetRPM = new SmartNumber("Shooter/Target RPM", 0.0);
-        targetFilter = new TimedRateLimit(Settings.Shooter.MAX_TARGET_RPM_CHANGE);
+        targetFilter = new TimedRateLimit(Settings.Shooter.MAX_TARGET_RPM_CHANGE)
+            .then(new LowPassFilter(Settings.Shooter.CHANGE_RC));
 
         /** SHOOTER * */
         CANSparkMax shooterMotor = new CANSparkMax(Ports.Shooter.LEFT, MotorType.kBrushless);
