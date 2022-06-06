@@ -133,7 +133,7 @@ public interface Settings {
             SimpleMotorFeedforward MOTOR_FEED_FORWARD =
                     new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
 
-            double MAX_VELOCITY = 2.0;
+            double MAX_VELOCITY = 4.0;
             double MAX_ACCELERATION = 3.0;
 
             public interface FeedForward {
