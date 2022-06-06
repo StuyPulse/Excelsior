@@ -67,7 +67,6 @@ public class Climber extends SubsystemBase {
     private final DigitalInput left;
     private final DigitalInput right;
 
-
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
 

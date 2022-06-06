@@ -22,7 +22,7 @@ public class DrivetrainDrive extends CommandBase {
 
     private static final double kMaxVelocity = 4.0; // m/s
     private static final double kMaxAcceleration = 6.0; // m/s/s
-    private static final double kMaxJerk = 200.0; // m/s/s/s 
+    private static final double kMaxJerk = 200.0; // m/s/s/s
 
     private static final double kMaxAngularVelocity = 3.0 * Math.PI; // rad/s
     private static final double kMaxAngularAcceleration = 30.0 * Math.PI; // rad/s/s

@@ -47,8 +47,9 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         /** TARGET RPM VARIABLES * */
         targetRPM = new SmartNumber("Shooter/Target RPM", 0.0);
-        targetFilter = new TimedRateLimit(Settings.Shooter.MAX_TARGET_RPM_CHANGE)
-            .then(new LowPassFilter(Settings.Shooter.CHANGE_RC));
+        targetFilter =
+                new TimedRateLimit(Settings.Shooter.MAX_TARGET_RPM_CHANGE)
+                        .then(new LowPassFilter(Settings.Shooter.CHANGE_RC));
 
         /** SHOOTER * */
         CANSparkMax shooterMotor = new CANSparkMax(Ports.Shooter.LEFT, MotorType.kBrushless);
