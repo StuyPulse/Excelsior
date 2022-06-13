@@ -5,8 +5,6 @@
 
 package com.stuypulse.robot.subsystems;
 
-import static com.stuypulse.robot.constants.Settings.Pump.*;
-
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.Compressor;
