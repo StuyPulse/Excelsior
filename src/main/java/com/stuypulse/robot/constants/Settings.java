@@ -47,6 +47,8 @@ public interface Settings {
         }
     }
 
+    int UPDATE_RATE = 200;
+
     public interface Climber {
 
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
