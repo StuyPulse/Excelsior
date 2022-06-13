@@ -311,17 +311,17 @@ public interface Settings {
         SmartNumber LIMELIGHT_PITCH = new SmartNumber("Limelight/Pitch", 27.0);
         SmartNumber LIMELIGHT_YAW = new SmartNumber("Limelight/Yaw", 0.0);
 
-        // additional offsets 
+        // additional offsets
         SmartNumber RING_YAW = new SmartNumber("Limelight/Ring Yaw", 6.50694);
         SmartNumber PAD_YAW = new SmartNumber("Limelight/Pad Yaw", 5.0);
 
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 150)
-                                    .filtered(Units::inchesToMeters);
-        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 217)
-                                    .filtered(Units::inchesToMeters);
+        IStream RING_DISTANCE =
+                new SmartNumber("Limelight/Ring Distance", 150).filtered(Units::inchesToMeters);
+        IStream PAD_DISTANCE =
+                new SmartNumber("Limelight/Pad Distance", 217).filtered(Units::inchesToMeters);
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance

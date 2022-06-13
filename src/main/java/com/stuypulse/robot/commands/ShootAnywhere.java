@@ -10,12 +10,13 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
-import com.stuypulse.robot.constants.ShotMap;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
+import com.stuypulse.robot.constants.ShotMap;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.subsystems.Shooter;
@@ -45,9 +46,14 @@ public class ShootAnywhere extends CommandBase {
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () -> robot.camera.getXAngle()
-                                .add(Angle.fromDegrees(ShotMap.DISTANCE_TO_YAW.interpolate(robot.camera.getDistance())))
-                                .toDegrees(),
+                        () ->
+                                robot.camera
+                                        .getXAngle()
+                                        .add(
+                                                Angle.fromDegrees(
+                                                        ShotMap.DISTANCE_TO_YAW.interpolate(
+                                                                robot.camera.getDistance())))
+                                        .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
         distance =
@@ -89,7 +95,7 @@ public class ShootAnywhere extends CommandBase {
         drivetrain.arcadeDrive(0.0, getTurn());
         shooter.setShooterRPM(getTargetRPM());
 
-        if(readyToShoot.get()) {
+        if (readyToShoot.get()) {
             conveyor.setMode(ConveyorMode.SEMI_AUTO);
         } else {
             conveyor.setMode(ConveyorMode.DEFAULT);
@@ -101,9 +107,7 @@ public class ShootAnywhere extends CommandBase {
             SmartDashboard.putNumber("Debug/ShootAnywhere/TargetRPM", getTargetRPM());
             SmartDashboard.putNumber("Debug/ShootAnywhere/Distace", distance.get());
             SmartDashboard.putNumber("Debug/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
-
         }
-        
     }
 
     @Override
