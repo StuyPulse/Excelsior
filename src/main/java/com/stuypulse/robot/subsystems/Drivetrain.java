@@ -249,6 +249,10 @@ public class Drivetrain extends SubsystemBase {
         return Settings.Drivetrain.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
 
+    public Angle getRoll() {
+        return Angle.fromDegrees(navx.getRoll());
+    }
+
     /**********************
      * ODOMETRY FUNCTIONS *
      **********************/
@@ -451,6 +455,8 @@ public class Drivetrain extends SubsystemBase {
 
         // Smart Dashboard Information
         if (Settings.DEBUG_MODE.get()) {
+
+            SmartDashboard.putNumber("Debug/Drivetrain/Roll (deg)", getRoll().toDegrees());
 
             SmartDashboard.putData("Debug/Drivetrain/Field", field);
             SmartDashboard.putBoolean("Debug/Drivetrain/High Gear", getGear().equals(Gear.HIGH));

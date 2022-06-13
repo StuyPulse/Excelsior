@@ -133,8 +133,6 @@ public class RobotContainer {
 
         operator.getDPadUp().whenPressed(new IntakeRetract(intake));
 
-        // new Button(intake::getShouldRetract).whenPressed(new IntakeRetract(intake));
-
         /*** Shooter ***/
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
@@ -163,6 +161,9 @@ public class RobotContainer {
         autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
         autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
         autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+        autonChooser.addOption("Four Ball", new FourBallAuton(this));
+        autonChooser.addOption("Blue Balls", new BlueFiveBallAuton(this));
+        autonChooser.addOption("Mystery Ball", new ThreeBallMysteryAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
