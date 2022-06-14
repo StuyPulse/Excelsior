@@ -80,7 +80,7 @@ public class PIDFlywheel extends SubsystemBase {
         } else {
             double ff = feedforward.calculate(this.targetRPM);
             double fb = feedback.update(this.targetRPM, getVelocity());
-    
+
             for (CANSparkMax motor : this.motors) {
                 motor.setVoltage(SLMath.clamp(ff + fb, 0, 16));
             }
