@@ -46,10 +46,9 @@ public class DrivetrainAlign extends CommandBase {
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () ->
-                                camera.getXAngle()
-                                        .add(Angle.fromDegrees(Limelight.RING_YAW.get()))
-                                        .toDegrees(),
+                        () -> camera.getXAngle()
+                                .add(Angle.fromDegrees(Limelight.RING_YAW.get()))
+                                .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
         distanceError =

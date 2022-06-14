@@ -77,10 +77,9 @@ public class Camera extends SubsystemBase {
             return Settings.Limelight.RING_DISTANCE.get();
         }
 
-        return Settings.Limelight.CENTER_TO_HUB
-                + Settings.Limelight.LIMELIGHT_TO_INTAKE
-                + Settings.Limelight.HEIGHT_DIFFERENCE
-                        / getYAngle().tan(); // distance from edge of goal to limelight
+        return Settings.Limelight.CENTER_TO_HUB +
+            Settings.Limelight.LIMELIGHT_TO_INTAKE +
+            Settings.Limelight.HEIGHT_DIFFERENCE / getYAngle().tan(); // distance from edge of goal to limelight
     }
 
     /*** Periodic ***/

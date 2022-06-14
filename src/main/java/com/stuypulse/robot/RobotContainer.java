@@ -7,7 +7,6 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-
 import com.stuypulse.robot.commands.ShootAnywhere;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
@@ -23,6 +22,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class RobotContainer {
 
@@ -80,13 +80,13 @@ public class RobotContainer {
                 .whileHeld(new ClimberMoveUp(climber));
 
         operator.getRightStickUp()
-                .whenPressed(new IntakeRetract(intake))
-                .whenPressed(new ShooterStop(shooter))
-                .whenPressed(new ShooterRetractHood(shooter))
-                .whileHeld(new ConveyorStop(conveyor))
-                .whileHeld(new IntakeStop(intake))
-                .whileHeld(new DrivetrainStop(drivetrain))
-                .whileHeld(new ClimberMoveDown(climber));
+            .whenPressed(new IntakeRetract(intake))
+            .whenPressed(new ShooterStop(shooter))
+            .whenPressed(new ShooterRetractHood(shooter))
+            .whileHeld(new ConveyorStop(conveyor))
+            .whileHeld(new IntakeStop(intake))
+            .whileHeld(new DrivetrainStop(drivetrain))
+            .whileHeld(new ClimberMoveDown(climber));
 
         operator.getLeftStickRight().whenPressed(new ClimberMaxTilt(climber));
         operator.getLeftStickLeft().whenPressed(new ClimberNoTilt(climber));
@@ -100,7 +100,7 @@ public class RobotContainer {
         /*** Drivetrain ***/
         driver.getLeftButton()
                 .whileHeld(new ShooterFenderShot(shooter))
-                .whileHeld(new ConveyorShootSemi(conveyor).perpetually());
+                .whileHeld(new ConveyorShootSemi(conveyor).perpetually()); 
 
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
@@ -110,12 +110,12 @@ public class RobotContainer {
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
-        // driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+        //driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
         driver.getTopButton().whileHeld(new ShootAnywhere(this).perpetually());
 
         driver.getRightBumper()
-                .whileHeld(new ShooterPadShot(shooter))
-                .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
+            .whileHeld(new ShooterPadShot(shooter))
+            .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
@@ -164,6 +164,7 @@ public class RobotContainer {
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
         autonChooser.addOption("Blue Balls", new BlueFiveBallAuton(this));
         autonChooser.addOption("Mystery Ball", new ThreeBallMysteryAuton(this));
+
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

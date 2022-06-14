@@ -8,7 +8,9 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
+import com.stuypulse.stuylib.streams.booleans.BStream;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 /*-
  * Climbs at end of match
@@ -67,6 +70,7 @@ public class Climber extends SubsystemBase {
 
     private final DigitalInput left;
     private final DigitalInput right;
+
 
     public Climber() {
         climber = new CANSparkMax(Ports.Climber.MOTOR, MotorType.kBrushless);
@@ -188,7 +192,7 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("Debug/Climber/Stalling", isStalling());
             SmartDashboard.putNumber("Debug/Climber/Current Amps", getCurrentAmps());
             SmartDashboard.putNumber("Debug/Climber/Velocity", getVelocity());
-            // SmartDashboard.putNumber("Debug/Climber/Position", encoder.getPosition());
+            //SmartDashboard.putNumber("Debug/Climber/Position", encoder.getPosition());
 
             SmartDashboard.putBoolean(
                     "Debug/Climber/Max Tilt", tilter.get().equals(Value.kReverse));

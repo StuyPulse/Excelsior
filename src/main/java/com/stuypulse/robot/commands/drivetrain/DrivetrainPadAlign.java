@@ -38,10 +38,9 @@ public class DrivetrainPadAlign extends CommandBase {
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () ->
-                                camera.getXAngle()
-                                        .add(Angle.fromDegrees(Limelight.PAD_YAW.get()))
-                                        .toDegrees(),
+                        () -> camera.getXAngle()
+                                .add(Angle.fromDegrees(Limelight.PAD_YAW.get()))
+                                .toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
         // handle errors

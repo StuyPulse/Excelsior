@@ -91,13 +91,12 @@ public class Conveyor extends SubsystemBase {
                         .not()
                         .filtered(new BDebounceRC.Rising(Settings.Conveyor.DEBOUNCE_TIME))
                         .polling(0.01);
-
+        
+                        
         this.newBall =
-                BStream.create(this::hasTopBeltBall)
-                        .filtered(
-                                new BButton.Pressed(),
-                                new BDebounce.Falling(Settings.Conveyor.SEMI_AUTO_TIME))
-                        .polling(0.01);
+            BStream.create(this::hasTopBeltBall)
+                    .filtered(new BButton.Pressed(), new BDebounce.Falling(Settings.Conveyor.SEMI_AUTO_TIME))
+                    .polling(0.01);
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);

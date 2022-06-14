@@ -74,20 +74,21 @@ public enum ConveyorMode {
                 conveyor.setGandalf(
                         conveyor.hasOpponentBall() ? Direction.REVERSE : Direction.FORWARD);
             }),
-
+    
     SHOOT_TOP(
             (Conveyor conveyor) -> {
                 conveyor.setTopBelt(Direction.FORWARD);
                 conveyor.setGandalf(Direction.STOPPED);
             }),
-
+            
     SEMI_AUTO(
             (Conveyor conveyor) -> {
                 boolean shouldStop = conveyor.hasNewBall();
                 conveyor.setTopBelt(shouldStop ? Direction.STOPPED : Direction.FORWARD_SLOW);
                 conveyor.setGandalf(shouldStop ? Direction.STOPPED : Direction.FORWARD);
-            }),
-
+            }
+        ),
+    
     EJECT(
             (Conveyor conveyor) -> {
                 conveyor.setGandalf(Direction.REVERSE);
