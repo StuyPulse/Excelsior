@@ -44,7 +44,7 @@ public interface Settings {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", false);
+    SmartBoolean DEBUG_MODE = new SmartBoolean("Debug Mode", true);
 
     SmartBoolean ENABLE_WARNINGS = new SmartBoolean("Enable Warnings", true);
 
@@ -170,7 +170,8 @@ public interface Settings {
 
         public interface Stalling {
             // Enable / Disable the Stall Detection
-            SmartBoolean STALL_DETECTION = new SmartBoolean("Driver Settings/Stall Detection", false);
+            SmartBoolean STALL_DETECTION =
+                    new SmartBoolean("Driver Settings/Stall Detection", true);
 
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = Motors.Drivetrain.CURRENT_LIMIT_AMPS - 10;
@@ -240,8 +241,8 @@ public interface Settings {
         double RPM_ERROR_STEP = 50;
 
         double MIN_MATCH_TIME = 1; // non-game modes return 0 for remaning match time
-        double CLIMB_TIME = 25;
-        double END_GAME_TIME = 17.694;
+        double CLIMB_TIME = 30;
+        double END_GAME_TIME = 1.694;
     }
 
     public interface Shooter {
@@ -327,10 +328,10 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 150)
-                .filtered(Units::inchesToMeters);
-        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 217)
-                .filtered(Units::inchesToMeters);
+        IStream RING_DISTANCE =
+                new SmartNumber("Limelight/Ring Distance", 150).filtered(Units::inchesToMeters);
+        IStream PAD_DISTANCE =
+                new SmartNumber("Limelight/Pad Distance", 217).filtered(Units::inchesToMeters);
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance

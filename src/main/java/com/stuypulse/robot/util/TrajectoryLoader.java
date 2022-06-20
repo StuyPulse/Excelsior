@@ -43,6 +43,7 @@ public final class TrajectoryLoader {
 
             System.err.println("Error Opening \"" + path + "\"!");
             System.out.println(e.getStackTrace());
+            System.exit(694);
 
             return DEFAULT_TRAJECTORY;
         }
