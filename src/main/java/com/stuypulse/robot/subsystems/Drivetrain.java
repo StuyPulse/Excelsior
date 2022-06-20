@@ -15,7 +15,7 @@ import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -88,37 +88,33 @@ public class Drivetrain extends SubsystemBase {
     private final AHRS navx;
 
     // Odometry
-    private final DifferentialDriveOdometry odometry;
+    private final DifferentialDrivePoseEstimator odometry;
     private final Field2d field;
 
     public Drivetrain() {
         // Add Motors to list
-        leftMotors =
-                new CANSparkMax[] {
-                    new CANSparkMax(Ports.Drivetrain.LEFT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.LEFT_BOTTOM, MotorType.kBrushless)
-                };
+        leftMotors = new CANSparkMax[] {
+                new CANSparkMax(Ports.Drivetrain.LEFT_TOP, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.LEFT_MIDDLE, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.LEFT_BOTTOM, MotorType.kBrushless)
+        };
 
-        rightMotors =
-                new CANSparkMax[] {
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_TOP, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
-                    new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
-                };
+        rightMotors = new CANSparkMax[] {
+                new CANSparkMax(Ports.Drivetrain.RIGHT_TOP, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.RIGHT_MIDDLE, MotorType.kBrushless),
+                new CANSparkMax(Ports.Drivetrain.RIGHT_BOTTOM, MotorType.kBrushless)
+        };
 
         // Make differential drive object
-        drivetrain =
-                new DifferentialDrive(
-                        new MotorControllerGroup(leftMotors),
-                        new MotorControllerGroup(rightMotors));
+        drivetrain = new DifferentialDrive(
+                new MotorControllerGroup(leftMotors),
+                new MotorControllerGroup(rightMotors));
 
         // Add Gear Shifter
-        gearShift =
-                new DoubleSolenoid(
-                        PneumaticsModuleType.CTREPCM,
-                        Ports.Drivetrain.GEAR_SHIFT_FORWARD,
-                        Ports.Drivetrain.GEAR_SHIFT_REVERSE);
+        gearShift = new DoubleSolenoid(
+                PneumaticsModuleType.CTREPCM,
+                Ports.Drivetrain.GEAR_SHIFT_FORWARD,
+                Ports.Drivetrain.GEAR_SHIFT_REVERSE);
 
         // Create Encoders
         leftGrayhill = new Encoder(Ports.Grayhill.LEFT_A, Ports.Grayhill.LEFT_B);
@@ -129,7 +125,15 @@ public class Drivetrain extends SubsystemBase {
         navx = new AHRS(SPI.Port.kMXP);
 
         // Initialize Odometry
-        odometry = new DifferentialDriveOdometry(getRotation2d());
+        // odometry = new DifferentialDriveOdometry(getRotation2d());
+        double robotLoopTime = 0.05; // robots loop every 50 milliseconds
+
+        odometry = new DifferentialDrivePoseEstimator(
+                getRotation2d(),
+                Odometry.STARTING_POSITION,
+                Odometry.STATE_STD,
+                Odometry.LOCAL_MEASUREMENT_STD,
+                Odometry.VISION_MEASUREMENT_STD);
         field = new Field2d();
         reset(Odometry.STARTING_POSITION);
 
@@ -233,7 +237,8 @@ public class Drivetrain extends SubsystemBase {
         return Angle.fromDegrees(getRawGyroAngle());
     }
 
-    // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
+    // Gets current Angle of the Robot as a double [using encoders] (contiuous / not
+    // +-180)
     private double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
         return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
@@ -257,7 +262,11 @@ public class Drivetrain extends SubsystemBase {
      **********************/
 
     private void updateOdometry() {
-        odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
+        odometry.update(getRotation2d(), getWheelSpeeds(), getLeftDistance(), getRightDistance());
+    }
+
+    public void updateOdometry(Pose2d visionPose, double time) {
+        odometry.addVisionMeasurement(visionPose, time);
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -271,7 +280,7 @@ public class Drivetrain extends SubsystemBase {
 
     public Pose2d getPose() {
         updateOdometry();
-        return odometry.getPoseMeters();
+        return odometry.getEstimatedPosition();
     }
 
     public Field2d getField() {

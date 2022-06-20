@@ -5,6 +5,10 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.stuylib.math.Angle;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -43,19 +47,20 @@ public interface Field {
         double LENGTH = imperialToMeters(10, 8.75);
         double HEIGHT = imperialToMeters(6, 2);
 
-        Translation2d BOTTOM_LEFT =
-                new Translation2d(-imperialToMeters(27, 0), +imperialToMeters(3, 10));
+        Translation2d BOTTOM_LEFT = new Translation2d(-imperialToMeters(27, 0), +imperialToMeters(3, 10));
 
-        Translation2d BOTTOM_RIGHT =
-                new Translation2d(-imperialToMeters(16, 5.75), +imperialToMeters(3, 10));
+        Translation2d BOTTOM_RIGHT = new Translation2d(-imperialToMeters(16, 5.75), +imperialToMeters(3, 10));
 
-        Translation2d TOP_RIGHT =
-                new Translation2d(-imperialToMeters(16, 5.75), +imperialToMeters(13, 6));
+        Translation2d TOP_RIGHT = new Translation2d(-imperialToMeters(16, 5.75), +imperialToMeters(13, 6));
     }
 
     public interface Hub {
         Translation2d CENTER = new Translation2d(0, 0);
 
+        // ???
+        Pose2d LOCATION = new Pose2d(new Translation2d(LENGTH / 2, WIDTH / 2), new Rotation2d());
+
+        Angle PITCH = Angle.fromDegrees(0.0); // ???
         double HEIGHT = imperialToMeters(8, 8);
         double UPPER_RADIUS = imperialToMeters(2, 0);
     }

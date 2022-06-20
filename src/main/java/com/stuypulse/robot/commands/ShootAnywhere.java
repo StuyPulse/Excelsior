@@ -43,33 +43,29 @@ public class ShootAnywhere extends CommandBase {
         this.shooter = robot.shooter;
 
         // find errors
-        angleError =
-                new IFuser(
-                        Alignment.FUSION_FILTER,
-                        () ->
-                                robot.camera
-                                        .getXAngle()
-                                        .add(
-                                                Angle.fromDegrees(
-                                                        ShotMap.DISTANCE_TO_YAW.interpolate(
-                                                                robot.camera.getDistance())))
-                                        .toDegrees(),
-                        () -> drivetrain.getRawGyroAngle());
+        angleError = new IFuser(
+                Alignment.FUSION_FILTER,
+                () -> robot.camera
+                        .getXAngle()
+                        .add(
+                                Angle.fromDegrees(
+                                        ShotMap.DISTANCE_TO_YAW.interpolate(
+                                                robot.camera.getDistance())))
+                        .toDegrees(),
+                () -> drivetrain.getRawGyroAngle());
 
-        distance =
-                new IFuser(
-                        Alignment.FUSION_FILTER,
-                        () -> robot.camera.getDistance(),
-                        () -> -drivetrain.getDistance());
+        distance = new IFuser(
+                Alignment.FUSION_FILTER,
+                () -> robot.camera.getDistance(),
+                () -> -drivetrain.getDistance());
 
         // handle errors
         this.angleController = Alignment.Angle.getController();
 
         // finish optimally
-        readyToShoot =
-                BStream.create(() -> shooter.isReady())
-                        .and(() -> angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()))
-                        .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
+        readyToShoot = BStream.create(() -> shooter.isReady())
+                .and(() -> angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()))
+                .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
 
         addRequirements(drivetrain);
     }
