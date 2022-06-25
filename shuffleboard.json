@@ -1479,12 +1479,59 @@
           }
         }
       }
+    },
+    {
+      "title": "Tune",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 50.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "8,2": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Target RPM",
+              "_title": "SmartDashboard/Shooter/Target RPM"
+            }
+          },
+          "8,6": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Test/Distance",
+              "_title": "SmartDashboard/Test/Distance"
+            }
+          },
+          "8,4": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Test/Yaw",
+              "_title": "SmartDashboard/Test/Yaw"
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {
-    "x": 56.0,
-    "y": 1.600000023841858,
-    "width": 1484.800048828125,
-    "height": 868.7999877929688
+    "x": 55.20000076293945,
+    "y": -7.199999809265137,
+    "width": 1488.0,
+    "height": 878.4000244140625
   }
 }
