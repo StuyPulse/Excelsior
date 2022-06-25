@@ -66,8 +66,7 @@ public class TestAlign extends CommandBase {
 
         // finish optimally
         finished =
-                BStream.create(robot.camera::hasAnyTarget)
-                        .and(robot.shooter::isReady)
+                BStream.create(robot.camera::hasTarget)
                         .and(
                                 () ->
                                         Math.abs(robot.drivetrain.getVelocity())
@@ -77,8 +76,6 @@ public class TestAlign extends CommandBase {
                         .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
 
         addRequirements(robot.drivetrain);
-        addRequirements(robot.shooter);
-        addRequirements(robot.conveyor);
     }
 
     @Override
