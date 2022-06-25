@@ -102,12 +102,12 @@ public class ShootAnywhere extends CommandBase {
         }
 
         // Debug Info
-        if (Settings.DEBUG_MODE.get()) {
+    
 
-            SmartDashboard.putNumber("Debug/ShootAnywhere/TargetRPM", getTargetRPM());
-            SmartDashboard.putNumber("Debug/ShootAnywhere/Distace", distance.get());
-            SmartDashboard.putNumber("Debug/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
-        }
+        SmartDashboard.putNumber("Debug/ShootAnywhere/TargetRPM", getTargetRPM());
+        SmartDashboard.putNumber("Debug/ShootAnywhere/Distace", distance.get());
+        SmartDashboard.putNumber("Debug/ShootAnywhere/CurrentRPM", shooter.getShooterRPM());
+
     }
 
     @Override
