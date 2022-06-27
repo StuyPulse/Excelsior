@@ -14,7 +14,7 @@ import com.stuypulse.robot.constants.Settings.Limelight;
 /** Contains interpolation tables for shooting and alignment */
 public interface ShotMap {
 
-    double minDistance = 0;
+    double MIN_DISTANCE = 0;
 
     // Converts a distance measurement to an RPM to shoot at
     Interpolator DISTANCE_TO_RPM =
