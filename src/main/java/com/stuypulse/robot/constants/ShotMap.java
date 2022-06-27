@@ -20,11 +20,15 @@ public interface ShotMap {
     Interpolator DISTANCE_TO_RPM =
             new NearestInterpolator(
                     new Vector2D(Limelight.RING_DISTANCE.get(), Settings.Shooter.RING_RPM.get()),
+                    new Vector2D(167, 3050),
+                    new Vector2D(184, 3200),    
                     new Vector2D(Limelight.PAD_DISTANCE.get(), Settings.Shooter.PAD_RPM.get()));
 
     // Converts a distance measurement to an angle offset to align to
     Interpolator DISTANCE_TO_YAW =
             new NearestInterpolator(
                     new Vector2D(Limelight.RING_DISTANCE.get(), Limelight.RING_YAW.get()),
+                    new Vector2D(167, 6.25),
+                    new Vector2D(184, 5.7),
                     new Vector2D(Limelight.PAD_DISTANCE.get(), Limelight.PAD_YAW.get()));
 }
