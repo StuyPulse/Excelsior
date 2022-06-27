@@ -392,4 +392,10 @@ public interface Settings {
             }
         }
     }
+
+    public interface Test {
+        IStream DISTANCE =
+                new SmartNumber("Test/Distance", 150).filtered(Units::inchesToMeters);
+        SmartNumber YAW = new SmartNumber("Test/Yaw", 6.50694);
+    }
 }

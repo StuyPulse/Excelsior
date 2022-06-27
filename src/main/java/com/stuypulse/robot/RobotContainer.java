@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 
 import com.stuypulse.robot.commands.ShootAnywhere;
+import com.stuypulse.robot.commands.TestAlign;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
@@ -105,6 +106,10 @@ public class RobotContainer {
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
                 .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
+
+        // driver.getBottomButton()
+        //         .whileHeld(new ShooterRetractHood(shooter))
+        //         .whileHeld(new TestAlign(this).thenShoot(conveyor));
 
         driver.getLeftBumper()
                 .whileHeld(new ShooterPadShot(shooter))
