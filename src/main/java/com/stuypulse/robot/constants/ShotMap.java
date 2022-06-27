@@ -18,7 +18,7 @@ import com.stuypulse.robot.constants.Settings.Limelight;
 /** Contains interpolation tables for shooting and alignment */
 public interface ShotMap {
         
-        double minDistance = 0;
+        double MIN_DISTANCE = 0;
 
         public interface Distances{
                 double RING = Limelight.RING_DISTANCE.get();
