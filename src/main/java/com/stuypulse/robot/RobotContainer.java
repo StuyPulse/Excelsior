@@ -103,13 +103,13 @@ public class RobotContainer {
                 .whileHeld(new ShooterFenderShot(shooter))
                 .whileHeld(new ConveyorShootSemi(conveyor).perpetually());
 
-        // driver.getBottomButton()
-        //         .whileHeld(new ShooterRingShot(shooter))
-        //         .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
-
         driver.getBottomButton()
-                .whileHeld(new ShooterRetractHood(shooter))
-                .whileHeld(new TestAlign(this).thenShoot(conveyor));
+                .whileHeld(new ShooterRingShot(shooter))
+                .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
+
+        // driver.getBottomButton()
+        //         .whileHeld(new ShooterRetractHood(shooter))
+        //         .whileHeld(new TestAlign(this).thenShoot(conveyor));
 
         driver.getLeftBumper()
                 .whileHeld(new ShooterPadShot(shooter))
