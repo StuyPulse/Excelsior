@@ -31,15 +31,15 @@ public interface ShotMap {
         Interpolator DISTANCE_TO_RPM =
                 new NearestInterpolator(
                         new Vector2D(Distances.RING, Settings.Shooter.RING_RPM.get()),
-                        new Vector2D(Distances.PointA, Units.inchesToMeters(3050)),
-                        new Vector2D(Distances.PointB, Units.inchesToMeters(3200)),    
+                        new Vector2D(Distances.PointA, 3050),
+                        new Vector2D(Distances.PointB, 3200),    
                         new Vector2D(Distances.LAUNCHPAD, Settings.Shooter.PAD_RPM.get()));
 
         // Converts a distance measurement to an angle offset to align to
         Interpolator DISTANCE_TO_YAW =
                 new NearestInterpolator(
                         new Vector2D(Distances.RING, Limelight.RING_YAW.get()),
-                        new Vector2D(Distances.PointA, Units.inchesToMeters(6.25)),
-                        new Vector2D(Distances.PointB, Units.inchesToMeters(5.7)),
+                        new Vector2D(Distances.PointA, 6.25),
+                        new Vector2D(Distances.PointB, 5.70),
                         new Vector2D(Distances.LAUNCHPAD, Limelight.PAD_YAW.get()));
 }
