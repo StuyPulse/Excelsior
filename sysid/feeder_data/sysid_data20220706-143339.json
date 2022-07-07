@@ -143764,5 +143764,5 @@
   "sysid": true,
   "test": "Simple",
   "units": "Meters",
-  "unitsPerRotation": 0.31918581
+  "unitsPerRotation": 60.0
 }
