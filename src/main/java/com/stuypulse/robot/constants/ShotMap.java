@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.math.interpolation.Interpolator;
 import com.stuypulse.stuylib.math.interpolation.NearestInterpolator;
@@ -35,6 +36,10 @@ public interface ShotMap {
                         new Vector2D(Distances.POINT_B, 3200),    
                         new Vector2D(Distances.LAUNCHPAD, Settings.Shooter.PAD_RPM.get()));
 
+        public static double getRPM(double distance) {
+            return DISTANCE_TO_RPM.interpolate(distance);
+        }
+
         // Converts a distance measurement to an angle offset to align to
         Interpolator DISTANCE_TO_YAW =
                 new NearestInterpolator(
@@ -42,4 +47,9 @@ public interface ShotMap {
                         new Vector2D(Distances.POINT_A, 6.25),
                         new Vector2D(Distances.POINT_B, 5.70),
                         new Vector2D(Distances.LAUNCHPAD, Limelight.PAD_YAW.get()));
+        
+        public static Angle getAngle(double distance) {
+            return Angle.fromDegrees(DISTANCE_TO_YAW.interpolate(distance));
+        }
+                
 }
