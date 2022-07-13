@@ -99,30 +99,28 @@ public class RobotContainer {
         operator.getLeftButton().whileHeld(new ConveyorForceEject(conveyor));
 
         /*** Drivetrain ***/
-        // driver.getLeftButton()
-        //         .whileHeld(new ShooterFenderShot(shooter))
-        //         .whileHeld(new ConveyorShootSemi(conveyor).perpetually());
-
-        driver.getBottomButton().whileHeld(new ShootAnywhere(this).perpetually());
-
-        driver.getLeftBumper()
-                .whileHeld(new ShooterPadShot(shooter))
-                .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         driver.getRightButton()
                 .whileHeld(new ShooterRingShot(shooter))
                 .whileHeld(new DrivetrainAlign(drivetrain, camera));
 
+        driver.getLeftButton() // <-- LOW GEAR
+                .whileHeld(new ShooterFenderShot(shooter))
+                .whileHeld(new ConveyorShootSemi(conveyor).perpetually());
+
         driver.getTopButton()
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
 
-        // driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
-        // driver.getTopButton().whileHeld(new ShootAnywhere(this).perpetually());
+        driver.getBottomButton().whileHeld(new ShootAnywhere(this).perpetually());
 
         driver.getRightBumper()
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
+
+        driver.getLeftBumper()
+                .whileHeld(new ShooterPadShot(shooter))
+                .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
