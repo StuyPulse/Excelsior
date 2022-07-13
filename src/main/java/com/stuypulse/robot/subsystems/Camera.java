@@ -14,6 +14,7 @@ import com.stuypulse.robot.constants.Settings;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
@@ -87,6 +88,8 @@ public class Camera extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Camera/Distance", getDistance());
+
         if (!limelight.isConnected()) {
             Settings.reportWarning("Limelight Disconnected!");
         }
