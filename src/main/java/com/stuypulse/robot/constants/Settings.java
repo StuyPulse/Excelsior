@@ -14,6 +14,7 @@ import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.util.SmartPIDController;
+import com.stuypulse.robot.util.SpeedAdjustment;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -367,6 +368,15 @@ public interface Settings {
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
+            }
+
+            static Controller getController(IStream angleError) {
+                return new SmartPIDController("Drivetrain/Alignment/Speed")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER), new SpeedAdjustment(angleError)));
             }
         }
 

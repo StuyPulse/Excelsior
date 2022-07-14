@@ -19,7 +19,6 @@ import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.Drivetrain;
 import com.stuypulse.robot.subsystems.Shooter;
-import com.stuypulse.robot.util.SpeedAdjustment;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -66,8 +65,7 @@ public class BetterShootAnywhere extends CommandBase {
 
         // handle errors
         this.angleController = Alignment.Angle.getController();
-        this.distanceController = Alignment.Speed.getController()
-            .setOutputFilter(new SpeedAdjustment(angleError::get));
+        this.distanceController = Alignment.Speed.getController(angleError::get);
 
         // figure out when ready to shoot
         readyToShoot =
