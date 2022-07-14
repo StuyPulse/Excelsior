@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
@@ -93,15 +94,7 @@ public class BetterShootAnywhere extends CommandBase {
     }
 
     private double getTargetDistance() {
-        final double d = distance.get();
-
-        if (d < Limelight.RING_DISTANCE.get()) {
-            return Limelight.RING_DISTANCE.get();
-        } 
-        if (d > Limelight.PAD_DISTANCE.get()) {
-            return Limelight.PAD_DISTANCE.get();
-        }
-        return d;
+        return SLMath.clamp(distance.get(), Limelight.RING_DISTANCE.get(), Limelight.PAD_DISTANCE.get());
     }
 
     private double getSpeed() {
