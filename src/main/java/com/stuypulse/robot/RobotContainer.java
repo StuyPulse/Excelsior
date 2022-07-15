@@ -102,23 +102,21 @@ public class RobotContainer {
 
         // Right Button --> Low Gear
 
-        driver.getLeftButton()
+        driver.getLeftButton() // --> Low Gear
                 .whileHeld(new ShooterFenderShot(shooter))
-                .whileHeld(new ConveyorShootSemi(conveyor).perpetually());
+                .whileHeld(new ConveyorShootSemi(conveyor).perpetually()); 
 
-        driver.getTopButton()
-                .whileHeld(new ShooterPadShot(shooter))
-                .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
-
-        driver.getBottomButton().whileHeld(new ShootAnywhere(this).perpetually());
-
-        driver.getRightBumper()
+        driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
-                .whileHeld(new DrivetrainAlign(drivetrain, camera));
+                .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
         driver.getLeftBumper()
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
+
+        driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+
+        driver.getRightBumper().whileHeld(new ShootAnywhere(this).perpetually());
 
         /*** Intake ***/
         operator.getRightTriggerButton()
