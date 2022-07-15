@@ -7,7 +7,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-
+import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.robot.commands.ShootAnywhere;
 import com.stuypulse.robot.commands.TestAlign;
 import com.stuypulse.robot.commands.auton.*;
@@ -138,6 +138,7 @@ public class RobotContainer {
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
         operator.getDPadDown().whenPressed(new ShooterPadShot(shooter));
+        operator.getDPadUp().whenPressed(new ClimberJiggle(climber));
 
         operator.getRightButton().whileHeld(new ConveyorShoot(conveyor).perpetually());
 

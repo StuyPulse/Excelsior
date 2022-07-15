@@ -49,6 +49,8 @@ public interface Settings {
 
     public interface Climber {
 
+        SmartNumber JIGGLE_TIME = new SmartNumber("Climber/Jiggle Duration", 0.05);
+        
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.8);
 
