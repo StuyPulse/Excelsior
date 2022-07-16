@@ -88,7 +88,9 @@ public class Camera extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Camera/Distance", getDistance());
+        if (Settings.DEBUG_MODE.get() && hasAnyTarget()) {
+            SmartDashboard.putNumber("Camera/Distance", getDistance());
+        }
 
         if (!limelight.isConnected()) {
             Settings.reportWarning("Limelight Disconnected!");
