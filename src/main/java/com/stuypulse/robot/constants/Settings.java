@@ -217,7 +217,8 @@ public interface Settings {
     }
 
     public interface Intake {
-        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
+        SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire Speed", +1.0);
+        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire Speed", -0.5);
 
         SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.08);
 
