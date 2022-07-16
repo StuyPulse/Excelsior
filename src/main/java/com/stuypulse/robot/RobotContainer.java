@@ -1,3 +1,4 @@
+
 /************************ PROJECT DORCAS ************************/
 /* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
 /* This work is licensed under the terms of the MIT license.    */
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
 
@@ -105,7 +107,7 @@ public class RobotContainer {
 
         driver.getLeftButton() // --> Low Gear
                 .whileHeld(new ShooterFenderShot(shooter))
-                .whileHeld(new ConveyorShootSemi(conveyor).perpetually()); 
+                .whileHeld(new WaitCommand(0.3).andThen(new ConveyorShootSemi(conveyor).perpetually())); 
 
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
@@ -116,8 +118,10 @@ public class RobotContainer {
                 .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+        // driver.getTopButton().whileHeld(new TestAlign(this).thenShoot(conveyor));
 
         driver.getRightBumper().whileHeld(new BetterShootAnywhere(this).perpetually());
+
 
         /*** Intake ***/
         operator.getRightTriggerButton()
