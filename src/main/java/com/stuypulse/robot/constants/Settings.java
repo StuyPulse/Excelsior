@@ -123,8 +123,8 @@ public interface Settings {
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
         SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
 
-        SmartNumber SPEED_FILTER = new SmartNumber("DriPver Settings/Speed Filtering", 0.175);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
+        SmartNumber SPEED_FILTER = new SmartNumber("DriPver Settings/Speed Filtering", 0.125);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.005);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
