@@ -1,3 +1,4 @@
+
 /************************ PROJECT DORCAS ************************/
 /* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
 /* This work is licensed under the terms of the MIT license.    */
@@ -7,7 +8,8 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-
+import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.robot.commands.BetterShootAnywhere;
 import com.stuypulse.robot.commands.ShootAnywhere;
 import com.stuypulse.robot.commands.TestAlign;
 import com.stuypulse.robot.commands.auton.*;
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
 
@@ -99,28 +102,26 @@ public class RobotContainer {
         operator.getLeftButton().whileHeld(new ConveyorForceEject(conveyor));
 
         /*** Drivetrain ***/
-        driver.getLeftButton()
+
+        // Right Button --> Low Gear
+
+        driver.getLeftButton() // --> Low Gear
                 .whileHeld(new ShooterFenderShot(shooter))
-                .whileHeld(new ConveyorShootSemi(conveyor).perpetually());
+                .whileHeld(new WaitCommand(0.3).andThen(new ConveyorShootSemi(conveyor).perpetually())); 
 
         driver.getBottomButton()
                 .whileHeld(new ShooterRingShot(shooter))
                 .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
-        // driver.getBottomButton()
-        //         .whileHeld(new ShooterRetractHood(shooter))
-        //         .whileHeld(new TestAlign(this).thenShoot(conveyor));
-
         driver.getLeftBumper()
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
-        // driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
-        driver.getTopButton().whileHeld(new ShootAnywhere(this).perpetually());
+        driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+        // driver.getTopButton().whileHeld(new TestAlign(this).thenShoot(conveyor));
 
-        driver.getRightBumper()
-                .whileHeld(new ShooterPadShot(shooter))
-                .whileHeld(new DrivetrainPadAlignV2(drivetrain, camera).thenShoot(conveyor));
+        driver.getRightBumper().whileHeld(new BetterShootAnywhere(this).perpetually());
+
 
         /*** Intake ***/
         operator.getRightTriggerButton()
@@ -142,6 +143,7 @@ public class RobotContainer {
         operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
         operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
         operator.getDPadDown().whenPressed(new ShooterPadShot(shooter));
+        operator.getDPadUp().whenPressed(new ClimberJiggle(climber));
 
         operator.getRightButton().whileHeld(new ConveyorShoot(conveyor).perpetually());
 

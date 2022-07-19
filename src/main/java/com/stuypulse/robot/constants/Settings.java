@@ -14,6 +14,7 @@ import com.stuypulse.stuylib.streams.filters.IFilterGroup;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.util.SmartPIDController;
+import com.stuypulse.robot.util.SpeedAdjustment;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -49,6 +50,8 @@ public interface Settings {
 
     public interface Climber {
 
+        SmartNumber JIGGLE_TIME = new SmartNumber("Climber/Jiggle Duration", 0.05);
+        
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.8);
 
@@ -120,8 +123,8 @@ public interface Settings {
         SmartNumber SPEED_POWER = new SmartNumber("Driver Settings/Speed Power", 2.0);
         SmartNumber ANGLE_POWER = new SmartNumber("Driver Settings/Turn Power", 1.0);
 
-        SmartNumber SPEED_FILTER = new SmartNumber("DriPver Settings/Speed Filtering", 0.175);
-        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.01);
+        SmartNumber SPEED_FILTER = new SmartNumber("DriPver Settings/Speed Filtering", 0.125);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver Settings/Turn Filtering", 0.005);
 
         // Width of the robot
         double TRACK_WIDTH = Units.inchesToMeters(26.9); // SEAN PROMISED !
@@ -214,7 +217,8 @@ public interface Settings {
     }
 
     public interface Intake {
-        SmartNumber MOTOR_SPEED = new SmartNumber("Intake/Motor Speed", 1.0);
+        SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire Speed", +1.0);
+        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire Speed", -0.5);
 
         SmartNumber SPEED_FILTERING = new SmartNumber("Intake/Speed Filtering", 0.08);
 
@@ -367,6 +371,15 @@ public interface Settings {
                         .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
+            }
+
+            static Controller getController(IStream angleError) {
+                return new SmartPIDController("Drivetrain/Alignment/Speed")
+                        .setControlSpeed(BANG_BANG)
+                        .setPID(kP, kI, kD)
+                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setOutputFilter(
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER), new SpeedAdjustment(angleError)));
             }
         }
 

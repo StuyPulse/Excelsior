@@ -88,11 +88,17 @@ public class Intake extends SubsystemBase {
     }
 
     public void acquire() {
-        this.speed = +Settings.Intake.MOTOR_SPEED.get();
+        this.speed = +Settings.Intake.ACQUIRE_SPEED.get();
     }
 
     public void deacquire() {
-        this.speed = -Settings.Intake.MOTOR_SPEED.get();
+        if (DriverStation.isAutonomous()) {
+            // this is here only to ensure we don't change behavior 
+            // in autonomous mode. 
+            this.speed = -Settings.Intake.ACQUIRE_SPEED.get();
+        } else {
+            this.speed = Settings.Intake.DEACQUIRE_SPEED.get();
+        }
     }
 
     /*** Automated Intake Actions ***/

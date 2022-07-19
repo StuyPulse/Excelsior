@@ -238,6 +238,17 @@
               "_source0": "network_table:///SmartDashboard/Debug/Climber/Position",
               "_title": "/SmartDashboard/Debug/Climber/Position"
             }
+          },
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Jiggle Duration",
+              "_title": "Jiggle Duration"
+            }
           }
         }
       }
@@ -1264,6 +1275,28 @@
               "_source0": "network_table:///SmartDashboard/Intake/Speed Filtering",
               "_title": "Speed Filtering"
             }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Acquire Speed",
+              "_title": "Acquire Speed"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deacquire Speed",
+              "_title": "Deacquire Speed"
+            }
           }
         }
       }
@@ -1529,9 +1562,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 55.20000076293945,
-    "y": -7.199999809265137,
-    "width": 1488.0,
-    "height": 878.4000244140625
+    "x": 56.0,
+    "y": 1.600000023841858,
+    "width": 1484.800048828125,
+    "height": 868.7999877929688
   }
 }
