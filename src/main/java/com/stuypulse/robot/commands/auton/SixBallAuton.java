@@ -64,6 +64,7 @@ public class SixBallAuton extends SequentialCommandGroup {
             new DrivetrainRamsete(robot.drivetrain, SIX_BALL_TO_SECOND_BALL)
                     .robotRelative());
         addCommands(
+            new InstantCommand(() -> robot.intake.setIgnoreConveyor(false), robot.intake),
             new LEDSet(robot.leds, LEDColor.GREEN.pulse()),
             new DrivetrainAlign(robot.drivetrain, robot.camera)
                     .withTimeout(DRIVETRAIN_ALIGN_TIME)
@@ -71,7 +72,6 @@ public class SixBallAuton extends SequentialCommandGroup {
 
         addCommands(
                 new LEDSet(robot.leds, LEDColor.RAINBOW),
-                new InstantCommand(() -> robot.intake.setIgnoreConveyor(false), robot.intake),
                 new ConveyorShoot(robot.conveyor).withTimeout(15));
 
         // First ball to terminal to RingShot
