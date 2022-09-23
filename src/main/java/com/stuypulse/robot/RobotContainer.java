@@ -13,6 +13,11 @@ import com.stuypulse.robot.commands.BetterShootAnywhere;
 import com.stuypulse.robot.commands.ShootAnywhere;
 import com.stuypulse.robot.commands.TestAlign;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.auton.battlecry.BlueFiveBallAuton;
+import com.stuypulse.robot.commands.auton.battlecry.ThreeBallMysteryAuton;
+import com.stuypulse.robot.commands.auton.chezy.ChezyPartnerBallAuton;
+import com.stuypulse.robot.commands.auton.chezy.SixBallAuton;
+import com.stuypulse.robot.commands.auton.chezy.ThreeBallAuton;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.drivetrain.*;
@@ -171,7 +176,9 @@ public class RobotContainer {
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
         autonChooser.addOption("Blue Balls", new BlueFiveBallAuton(this));
         autonChooser.addOption("Mystery Ball", new ThreeBallMysteryAuton(this));
-        autonChooser.addOption("6 Ball AUTON", new SixBallAuton(this));
+        autonChooser.addOption("CH/6 Ball AUTON", new SixBallAuton(this));
+        autonChooser.addOption("CH/3 Ball AUTON", new ThreeBallAuton(this));
+        autonChooser.addOption("CH/Mean AUTON", new ChezyPartnerBallAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
