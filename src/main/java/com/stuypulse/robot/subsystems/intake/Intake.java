@@ -3,7 +3,7 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.intake;
 
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.IIntake;
 import com.stuypulse.robot.subsystems.Conveyor.Direction;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
