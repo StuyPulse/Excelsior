@@ -44,7 +44,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * @author Raymond Lian
  * @author Reya Miller
  */
-public class Intake extends IIntake {
+public class Intake extends SubsystemBase {
 
     private final CANSparkMax motor;
     private final DoubleSolenoid solenoid;
