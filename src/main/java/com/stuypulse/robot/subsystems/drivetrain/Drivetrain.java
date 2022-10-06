@@ -3,7 +3,7 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.drivetrain;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
