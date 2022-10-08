@@ -1,6 +1,6 @@
 package com.stuypulse.robot.subsystems;
 
-public abstract class IShooter {
+public abstract class IShooter extends SubsystemBase{
     public abstract void setShooterRPM(Number speed);
     public abstract void extendHood();
     public abstract void retractHood();
