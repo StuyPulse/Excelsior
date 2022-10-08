@@ -5,15 +5,15 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import com.stuypulse.robot.subsystems.Climber;
+import com.stuypulse.robot.subsystems.IClimber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimberForceLower extends CommandBase {
 
-    private final Climber climber;
+    private final IClimber climber;
 
-    public ClimberForceLower(Climber climber) {
+    public ClimberForceLower(IClimber climber) {
         this.climber = climber;
         addRequirements(climber);
     }

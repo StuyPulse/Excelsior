@@ -2,19 +2,20 @@ package com.stuypulse.robot.commands.climber;
 
 import com.stuypulse.stuylib.util.StopWatch;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.Climber;
-import com.stuypulse.robot.subsystems.Climber.Tilt;
+
+import com.stuypulse.robot.subsystems.IClimber;
+import com.stuypulse.robot.subsystems.IClimber.Tilt;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimberJiggle extends CommandBase {
     
-    private final Climber climber;
+    private final IClimber climber;
     private final com.stuypulse.stuylib.util.StopWatch timer;
 
     private final Number duration;
 
-    public ClimberJiggle(Climber climber) {
+    public ClimberJiggle(IClimber climber) {
         this.climber = climber;
         timer = new StopWatch();
         this.duration = Settings.Climber.JIGGLE_TIME;
