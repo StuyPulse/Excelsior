@@ -3,7 +3,7 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.shooter;
 
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.IFilter;
@@ -34,7 +34,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  *
  * @author Myles Pasetsky (@selym3)
  */
-public class Shooter extends SubsystemBase {
+public class Shooter extends IShooter {
 
     private final SmartNumber targetRPM;
     private final IFilter targetFilter;

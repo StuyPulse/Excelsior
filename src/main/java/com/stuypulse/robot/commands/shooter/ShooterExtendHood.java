@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ShooterExtendHood extends InstantCommand {
 
-    private final Shooter shooter;
+    private final IShooter shooter;
 
-    public ShooterExtendHood(Shooter shooter) {
+    public ShooterExtendHood(IShooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }

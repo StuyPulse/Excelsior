@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShooterFenderShot extends SequentialCommandGroup {
 
-    public ShooterFenderShot(Shooter shooter) {
+    public ShooterFenderShot(IShooter shooter) {
         addCommands(new ShooterExtendHood(shooter));
         addCommands(new ShooterSetRPM(shooter, Settings.Shooter.FENDER_RPM));
     }

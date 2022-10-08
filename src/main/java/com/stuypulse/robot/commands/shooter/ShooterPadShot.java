@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShooterPadShot extends SequentialCommandGroup {
 
-    public ShooterPadShot(Shooter shooter) {
+    public ShooterPadShot(IShooter shooter) {
         addCommands(new ShooterRetractHood(shooter));
         addCommands(new ShooterSetRPM(shooter, Settings.Shooter.PAD_RPM));
     }

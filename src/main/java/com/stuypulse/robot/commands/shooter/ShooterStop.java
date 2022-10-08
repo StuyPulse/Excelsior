@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ShooterStop extends InstantCommand {
 
-    private final Shooter shooter;
+    private final IShooter shooter;
 
-    public ShooterStop(Shooter shooter) {
+    public ShooterStop(IShooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }
