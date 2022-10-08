@@ -34,7 +34,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  *
  * @author Myles Pasetsky (@selym3)
  */
-public class Shooter extends SubsystemBase {
+public class Shooter extends IShooter {
 
     private final SmartNumber targetRPM;
     private final IFilter targetFilter;

@@ -1,5 +1,5 @@
 package com.stuypulse.robot.subsystems.shooter;
 
-public class SimShooter {
+public class SimShooter extends IShooter {
     
 }

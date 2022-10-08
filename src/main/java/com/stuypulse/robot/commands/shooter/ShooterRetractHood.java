@@ -13,7 +13,7 @@ public class ShooterRetractHood extends InstantCommand {
 
     private final Shooter shooter;
 
-    public ShooterRetractHood(Shooter shooter) {
+    public ShooterRetractHood(IShooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }
