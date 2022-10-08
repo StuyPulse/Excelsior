@@ -1,5 +1,5 @@
 package com.stuypulse.robot.subsystems.climber;
 
-public class SimClimber {
+public class SimClimber extends IClimber{
     
 }
