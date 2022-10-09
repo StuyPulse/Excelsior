@@ -12,6 +12,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.*;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -57,9 +59,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * @author James Li
  * @author Zhi Ming Xu
  */
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends IDrivetrain {
 
     // Enum used to store the state of the gear
+
     public static enum Gear {
         HIGH(Value.kReverse),
         LOW(Value.kForward);
@@ -141,7 +144,7 @@ public class Drivetrain extends SubsystemBase {
     /***********************
      * MOTOR CONFIGURATION *
      ***********************/
-
+    
     private void setMotorConfig(Motors.Config left, Motors.Config right) {
         leftGrayhill.setReverseDirection(
                 Settings.Drivetrain.Encoders.GRAYHILL_INVERTED ^ left.INVERTED);
@@ -167,24 +170,27 @@ public class Drivetrain extends SubsystemBase {
     /*****************
      * Gear Shifting *
      *****************/
-
+    @Override
     // Gets the current gear the robot is in
-    public Gear getGear() {
+    public com.stuypulse.robot.subsystems.IDrivetrain.Gear getGear() {
         return gear;
     }
 
     // Sets the current gear the robot is in
+    @Override
     public void setGear(Gear gear) {
         gearShift.set(gear.value);
         this.gear = gear;
     }
 
     // Sets robot into low gear
+    @Override
     public void setLowGear() {
         setGear(Gear.LOW);
     }
 
     // Sets robot into high gear
+    @Override
     public void setHighGear() {
         setGear(Gear.HIGH);
     }
@@ -194,27 +200,33 @@ public class Drivetrain extends SubsystemBase {
      *********************/
 
     // Distance
+    @Override
     public double getLeftDistance() {
         return leftGrayhill.getDistance();
     }
 
+    @Override
     public double getRightDistance() {
         return rightGrayhill.getDistance();
     }
 
+    @Override
     public double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2.0;
     }
 
     // Velocity
+    @Override
     public double getLeftVelocity() {
         return leftGrayhill.getRate();
     }
 
+    @Override
     public double getRightVelocity() {
         return rightGrayhill.getRate();
     }
 
+    @Override
     public double getVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
@@ -224,30 +236,36 @@ public class Drivetrain extends SubsystemBase {
      ***************/
 
     // Gets current Angle of the Robot as a double (contiuous / not +-180)
+    @Override
     public double getRawGyroAngle() {
         return navx.getAngle();
     }
 
     // Gets current Angle of the Robot
+    @Override
     public Angle getGyroAngle() {
         return Angle.fromDegrees(getRawGyroAngle());
     }
 
     // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
-    private double getRawEncoderAngle() {
+    @Override
+    public double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
         return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
     }
 
     // Gets current Angle of the Robot [using encoders]
+    @Override
     public Angle getEncoderAngle() {
         return Angle.fromDegrees(getRawEncoderAngle());
     }
 
+    @Override
     public Angle getAngle() {
         return Settings.Drivetrain.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
 
+    @Override
     public Angle getRoll() {
         return Angle.fromDegrees(navx.getRoll());
     }
@@ -256,24 +274,29 @@ public class Drivetrain extends SubsystemBase {
      * ODOMETRY FUNCTIONS *
      **********************/
 
-    private void updateOdometry() {
+    @Override
+    public void updateOdometry() {
         odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
     }
 
+    @Override
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
     }
 
+    @Override
     public Rotation2d getRotation2d() {
         // TODO: check if this needs to be negative
         return getAngle().negative().getRotation2d();
     }
 
+    @Override
     public Pose2d getPose() {
         updateOdometry();
         return odometry.getPoseMeters();
     }
 
+    @Override
     public Field2d getField() {
         return field;
     }
@@ -282,6 +305,7 @@ public class Drivetrain extends SubsystemBase {
      * OVERALL SENSOR RESET *
      ************************/
 
+    @Override
     public void reset(Pose2d location) {
         navx.reset();
         leftGrayhill.reset();
@@ -290,6 +314,7 @@ public class Drivetrain extends SubsystemBase {
         odometry.resetPosition(location, getRotation2d());
     }
 
+    @Override
     public void reset() {
         reset(getPose());
     }
@@ -298,18 +323,22 @@ public class Drivetrain extends SubsystemBase {
      * VOLTAGE FUNCTIONS *
      *********************/
 
+    @Override
     public double getBatteryVoltage() {
         return RobotController.getBatteryVoltage();
     }
 
+    @Override
     public double getLeftVoltage() {
         return leftMotors[0].get() * getBatteryVoltage();
     }
 
+    @Override
     public double getRightVoltage() {
         return rightMotors[0].get() * getBatteryVoltage();
     }
 
+    @Override
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         for (MotorController motor : leftMotors) {
             motor.setVoltage(leftVolts);
@@ -326,6 +355,7 @@ public class Drivetrain extends SubsystemBase {
      * STALL DETECTION *
      *******************/
 
+    @Override
     public double getLeftCurrentAmps() {
         double amps = 0.0;
 
@@ -336,6 +366,7 @@ public class Drivetrain extends SubsystemBase {
         return amps / leftMotors.length;
     }
 
+    @Override
     public double getRightCurrentAmps() {
         double amps = 0.0;
 
@@ -346,10 +377,12 @@ public class Drivetrain extends SubsystemBase {
         return amps / rightMotors.length;
     }
 
+    @Override
     public double getCurrentAmps() {
         return (getLeftCurrentAmps() + getRightCurrentAmps()) / 2.0;
     }
 
+    @Override
     public boolean isLeftStalling() {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
@@ -358,6 +391,7 @@ public class Drivetrain extends SubsystemBase {
         return highGear && (current || output) && velocity;
     }
 
+    @Override
     public boolean isRightStalling() {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
@@ -365,7 +399,8 @@ public class Drivetrain extends SubsystemBase {
         boolean velocity = Math.abs(getRightVelocity()) < Stalling.SCIBORGS_THRESHOLD;
         return highGear && (current || output) && velocity;
     }
-
+    
+    @Override
     public boolean isStalling() {
         return isLeftStalling() || isRightStalling();
     }
@@ -375,21 +410,25 @@ public class Drivetrain extends SubsystemBase {
      ********************/
 
     // Stops drivetrain from moving
+    @Override
     public void stop() {
         drivetrain.stopMotor();
     }
 
     // Drives using tank drive
+    @Override
     public void tankDrive(double left, double right) {
         drivetrain.tankDrive(left, right, false);
     }
 
     // Drives using arcade drive
+    @Override
     public void arcadeDrive(double speed, double rotation) {
         drivetrain.arcadeDrive(speed, rotation, false);
     }
 
     // Drives using curvature drive algorithm
+    @Override
     public void curvatureDrive(double xSpeed, double zRotation, double baseTS) {
         // Clamp all inputs to valid values
         xSpeed = SLMath.clamp(xSpeed, -1.0, 1.0);
@@ -417,6 +456,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     // Drives using curvature drive algorithm with automatic quick turn
+    @Override
     public void curvatureDrive(double xSpeed, double zRotation) {
         this.curvatureDrive(xSpeed, zRotation, Settings.Drivetrain.BASE_TURNING_SPEED.get());
     }
@@ -466,4 +506,12 @@ public class Drivetrain extends SubsystemBase {
                     "Debug/Drivetrain/Encoder Angle (deg)", getEncoderAngle().toDegrees());
         }
     }
+
+    @Override
+    public void setGear(com.stuypulse.robot.subsystems.IDrivetrain.Gear gear) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    
 }
