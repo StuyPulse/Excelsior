@@ -5,15 +5,15 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDriveForever extends CommandBase {
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
     private final double speed;
 
-    public DrivetrainDriveForever(Drivetrain drivetrain, double speed) {
+    public DrivetrainDriveForever(IDrivetrain drivetrain, double speed) {
         this.drivetrain = drivetrain;
         this.speed = speed;
 
@@ -24,4 +24,5 @@ public class DrivetrainDriveForever extends CommandBase {
     public void execute() {
         drivetrain.curvatureDrive(speed, 0);
     }
+    
 }

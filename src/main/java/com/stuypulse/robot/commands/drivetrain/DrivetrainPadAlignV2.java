@@ -20,14 +20,15 @@ import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainPadAlignV2 extends CommandBase {
 
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
 
     private final BStream finished;
 
@@ -39,7 +40,7 @@ public class DrivetrainPadAlignV2 extends CommandBase {
     protected final Controller angleController;
     protected final Controller distanceController;
 
-    public DrivetrainPadAlignV2(Drivetrain drivetrain, Camera camera) {
+    public DrivetrainPadAlignV2(IDrivetrain drivetrain, Camera camera) {
         this.drivetrain = drivetrain;
 
         // find errors
@@ -79,7 +80,7 @@ public class DrivetrainPadAlignV2 extends CommandBase {
 
     @Override
     public void initialize() {
-        drivetrain.setLowGear();
+        drivetrain.setGear(Gear.LOW);
 
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
 

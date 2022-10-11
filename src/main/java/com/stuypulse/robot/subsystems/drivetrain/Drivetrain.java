@@ -3,7 +3,7 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.drivetrain;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
@@ -12,13 +12,13 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.*;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -57,19 +56,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * @author James Li
  * @author Zhi Ming Xu
  */
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends IDrivetrain {
 
     // Enum used to store the state of the gear
-    public static enum Gear {
-        HIGH(Value.kReverse),
-        LOW(Value.kForward);
 
-        private final Value value;
-
-        private Gear(Value value) {
-            this.value = value;
-        }
-    }
+    
 
     // An array of motors on the left and right side of the drive train
     private final CANSparkMax[] leftMotors;
@@ -141,7 +132,7 @@ public class Drivetrain extends SubsystemBase {
     /***********************
      * MOTOR CONFIGURATION *
      ***********************/
-
+    
     private void setMotorConfig(Motors.Config left, Motors.Config right) {
         leftGrayhill.setReverseDirection(
                 Settings.Drivetrain.Encoders.GRAYHILL_INVERTED ^ left.INVERTED);
@@ -167,13 +158,14 @@ public class Drivetrain extends SubsystemBase {
     /*****************
      * Gear Shifting *
      *****************/
-
+    @Override
     // Gets the current gear the robot is in
-    public Gear getGear() {
+    public com.stuypulse.robot.subsystems.IDrivetrain.Gear getGear() {
         return gear;
     }
 
     // Sets the current gear the robot is in
+    @Override
     public void setGear(Gear gear) {
         gearShift.set(gear.value);
         this.gear = gear;
@@ -202,6 +194,7 @@ public class Drivetrain extends SubsystemBase {
         return rightGrayhill.getDistance();
     }
 
+    @Override
     public double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2.0;
     }
@@ -215,6 +208,7 @@ public class Drivetrain extends SubsystemBase {
         return rightGrayhill.getRate();
     }
 
+    @Override
     public double getVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
@@ -224,6 +218,7 @@ public class Drivetrain extends SubsystemBase {
      ***************/
 
     // Gets current Angle of the Robot as a double (contiuous / not +-180)
+    @Override
     public double getRawGyroAngle() {
         return navx.getAngle();
     }
@@ -234,7 +229,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
-    private double getRawEncoderAngle() {
+    public double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
         return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
     }
@@ -244,6 +239,7 @@ public class Drivetrain extends SubsystemBase {
         return Angle.fromDegrees(getRawEncoderAngle());
     }
 
+    @Override
     public Angle getAngle() {
         return Settings.Drivetrain.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
@@ -256,10 +252,11 @@ public class Drivetrain extends SubsystemBase {
      * ODOMETRY FUNCTIONS *
      **********************/
 
-    private void updateOdometry() {
+    public void updateOdometry() {
         odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
     }
 
+    @Override
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
     }
@@ -269,6 +266,7 @@ public class Drivetrain extends SubsystemBase {
         return getAngle().negative().getRotation2d();
     }
 
+    @Override
     public Pose2d getPose() {
         updateOdometry();
         return odometry.getPoseMeters();
@@ -282,6 +280,7 @@ public class Drivetrain extends SubsystemBase {
      * OVERALL SENSOR RESET *
      ************************/
 
+    @Override
     public void reset(Pose2d location) {
         navx.reset();
         leftGrayhill.reset();
@@ -290,6 +289,7 @@ public class Drivetrain extends SubsystemBase {
         odometry.resetPosition(location, getRotation2d());
     }
 
+    @Override
     public void reset() {
         reset(getPose());
     }
@@ -365,7 +365,7 @@ public class Drivetrain extends SubsystemBase {
         boolean velocity = Math.abs(getRightVelocity()) < Stalling.SCIBORGS_THRESHOLD;
         return highGear && (current || output) && velocity;
     }
-
+    
     public boolean isStalling() {
         return isLeftStalling() || isRightStalling();
     }
@@ -375,21 +375,27 @@ public class Drivetrain extends SubsystemBase {
      ********************/
 
     // Stops drivetrain from moving
+    @Override
     public void stop() {
         drivetrain.stopMotor();
     }
 
     // Drives using tank drive
+    // TODO: reimplement with velocity / kinematics
+    @Override
     public void tankDrive(double left, double right) {
         drivetrain.tankDrive(left, right, false);
     }
 
     // Drives using arcade drive
+    // TODO: reimplement with velocity / kinematics
+    @Override
     public void arcadeDrive(double speed, double rotation) {
         drivetrain.arcadeDrive(speed, rotation, false);
     }
 
     // Drives using curvature drive algorithm
+    /*
     public void curvatureDrive(double xSpeed, double zRotation, double baseTS) {
         // Clamp all inputs to valid values
         xSpeed = SLMath.clamp(xSpeed, -1.0, 1.0);
@@ -420,7 +426,8 @@ public class Drivetrain extends SubsystemBase {
     public void curvatureDrive(double xSpeed, double zRotation) {
         this.curvatureDrive(xSpeed, zRotation, Settings.Drivetrain.BASE_TURNING_SPEED.get());
     }
-
+    */
+    
     /*********************
      * DEBUG INFORMATION *
      *********************/
@@ -466,4 +473,8 @@ public class Drivetrain extends SubsystemBase {
                     "Debug/Drivetrain/Encoder Angle (deg)", getEncoderAngle().toDegrees());
         }
     }
+
+
+
+    
 }

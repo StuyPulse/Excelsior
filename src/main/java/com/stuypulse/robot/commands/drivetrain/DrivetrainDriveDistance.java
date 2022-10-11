@@ -5,7 +5,7 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 import com.stuypulse.robot.util.TrajectoryLoader;
 
 /**
@@ -17,7 +17,7 @@ import com.stuypulse.robot.util.TrajectoryLoader;
  */
 public class DrivetrainDriveDistance extends DrivetrainRamsete {
 
-    public DrivetrainDriveDistance(Drivetrain drivetrain, double distance) {
+    public DrivetrainDriveDistance(IDrivetrain drivetrain, double distance) {
         super(drivetrain, TrajectoryLoader.getLine(distance));
     }
 

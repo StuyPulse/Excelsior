@@ -13,15 +13,12 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.ThenShoot;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.constants.Settings.Test;
-import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -80,7 +77,7 @@ public class TestAlign extends CommandBase {
 
     @Override
     public void initialize() {
-        robot.drivetrain.setLowGear();
+        robot.drivetrain.setGear(Gear.LOW);
 
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
 

@@ -17,21 +17,22 @@ import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainPadAlign extends CommandBase {
 
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
 
     private final BStream finished;
 
     private final IFuser angleError;
     protected final Controller angleController;
 
-    public DrivetrainPadAlign(Drivetrain drivetrain, Camera camera) {
+    public DrivetrainPadAlign(IDrivetrain drivetrain, Camera camera) {
         this.drivetrain = drivetrain;
 
         // find errors
@@ -58,7 +59,7 @@ public class DrivetrainPadAlign extends CommandBase {
 
     @Override
     public void initialize() {
-        drivetrain.setLowGear();
+        drivetrain.setGear(Gear.LOW);
 
         angleError.initialize();
     }

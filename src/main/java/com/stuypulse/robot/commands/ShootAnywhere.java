@@ -13,13 +13,13 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.constants.ShotMap;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 import com.stuypulse.robot.subsystems.Shooter;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ShootAnywhere extends CommandBase {
 
     private final Conveyor conveyor;
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
     private final Shooter shooter;
 
     private final IFuser angleError;
@@ -76,7 +76,7 @@ public class ShootAnywhere extends CommandBase {
 
     @Override
     public void initialize() {
-        drivetrain.setLowGear();
+        drivetrain.setGear(Gear.LOW);
         shooter.retractHood();
         angleError.initialize();
         distance.initialize();

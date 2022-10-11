@@ -84,13 +84,6 @@ public class LEDController extends SubsystemBase {
         double time = DriverStation.getMatchTime(); // time remaining in a game
         if (time > Settings.LED.MIN_MATCH_TIME) {
             if (time < Settings.LED.END_GAME_TIME) return LEDColor.RED;
-            if (time < Settings.LED.CLIMB_TIME) {
-                double roll = Math.abs(robot.drivetrain.getRoll().toDegrees());
-                if (roll < 3.0) return LEDColor.RAINBOW.pulse();
-                if (roll < 10.0) return LEDColor.BLUE;
-                if (roll < 20.0) return LEDColor.PURPLE;
-                if (roll < 50.0) return LEDColor.RED;
-            }
         }
 
         if (Settings.LED.SWAP_RAINBOW.get()) {
