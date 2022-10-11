@@ -1,6 +1,5 @@
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Pose2d;

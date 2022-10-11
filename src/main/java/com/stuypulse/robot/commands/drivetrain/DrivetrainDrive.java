@@ -14,19 +14,19 @@ import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.Stalling;
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DrivetrainDrive extends CommandBase {
 
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
     private final Gamepad driver;
 
     private final BStream stalling;
     private final IStream speed, angle;
 
-    public DrivetrainDrive(Drivetrain drivetrain, Gamepad driver) {
+    public DrivetrainDrive(IDrivetrain drivetrain, Gamepad driver) {
         this.drivetrain = drivetrain;
         this.driver = driver;
 

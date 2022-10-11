@@ -5,14 +5,14 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class DrivetrainHighGear extends InstantCommand {
-    private Drivetrain drivetrain;
+    private IDrivetrain drivetrain;
 
-    public DrivetrainHighGear(Drivetrain drivetrain) {
+    public DrivetrainHighGear(IDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
 
         addRequirements(this.drivetrain);

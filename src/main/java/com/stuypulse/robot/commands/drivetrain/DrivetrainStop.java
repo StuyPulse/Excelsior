@@ -5,7 +5,7 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * <p>will return to drivetrain drive command after
  */
 public class DrivetrainStop extends CommandBase {
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
 
-    public DrivetrainStop(Drivetrain drivetrain) {
+    public DrivetrainStop(IDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
     }

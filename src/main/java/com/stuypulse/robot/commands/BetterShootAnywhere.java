@@ -17,7 +17,7 @@ import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain;
 import com.stuypulse.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,7 +27,7 @@ public class BetterShootAnywhere extends CommandBase {
     // subsystems
     private final Camera camera;
     private final Conveyor conveyor;
-    private final Drivetrain drivetrain;
+    private final IDrivetrain drivetrain;
     private final Shooter shooter;
 
     // angle control

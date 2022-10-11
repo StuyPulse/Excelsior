@@ -8,10 +8,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.robot.commands.BetterShootAnywhere;
-import com.stuypulse.robot.commands.ShootAnywhere;
-import com.stuypulse.robot.commands.TestAlign;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
@@ -20,6 +17,7 @@ import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.constants.*;
 import com.stuypulse.robot.subsystems.*;
+import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -34,7 +32,7 @@ public class RobotContainer {
     public final Climber climber = new Climber();
     public final ColorSensor colorSensor = new ColorSensor();
     public final Conveyor conveyor = new Conveyor(colorSensor);
-    public final Drivetrain drivetrain = new Drivetrain();
+    public final IDrivetrain drivetrain = new Drivetrain();
     public final Intake intake = new Intake(conveyor);
     public final LEDController leds = new LEDController(this);
     public final Pump pump = new Pump();
