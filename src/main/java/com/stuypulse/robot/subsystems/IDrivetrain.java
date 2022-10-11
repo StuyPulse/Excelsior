@@ -1,7 +1,6 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.subsystems.drivetrain.Drivetrain.Gear;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,7 +16,7 @@ public abstract class IDrivetrain extends SubsystemBase{
         HIGH(Value.kReverse),
         LOW(Value.kForward);
 
-        private final Value value;
+        public final Value value;
 
         private Gear(Value value) {
             this.value = value;

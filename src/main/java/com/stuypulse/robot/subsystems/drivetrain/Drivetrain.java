@@ -63,16 +63,7 @@ public class Drivetrain extends IDrivetrain {
 
     // Enum used to store the state of the gear
 
-    public static enum Gear {
-        HIGH(Value.kReverse),
-        LOW(Value.kForward);
-
-        private final Value value;
-
-        private Gear(Value value) {
-            this.value = value;
-        }
-    }
+    
 
     // An array of motors on the left and right side of the drive train
     private final CANSparkMax[] leftMotors;
@@ -507,11 +498,7 @@ public class Drivetrain extends IDrivetrain {
         }
     }
 
-    @Override
-    public void setGear(com.stuypulse.robot.subsystems.IDrivetrain.Gear gear) {
-        // TODO Auto-generated method stub
-        
-    }
+
 
     
 }
