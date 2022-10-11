@@ -3,12 +3,13 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.climber;
 
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
+import com.stuypulse.robot.subsystems.IClimber;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
@@ -45,7 +46,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * @author andylin2004(Andy Lin)
  * @author hwang30git(Hui Wang)
  */
-public class Climber extends SubsystemBase {
+public class Climber extends IClimber {
 
     public enum Tilt {
         MAX_TILT(Value.kReverse),
@@ -95,6 +96,7 @@ public class Climber extends SubsystemBase {
         climber.set(-Settings.Climber.SLOW_SPEED.get());
         resetEncoder();
     }
+
 
     public void setMotor(double speed) {
         if (speed != 0.0 && isStalling()) {

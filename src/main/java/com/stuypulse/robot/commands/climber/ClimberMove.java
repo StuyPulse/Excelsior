@@ -5,17 +5,18 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import com.stuypulse.robot.subsystems.Climber;
+
+import com.stuypulse.robot.subsystems.IClimber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimberMove extends CommandBase {
 
-    private final Climber climber;
+    private final IClimber climber;
     private final Number number;
     private final boolean movingUp;
 
-    public ClimberMove(Climber climber, Number speed, boolean movingUp) {
+    public ClimberMove(IClimber climber, Number speed, boolean movingUp) {
         this.climber = climber;
         this.number = speed;
         this.movingUp = movingUp;

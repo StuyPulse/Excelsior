@@ -5,15 +5,15 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import com.stuypulse.robot.subsystems.Climber;
+import com.stuypulse.robot.subsystems.IClimber;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ClimberStop extends InstantCommand {
 
-    private final Climber climber;
+    private final IClimber climber;
 
-    public ClimberStop(Climber climber) {
+    public ClimberStop(IClimber climber) {
         this.climber = climber;
         addRequirements(climber);
     }

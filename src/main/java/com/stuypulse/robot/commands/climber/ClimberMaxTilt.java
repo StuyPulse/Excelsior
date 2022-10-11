@@ -5,21 +5,21 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import com.stuypulse.robot.subsystems.Climber;
+import com.stuypulse.robot.subsystems.IClimber;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ClimberMaxTilt extends InstantCommand {
 
-    private final Climber climber;
+    private final IClimber climber;
 
-    public ClimberMaxTilt(Climber climber) {
+    public ClimberMaxTilt(IClimber climber) {
         this.climber = climber;
         addRequirements(climber);
     }
 
     @Override
     public void initialize() {
-        climber.setTilt(Climber.Tilt.MAX_TILT);
+        climber.setTilt(IClimber.Tilt.MAX_TILT);
     }
 }

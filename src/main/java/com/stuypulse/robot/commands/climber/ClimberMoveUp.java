@@ -6,11 +6,11 @@
 package com.stuypulse.robot.commands.climber;
 
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.Climber;
+import com.stuypulse.robot.subsystems.IClimber;
 
 public class ClimberMoveUp extends ClimberMove {
 
-    public ClimberMoveUp(Climber climber) {
+    public ClimberMoveUp(IClimber climber) {
         super(climber, Settings.Climber.DEFAULT_SPEED, true);
     }
 }
