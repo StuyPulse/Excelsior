@@ -6,6 +6,7 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.robot.subsystems.IDrivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -20,6 +21,6 @@ public class DrivetrainLowGear extends InstantCommand {
 
     @Override
     public void initialize() {
-        drivetrain.setLowGear();
+        drivetrain.setGear(Gear.LOW);
     }
 }

@@ -15,6 +15,7 @@ import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Drivetrain.Stalling;
 import com.stuypulse.robot.subsystems.IDrivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -54,14 +55,14 @@ public class DrivetrainDrive extends CommandBase {
 
     public void execute() {
         if (driver.getRawLeftButton()) {
-            drivetrain.setLowGear();
+            drivetrain.setGear(Gear.LOW);
             drivetrain.arcadeDrive(speed.get() - 0.1, angle.get());
         } else if (driver.getRawRightButton() || stalling.get()) {
-            drivetrain.setLowGear();
+            drivetrain.setGear(Gear.LOW);
             drivetrain.arcadeDrive(speed.get(), angle.get());
         } else {
-            drivetrain.setHighGear();
-            drivetrain.curvatureDrive(speed.get(), angle.get());
+            drivetrain.setGear(Gear.HIGH);
+            drivetrain.arcadeDrive(speed.get(), angle.get());
         }
     }
 

@@ -18,6 +18,7 @@ import com.stuypulse.robot.constants.Settings.Limelight;
 import com.stuypulse.robot.subsystems.Camera;
 import com.stuypulse.robot.subsystems.Conveyor;
 import com.stuypulse.robot.subsystems.IDrivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -58,7 +59,7 @@ public class DrivetrainPadAlign extends CommandBase {
 
     @Override
     public void initialize() {
-        drivetrain.setLowGear();
+        drivetrain.setGear(Gear.LOW);
 
         angleError.initialize();
     }

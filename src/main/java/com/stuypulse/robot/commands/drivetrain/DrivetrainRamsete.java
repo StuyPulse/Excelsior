@@ -7,6 +7,7 @@ package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.robot.constants.Settings.Drivetrain.Motion;
 import com.stuypulse.robot.subsystems.IDrivetrain;
+import com.stuypulse.robot.subsystems.IDrivetrain.Gear;
 import com.stuypulse.robot.util.TrajectoryLoader;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -25,12 +26,8 @@ public class DrivetrainRamsete extends RamseteCommand {
                 trajectory,
                 drivetrain::getPose,
                 new RamseteController(),
-                Motion.MOTOR_FEED_FORWARD,
                 Motion.KINEMATICS,
-                drivetrain::getWheelSpeeds,
-                new PIDController(Motion.PID.kP, Motion.PID.kI, Motion.PID.kD),
-                new PIDController(Motion.PID.kP, Motion.PID.kI, Motion.PID.kD),
-                drivetrain::tankDriveVolts,
+                drivetrain::tankDrive,
                 drivetrain);
 
         this.resetPosition = true;
@@ -62,7 +59,7 @@ public class DrivetrainRamsete extends RamseteCommand {
     public void initialize() {
         super.initialize();
 
-        drivetrain.setHighGear();
+        drivetrain.setGear(Gear.HIGH);
 
         if (resetPosition) {
             drivetrain.reset(trajectory.getInitialPose());

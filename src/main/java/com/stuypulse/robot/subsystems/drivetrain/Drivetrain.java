@@ -172,13 +172,11 @@ public class Drivetrain extends IDrivetrain {
     }
 
     // Sets robot into low gear
-    @Override
     public void setLowGear() {
         setGear(Gear.LOW);
     }
 
     // Sets robot into high gear
-    @Override
     public void setHighGear() {
         setGear(Gear.HIGH);
     }
@@ -188,12 +186,10 @@ public class Drivetrain extends IDrivetrain {
      *********************/
 
     // Distance
-    @Override
     public double getLeftDistance() {
         return leftGrayhill.getDistance();
     }
 
-    @Override
     public double getRightDistance() {
         return rightGrayhill.getDistance();
     }
@@ -204,12 +200,10 @@ public class Drivetrain extends IDrivetrain {
     }
 
     // Velocity
-    @Override
     public double getLeftVelocity() {
         return leftGrayhill.getRate();
     }
 
-    @Override
     public double getRightVelocity() {
         return rightGrayhill.getRate();
     }
@@ -230,20 +224,17 @@ public class Drivetrain extends IDrivetrain {
     }
 
     // Gets current Angle of the Robot
-    @Override
     public Angle getGyroAngle() {
         return Angle.fromDegrees(getRawGyroAngle());
     }
 
     // Gets current Angle of the Robot as a double [using encoders] (contiuous / not +-180)
-    @Override
     public double getRawEncoderAngle() {
         double distance = getLeftDistance() - getRightDistance();
         return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
     }
 
     // Gets current Angle of the Robot [using encoders]
-    @Override
     public Angle getEncoderAngle() {
         return Angle.fromDegrees(getRawEncoderAngle());
     }
@@ -253,7 +244,6 @@ public class Drivetrain extends IDrivetrain {
         return Settings.Drivetrain.USING_GYRO ? getGyroAngle() : getEncoderAngle();
     }
 
-    @Override
     public Angle getRoll() {
         return Angle.fromDegrees(navx.getRoll());
     }
@@ -262,7 +252,6 @@ public class Drivetrain extends IDrivetrain {
      * ODOMETRY FUNCTIONS *
      **********************/
 
-    @Override
     public void updateOdometry() {
         odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
     }
@@ -272,7 +261,6 @@ public class Drivetrain extends IDrivetrain {
         return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
     }
 
-    @Override
     public Rotation2d getRotation2d() {
         // TODO: check if this needs to be negative
         return getAngle().negative().getRotation2d();
@@ -284,7 +272,6 @@ public class Drivetrain extends IDrivetrain {
         return odometry.getPoseMeters();
     }
 
-    @Override
     public Field2d getField() {
         return field;
     }
@@ -311,22 +298,18 @@ public class Drivetrain extends IDrivetrain {
      * VOLTAGE FUNCTIONS *
      *********************/
 
-    @Override
     public double getBatteryVoltage() {
         return RobotController.getBatteryVoltage();
     }
 
-    @Override
     public double getLeftVoltage() {
         return leftMotors[0].get() * getBatteryVoltage();
     }
 
-    @Override
     public double getRightVoltage() {
         return rightMotors[0].get() * getBatteryVoltage();
     }
 
-    @Override
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         for (MotorController motor : leftMotors) {
             motor.setVoltage(leftVolts);
@@ -343,7 +326,6 @@ public class Drivetrain extends IDrivetrain {
      * STALL DETECTION *
      *******************/
 
-    @Override
     public double getLeftCurrentAmps() {
         double amps = 0.0;
 
@@ -354,7 +336,6 @@ public class Drivetrain extends IDrivetrain {
         return amps / leftMotors.length;
     }
 
-    @Override
     public double getRightCurrentAmps() {
         double amps = 0.0;
 
@@ -365,12 +346,10 @@ public class Drivetrain extends IDrivetrain {
         return amps / rightMotors.length;
     }
 
-    @Override
     public double getCurrentAmps() {
         return (getLeftCurrentAmps() + getRightCurrentAmps()) / 2.0;
     }
 
-    @Override
     public boolean isLeftStalling() {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getLeftCurrentAmps() > Stalling.CURRENT_THRESHOLD;
@@ -379,7 +358,6 @@ public class Drivetrain extends IDrivetrain {
         return highGear && (current || output) && velocity;
     }
 
-    @Override
     public boolean isRightStalling() {
         boolean highGear = getGear() == Gear.HIGH;
         boolean current = getRightCurrentAmps() > Stalling.CURRENT_THRESHOLD;
@@ -388,7 +366,6 @@ public class Drivetrain extends IDrivetrain {
         return highGear && (current || output) && velocity;
     }
     
-    @Override
     public boolean isStalling() {
         return isLeftStalling() || isRightStalling();
     }
@@ -404,19 +381,21 @@ public class Drivetrain extends IDrivetrain {
     }
 
     // Drives using tank drive
+    // TODO: reimplement with velocity / kinematics
     @Override
     public void tankDrive(double left, double right) {
         drivetrain.tankDrive(left, right, false);
     }
 
     // Drives using arcade drive
+    // TODO: reimplement with velocity / kinematics
     @Override
     public void arcadeDrive(double speed, double rotation) {
         drivetrain.arcadeDrive(speed, rotation, false);
     }
 
     // Drives using curvature drive algorithm
-    @Override
+    /*
     public void curvatureDrive(double xSpeed, double zRotation, double baseTS) {
         // Clamp all inputs to valid values
         xSpeed = SLMath.clamp(xSpeed, -1.0, 1.0);
@@ -444,11 +423,11 @@ public class Drivetrain extends IDrivetrain {
     }
 
     // Drives using curvature drive algorithm with automatic quick turn
-    @Override
     public void curvatureDrive(double xSpeed, double zRotation) {
         this.curvatureDrive(xSpeed, zRotation, Settings.Drivetrain.BASE_TURNING_SPEED.get());
     }
-
+    */
+    
     /*********************
      * DEBUG INFORMATION *
      *********************/
