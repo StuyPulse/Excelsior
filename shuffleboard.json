@@ -5,13 +5,13 @@
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
-        "gridSize": 100.0,
+        "gridSize": 72.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "8,3": {
+          "7,3": {
             "size": [
               4,
               2
@@ -22,7 +22,7 @@
               "_title": "AUTON"
             }
           },
-          "8,1": {
+          "7,1": {
             "size": [
               4,
               1
@@ -33,7 +33,7 @@
               "_title": "Debug Mode"
             }
           },
-          "8,2": {
+          "7,2": {
             "size": [
               2,
               1
@@ -44,7 +44,7 @@
               "_title": "Compressing"
             }
           },
-          "10,0": {
+          "9,0": {
             "size": [
               2,
               1
@@ -55,7 +55,7 @@
               "_title": "Swap LED Meaning"
             }
           },
-          "8,0": {
+          "7,0": {
             "size": [
               2,
               1
@@ -66,7 +66,7 @@
               "_title": "Color Sensor Auto"
             }
           },
-          "1,0": {
+          "0,0": {
             "size": [
               7,
               5
@@ -85,7 +85,7 @@
               "imageHeight": 120
             }
           },
-          "10,2": {
+          "9,2": {
             "size": [
               2,
               1
@@ -264,7 +264,7 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "4,3": {
+          "3,2": {
             "size": [
               1,
               1
@@ -275,7 +275,7 @@
               "_title": "Prox Thresh"
             }
           },
-          "5,3": {
+          "4,2": {
             "size": [
               3,
               1
@@ -288,7 +288,7 @@
               "Colors/Color when false": "#000000FF"
             }
           },
-          "5,2": {
+          "4,1": {
             "size": [
               3,
               1
@@ -301,7 +301,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "5,4": {
+          "4,3": {
             "size": [
               3,
               1
@@ -314,7 +314,7 @@
               "Colors/Color when false": "#000000FF"
             }
           },
-          "5,1": {
+          "4,0": {
             "size": [
               2,
               1
@@ -327,7 +327,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "4,2": {
+          "3,1": {
             "size": [
               1,
               1
@@ -338,7 +338,7 @@
               "_title": "Enabled"
             }
           },
-          "4,4": {
+          "3,3": {
             "size": [
               1,
               1
@@ -349,7 +349,7 @@
               "_title": "Proximity"
             }
           },
-          "8,2": {
+          "7,1": {
             "size": [
               3,
               1
@@ -365,7 +365,7 @@
               "Visuals/Show text": true
             }
           },
-          "8,3": {
+          "7,2": {
             "size": [
               3,
               1
@@ -381,7 +381,7 @@
               "Visuals/Show text": true
             }
           },
-          "8,4": {
+          "7,3": {
             "size": [
               3,
               1
@@ -411,7 +411,7 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "4,0": {
+          "3,0": {
             "size": [
               2,
               1
@@ -433,7 +433,7 @@
               "_title": "SmartDashboard/Conveyor/Auto Retract"
             }
           },
-          "4,4": {
+          "3,4": {
             "size": [
               2,
               1
@@ -444,7 +444,7 @@
               "_title": "SmartDashboard/Conveyor/Disable IR Sensor"
             }
           },
-          "4,1": {
+          "3,1": {
             "size": [
               2,
               1
@@ -455,7 +455,7 @@
               "_title": "SmartDashboard/Conveyor/Reject Speed"
             }
           },
-          "4,2": {
+          "3,2": {
             "size": [
               2,
               1
@@ -466,7 +466,7 @@
               "_title": "SmartDashboard/Conveyor/Top Belt Speed"
             }
           },
-          "7,2": {
+          "6,2": {
             "size": [
               2,
               1
@@ -477,7 +477,7 @@
               "_title": "SmartDashboard/Debug/Conveyor/Gandalf Motor"
             }
           },
-          "7,0": {
+          "6,0": {
             "size": [
               2,
               1
@@ -488,7 +488,7 @@
               "_title": "SmartDashboard/Debug/Conveyor/Top Belt"
             }
           },
-          "7,4": {
+          "6,4": {
             "size": [
               2,
               2
@@ -501,7 +501,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "7,3": {
+          "6,3": {
             "size": [
               2,
               1
@@ -691,10 +691,10 @@
               "_title": "SmartDashboard/Debug/Drivetrain/Current Gear"
             }
           },
-          "7,1": {
+          "6,2": {
             "size": [
               5,
-              4
+              3
             ],
             "content": {
               "_type": "Field",
@@ -730,7 +730,7 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "4,1": {
+          "3,1": {
             "size": [
               2,
               1
@@ -741,7 +741,7 @@
               "_title": "SmartDashboard/Driver Settings/Base Turn Speed"
             }
           },
-          "4,2": {
+          "3,2": {
             "size": [
               2,
               1
@@ -752,7 +752,7 @@
               "_title": "SmartDashboard/Driver Settings/Turn Deadband"
             }
           },
-          "4,3": {
+          "3,3": {
             "size": [
               2,
               1
@@ -763,7 +763,7 @@
               "_title": "SmartDashboard/Driver Settings/Turn Filtering"
             }
           },
-          "4,4": {
+          "3,4": {
             "size": [
               2,
               1
@@ -774,7 +774,7 @@
               "_title": "SmartDashboard/Driver Settings/Turn Power"
             }
           },
-          "7,4": {
+          "6,4": {
             "size": [
               2,
               1
@@ -785,7 +785,7 @@
               "_title": "SmartDashboard/Driver Settings/Speed Power"
             }
           },
-          "7,2": {
+          "6,2": {
             "size": [
               2,
               1
@@ -796,7 +796,7 @@
               "_title": "SmartDashboard/Driver Settings/Speed Deadband"
             }
           },
-          "7,3": {
+          "6,3": {
             "size": [
               2,
               1
@@ -807,7 +807,7 @@
               "_title": "SmartDashboard/Driver Settings/Speed Filtering"
             }
           },
-          "7,0": {
+          "6,0": {
             "size": [
               2,
               2
@@ -854,7 +854,7 @@
               "_title": "SmartDashboard/Shooter/Ring RPM"
             }
           },
-          "6,0": {
+          "5,0": {
             "size": [
               5,
               3
@@ -906,7 +906,7 @@
               "_title": "Feeder RPM"
             }
           },
-          "6,3": {
+          "5,3": {
             "size": [
               5,
               3
@@ -1562,9 +1562,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 56.0,
-    "y": 1.600000023841858,
-    "width": 1484.800048828125,
-    "height": 868.7999877929688
+    "x": -7.333333492279053,
+    "y": -7.333333492279053,
+    "width": 1294.6666259765625,
+    "height": 694.6666870117188
   }
 }
