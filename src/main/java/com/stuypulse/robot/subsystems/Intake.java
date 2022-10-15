@@ -53,6 +53,8 @@ public class Intake extends SubsystemBase {
     private final IFilter speedFilter;
     private double speed;
 
+    private boolean ignoreConveyor;
+
     public Intake(Conveyor conveyor) {
         this.motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
         Motors.INTAKE.configure(motor);
@@ -67,6 +69,8 @@ public class Intake extends SubsystemBase {
 
         this.speedFilter = new LowPassFilter(Settings.Intake.SPEED_FILTERING);
         this.speed = 0.0;
+
+        ignoreConveyor = false;
     }
 
     /*** Extend / Retract ***/
@@ -102,15 +106,22 @@ public class Intake extends SubsystemBase {
     }
 
     /*** Automated Intake Actions ***/
+    public void setIgnoreConveyor(boolean disabled) { 
+        ignoreConveyor = disabled;
+    }
+
     private boolean getShouldStop() {
+        if (ignoreConveyor) return false;
         return conveyor.getGandalfDirection() == Direction.STOPPED && conveyor.hasAnyBall();
     }
 
     private boolean getShouldSlow() {
+        if (ignoreConveyor) return false;
         return conveyor.getGandalfDirection() != Direction.STOPPED && conveyor.hasAnyBall();
     }
 
     public boolean getShouldRetract() {
+        if (ignoreConveyor) return false;
         return Settings.Intake.AUTO_RETRACT.get()
                 && !DriverStation.isAutonomous()
                 && conveyor.isFull();
