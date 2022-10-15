@@ -80,9 +80,8 @@ public class FiveBallAuton extends SequentialCommandGroup {
                         .fieldRelative());
 
         addCommands(
-                new DrivetrainDriveDistance(robot.drivetrain, Units.feetToMeters(-1))
-                .fieldRelative(),
-
+                new WaitCommand(0.1),
+                
                 new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
 
         // Return to Ring to shoot
