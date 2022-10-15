@@ -48,7 +48,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         // Disable telemetry to reduce lag
-        LiveWindow.disableAllTelemetry();
+        LiveWindow.disableAllTelemetry();   
         DriverStation.silenceJoystickConnectionWarning(true);
 
         // Configure the button bindings
@@ -114,7 +114,8 @@ public class RobotContainer {
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
-        driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+        driver.getTopButton().whileHeld(new BetterShootAnywhere(this).perpetually());
+        // driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
         // driver.getTopButton().whileHeld(new TestAlign(this).thenShoot(conveyor));
 
         driver.getRightBumper().whileHeld(new BetterShootAnywhere(this).perpetually());
