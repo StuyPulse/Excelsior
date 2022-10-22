@@ -12,6 +12,7 @@ import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveDistance;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainRamsete;
 import com.stuypulse.robot.commands.intake.IntakeAcquireForever;
 import com.stuypulse.robot.commands.intake.IntakeExtend;
+import com.stuypulse.robot.commands.intake.IntakeRetract;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterRingShot;
 import com.stuypulse.robot.util.LEDColor;
@@ -80,8 +81,10 @@ public class FiveBallAuton extends SequentialCommandGroup {
                         .fieldRelative());
 
         addCommands(
-                new WaitCommand(0.1),
-                
+                new IntakeRetract(robot.intake),
+                new WaitCommand(0.1694),
+                new IntakeExtend(robot.intake), 
+
                 new LEDSet(robot.leds, LEDColor.WHITE.pulse()));
 
         // Return to Ring to shoot
