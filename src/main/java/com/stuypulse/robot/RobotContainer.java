@@ -8,19 +8,8 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-import com.stuypulse.stuylib.network.SmartNumber;
-import com.stuypulse.robot.commands.BetterShootAnywhere;
-import com.stuypulse.robot.commands.ShootAnywhere;
-import com.stuypulse.robot.commands.SimpleAlignShoot;
-import com.stuypulse.robot.commands.TestAlign;
+import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.auton.*;
-import com.stuypulse.robot.commands.auton.battlecry.BlueFiveBallAuton;
-import com.stuypulse.robot.commands.auton.battlecry.ThreeBallMysteryAuton;
-import com.stuypulse.robot.commands.auton.chezy.ChezyPartnerBallAuton;
-import com.stuypulse.robot.commands.auton.chezy.SixBallAuton;
-import com.stuypulse.robot.commands.auton.chezy.ThreeBallAuton;
-import com.stuypulse.robot.commands.auton.chezy.ThreeBallMeanerAuton;
-import com.stuypulse.robot.commands.auton.chezy.ThreeBallOneMeanAuton;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.drivetrain.*;
@@ -59,7 +48,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         // Disable telemetry to reduce lag
-        LiveWindow.disableAllTelemetry();
+        LiveWindow.disableAllTelemetry();   
         DriverStation.silenceJoystickConnectionWarning(true);
 
         // Configure the button bindings
@@ -125,9 +114,8 @@ public class RobotContainer {
                 .whileHeld(new ShooterPadShot(shooter))
                 .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
-        driver.getRightButton().whileHeld(new SimpleAlignShoot(this));
-
-        driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+        driver.getTopButton().whileHeld(new BetterShootAnywhere(this).perpetually());
+        // driver.getTopButton().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
         // driver.getTopButton().whileHeld(new TestAlign(this).thenShoot(conveyor));
 
         driver.getRightBumper().whileHeld(new BetterShootAnywhere(this).perpetually());
@@ -166,36 +154,20 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        // autonChooser.addOption("Do Nothing", new DoNothingAuton());
-
         autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
-        // autonChooser.addOption("0 Ball [ENCODER]", new MobilityAuton.WithEncoders(this));
-        // autonChooser.addOption("1 Ball", new OneBallAuton(this));
         autonChooser.addOption("2 Ball", new TwoBallAuton(this));
-        // autonChooser.addOption("2 Ball Mean", new TwoBallMeanAuton(this));
         autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
 
-        // autonChooser.addOption("4 Ball", new FourBallAuton(this));
         autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
         autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
         autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
         autonChooser.addOption("Four Ball", new FourBallAuton(this));
-        autonChooser.addOption("Blue Balls", new BlueFiveBallAuton(this));
-        autonChooser.addOption("Mystery Ball", new ThreeBallMysteryAuton(this));
-        autonChooser.addOption("CH/6 Ball AUTON", new SixBallAuton(this));
-        autonChooser.addOption("CH/3 Ball AUTON", new ThreeBallAuton(this));
-        autonChooser.addOption("CH/Partner AUTON", new ChezyPartnerBallAuton(this));
-        autonChooser.addOption("CH/3 Ball 1 Mean AUTON", new ThreeBallOneMeanAuton(this));
-        autonChooser.addOption("CH/3 Ball 2 Mean AUTON", new ThreeBallMeanerAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
     public Command getAutonomousCommand() {
-        // return autonChooser.getSelected();
-        // return new FiveBallAuton(this);
-        // return new TwoBallMeanerAuton(this);
-        // return new PartnerBallAuton(this);
         return autonChooser.getSelected();
     }
 }
+
