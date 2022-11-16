@@ -9,8 +9,8 @@ package com.stuypulse.robot;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.commands.*;
-import com.stuypulse.robot.commands.auton.*;
-import com.stuypulse.robot.commands.climber.*;
+// import com.stuypulse.robot.commands.auton.*;
+// import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.drivetrain.*;
 import com.stuypulse.robot.commands.intake.*;
@@ -48,7 +48,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         // Disable telemetry to reduce lag
-        LiveWindow.disableAllTelemetry();   
+        LiveWindow.disableAllTelemetry();
         DriverStation.silenceJoystickConnectionWarning(true);
 
         // Configure the button bindings
@@ -72,81 +72,84 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         /*** Climber ***/
-        operator.getRightStickDown()
-                .whenPressed(new IntakeRetract(intake))
-                .whenPressed(new ShooterStop(shooter))
-                .whenPressed(new ShooterRetractHood(shooter))
-                .whileHeld(new ConveyorStop(conveyor))
-                .whileHeld(new IntakeStop(intake))
-                .whileHeld(new ClimberMoveUp(climber));
+        // operator.getRightStickDown()
+        // .onTrue(new IntakeRetract(intake))
+        // .onTrue(new ShooterStop(shooter))
+        // .onTrue(new ShooterRetractHood(shooter))
+        // .whileTrue(new ConveyorStop(conveyor))
+        // .whileTrue(new IntakeStop(intake))
+        // .whileTrue(new ClimberMoveUp(climber));
 
-        operator.getRightStickUp()
-                .whenPressed(new IntakeRetract(intake))
-                .whenPressed(new ShooterStop(shooter))
-                .whenPressed(new ShooterRetractHood(shooter))
-                .whileHeld(new ConveyorStop(conveyor))
-                .whileHeld(new IntakeStop(intake))
-                .whileHeld(new DrivetrainStop(drivetrain))
-                .whileHeld(new ClimberMoveDown(climber));
+        // operator.getRightStickUp()
+        // .onTrue(new IntakeRetract(intake))
+        // .onTrue(new ShooterStop(shooter))
+        // .onTrue(new ShooterRetractHood(shooter))
+        // .whileHeld(new ConveyorStop(conveyor))
+        // .whileHeld(new IntakeStop(intake))
+        // .whileHeld(new DrivetrainStop(drivetrain))
+        // .whileHeld(new ClimberMoveDown(climber));
 
-        operator.getLeftStickRight().whenPressed(new ClimberMaxTilt(climber));
-        operator.getLeftStickLeft().whenPressed(new ClimberNoTilt(climber));
+        // operator.getLeftStickRight().onTrue(new ClimberMaxTilt(climber));
+        // operator.getLeftStickLeft().onTrue(new ClimberNoTilt(climber));
 
-        operator.getSelectButton().whileHeld(new ClimberForceLower(climber));
+        // operator.getSelectButton().whileHeld(new ClimberForceLower(climber));
 
-        /*** Conveyor ***/
-        operator.getTopButton().whileHeld(new ConveyorStop(conveyor));
-        operator.getLeftButton().whileHeld(new ConveyorForceEject(conveyor));
+        // /*** Conveyor ***/
+        // operator.getTopButton().whileHeld(new ConveyorStop(conveyor));
+        // operator.getLeftButton().whileHeld(new ConveyorForceEject(conveyor));
 
         /*** Drivetrain ***/
 
         // Right Button --> Low Gear
 
         // driver.getLeftButton() // --> Low Gear
-        //         .whileHeld(new ShooterFenderShot(shooter))
-        //         .whileHeld(new WaitCommand(0.3).andThen(new ConveyorShootSemi(conveyor).perpetually())); 
+        // .whileHeld(new ShooterFenderShot(shooter))
+        // .whileHeld(new WaitCommand(0.3).andThen(new
+        // ConveyorShootSemi(conveyor).perpetually()));
 
-        driver.getBottomButton()
-                .whileHeld(new ShooterRingShot(shooter))
-                .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
+        // driver.getBottomButton()
+        // .whileHeld(new ShooterRingShot(shooter))
+        // .whileHeld(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
-        driver.getLeftBumper()
-                .whileHeld(new ShooterPadShot(shooter))
-                .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
+        // driver.getLeftBumper()
+        // .whileHeld(new ShooterPadShot(shooter))
+        // .whileHeld(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         // driver.getRightButton().whileHeld(new SimpleAlignShoot(this));
-        
-        driver.getTopButton().whileHeld(new BetterShootAnywhere(this).perpetually());
-        // driver.getTopButton().whileHeld(new TestAlign(this).thenShoot(conveyor));
 
-        driver.getRightBumper().whileHeld(new DrivetrainAlign(drivetrain, camera).perpetually());
+        // driver.getTopButton().whileHeld(new BetterShootAnywhere(this).perpetually());
+        // // driver.getTopButton().whileHeld(new TestAlign(this).thenShoot(conveyor));
+
+        // driver.getRightBumper().whileHeld(new DrivetrainAlign(drivetrain,
+        // camera).perpetually());
 
         /*** Intake ***/
-        operator.getRightTriggerButton()
-                .whenPressed(new IntakeExtend(intake))
-                .whileHeld(new IntakeAcquire(intake))
-                .whenReleased(
-                        new IntakeRetract(intake));
+        // operator.getRightTriggerButton()
+        // .whenPressed(new IntakeExtend(intake))
+        // .whileHeld(new IntakeAcquire(intake))
+        // .whenReleased(
+        // new IntakeRetract(intake));
 
-        operator.getRightBumper()
-                .whenPressed(new IntakeExtend(intake))
-                .whileHeld(new IntakeAcquire(intake))
-                .whileHeld(new ConveyorForceIntake(conveyor))
-                .whenReleased(new IntakeRetract(intake));
+        // operator.getRightBumper()
+        // .whenPressed(new IntakeExtend(intake))
+        // .whileHeld(new IntakeAcquire(intake))
+        // .whileHeld(new ConveyorForceIntake(conveyor))
+        // .whenReleased(new IntakeRetract(intake));
 
-        operator.getLeftTriggerButton().whileHeld(new IntakeDeacquire(intake));
+        // operator.getLeftTriggerButton().whileHeld(new IntakeDeacquire(intake));
 
-        operator.getDPadUp().whenPressed(new IntakeRetract(intake));
+        // operator.getDPadUp().whenPressed(new IntakeRetract(intake));
 
-        /*** Shooter ***/
-        operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
-        operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
-        operator.getDPadDown().whenPressed(new ShooterPadShot(shooter));
-        operator.getDPadUp().whenPressed(new ClimberJiggle(climber));
+        // /*** Shooter ***/
+        // operator.getDPadLeft().whenPressed(new ShooterFenderShot(shooter));
+        // operator.getDPadRight().whenPressed(new ShooterRingShot(shooter));
+        // operator.getDPadDown().whenPressed(new ShooterPadShot(shooter));
+        // operator.getDPadUp().whenPressed(new ClimberJiggle(climber));
 
-        operator.getRightButton().whileHeld(new ConveyorShoot(conveyor).perpetually());
+        // operator.getRightButton().whileHeld(new
+        // ConveyorShoot(conveyor).perpetually());
 
-        operator.getLeftBumper().whenPressed(new ShooterStop(shooter));
+        // operator.getLeftBumper().whenPressed(new ShooterStop(shooter));
     }
 
     /**************/
@@ -154,20 +157,20 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
-        autonChooser.addOption("2 Ball", new TwoBallAuton(this));
-        autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
+        // autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
+        // autonChooser.addOption("2 Ball", new TwoBallAuton(this));
+        // autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
 
-        autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
-        autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
-        autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
-        autonChooser.addOption("Four Ball", new FourBallAuton(this));
+        // autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
+        // autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
+        // autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+        // autonChooser.addOption("Four Ball", new FourBallAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
+
     }
 
     public Command getAutonomousCommand() {
         return autonChooser.getSelected();
     }
 }
-

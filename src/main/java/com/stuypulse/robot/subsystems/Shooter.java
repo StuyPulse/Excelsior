@@ -8,7 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
-import com.stuypulse.stuylib.streams.filters.TimedRateLimit;
+import com.stuypulse.stuylib.streams.filters.RateLimit;
 
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
@@ -25,12 +25,18 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 /**
  * Shooter subsystem for shooting balls out of the robot.
  *
- * <p>Uses feedforward to control two flywheels -- one for shooting and one for feeding. This drives
+ * <p>
+ * Uses feedforward to control two flywheels -- one for shooting and one for
+ * feeding. This drives
  * the wheels to a desired RPM.
  *
- * <p>Feedforward models (and feedback gains) are obtained through system identification.
+ * <p>
+ * Feedforward models (and feedback gains) are obtained through system
+ * identification.
  *
- * <p>Also contains an adjustable hood, which physically allows for two shooting angles.
+ * <p>
+ * Also contains an adjustable hood, which physically allows for two shooting
+ * angles.
  *
  * @author Myles Pasetsky (@selym3)
  */
@@ -47,29 +53,26 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         /** TARGET RPM VARIABLES * */
         targetRPM = new SmartNumber("Shooter/Target RPM", 0.0);
-        targetFilter =
-                new TimedRateLimit(Settings.Shooter.MAX_TARGET_RPM_CHANGE)
-                        .then(new LowPassFilter(Settings.Shooter.CHANGE_RC));
+        targetFilter = new RateLimit(Settings.Shooter.MAX_TARGET_RPM_CHANGE)
+                .then(new LowPassFilter(Settings.Shooter.CHANGE_RC));
 
         /** SHOOTER * */
         CANSparkMax shooterMotor = new CANSparkMax(Ports.Shooter.LEFT, MotorType.kBrushless);
         CANSparkMax shooterFollower = new CANSparkMax(Ports.Shooter.RIGHT, MotorType.kBrushless);
 
-        shooter =
-                new PIDFlywheel(
-                        shooterMotor,
-                        Settings.Shooter.ShooterFF.getController(),
-                        Settings.Shooter.ShooterPID.getController());
+        shooter = new PIDFlywheel(
+                shooterMotor,
+                Settings.Shooter.ShooterFF.getController(),
+                Settings.Shooter.ShooterPID.getController());
         shooter.addFollower(shooterFollower);
 
         /** FEEDER * */
         CANSparkMax feederMotor = new CANSparkMax(Ports.Shooter.FEEDER, MotorType.kBrushless);
 
-        feeder =
-                new PIDFlywheel(
-                        feederMotor,
-                        Settings.Shooter.FeederFF.getController(),
-                        Settings.Shooter.FeederPID.getController());
+        feeder = new PIDFlywheel(
+                feederMotor,
+                Settings.Shooter.FeederFF.getController(),
+                Settings.Shooter.FeederPID.getController());
 
         /** HOOD * */
         hood = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.Shooter.HOOD_SOLENOID);

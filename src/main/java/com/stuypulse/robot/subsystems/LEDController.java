@@ -63,13 +63,14 @@ public class LEDController extends SubsystemBase {
 
     private void setLEDConditions() {
         new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.RED_BALL))
-                .whenPressed(new LEDSet(this, LEDColor.RED));
+                .onTrue(new LEDSet(this, LEDColor.RED));
         new TeleopButton(() -> robot.colorSensor.hasBall(BallColor.BLUE_BALL))
-                .whenPressed(new LEDSet(this, LEDColor.BLUE));
+                .onTrue(new LEDSet(this, LEDColor.BLUE));
     }
 
     public LEDColor getDefaultColor() {
-        if (DriverStation.isTest() && robot.pump.getCompressing()) return LEDColor.HEARTBEAT;
+        if (DriverStation.isTest() && robot.pump.getCompressing())
+            return LEDColor.HEARTBEAT;
 
         // limit switches
         boolean left = robot.climber.getLeftClear();
@@ -83,32 +84,45 @@ public class LEDController extends SubsystemBase {
         // time based LEDs
         double time = DriverStation.getMatchTime(); // time remaining in a game
         if (time > Settings.LED.MIN_MATCH_TIME) {
-            if (time < Settings.LED.END_GAME_TIME) return LEDColor.RED;
+            if (time < Settings.LED.END_GAME_TIME)
+                return LEDColor.RED;
             if (time < Settings.LED.CLIMB_TIME) {
                 double roll = Math.abs(robot.drivetrain.getRoll().toDegrees());
-                if (roll < 3.0) return LEDColor.RAINBOW.pulse();
-                if (roll < 10.0) return LEDColor.BLUE;
-                if (roll < 20.0) return LEDColor.PURPLE;
-                if (roll < 50.0) return LEDColor.RED;
+                if (roll < 3.0)
+                    return LEDColor.RAINBOW.pulse();
+                if (roll < 10.0)
+                    return LEDColor.BLUE;
+                if (roll < 20.0)
+                    return LEDColor.PURPLE;
+                if (roll < 50.0)
+                    return LEDColor.RED;
             }
         }
 
         if (Settings.LED.SWAP_RAINBOW.get()) {
-            if (!robot.conveyor.isFull()) return LEDColor.RAINBOW;
+            if (!robot.conveyor.isFull())
+                return LEDColor.RAINBOW;
         } else {
-            if (robot.conveyor.isFull()) return LEDColor.RAINBOW;
+            if (robot.conveyor.isFull())
+                return LEDColor.RAINBOW;
         }
 
-        double shooterError =
-                Math.abs(robot.shooter.getRawTargetRPM() - robot.shooter.getShooterRPM());
+        double shooterError = Math.abs(robot.shooter.getRawTargetRPM() - robot.shooter.getShooterRPM());
 
-        if (robot.shooter.getRawTargetRPM() <= Settings.LED.RPM_ERROR_STEP) return LEDColor.OFF;
-        if (shooterError <= 1.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.GREEN;
-        if (shooterError <= 2.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.LIME;
-        if (shooterError <= 3.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.YELLOW;
-        if (shooterError <= 4.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.ORANGE;
-        if (shooterError <= 5.0 * Settings.LED.RPM_ERROR_STEP) return LEDColor.RED;
-        else return LEDColor.RED.pulse();
+        if (robot.shooter.getRawTargetRPM() <= Settings.LED.RPM_ERROR_STEP)
+            return LEDColor.OFF;
+        if (shooterError <= 1.0 * Settings.LED.RPM_ERROR_STEP)
+            return LEDColor.GREEN;
+        if (shooterError <= 2.0 * Settings.LED.RPM_ERROR_STEP)
+            return LEDColor.LIME;
+        if (shooterError <= 3.0 * Settings.LED.RPM_ERROR_STEP)
+            return LEDColor.YELLOW;
+        if (shooterError <= 4.0 * Settings.LED.RPM_ERROR_STEP)
+            return LEDColor.ORANGE;
+        if (shooterError <= 5.0 * Settings.LED.RPM_ERROR_STEP)
+            return LEDColor.RED;
+        else
+            return LEDColor.RED.pulse();
     }
 
     @Override

@@ -1,12 +1,12 @@
 /************************ PROJECT DORCAS ************************/
-/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
-/* This work is licensed under the terms of the MIT license.    */
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved. */
+/* This work is licensed under the terms of the MIT license. */
 /****************************************************************/
 
 package com.stuypulse.robot.util;
 
-import com.stuypulse.stuylib.control.PIDCalculator;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.control.feedback.PIDCalculator;
+import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -27,7 +27,8 @@ public class SmartPIDController extends PIDController {
 
         tuningPID = new SmartBoolean(join(id, "Tuning PID"), false);
         tuningPD = new SmartBoolean(join(id, "Tuning PD"), false);
-        calculator = new PIDCalculator(new SmartNumber(join(id, "Tuning Speed"), 1.0));
+        calculator = new PIDCalculator(new SmartNumber(join(id, "Tuning Speed"),
+                1.0));
     }
 
     public SmartPIDController setControlSpeed(Number speed) {
@@ -35,18 +36,18 @@ public class SmartPIDController extends PIDController {
         return this;
     }
 
-    @Override
-    protected double calculate(double error) {
-        if (tuningPID.get()) {
-            tuningPD.set(false);
-            setPID(calculator.getPIDController());
-            return calculator.update(error);
-        } else if (tuningPD.get()) {
-            tuningPID.set(false);
-            setPID(calculator.getPDController());
-            return calculator.update(error);
-        } else {
-            return super.calculate(error);
-        }
-    }
+    // @Override
+    // protected double calculate(double error) {
+    // if (tuningPID.get()) {
+    // tuningPD.set(false);
+    // setPID(calculator.getPIDController());
+    // return calculator.update(error);
+    // } else if (tuningPD.get()) {
+    // tuningPID.set(false);
+    // setPID(calculator.getPDController());
+    // return calculator.update(error);
+    // } else {
+    // return super.calculate(error);
+    // }
+    // }
 }

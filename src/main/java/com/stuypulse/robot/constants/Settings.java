@@ -51,7 +51,7 @@ public interface Settings {
     public interface Climber {
 
         SmartNumber JIGGLE_TIME = new SmartNumber("Climber/Jiggle Duration", 0.05);
-        
+
         SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
         SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.8);
 
@@ -62,8 +62,7 @@ public interface Settings {
             double WINCH_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(1.25);
             double ENCODER_RATIO = GEAR_RATIO * WINCH_CIRCUMFERENCE;
 
-            SmartNumber MAX_EXTENSION =
-                    new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
+            SmartNumber MAX_EXTENSION = new SmartNumber("Climber/Max Extension", Units.inchesToMeters(69.0));
         }
 
         public interface Stalling {
@@ -135,8 +134,8 @@ public interface Settings {
 
             DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
 
-            SimpleMotorFeedforward MOTOR_FEED_FORWARD =
-                    new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
+            SimpleMotorFeedforward MOTOR_FEED_FORWARD = new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV,
+                    FeedForward.kA);
 
             double MAX_VELOCITY = 2.0;
             double MAX_ACCELERATION = 3.0;
@@ -163,8 +162,7 @@ public interface Settings {
 
         public interface Stalling {
             // Enable / Disable the Stall Detection
-            SmartBoolean STALL_DETECTION =
-                    new SmartBoolean("Driver Settings/Stall Detection", true);
+            SmartBoolean STALL_DETECTION = new SmartBoolean("Driver Settings/Stall Detection", true);
 
             // Motor will hit current limit when stalling
             double CURRENT_THRESHOLD = Motors.Drivetrain.CURRENT_LIMIT_AMPS - 10;
@@ -200,17 +198,15 @@ public interface Settings {
                 }
 
                 /** = 0.22666 */
-                double GRAYHILL_TO_WHEEL =
-                        Stages.GRAYHILL_STAGE * Stages.THIRD_STAGE * Stages.EXTERNAL_STAGE;
+                double GRAYHILL_TO_WHEEL = Stages.GRAYHILL_STAGE * Stages.THIRD_STAGE * Stages.EXTERNAL_STAGE;
             }
 
             double WHEEL_DIAMETER = Units.inchesToMeters(4);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
             double GRAYHILL_PULSES_PER_REVOLUTION = 256;
-            double GRAYHILL_DISTANCE_PER_PULSE =
-                    (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
-                            * GearRatio.GRAYHILL_TO_WHEEL;
+            double GRAYHILL_DISTANCE_PER_PULSE = (WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION)
+                    * GearRatio.GRAYHILL_TO_WHEEL;
 
             boolean GRAYHILL_INVERTED = true;
         }
@@ -308,7 +304,7 @@ public interface Settings {
     }
 
     public interface Limelight {
-        int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
+        int[] PORTS = { 5800, 5801, 5802, 5803, 5804, 5805 };
 
         // characteristics of the limelight itself
         double LIMELIGHT_HEIGHT = Units.inchesToMeters(41.506);
@@ -322,10 +318,8 @@ public interface Settings {
         // if the intake is on the ring, distance of limelight to hub
         double CENTER_TO_HUB = Field.Hub.UPPER_RADIUS;
         double LIMELIGHT_TO_INTAKE = Units.inchesToMeters(30);
-        IStream RING_DISTANCE =
-                new SmartNumber("Limelight/Ring Distance", 150).filtered(Units::inchesToMeters);
-        IStream PAD_DISTANCE =
-                new SmartNumber("Limelight/Pad Distance", 217).filtered(Units::inchesToMeters);
+        IStream RING_DISTANCE = new SmartNumber("Limelight/Ring Distance", 150).filtered(Units::inchesToMeters);
+        IStream PAD_DISTANCE = new SmartNumber("Limelight/Pad Distance", 217).filtered(Units::inchesToMeters);
         double HEIGHT_DIFFERENCE = Field.Hub.HEIGHT - LIMELIGHT_HEIGHT;
 
         // Bounds for Distance
@@ -336,14 +330,11 @@ public interface Settings {
         double DEBOUNCE_TIME = 0.2;
 
         // What angle error should make us start distance alignment
-        SmartNumber MAX_ANGLE_FOR_MOVEMENT =
-                new SmartNumber("Limelight/Max Angle For Distance", 3.0);
+        SmartNumber MAX_ANGLE_FOR_MOVEMENT = new SmartNumber("Limelight/Max Angle For Distance", 3.0);
 
         SmartNumber MAX_ANGLE_ERROR = new SmartNumber("Limelight/Max Angle Error", 2);
-        SmartNumber MAX_DISTANCE_ERROR =
-                new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
-        SmartNumber
-                MAX_VELOCITY = // THERE WAS AN ERROR WHERE THIS WOULD'NT CHECK WHEN MOVING BACKWARDS
+        SmartNumber MAX_DISTANCE_ERROR = new SmartNumber("Limelight/Max Distance Error", Units.inchesToMeters(6));
+        SmartNumber MAX_VELOCITY = // THERE WAS AN ERROR WHERE THIS WOULD'NT CHECK WHEN MOVING BACKWARDS
                 new SmartNumber("Limelight/Max Velocity Error", Units.inchesToMeters(3));
     }
 
@@ -359,16 +350,14 @@ public interface Settings {
 
             double BANG_BANG = 0.7;
 
-            SmartNumber ERROR_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
-            SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.1);
+            SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Error Filter", 0.0);
+            SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Speed/Output Filter", 0.1);
 
             static Controller getController() {
                 return new SmartPIDController("Drivetrain/Alignment/Speed")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        // .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
@@ -377,9 +366,10 @@ public interface Settings {
                 return new SmartPIDController("Drivetrain/Alignment/Speed")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        // .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
-                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER), new SpeedAdjustment(angleError)));
+                                new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER),
+                                        new SpeedAdjustment(angleError)));
             }
         }
 
@@ -390,16 +380,14 @@ public interface Settings {
 
             double BANG_BANG = 0.75;
 
-            SmartNumber ERROR_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
-            SmartNumber OUT_FILTER =
-                    new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.01);
+            SmartNumber ERROR_FILTER = new SmartNumber("Drivetrain/Alignment/Angle/Error Filter", 0.0);
+            SmartNumber OUT_FILTER = new SmartNumber("Drivetrain/Alignment/Angle/Output Filter", 0.01);
 
             static Controller getController() {
                 return new SmartPIDController("Drivetrain/Alignment/Angle")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        // .setErrorFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
@@ -407,8 +395,7 @@ public interface Settings {
     }
 
     public interface Test {
-        IStream DISTANCE =
-                new SmartNumber("Test/Distance", 150).filtered(Units::inchesToMeters);
+        IStream DISTANCE = new SmartNumber("Test/Distance", 150).filtered(Units::inchesToMeters);
         SmartNumber YAW = new SmartNumber("Test/Yaw", 6.50694);
     }
 }

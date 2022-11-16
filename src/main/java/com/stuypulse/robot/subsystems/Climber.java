@@ -1,6 +1,6 @@
 /************************ PROJECT DORCAS ************************/
-/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
-/* This work is licensed under the terms of the MIT license.    */
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved. */
+/* This work is licensed under the terms of the MIT license. */
 /****************************************************************/
 
 package com.stuypulse.robot.subsystems;
@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Climber.Encoders;
 import com.stuypulse.robot.constants.Settings.Climber.Stalling;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -24,27 +25,27 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*-
- * Climbs at end of match
- *
- * Contains:
- *      - Change tilt of climber
- *      - Move climber via motor
- *      - Different tilt angles
- *      - Encoder + Solenoid used for stopping
- *
- * @author independence106(Jason Zhou)
- * @author Ca7Ac1(Ayan Chowdhury)
- * @author marcjiang7(Marc Jiang)
- * @author ambers7(Amber Shen)
- * @author Souloutz(Howard Kong)
- * @author jiayuyan0501(Jiayu Yan)
- * @author ijiang05(Ian Jiang)
- * @author TraceyLin(Tracey Lin)
- * @author annazheng14(Anna Zheng)
- * @author lonelydot(Raymond Zhang)
- * @author andylin2004(Andy Lin)
- * @author hwang30git(Hui Wang)
- */
+* Climbs at end of match
+*
+* Contains:
+* - Change tilt of climber
+* - Move climber via motor
+* - Different tilt angles
+* - Encoder + Solenoid used for stopping
+*
+* @author independence106(Jason Zhou)
+* @author Ca7Ac1(Ayan Chowdhury)
+* @author marcjiang7(Marc Jiang)
+* @author ambers7(Amber Shen)
+* @author Souloutz(Howard Kong)
+* @author jiayuyan0501(Jiayu Yan)
+* @author ijiang05(Ian Jiang)
+* @author TraceyLin(Tracey Lin)
+* @author annazheng14(Anna Zheng)
+* @author lonelydot(Raymond Zhang)
+* @author andylin2004(Andy Lin)
+* @author hwang30git(Hui Wang)
+*/
 public class Climber extends SubsystemBase {
 
     public enum Tilt {
@@ -79,11 +80,10 @@ public class Climber extends SubsystemBase {
 
         stalling = new Debouncer(Stalling.DEBOUNCE_TIME, DebounceType.kBoth);
 
-        tilter =
-                new DoubleSolenoid(
-                        PneumaticsModuleType.CTREPCM,
-                        Ports.Climber.TILTER_FORWARD,
-                        Ports.Climber.TILTER_REVERSE);
+        tilter = new DoubleSolenoid(
+                PneumaticsModuleType.CTREPCM,
+                Ports.Climber.TILTER_FORWARD,
+                Ports.Climber.TILTER_REVERSE);
 
         left = new DigitalInput(Ports.Climber.LEFT_LIMIT);
         right = new DigitalInput(Ports.Climber.RIGHT_LIMIT);
@@ -91,10 +91,10 @@ public class Climber extends SubsystemBase {
 
     /*** MOTOR CONTROL ***/
 
-    public void forceLowerClimber() {
-        climber.set(-Settings.Climber.SLOW_SPEED.get());
-        resetEncoder();
-    }
+    // public void forceLowerClimber() {
+    // climber.set(-Settings.Climber.SLOW_SPEED.get());
+    // resetEncoder();
+    // }
 
     public void setMotor(double speed) {
         if (speed != 0.0 && isStalling()) {
@@ -135,7 +135,8 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getTopHeightLimitReached() {
-        return false; // Encoders.ENABLED.get() && getPosition() >= Encoders.MAX_EXTENSION.get();
+        return false; // Encoders.ENABLED.get() && getPosition() >=
+        // Encoders.MAX_EXTENSION.get();
     }
 
     public boolean getBottomHeightLimitReached() {
@@ -170,7 +171,8 @@ public class Climber extends SubsystemBase {
         boolean current = getCurrentAmps() > Stalling.CURRENT_THRESHOLD;
         boolean output = Math.abs(getDutyCycle()) > Stalling.DUTY_CYCLE_THRESHOLD;
         boolean velocity = Math.abs(getVelocity()) < Stalling.SCIBORGS_THRESHOLD;
-        return Stalling.ENABLED.get() && stalling.calculate(output && current && velocity);
+        return Stalling.ENABLED.get() && stalling.calculate(output && current &&
+                velocity);
     }
 
     /*** DEBUG INFORMATION ***/

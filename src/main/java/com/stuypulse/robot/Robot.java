@@ -39,10 +39,12 @@ public class Robot extends TimedRobot {
     /*********************/
 
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+    }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+    }
 
     /***********************/
     /*** AUTONOMOUS MODE ***/
@@ -60,10 +62,12 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
-    public void autonomousExit() {}
+    public void autonomousExit() {
+    }
 
     /*******************/
     /*** TELEOP MODE ***/
@@ -71,7 +75,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        new TeleopInit(robot).schedule(false);
+        new TeleopInit(robot).schedule();
         robot.pump.compress();
 
         if (auto != null) {
@@ -80,10 +84,12 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+    }
 
     @Override
-    public void teleopExit() {}
+    public void teleopExit() {
+    }
 
     /*****************/
     /*** TEST MODE ***/
@@ -98,7 +104,8 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+    }
 
     @Override
     public void testExit() {

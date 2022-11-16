@@ -5,14 +5,15 @@
 
 package com.stuypulse.robot.util;
 
-import com.stuypulse.stuylib.control.PIDController;
+import edu.wpi.first.math.controller.PIDController;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 
 /**
  * A standard integrator filter for a PID controllers.
  *
- * <p>Implements integral range and integral limits.
+ * <p>
+ * Implements integral range and integral limits.
  *
  * @author Myles Pasetsky (@selym3)
  */
@@ -24,7 +25,8 @@ public class IntegratorFilter implements IFilter {
     /**
      * under which error should error begin to accumulate
      *
-     * <p>(e.g. handle steady state only when near setpoint)
+     * <p>
+     * (e.g. handle steady state only when near setpoint)
      */
     private final Number range;
 
@@ -35,15 +37,18 @@ public class IntegratorFilter implements IFilter {
         this.pidController = pidController;
         this.range = range;
         this.limit = limit;
+
+        pidController.setTolerance(range.doubleValue());
     }
 
     /**
-     * given the integrated error so far (which has also been calculated by this filter), returns
+     * given the integrated error so far (which has also been calculated by this
+     * filter), returns
      * the next value of the integrated error
      */
     @Override
     public double get(double next) {
-        if (pidController.isDone(range.doubleValue())) {
+        if (pidController.atSetpoint()) {
             return SLMath.clamp(next, limit.doubleValue());
         } else {
             return 0.0;

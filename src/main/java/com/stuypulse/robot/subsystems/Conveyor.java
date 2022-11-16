@@ -85,19 +85,17 @@ public class Conveyor extends SubsystemBase {
         this.colorSensor = colorSensor;
         this.topIRSensor = new DigitalInput(Ports.Conveyor.TOP_BELT_IR_SENSOR);
 
-        this.empty =
-                BStream.create(this::hasTopBeltBall)
-                        .or(this::hasAnyBall)
-                        .not()
-                        .filtered(new BDebounceRC.Rising(Settings.Conveyor.DEBOUNCE_TIME))
-                        .polling(0.01);
+        this.empty = BStream.create(this::hasTopBeltBall)
+                .or(this::hasAnyBall)
+                .not()
+                .filtered(new BDebounceRC.Rising(Settings.Conveyor.DEBOUNCE_TIME))
+                .polling(0.01);
 
-        this.newBall =
-                BStream.create(this::hasTopBeltBall)
-                        .filtered(
-                                new BButton.Pressed(),
-                                new BDebounce.Falling(Settings.Conveyor.SEMI_AUTO_TIME))
-                        .polling(0.01);
+        this.newBall = BStream.create(this::hasTopBeltBall)
+                .filtered(
+                        new BButton.Pressed(),
+                        new BDebounce.Falling(Settings.Conveyor.SEMI_AUTO_TIME))
+                .polling(0.01);
 
         setTopBelt(Direction.STOPPED);
         setGandalf(Direction.STOPPED);
@@ -161,7 +159,10 @@ public class Conveyor extends SubsystemBase {
 
     /*** SENSOR INFORMATION ***/
 
-    /** Finds if the upper IR Sensor has been tripped e.g., there is a ball in the top conveyor */
+    /**
+     * Finds if the upper IR Sensor has been tripped e.g., there is a ball in the
+     * top conveyor
+     */
     public boolean hasTopBeltBall() {
         return !topIRSensor.get();
     }
