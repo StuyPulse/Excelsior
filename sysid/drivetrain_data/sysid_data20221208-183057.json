@@ -105202,6 +105202,6 @@
   ],
   "sysid": true,
   "test": "Drivetrain (Angular)",
-  "units": "Meters",
-  "unitsPerRotation": 1.0
+  "units": "Radians",
+  "unitsPerRotation": 6.28318531
 }
