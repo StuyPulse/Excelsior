@@ -8,7 +8,7 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.math.interpolation.Interpolator;
-import com.stuypulse.stuylib.math.interpolation.NearestInterpolator;
+import com.stuypulse.stuylib.math.interpolation.LinearInterpolator;
 
 import edu.wpi.first.math.util.Units;
 
@@ -31,7 +31,7 @@ public interface ShotMap {
 
         // Converts a distance measurement to an RPM to shoot at
         Interpolator DISTANCE_TO_RPM =
-                new NearestInterpolator(
+                new LinearInterpolator(
                         new Vector2D(Distances.RING, Settings.Shooter.RING_RPM.get()),
                         new Vector2D(Distances.POINT_A, 3175),
                         new Vector2D(Distances.POINT_B, 3325),
@@ -44,7 +44,7 @@ public interface ShotMap {
 
         // Converts a distance measurement to an angle offset to align to
         Interpolator DISTANCE_TO_YAW =
-                new NearestInterpolator(
+                new LinearInterpolator(
                         new Vector2D(Distances.RING, Limelight.RING_YAW.get()),
                         new Vector2D(Distances.POINT_A, 5.1),
                         new Vector2D(Distances.POINT_B, 5.70),

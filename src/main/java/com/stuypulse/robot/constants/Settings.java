@@ -368,7 +368,7 @@ public interface Settings {
                 return new SmartPIDController("Drivetrain/Alignment/Speed")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setSetpointFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
@@ -377,7 +377,7 @@ public interface Settings {
                 return new SmartPIDController("Drivetrain/Alignment/Speed")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setSetpointFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER), new SpeedAdjustment(angleError)));
             }
@@ -399,7 +399,7 @@ public interface Settings {
                 return new SmartPIDController("Drivetrain/Alignment/Angle")
                         .setControlSpeed(BANG_BANG)
                         .setPID(kP, kI, kD)
-                        .setErrorFilter(new LowPassFilter(ERROR_FILTER))
+                        .setSetpointFilter(new LowPassFilter(ERROR_FILTER))
                         .setOutputFilter(
                                 new IFilterGroup(SLMath::clamp, new LowPassFilter(OUT_FILTER)));
             }
