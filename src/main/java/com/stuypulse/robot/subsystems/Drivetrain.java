@@ -117,8 +117,8 @@ public class Drivetrain extends SubsystemBase {
         gearShift =
                 new DoubleSolenoid(
                         PneumaticsModuleType.CTREPCM,
-                        Ports.Drivetrain.GEAR_SHIFT_FORWARD,
-                        Ports.Drivetrain.GEAR_SHIFT_REVERSE);
+                        Ports.Drivetrain.GEAR_SHIFT_REVERSE,
+                        Ports.Drivetrain.GEAR_SHIFT_FORWARD);
 
         // Create Encoders
         leftGrayhill = new Encoder(Ports.Grayhill.LEFT_A, Ports.Grayhill.LEFT_B);
