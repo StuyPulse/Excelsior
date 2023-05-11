@@ -86,7 +86,7 @@ public interface Settings {
     }
 
     public interface ColorSensor {
-        SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", true);
+        SmartBoolean ENABLED = new SmartBoolean("Color Sensor/Enabled", false);
         SmartBoolean AUTO = new SmartBoolean("Color Sensor/Auto", false);
 
         SmartNumber TARGET_BIAS = new SmartNumber("Color Sensor/Target Bias", 1.5);
@@ -131,6 +131,9 @@ public interface Settings {
 
         boolean USING_GYRO = true;
 
+        double KIDDIE_SPEED_PERCENT = 0.5;
+        double KIDDIE_TURN_PERCENT = 0.5;
+
         public interface Motion {
 
             DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
@@ -138,8 +141,8 @@ public interface Settings {
             SimpleMotorFeedforward MOTOR_FEED_FORWARD =
                     new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV, FeedForward.kA);
 
-            double MAX_VELOCITY = 2.0;
-            double MAX_ACCELERATION = 3.0;
+            double MAX_VELOCITY = 0.5;
+            double MAX_ACCELERATION = 1.0;
 
             public interface FeedForward {
                 double kS = 0.20094;
@@ -248,7 +251,7 @@ public interface Settings {
         SmartNumber CHANGE_RC = new SmartNumber("Shooter/Change RC", 0.2);
 
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3650);
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 1500);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 

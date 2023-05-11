@@ -40,14 +40,16 @@ public class DrivetrainDrive extends CommandBase {
                         .filtered(
                                 x -> SLMath.deadband(x, Settings.Drivetrain.SPEED_DEADBAND.get()),
                                 x -> SLMath.spow(x, Settings.Drivetrain.SPEED_POWER.get()),
-                                new LowPassFilter(Settings.Drivetrain.SPEED_FILTER));
+                                new LowPassFilter(Settings.Drivetrain.SPEED_FILTER),
+                                x -> x * Settings.Drivetrain.KIDDIE_SPEED_PERCENT);
 
         this.angle =
                 IStream.create(() -> driver.getLeftX())
                         .filtered(
                                 x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
                                 x -> SLMath.spow(x, Settings.Drivetrain.ANGLE_POWER.get()),
-                                new LowPassFilter(Settings.Drivetrain.ANGLE_FILTER));
+                                new LowPassFilter(Settings.Drivetrain.ANGLE_FILTER),
+                                x -> x * Settings.Drivetrain.KIDDIE_TURN_PERCENT);
 
         addRequirements(drivetrain);
     }

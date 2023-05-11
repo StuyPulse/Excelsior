@@ -107,19 +107,24 @@ public class RobotContainer {
         //         .whileTrue(new WaitCommand(0.3).andThen(new ConveyorShootSemi(conveyor).perpetually())); 
 
         driver.getBottomButton()
-                .whileTrue(new ShooterRingShot(shooter));
-                //.whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
+                .whileTrue(new ShooterRingShot(shooter))
+                .whileTrue(new ConveyorShoot(conveyor))
+                .onFalse(new ConveyorStop(conveyor));
+                // .whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
-        driver.getLeftBumper()
-                .whileTrue(new ShooterPadShot(shooter));
-                //.whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
+        // driver.getLeftBumper()
+        //         .whileTrue(new ShooterPadShot(shooter))
+        //         .whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         // driver.getRightButton().whileTrue(new SimpleAlignShoot(this));
         
-       //driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
+        // driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
         // driver.getTopButton().whileTrue(new TestAlign(this).thenShoot(conveyor));
+        driver.getTopButton().whileTrue(new DrivetrainAlignAngle(drivetrain, camera));
 
-       // driver.getRightBumper().whileTrue(new DrivetrainAlign(drivetrain, camera).perpetually());
+        // driver.getRightBumper().whileTrue(new DrivetrainAlign(drivetrain, camera).perpetually());
+
+        driver.getRightBumper().whileTrue(new IntakeAcquire(intake));
 
         /*** Intake ***/
         operator.getRightTriggerButton()
@@ -144,7 +149,7 @@ public class RobotContainer {
         operator.getDPadDown().onTrue(new ShooterPadShot(shooter));
         operator.getDPadUp().onTrue(new ClimberJiggle(climber));
 
-        //operator.getRightButton().whileTrue(new ConveyorShoot(conveyor).perpetually());
+        operator.getRightButton().whileTrue(new ConveyorShoot(conveyor).perpetually());
 
         operator.getLeftBumper().onTrue(new ShooterStop(shooter));
         
