@@ -10,6 +10,8 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.streams.IFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+import com.stuypulse.stuylib.streams.filters.IFilter;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import com.stuypulse.robot.commands.ThenShoot;
 import com.stuypulse.robot.commands.conveyor.modes.ConveyorMode;
@@ -22,26 +24,24 @@ import com.stuypulse.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DrivetrainPadAlign extends CommandBase {
+public class DrivetrainAlignAngle extends CommandBase {
 
     private final Drivetrain drivetrain;
 
     private final BStream finished;
 
     private final IFuser angleError;
+
     protected final Controller angleController;
 
-    public DrivetrainPadAlign(Drivetrain drivetrain, Camera camera) {
+    public DrivetrainAlignAngle(Drivetrain drivetrain, Camera camera) {
         this.drivetrain = drivetrain;
 
         // find errors
         angleError =
                 new IFuser(
                         Alignment.FUSION_FILTER,
-                        () ->
-                                camera.getXAngle()
-                                        .add(Angle.fromDegrees(Limelight.PAD_YAW.get()))
-                                        .toDegrees(),
+                        () -> camera.getXAngle().toDegrees(),
                         () -> drivetrain.getRawGyroAngle());
 
         // handle errors
@@ -50,6 +50,10 @@ public class DrivetrainPadAlign extends CommandBase {
         // finish optimally
         finished =
                 BStream.create(camera::hasTarget)
+                        .and(
+                                () ->
+                                        Math.abs(drivetrain.getVelocity())
+                                                < Limelight.MAX_VELOCITY.get())
                         .and(() -> angleController.isDone(Limelight.MAX_ANGLE_ERROR.get()))
                         .filtered(new BDebounceRC.Rising(Limelight.DEBOUNCE_TIME));
 
@@ -78,6 +82,6 @@ public class DrivetrainPadAlign extends CommandBase {
     }
 
     public Command thenShoot(Conveyor conveyor) {
-        return new ThenShoot(this, conveyor, ConveyorMode.SEMI_AUTO);
+        return new ThenShoot(this, conveyor, ConveyorMode.SHOOT);
     }
 }
