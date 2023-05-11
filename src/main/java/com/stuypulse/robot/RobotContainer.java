@@ -108,23 +108,29 @@ public class RobotContainer {
 
         driver.getBottomButton()
                 .whileTrue(new ShooterRingShot(shooter))
-                .whileTrue(new ConveyorShoot(conveyor))
+                .whileTrue(new DrivetrainAlignNew(drivetrain, camera).thenShoot(conveyor))
                 .onFalse(new ConveyorStop(conveyor));
                 // .whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
         // driver.getLeftBumper()
         //         .whileTrue(new ShooterPadShot(shooter))
         //         .whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
+        driver.getLeftButton()
+            .onTrue(new ShooterStop(shooter))
+            .onTrue(new ConveyorStop(conveyor));
 
         // driver.getRightButton().whileTrue(new SimpleAlignShoot(this));
         
         // driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
         // driver.getTopButton().whileTrue(new TestAlign(this).thenShoot(conveyor));
-        driver.getTopButton().whileTrue(new DrivetrainAlignAngle(drivetrain, camera));
+        driver.getTopButton().whileTrue(new DrivetrainAlignNew(drivetrain, camera));
 
         // driver.getRightBumper().whileTrue(new DrivetrainAlign(drivetrain, camera).perpetually());
 
-        driver.getRightBumper().whileTrue(new IntakeAcquire(intake));
+        driver.getRightBumper()
+            .onTrue(new IntakeExtend(intake))
+            .whileTrue(new IntakeAcquire(intake))
+            .onFalse(new IntakeRetract(intake));
 
         /*** Intake ***/
         operator.getRightTriggerButton()

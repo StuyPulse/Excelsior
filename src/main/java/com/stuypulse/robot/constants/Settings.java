@@ -251,7 +251,7 @@ public interface Settings {
         SmartNumber CHANGE_RC = new SmartNumber("Shooter/Change RC", 0.2);
 
         SmartNumber PAD_RPM = new SmartNumber("Shooter/Pad RPM", 3650);
-        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 1500);
+        SmartNumber RING_RPM = new SmartNumber("Shooter/Ring RPM", 2950);
         SmartNumber FENDER_RPM = new SmartNumber("Shooter/Fender RPM", 2500);
         SmartNumber FEEDER_MULTIPLER = new SmartNumber("Shooter/Feeder Multipler", 0.9);
 
