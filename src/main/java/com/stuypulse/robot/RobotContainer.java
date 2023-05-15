@@ -111,8 +111,8 @@ public class RobotContainer {
                 .whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
         driver.getLeftBumper()
-                .whileTrue(new ShooterPadShot(shooter));
-                //.whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
+                .whileTrue(new ShooterPadShot(shooter))
+                .whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         // driver.getRightButton().whileTrue(new SimpleAlignShoot(this));
         
