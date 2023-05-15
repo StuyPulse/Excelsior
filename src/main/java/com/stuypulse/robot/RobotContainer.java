@@ -107,8 +107,8 @@ public class RobotContainer {
         //         .whileTrue(new WaitCommand(0.3).andThen(new ConveyorShootSemi(conveyor).perpetually())); 
 
         driver.getBottomButton()
-                .whileTrue(new ShooterRingShot(shooter));
-                //.whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
+                .whileTrue(new ShooterRingShot(shooter))
+                .whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
         driver.getLeftBumper()
                 .whileTrue(new ShooterPadShot(shooter));
@@ -116,10 +116,10 @@ public class RobotContainer {
 
         // driver.getRightButton().whileTrue(new SimpleAlignShoot(this));
         
-       //driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
+       driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
         // driver.getTopButton().whileTrue(new TestAlign(this).thenShoot(conveyor));
 
-       // driver.getRightBumper().whileTrue(new DrivetrainAlign(drivetrain, camera).perpetually());
+       driver.getRightBumper().whileTrue(new DrivetrainAlign(drivetrain, camera).perpetually());
 
         /*** Intake ***/
         operator.getRightTriggerButton()
@@ -156,13 +156,13 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
-        //autonChooser.addOption("2 Ball", new TwoBallAuton(this));
-        //autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
+        autonChooser.addOption("2 Ball", new TwoBallAuton(this));
+        autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
 
-        // autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
-        // autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
-        // autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
-        // autonChooser.addOption("Four Ball", new FourBallAuton(this));
+        autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
+        autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
+        autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+        autonChooser.addOption("Four Ball", new FourBallAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
