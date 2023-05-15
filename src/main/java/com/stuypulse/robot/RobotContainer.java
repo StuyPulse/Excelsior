@@ -144,10 +144,9 @@ public class RobotContainer {
         operator.getDPadDown().onTrue(new ShooterPadShot(shooter));
         operator.getDPadUp().onTrue(new ClimberJiggle(climber));
 
-        //operator.getRightButton().whileTrue(new ConveyorShoot(conveyor).perpetually());
+        operator.getRightButton().whileTrue(new ConveyorShoot(conveyor).perpetually());
 
-        operator.getLeftBumper().onTrue(new ShooterStop(shooter));
-        
+        operator.getLeftBumper().onTrue(new ShooterStop(shooter));       
     }
 
     /**************/
