@@ -129,7 +129,7 @@ public class Drivetrain extends SubsystemBase {
         navx = new AHRS(SPI.Port.kMXP);
 
         // Initialize Odometry
-        odometry = new DifferentialDriveOdometry(getRotation2d());
+        odometry = new DifferentialDriveOdometry(getRotation2d(), getLeftDistance(), getRightDistance());
         field = new Field2d();
         reset(Odometry.STARTING_POSITION);
 
@@ -287,7 +287,7 @@ public class Drivetrain extends SubsystemBase {
         leftGrayhill.reset();
         rightGrayhill.reset();
 
-        odometry.resetPosition(location, getRotation2d());
+        odometry.resetPosition(getRotation2d(), getLeftDistance(), getRightDistance(), location);
     }
 
     public void reset() {

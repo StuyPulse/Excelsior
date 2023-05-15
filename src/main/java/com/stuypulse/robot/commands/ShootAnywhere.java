@@ -78,12 +78,12 @@ public class ShootAnywhere extends CommandBase {
     public void initialize() {
         drivetrain.setLowGear();
         shooter.retractHood();
-        angleError.initialize();
-        distance.initialize();
+        angleError.reset();
+        distance.reset();
     }
 
     private double getTurn() {
-        return angleController.update(angleError.get());
+        return angleController.update(0, angleError.get());
     }
 
     private double getTargetRPM() {

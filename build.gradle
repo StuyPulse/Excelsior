@@ -1,8 +1,8 @@
 plugins {
     id "java"
 
-    id "com.diffplug.spotless" version "5.10.2"
-    id "edu.wpi.first.GradleRIO" version "2022.4.1"
+    id "edu.wpi.first.GradleRIO" version "2023.4.3"
+    id "com.diffplug.spotless" version "6.17.0"
 }
 
 allprojects {
@@ -11,7 +11,7 @@ allprojects {
     }
 }
 
-final String STUYLIB_VERSION = 'v2022.6.0'
+final String STUYLIB_VERSION = 'v2023.3.3'
 def ROBOT_MAIN_CLASS = "com.stuypulse.robot.Main"
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -75,7 +75,7 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
 
     implementation "com.github.StuyPulse:StuyLib:${STUYLIB_VERSION}";
 }
@@ -84,7 +84,13 @@ spotless {
     enforceCheck = false
     java {
         targetExclude("src/main/java/com/stuypulse/robot/commands/auton/*.java")
-        licenseHeaderFile "LICENSE"
+        licenseHeader '''/************************ PROJECT DORCAS ************************/
+/* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
+/* This work is licensed under the terms of the MIT license.    */
+/****************************************************************/
+
+
+'''
 
         googleJavaFormat().aosp()
         

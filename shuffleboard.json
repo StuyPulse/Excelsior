@@ -249,6 +249,83 @@
               "_source0": "network_table:///SmartDashboard/Climber/Jiggle Duration",
               "_title": "Jiggle Duration"
             }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Target Height",
+              "_title": "Target Height"
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Current Amps",
+              "_title": "Current Amps"
+            }
+          },
+          "0,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Height",
+              "_title": "Height"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/D",
+              "_title": "D"
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/I",
+              "_title": "I"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/P",
+              "_title": "P"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Controller Output",
+              "_title": "Controller Output"
+            }
           }
         }
       }
@@ -869,8 +946,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Shooter RPM": true
+              "Y-axis/Unit": "rpm"
             }
           },
           "2,1": {
@@ -921,8 +997,7 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 4000.0,
               "Y-axis/Lower bound": 0.0,
-              "Y-axis/Unit": "rpm",
-              "Visible data/SmartDashboard/Debug/Shooter/Feeder RPM": true
+              "Y-axis/Unit": "rpm"
             }
           },
           "2,0": {
@@ -1297,6 +1372,129 @@
               "_source0": "network_table:///SmartDashboard/Intake/Deacquire Speed",
               "_title": "Deacquire Speed"
             }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Intake/Ball Detected",
+              "_title": "Ball Detected",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deployment/D",
+              "_title": "Deployment/D"
+            }
+          },
+          "7,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deployment/I",
+              "_title": "Deployment/I"
+            }
+          },
+          "0,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deployment/P",
+              "_title": "Deployment/P"
+            }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Extend Angle",
+              "_title": "Extend Angle"
+            }
+          },
+          "2,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deployment/Max Error",
+              "_title": "Deployment/Max Error"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Driver speed",
+              "_title": "Driver speed"
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deployment Angle",
+              "_title": "Deployment Angle"
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Deployment Speed",
+              "_title": "Deployment Speed"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Retract Angle",
+              "_title": "Retract Angle"
+            }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Target Angle",
+              "_title": "Target Angle"
+            }
           }
         }
       }
@@ -1509,6 +1707,204 @@
               "_source0": "network_table:///SmartDashboard/Shooter/Change RC",
               "_title": "Change RC"
             }
+          },
+          "1,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Mode",
+              "_title": "Mode"
+            }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter RPM",
+              "_title": "Shooter RPM"
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder RPM",
+              "_title": "Feeder RPM"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter Voltage",
+              "_title": "Shooter Voltage"
+            }
+          },
+          "8,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder kA",
+              "_title": "Feeder kA"
+            }
+          },
+          "9,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder kD",
+              "_title": "Feeder kD"
+            }
+          },
+          "10,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder kI",
+              "_title": "Feeder kI"
+            }
+          },
+          "0,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder kP",
+              "_title": "Feeder kP"
+            }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder kS",
+              "_title": "Feeder kS"
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder kV",
+              "_title": "Feeder kV"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder Voltage",
+              "_title": "Feeder Voltage"
+            }
+          },
+          "4,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter kA",
+              "_title": "Shooter kA"
+            }
+          },
+          "8,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter kD",
+              "_title": "Shooter kD"
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter kI",
+              "_title": "Shooter kI"
+            }
+          },
+          "4,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter kP",
+              "_title": "Shooter kP"
+            }
+          },
+          "5,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter kS",
+              "_title": "Shooter kS"
+            }
+          },
+          "6,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Shooter kV",
+              "_title": "Shooter kV"
+            }
+          },
+          "7,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Feeder RPM Multiplier",
+              "_title": "Feeder RPM Multiplier"
+            }
           }
         }
       }
@@ -1559,12 +1955,103 @@
           }
         }
       }
+    },
+    {
+      "title": "Tab 12",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 48.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "10,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Drive/Power",
+              "_title": "SmartDashboard/Driver Settings/Drive/Power"
+            }
+          },
+          "10,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Turn/Power",
+              "_title": "SmartDashboard/Driver Settings/Turn/Power"
+            }
+          },
+          "12,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Turn/RC",
+              "_title": "/SmartDashboard/Driver Settings/Turn/RC"
+            }
+          },
+          "10,7": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Deadband",
+              "_title": "SmartDashboard/Driver Settings/Deadband"
+            }
+          },
+          "12,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Drive/RC",
+              "_title": "/SmartDashboard/Driver Settings/Drive/RC"
+            }
+          },
+          "14,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Max Speed",
+              "_title": "/SmartDashboard/Driver Settings/Max Speed"
+            }
+          },
+          "14,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Driver Settings/Max Turning",
+              "_title": "/SmartDashboard/Driver Settings/Max Turning"
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {
-    "x": -6.666666507720947,
-    "y": 1.3333333730697632,
-    "width": 1292.0,
-    "height": 685.3333129882812
+    "x": -7.333333492279053,
+    "y": -7.333333492279053,
+    "width": 1294.6666259765625,
+    "height": 694.6666870117188
   }
 }

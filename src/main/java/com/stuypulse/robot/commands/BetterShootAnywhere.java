@@ -87,8 +87,8 @@ public class BetterShootAnywhere extends CommandBase {
         drivetrain.setLowGear();
         shooter.retractHood();
 
-        angleError.initialize();
-        distance.initialize();
+        angleError.reset();
+        distance.reset();
     }
 
     private double getTargetDistance() {
@@ -100,7 +100,7 @@ public class BetterShootAnywhere extends CommandBase {
     }
 
     private double getTurn() {
-        return angleController.update(angleError.get());
+        return angleController.update(0, angleError.get());
     }
 
     @Override

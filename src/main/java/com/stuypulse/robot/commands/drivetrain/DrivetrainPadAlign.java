@@ -60,11 +60,11 @@ public class DrivetrainPadAlign extends CommandBase {
     public void initialize() {
         drivetrain.setLowGear();
 
-        angleError.initialize();
+        angleError.reset();
     }
 
     private double getTurn() {
-        return angleController.update(angleError.get());
+        return angleController.update(0, angleError.get());
     }
 
     @Override

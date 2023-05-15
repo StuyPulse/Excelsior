@@ -84,8 +84,8 @@ public class TestAlign extends CommandBase {
 
         speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER);
 
-        angleError.initialize();
-        distanceError.initialize();
+        angleError.reset();
+        distanceError.reset();
     }
 
     private double getSpeedAdjustment() {
@@ -94,12 +94,12 @@ public class TestAlign extends CommandBase {
     }
 
     private double getSpeed() {
-        double speed = distanceController.update(distanceError.get());
+        double speed = distanceController.update(0, distanceError.get());
         return speed * getSpeedAdjustment();
     }
 
     private double getTurn() {
-        return angleController.update(angleError.get());
+        return angleController.update(0, angleError.get());
     }
 
     @Override
