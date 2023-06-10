@@ -109,28 +109,19 @@ public class RobotContainer {
         driver.getBottomButton()
                 .whileTrue(new ShooterRingShot(shooter))
                 .whileTrue(new DrivetrainAlignNew(drivetrain, camera).thenShoot(conveyor))
-                .onFalse(new ConveyorStop(conveyor));
+                // .onFalse(new ConveyorStop(conveyor));
                 // .whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
-        // driver.getLeftBumper()
-        //         .whileTrue(new ShooterPadShot(shooter))
-        //         .whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
-        driver.getLeftButton()
-            .onTrue(new ShooterStop(shooter))
-            .onTrue(new ConveyorStop(conveyor));
+        driver.getLeftBumper()
+                .whileTrue(new ShooterPadShot(shooter))
+                .whileTrue(new DrivetrainPadAlign(drivetrain, camera).thenShoot(conveyor));
 
         // driver.getRightButton().whileTrue(new SimpleAlignShoot(this));
         
-        // driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
+        driver.getTopButton().whileTrue(new BetterShootAnywhere(this).perpetually());
         // driver.getTopButton().whileTrue(new TestAlign(this).thenShoot(conveyor));
-        driver.getTopButton().whileTrue(new DrivetrainAlignNew(drivetrain, camera));
 
-        // driver.getRightBumper().whileTrue(new DrivetrainAlign(drivetrain, camera).perpetually());
-
-        driver.getRightBumper()
-            .onTrue(new IntakeExtend(intake))
-            .whileTrue(new IntakeAcquire(intake))
-            .onFalse(new IntakeRetract(intake));
+       driver.getRightBumper().whileTrue(new DrivetrainAlignNew(drivetrain, camera).perpetually());
 
         /*** Intake ***/
         operator.getRightTriggerButton()
@@ -157,8 +148,7 @@ public class RobotContainer {
 
         operator.getRightButton().whileTrue(new ConveyorShoot(conveyor).perpetually());
 
-        operator.getLeftBumper().onTrue(new ShooterStop(shooter));
-        
+        operator.getLeftBumper().onTrue(new ShooterStop(shooter));       
     }
 
     /**************/
@@ -167,13 +157,13 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.addOption("0 Ball", new MobilityAuton.NoEncoders(this));
-        //autonChooser.addOption("2 Ball", new TwoBallAuton(this));
-        //autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
+        autonChooser.addOption("2 Ball", new TwoBallAuton(this));
+        autonChooser.addOption("2 Ball Sam Mean", new TwoBallMeanerAuton(this));
 
-        // autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
-        // autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
-        // autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
-        // autonChooser.addOption("Four Ball", new FourBallAuton(this));
+        autonChooser.setDefaultOption("5 Ball [DEFAULT]", new FiveBallAuton(this));
+        autonChooser.addOption("Partner Ball", new PartnerBallAuton(this));
+        autonChooser.addOption("Two Ball One Mean", new TwoBallOneMeanAuton(this));
+        autonChooser.addOption("Four Ball", new FourBallAuton(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
