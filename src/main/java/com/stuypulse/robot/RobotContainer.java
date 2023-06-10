@@ -108,7 +108,7 @@ public class RobotContainer {
 
         driver.getBottomButton()
                 .whileTrue(new ShooterRingShot(shooter))
-                .whileTrue(new DrivetrainAlignNew(drivetrain, camera).thenShoot(conveyor))
+                .whileTrue(new DrivetrainAlignNew(drivetrain, camera).thenShoot(conveyor));
                 // .onFalse(new ConveyorStop(conveyor));
                 // .whileTrue(new DrivetrainAlign(drivetrain, camera).thenShoot(conveyor));
 
