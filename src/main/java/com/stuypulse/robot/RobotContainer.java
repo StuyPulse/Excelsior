@@ -72,9 +72,15 @@ public class RobotContainer {
     /***************/
 
     private void configureDemoBindingsOnlyDriver() {
-        driver.getRightTriggerButton()
+        driver.getLeftTriggerButton()
                 .onTrue(new IntakeExtend(intake))
                 .whileTrue(new IntakeAcquire(intake))
+                .onFalse(
+                        new IntakeRetract(intake));
+
+        driver.getRightTriggerButton()
+                .onTrue(new IntakeExtend(intake))
+                .whileTrue(new IntakeDeacquire(intake))
                 .onFalse(
                         new IntakeRetract(intake));
         
