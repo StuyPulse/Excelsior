@@ -74,18 +74,24 @@ public class RobotContainer {
     private void configureDemoBindingsOnlyDriver() {
         driver.getLeftTriggerButton()
                 .onTrue(new IntakeExtend(intake))
-                .whileTrue(new IntakeAcquire(intake))
+                .whileTrue(new IntakeAcquire(intake)
+                        .alongWith(new ConveyorForceIntake(conveyor)))
                 .onFalse(
                         new IntakeRetract(intake));
 
-        driver.getRightTriggerButton()
+        driver.getTopButton()
                 .onTrue(new IntakeExtend(intake))
-                .whileTrue(new IntakeDeacquire(intake))
+                .whileTrue(new IntakeDeacquire(intake)
+                        .alongWith(new ConveyorForceEject(conveyor)))
                 .onFalse(
-                        new IntakeRetract(intake));
+                        new IntakeRetract(intake)
+                                .alongWith(new ConveyorStop(conveyor)));
         
-        driver.getTopButton().onTrue(new ShooterSetRPM(shooter, 2500));
-        driver.getLeftButton().whileTrue(new ConveyorShoot(conveyor).perpetually());
+        driver.getRightTriggerButton()
+                .onTrue(new ShooterSetRPM(shooter, 2500))
+                .whileTrue(new ConveyorShoot(conveyor))
+                .onFalse(new ShooterStop(shooter));
+        
     }
 
     private void configureButtonBindings() {
