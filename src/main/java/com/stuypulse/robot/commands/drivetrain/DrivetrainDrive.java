@@ -45,12 +45,7 @@ public class DrivetrainDrive extends CommandBase {
 
         this.angle =
                 IStream.create(() -> {
-                    if (speed.get() >= 0) {
-                        return driver.getRightX();
-                    }
-                    else {
-                        return -driver.getRightX();
-                    }
+                    return driver.getRightX();
                 })
                 .filtered(
                         x -> SLMath.deadband(x, Settings.Drivetrain.ANGLE_DEADBAND.get()),
