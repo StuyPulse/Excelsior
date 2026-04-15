@@ -88,9 +88,14 @@ public class RobotContainer {
                                 .alongWith(new ConveyorStop(conveyor)));
         
         driver.getRightTriggerButton()
-                .onTrue(new ShooterSetRPM(shooter, 2500))
                 .whileTrue(new ConveyorShoot(conveyor))
-                .onFalse(new ShooterStop(shooter));
+                .onFalse(new ConveyorStop(conveyor));
+
+        driver.getDPadUp()
+                .onTrue(new ShooterSetRPM(shooter, 2500));
+
+        driver.getDPadDown()
+                .onTrue(new ShooterStop(shooter));
         
     }
 
